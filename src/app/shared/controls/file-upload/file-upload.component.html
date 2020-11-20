@@ -1,0 +1,16 @@
+<button type="button" mat-raised-button color="primary" (click)="onClick()" [disabled]="disabled">
+  <mat-icon>add</mat-icon>
+  {{chooseLabel}}
+</button>
+<!-- (input)="onInput($event)" -->
+<input #fileUpload type="file" [multiple]="multiple" class="input_fileupload--hidden" (change)="onFileSelected($event)" [(ngModel)]="inputFileName" [accept]="accept">
+
+<div *ngIf="showFiles">
+    <div *ngFor="let f of files">
+        <span>{{f.name}}</span>
+        <!-- <button mat-icon-button color="primary" [attr.title]="deleteButtonLabel?deleteButtonLabel:null" (click)="removeFile(event,f)"> -->
+        <button type="button" mat-icon-button color="primary" [attr.title]="deleteButtonLabel?deleteButtonLabel:null" (click)="removeFile(f)">
+            <mat-icon>{{deleteButtonIcon}}</mat-icon>
+        </button>
+    </div>
+</div>

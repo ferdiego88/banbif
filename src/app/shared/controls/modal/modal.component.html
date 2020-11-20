@@ -1,0 +1,86 @@
+<div *ngIf="datos.tipoModal == 'success'" class="my-modal-component modal-content">
+    <!--
+  <div mat-dialog-title align="center">
+    <h1 class="mat-h1">¡Buen trabajo!</h1>
+  </div>
+  -->
+    <div mat-dialog-content align="center">
+        <mat-icon aria-hidden="false" aria-label="done icon" class="my-icon color-success">done</mat-icon>
+        <h1>{{ datos.titulo || "¡Buen trabajo!" }}</h1>
+        <p>{{ datos.mensaje }}</p>
+    </div>
+    <div mat-dialog-actions align="center">
+        <!--<button mat-button (click)="onNoClick()">No Thanks</button>-->
+        <button type="button" mat-button [mat-dialog-close]="true" cdkFocusInitial class="mat-button-success">
+      Aceptar
+    </button>
+    </div>
+</div>
+
+<div *ngIf="datos.tipoModal == 'warning'" class="my-modal-component">
+    <div mat-dialog-content align="center">
+        <mat-icon aria-hidden="false" aria-label="warning icon" class="my-icon color-warning">warning</mat-icon>
+        <h1>{{ datos.titulo || "¡Alerta!" }}</h1>
+        <p>{{ datos.mensaje }}</p>
+    </div>
+    <div mat-dialog-actions align="center">
+        <button type="button" mat-button [mat-dialog-close]="true" cdkFocusInitial class="mat-button-warning">
+      Aceptar
+    </button>
+    </div>
+</div>
+
+<div *ngIf="datos.tipoModal == 'warningWithActions'" class="my-modal-component">
+    <div mat-dialog-content align="center">
+        <mat-icon aria-hidden="false" aria-label="warning icon" class="my-icon color-warning">warning</mat-icon>
+        <h1>{{ datos.titulo || "¡Alerta!" }}</h1>
+        <p>{{ datos.mensaje }}</p>
+    </div>
+    <div mat-dialog-actions align="center">
+        <button type="button" mat-button [mat-dialog-close]="true" cdkFocusInitial class="mat-button-warning">
+      {{ datos.textoBotonSi ? datos.textoBotonSi : "Aceptar" }}
+    </button>
+    </div>
+</div>
+
+<div *ngIf="datos.tipoModal == 'confirm'" class="my-modal-component">
+    <div mat-dialog-content align="center">
+        <mat-icon aria-hidden="false" aria-label="done icon" class="my-icon color-success">done</mat-icon>
+        <h1>{{ datos.titulo || "Confirmación" }}</h1>
+        <p>{{ datos.mensaje }}</p>
+        <mat-form-field *ngIf="datos.textoComentarios" appearance="standard" class="full-width">
+            <mat-label>Comentarios</mat-label>
+            <textarea matInput [(ngModel)]="comentarios" #iComentarios="ngModel"></textarea>
+            <!-- <input type="text" matInput [(ngModel)]="comentarios" #iComentarios="ngModel" required> -->
+            <!-- <input type="text" matInput formControlName="controlComentarios" #iComentarios> -->
+            <!-- <mat-error *ngIf="iComentarios.touched && iComentarios.invalid">
+                Los Comentarios son obligatorios para pasar a la siguiente Etapa.
+            </mat-error> -->
+            <!-- <small *ngIf="iComentarios.touched && iComentarios.invalid" class="text-danger">
+              Los Comentarios son obligatorios para pasar a la siguiente Etapa.
+            </small> -->
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions align="center">
+        <button type="button" mat-button [mat-dialog-close]="false">
+      {{ datos.textoBotonNo ? datos.textoBotonNo : "Cancelar" }}
+    </button>
+        <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial class="mat-button-success"> -->
+        <button mat-button cdkFocusInitial class="mat-button-success" (click)="confirmar()">
+      {{ datos.textoBotonSi ? datos.textoBotonSi : "Aceptar" }}
+    </button>
+    </div>
+</div>
+
+<div *ngIf="datos.tipoModal == 'error'" class="my-modal-component">
+    <div mat-dialog-content align="center">
+        <mat-icon aria-hidden="false" aria-label="error icon" class="my-icon color-error">error</mat-icon>
+        <h1>{{ datos.titulo || "¡Error!" }}</h1>
+        <p>{{ datos.mensaje }}</p>
+    </div>
+    <div mat-dialog-actions align="center">
+        <button type="button" mat-button [mat-dialog-close]="true" cdkFocusInitial class="mat-button-error">
+      Aceptar
+    </button>
+    </div>
+</div>

@@ -1,0 +1,2256 @@
+<!-- <mat-sidenav-container *ngIf="renderizar" class="example-container"> -->
+<mat-sidenav-container *ngIf="renderizar" class="example-container">
+    <mat-sidenav mode="side" opened="true" class="text-center pt-5 pr-5">
+
+        <div *ngFor="let etapa of datosMaestros.maestroFLujoEtapa; let i = index;">
+            <div 
+                class="w-150px" 
+                [ngClass]="{
+                    'border-green bg-green': etapa.EtapaHabilitado && (etapa.Id < maestroFlujoEtapaActual.Id || maestroFlujoEtapaActual.Id === 14), 
+                    'border-yellow bg-yellow': etapa.EtapaHabilitado && (etapa.Id === maestroFlujoEtapaActual.Id && maestroFlujoEtapaActual.Id !== 14), 
+                    'border-blue bg-blue': etapa.EtapaHabilitado && (etapa.Id > maestroFlujoEtapaActual.Id && maestroFlujoEtapaActual.Id !== 14),
+                    'border-lead bg-lead': !etapa.EtapaHabilitado
+                }"
+            >
+                <div class="row m-0 p-0">
+                    <div 
+                        class="width-10 float-left fs-10 pt-10 pb-10" 
+                        [ngClass]="{
+                            'bg-green': etapa.EtapaHabilitado && (etapa.Id < maestroFlujoEtapaActual.Id || maestroFlujoEtapaActual.Id === 14), 
+                            'bg-yellow': etapa.EtapaHabilitado && (etapa.Id === maestroFlujoEtapaActual.Id && maestroFlujoEtapaActual.Id !== 14), 
+                            'bg-blue': etapa.EtapaHabilitado && (etapa.Id > maestroFlujoEtapaActual.Id && maestroFlujoEtapaActual.Id !== 14),
+                            'bg-lead': !etapa.EtapaHabilitado
+                        }"
+                    >
+                        {{i+1}}
+                    </div>
+                    <div 
+                        class="width-90 bg-white float-left pt-10 pb-10 fs-10"
+                        [ngClass]="{
+                            'text-black': etapa.EtapaHabilitado && etapa.Id <= maestroFlujoEtapaActual.Id,
+                            'text-blue': etapa.EtapaHabilitado && (etapa.Id > maestroFlujoEtapaActual.Id && maestroFlujoEtapaActual.Id !== 14),
+                            'text-lead': !etapa.EtapaHabilitado
+                        }"
+                    >
+                        {{etapa.Title.substring(3, etapa.Title.length)}}
+                    </div>
+                </div>
+            </div>
+            <i *ngIf="etapa.Id !== 14" class="icono-arrow1-down"></i>
+        </div>
+
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar class="row ht-44" color="primary" style="display:none">
+            <div class="mat-toolbar-tools font-white row col-xs-12">
+                <div class="inline-buttons pull-left" flex>
+                    <h4>Formulario de solicitud de materiales</h4>
+                </div>
+            </div>
+        </mat-toolbar>
+
+        <div *ngIf="maestroMaterial.EnBorrador" class="alert alert-secondary tipografia-bootstrap w-92 m-auto flotante mt-10 mb-10" role="alert">
+            El registro se encuentra en estado <strong>BORRADOR</strong>, por favor complete los campos restantes para enviar su solicitud.
+        </div>
+
+        <!-- <app-botonera [formularioSolicitudComponent]="this"></app-botonera> -->
+
+        <div *ngIf="!loading" [formGroup]="form" class="form-content pt-0 w-92 m-auto flotante mt-10 mb-10">
+            <div class="containe-fuild">
+                <mat-accordion multi>
+                    <!--===================================================================================-->
+                    <!--INI - Información de Producto-->
+                    <!--===================================================================================-->
+                    <mat-expansion-panel [expanded]="true" #InformacionProducto>
+                        <mat-expansion-panel-header class="ht-44 bg-white border-0 border-bottom-red">
+                            <mat-panel-title>
+                                <h4 class="text-black">Información de Producto</h4>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Código SAP QS</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="CodigoSAPQS" />
+                                    <mat-error>
+                                        {{ errors.CodigoSAPQS }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Texto breve de material</mat-label>
+                                    <input matInput formControlName="TextoBreveMaterial" />
+                                    <mat-error>
+                                        {{ errors.TextoBreveMaterial }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Marca</mat-label>
+                                    <input matInput formControlName="Marca" />
+                                    <mat-error>
+                                        {{ errors.Marca }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Tipo de Material</mat-label>
+                                    <mat-select formControlName="IdTipoMaterial" [errorStateMatcher]="matcher">
+                                        <mat-select-search formControlName="tipoMaterialFilter" placeholderLabel="Tipo Material"></mat-select-search>
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of listaTipoMaterialFilter" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdTipoMaterial }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Categoría de Material</mat-label>
+                                    <mat-select formControlName="IdCategoriaMaterial">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.CategoriaMaterial)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdCategoriaMaterial }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Grupo de Artículos</mat-label>
+                                    <mat-select formControlName="IdGrupoArticulo">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of listaLinea" [value]="desplegable.Id">{{desplegable.Title + ' - ' + desplegable.MaestroProveedor.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdGrupoArticulo }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Sector</mat-label>
+                                    <mat-select formControlName="IdSector">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.Sector)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdSector }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Proveedor SAP</mat-label>
+                                    <mat-select formControlName="IdProveedorSAP">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of listaProveedorSAP" [value]="desplegable.Id">{{desplegable.Proveedor + ' - '  + desplegable.RazonSocial}}</mat-option>
+                                    </mat-select>                                    
+                                    <mat-error>
+                                        {{ errors.IdProveedorSAP }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Org. Compra</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="OrgCompra" />
+                                    <mat-error>
+                                        {{ errors.OrgCompra }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Consignado</mat-label>
+                                    <mat-select formControlName="IdConsignado">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.Consignado)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdConsignado }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Nombre Genérico</mat-label>
+                                    <input matInput formControlName="NombreGenerico" />
+                                    <mat-error>
+                                        {{ errors.NombreGenerico }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Forma Farmacéutica</mat-label>
+                                    <mat-select formControlName="IdFormaFarmaceutica">
+                                        <mat-select-search formControlName="formaFarmaceuticaFilter" placeholderLabel="Forma Farmacéutica"></mat-select-search>
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of listaFormaFarmaceuticaFilter" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdFormaFarmaceutica }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Código Artículo Proveedor</mat-label>
+                                    <input matInput formControlName="CodigoArticuloProveedor" />
+                                    <mat-error>
+                                        {{ errors.CodigoArticuloProveedor }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>País de Orígen</mat-label>
+                                    <mat-select formControlName="IdPaisOrigen">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.PaisOrigen)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdPaisOrigen }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Plazo de entrega previsto (Días)</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="PlazoEntregaPrevisto" />
+                                    <mat-error>
+                                        {{ errors.PlazoEntregaPrevisto }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Valor de Compra QS</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="ValorCompraQS" id="ValorCompraQS" />
+                                    <mat-error>
+                                        {{ errors.ValorCompraQS }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Moneda de Compra QS</mat-label>
+                                    <mat-select formControlName="IdMonedaCompraQs">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.MonedaCompraQS)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdMonedaCompraQs }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Incoterm</mat-label>
+                                    <mat-select formControlName="IdIncoterm">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.Incoterm)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdIncoterm }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Valor de Venta QS</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="ValorVentaQS" />
+                                    <mat-error>
+                                        {{ errors.ValorVentaQS }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Moneda de Venta</mat-label>
+                                    <mat-select formControlName="IdMonedaVenta">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.MonedaVenta)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdMonedaVenta }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Margen Teórico (%)</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="MargenTeorico" readonly />
+                                    <mat-error>
+                                        {{ errors.MargenTeorico }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Marca Recuperación Dcto R</mat-label>
+                                    <mat-select formControlName="IdMarcaRecuperacionDctoR">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.MarcaRecuperacionDcto)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdMarcaRecuperacionDctoR }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>IGV</mat-label>
+                                    <mat-select formControlName="IdIGV">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.IGV)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdIGV }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Grupo de imputación de Material</mat-label>
+                                    <mat-select formControlName="IdGrupoImputacionMaterial">
+                                        <mat-select-search formControlName="grupoImputacionMaterialFilter" placeholderLabel="Grupo Imputación Material"></mat-select-search>
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of listaGrupoImputacionMaterialFilter" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdGrupoImputacionMaterial }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>País de Creación</mat-label>
+                                    <mat-select formControlName="IdPaisCreacion">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.PaisCreacion)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdPaisCreacion }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Org. Venta</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="OrgVenta" />
+                                    <mat-error>
+                                        {{ errors.OrgVenta }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Canal Distribución</mat-label>
+                                    <mat-select formControlName="IdCanalDistribucion" multiple>
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.CanalDistribucion)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdCanalDistribucion }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Centro Suministrador</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="CentroSuministrador" />
+                                    <mat-error>
+                                        {{ errors.CentroSuministrador }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!--===================================================================================-->
+                    <!--FIN - Información de Producto-->
+                    <!--===================================================================================-->
+                    <!--===================================================================================-->
+                    <!--INI - Datos de Gestión-->
+                    <!--===================================================================================-->
+                    <mat-expansion-panel [collapsed]="true" #DatosGestion>
+                        <mat-expansion-panel-header class="ht-44 bg-white border-0 border-bottom-red">
+                            <mat-panel-title>
+                                <h4 class="text-black">Datos de Gestión</h4>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Inventario Cíclico</mat-label>
+                                    <mat-select formControlName="IdInventarioCiclico">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.InventarioCiclico)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdInventarioCiclico }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Grupo de Compras</mat-label>
+                                    <mat-select formControlName="IdGrupoCompras">
+                                        <mat-select-search formControlName="grupoCompraFilter" placeholderLabel="Busqueda"></mat-select-search>
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <!-- <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.GrupoCompras)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option> -->
+                                        <mat-option *ngFor="let desplegable of listaGrupoCompraFilter" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdGrupoCompras }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Sujeto a Lote</mat-label>
+                                    <mat-select formControlName="IdSujetoLote">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.SujetoLote)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdSujetoLote }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Clase de Etiqueta</mat-label>
+                                    <mat-select formControlName="IdClaseEtiqueta">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.ClaseEtiqueta)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdClaseEtiqueta }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Forma de Etiqueta</mat-label>
+                                    <mat-select formControlName="IdFormaEtiqueta">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.FormaEtiqueta)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdFormaEtiqueta }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Tiempo hasta Caducidad</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="TiempoHastaCaducidad" />
+                                    <mat-error>
+                                        {{ errors.TiempoHastaCaducidad }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Indicador período p.fe.caducidad</mat-label>
+                                    <mat-select formControlName="IdIndicadorPeriodoPFECaducidad">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.IndicadorPeriodoCaducidad)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdIndicadorPeriodoPFECaducidad }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>% Tiempo de Caducidad en Almacén</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="TiempoCaducidadEnAlmacen" />
+                                    <mat-error>
+                                        {{ errors.TiempoCaducidadEnAlmacen }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Centro de Beneficio</mat-label>
+                                    <input matInput formControlName="CentroBeneficio">
+                                    <mat-error>
+                                        {{ errors.CentroBeneficio }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Sociedad</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="Sociedad" />
+                                    <mat-error>
+                                        {{ errors.Sociedad }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!--===================================================================================-->
+                    <!--FIN - Datos de Gestión-->
+                    <!--===================================================================================-->
+                    <!--===================================================================================-->
+                    <!--INI - Datos Técnicos-->
+                    <!--===================================================================================-->
+                    <mat-expansion-panel [collapsed]="true" #DatosTecnicos>
+                        <mat-expansion-panel-header class="ht-44 bg-white border-0 border-bottom-red">
+                            <mat-panel-title>
+                                <h4 class="text-black">Datos Técnicos</h4>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Marca RX/OTC</mat-label>
+                                    <mat-select formControlName="IdMarcaRXOTC" [errorStateMatcher]="matcher">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.MarcaRxOtc)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdMarcaRXOTC }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Codigo OP</mat-label>
+                                    <input matInput formControlName="CodigoOp" [errorStateMatcher]="matcher"/>
+                                    <mat-error>
+                                        {{ errors.CodigoOp }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Código SUNAT</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="CodigoSunat" />
+                                    <mat-error>
+                                        {{ errors.CodigoSunat }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Partida Arancelaria</mat-label>
+                                    <input matInput formControlName="PartidaArancelaria" />
+                                    <mat-error>
+                                        {{ errors.PartidaArancelaria }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Tipo Certificado</mat-label>
+                                    <mat-select formControlName="IdTipoCertificado">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.PreferenciaArancelaria)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdTipoCertificado }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Registro Sanitario</mat-label>
+                                    <input matInput formControlName="RegistroSanitario" />
+                                    <mat-error>
+                                        {{ errors.RegistroSanitario }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Fecha INICIO Registro Sanitario</mat-label>
+                                    <input matInput [matDatepicker]="fechaInicio_Registro_Sanitario" formControlName="FechaInicioRegistroSanitario" />
+                                    <mat-datepicker-toggle matSuffix [for]="fechaInicio_Registro_Sanitario"></mat-datepicker-toggle>
+                                    <mat-datepicker #fechaInicio_Registro_Sanitario></mat-datepicker>
+                                    <!-- <mat-error>
+                                        {{ errors.FechaInicioRegistroSanitario }}
+                                    </mat-error> -->
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Fecha VENCIMIENTO Registro Sanitario</mat-label>
+                                    <input matInput [matDatepicker]="fechaVencimiento_Registro_Sanitario" formControlName="FechaVencimientoRegistroSanitari" />
+                                    <mat-datepicker-toggle matSuffix [for]="fechaVencimiento_Registro_Sanitario"></mat-datepicker-toggle>
+                                    <mat-datepicker #fechaVencimiento_Registro_Sanitario></mat-datepicker>
+                                    <!-- <mat-error>
+                                        {{ errors.FechaVencimientoRegistroSanitari }}
+                                    </mat-error> -->
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Refrigerado</mat-label>
+                                    <mat-select formControlName="IdRefrigerado">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.Refrigerado)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdRefrigerado }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Condición de Temperatura</mat-label>
+                                    <mat-select formControlName="IdCondicionTemperatura">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.CondicionTemperatura)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdCondicionTemperatura }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Días Total de Conservación</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="DuracionTotalConservacion" />
+                                    <mat-error>
+                                        {{ errors.DuracionTotalConservacion }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Condicion de Almacenaje</mat-label>
+                                    <mat-select formControlName="IdCondicionAlmacenaje">
+                                        <!-- <mat-option value="option">03 Industr / Repuestos</mat-option>
+                                                    <mat-option value="option">04 Agro</mat-option>
+                                                    <mat-option value="option">05 Veterinaria</mat-option>
+                                                    <mat-option value="option">06 Suministros</mat-option>
+                                                    <mat-option value="option">07 Hilti / Equipos</mat-option>
+                                                    <mat-option value="option">08 Producto Refrigerado</mat-option>
+                                                    <mat-option value="option">09 Muestras Medicas QX</mat-option>
+                                                    <mat-option value="option">10 Tarjetas Telefonicas</mat-option>
+                                                    <mat-option value="option">11 Salud</mat-option>
+                                                    <mat-option value="option">12 Consumo</mat-option>
+                                                    <mat-option value="option">13 Congelados</mat-option>
+                                                    <mat-option value="option">14 Controlados</mat-option>
+                                                    <mat-option value="option">15 Oncologicos</mat-option>
+                                                    <mat-option value="option">16 Inflamables Salud</mat-option>
+                                                    <mat-option value="option">17 Inflamables Consumo</mat-option>
+                                                    <mat-option value="option">18 Afines</mat-option>
+                                                    <mat-option value="option">19 Toxicos</mat-option>
+                                                    <mat-option value="option">20 Material Promocional</mat-option> -->
+                                        <mat-select-search formControlName="condicionAlmacenajeFilter" placeholderLabel="Busqueda"></mat-select-search>
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of listaCondicionAlmacenajeFilter" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdCondicionAlmacenaje }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Clasificación del Artículo</mat-label>
+                                    <mat-select formControlName="IdClasificacionArticulo">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <!-- <mat-option value="option">Oncologico</mat-option>
+                                                    <mat-option value="option">Retroviral</mat-option>
+                                                    <mat-option value="option">Ninguno</mat-option> -->
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.ClasificacionArticulo)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdClasificacionArticulo }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Clasificación Material</mat-label>
+                                    <mat-select formControlName="IdClasificacionMaterial">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <!-- <mat-option value="option">000 Ninguno</mat-option>
+                                                    <mat-option value="option">001 Psicotrópicos</mat-option>
+                                                    <mat-option value="option">002 Precursores</mat-option>
+                                                    <mat-option value="option">003 Estupefacientes</mat-option>
+                                                    <mat-option value="option">004 Fiscalizados</mat-option>
+                                                    <mat-option value="option">005 Especiales</mat-option>
+                                                    <mat-option value="option">006 Crónicos</mat-option>
+                                                    <mat-option value="option">007 Otros</mat-option>
+                                                    <mat-option value="option">008 Complementarios</mat-option>
+                                                    <mat-option value="option">009 Oncológicos Afectos</mat-option>
+                                                    <mat-option value="option">010 Oncológicos Inafectos</mat-option>
+                                                    <mat-option value="option">011 Retrovirales</mat-option> -->
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.ClasificacionMaterial)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdClasificacionMaterial }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Requiere Especif. Técnicas?</mat-label>
+                                    <mat-select formControlName="IdReqEspeTecnica">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.ReqEspecificacionTecnica)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdReqEspeTecnica }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+
+                    <!--===================================================================================-->
+                    <!--FIN - Datos Técnicos-->
+                    <!--===================================================================================-->
+                    <!--===================================================================================-->
+                    <!--INI - Datos Adicionales-->
+                    <!--===================================================================================-->
+                    <mat-expansion-panel [collapsed]="true" #DatosAdicionales>
+                        <mat-expansion-panel-header class="ht-44 bg-white border-0 border-bottom-red">
+                            <mat-panel-title>
+                                <h4 class="text-black">Datos Adicionales</h4>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <!-- <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Volumen Contenido</mat-label>
+                                    <input matInput formControlName="VolumenContenido1" />
+                                    <mat-error>
+                                        {{ errors.CodigoSAPQS }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div> -->
+                            <!-- <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Medida Contenido</mat-label>
+                                    <input matInput formControlName="MedidaContenido" />
+                                    <mat-error>
+                                        {{ errors.CodigoSAPQS }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div> -->
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Valor Concentración</mat-label>
+                                    <input matInput formControlName="ValorConcentracion" />
+                                    <mat-error>
+                                        {{ errors.ValorConcentracion }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Medida Concentración</mat-label>
+                                    <input matInput formControlName="MedidaConcentracion" />
+                                    <mat-error>
+                                        {{ errors.MedidaConcentracion }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Clase Terapéutica I</mat-label>
+                                    <mat-select formControlName="IdCT1">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of listaCT1" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdCT1 }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Clase Terapéutica II</mat-label>
+                                    <mat-select formControlName="IdCT2">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of listaCT2" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdCT2 }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Clase Terapéutica III</mat-label>
+                                    <mat-select formControlName="IdCT3">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of listaCT3" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdCT3 }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Clase Terapéutica IV</mat-label>
+                                    <mat-select formControlName="IdCT4">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of listaCT4" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdCT4 }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Jerarquía de Producto (1)</mat-label>
+                                    <mat-select formControlName="IdJerarquiProducto1">
+                                        <!-- <mat-option value="option">000 Ninguno</mat-option>
+                                                    <mat-option value="option">001 Psicotrópicos</mat-option>
+                                                    <mat-option value="option">002 Precursores</mat-option>
+                                                    <mat-option value="option">003 Estupefacientes</mat-option>
+                                                    <mat-option value="option">004 Fiscalizados</mat-option>
+                                                    <mat-option value="option">005 Especiales</mat-option>
+                                                    <mat-option value="option">006 Crónicos</mat-option>
+                                                    <mat-option value="option">007 Otros</mat-option>
+                                                    <mat-option value="option">008 Complementarios</mat-option>
+                                                    <mat-option value="option">009 Oncológicos Afectos</mat-option>
+                                                    <mat-option value="option">010 Oncológicos Inafectos</mat-option>
+                                                    <mat-option value="option">011 Retrovirales</mat-option> -->
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.Jerarquia1)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdJerarquiProducto1 }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Jerarquía de Producto (2)</mat-label>
+                                    <mat-select formControlName="IdJerarquiProducto2">
+                                        <!-- <mat-option value="option">ADULTO</mat-option>
+                                                    <mat-option value="option">BAZAR</mat-option>
+                                                    <mat-option value="option">BEBES & NIÑOS</mat-option>
+                                                    <mat-option value="option">BELLEZA</mat-option>
+                                                    <mat-option value="option">CUIDADO INFANTIL</mat-option>
+                                                    <mat-option value="option">CUIDADO PERSONAL</mat-option>
+                                                    <mat-option value="option">DERMACOSMETICA</mat-option>
+                                                    <mat-option value="option">DISPOSITIVO MEDICO</mat-option>
+                                                    <mat-option value="option">GENERICO</mat-option>
+                                                    <mat-option value="option">MARCA</mat-option>
+                                                    <mat-option value="option">MEDICAMENTO POPULAR DE MARCA</mat-option>
+                                                    <mat-option value="option">MEDICAMENTO POPULAR GENERICO</mat-option>
+                                                    <mat-option value="option">NUTRICION ADULTOS</mat-option>
+                                                    <mat-option value="option">NUTRICIÓN DEPORTIVA Y CONTROL DE PESO</mat-option>
+                                                    <mat-option value="option">OTROS NUTRICION</mat-option>
+                                                    <mat-option value="option">WELLNES</mat-option> -->
+                                        <mat-select-search formControlName="jerarquiaProducto2Filter" placeholderLabel="Busqueda"></mat-select-search>
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of listaJerarquiaProducto2Filter" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdJerarquiProducto2 }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Jerarquía de Producto (3)</mat-label>
+                                    <mat-select formControlName="IdJerarquiProducto3">
+                                        <!-- <mat-option value="option">ACCESORIO DE CUIDADO INFANTIL</mat-option>
+                                                    <mat-option value="option">DISPOSITIVO MEDICO QUIRURG.</mat-option>
+                                                    <mat-option value="option">AFEITADO Y POST-AFEITADO</mat-option>
+                                                    <mat-option value="option">AGENTE DIAGNOSTICO</mat-option>
+                                                    <mat-option value="option">ANTIINFECCIOSOS SISTEMICOS</mat-option>
+                                                    <mat-option value="option">ANTINEOPLASICO Y AGENTE INMUNOMODULADOR</mat-option>
+                                                    <mat-option value="option">ARTICULO PROMOCIONAL</mat-option>
+                                                    <mat-option value="option">CICATRIZANTES Y REGENERADORES</mat-option>
+                                                    <mat-option value="option">COLORACION CAPILAR</mat-option>
+                                                    <mat-option value="option">CONVENIENCE</mat-option>
+                                                    <mat-option value="option">CUIDADO CAPILAR</mat-option>
+                                                    <mat-option value="option">CUIDADO CORPORAL</mat-option>
+                                                    <mat-option value="option">CUIDADO CORPORAL DERMO</mat-option>
+                                                    <mat-option value="option">CUIDADO FACIAL</mat-option>
+                                                    <mat-option value="option">CUIDADO FACIAL DERMO</mat-option>
+                                                    <mat-option value="option">CUIDADO INFANTIL</mat-option>
+                                                    <mat-option value="option">DEPILACION</mat-option>
+                                                    <mat-option value="option">DERMATOLOGICOS</mat-option>
+                                                    <mat-option value="option">DESECHABLE INFANTIL</mat-option>
+                                                    <mat-option value="option">DESECHABLE PAÑITO</mat-option>
+                                                    <mat-option value="option">DESODORANTE / ANTITRANSP.</mat-option>
+                                                    <mat-option value="option">DISPOSITIVO CARDIOLOGICO Y/O ANGIOLOGICO</mat-option>
+                                                    <mat-option value="option">DISPOSITIVO DE USO GENERAL</mat-option>
+                                                    <mat-option value="option">FILTRO SOLAR / REPELENTE</mat-option>
+                                                    <mat-option value="option">FORMULA LACTEA</mat-option>
+                                                    <mat-option value="option">FOTOPROTECCIÓN</mat-option>
+                                                    <mat-option value="option">FRAGANCIA</mat-option>
+                                                    <mat-option value="option">HIGIENE Y CUIDADO BUCAL</mat-option>
+                                                    <mat-option value="option">HIGIENE Y CUIDADO CAPILAR</mat-option>
+                                                    <mat-option value="option">HIGIENICO / OTRO DESECHABLE</mat-option>
+                                                    <mat-option value="option">INCONTINENCIA ADULTO</mat-option>
+                                                    <mat-option value="option">JABON / GEL DE MANOS</mat-option>
+                                                    <mat-option value="option">MAQUILLAJE / ACCESORIO COSMETICO</mat-option>
+                                                    <mat-option value="option">NUTRACEUTICOS</mat-option>
+                                                    <mat-option value="option">ORGANO DE LOS SENTIDOS</mat-option>
+                                                    <mat-option value="option">OTRO PROD. BAZAR</mat-option>
+                                                    <mat-option value="option">OTROS NUTRICIÓN</mat-option>
+                                                    <mat-option value="option">PARASITOLOGIA</mat-option>
+                                                    <mat-option value="option">PERFUMERIA BEBE</mat-option>
+                                                    <mat-option value="option">PERFUMERIA NIÑO</mat-option>
+                                                    <mat-option value="option">PILAS / BATERIA</mat-option>
+                                                    <mat-option value="option">PREPAR HORMON. SIST (EXCL HORM SEXUAL(H)</mat-option>
+                                                    <mat-option value="option">PRESERVATIVOS / LUBRICANTE</mat-option>
+                                                    <mat-option value="option">PRODUCTO GALENICO</mat-option>
+                                                    <mat-option value="option">PROTECCION INTIMA FEMENINA</mat-option>
+                                                    <mat-option value="option">SANGRE Y ORGANOS HEMATOPOYETICOS</mat-option>
+                                                    <mat-option value="option">SISTEMA CARDIOVASCULAR</mat-option>
+                                                    <mat-option value="option">SISTEMA GENITOURINARIO Y HORMONAS SEXUAL</mat-option>
+                                                    <mat-option value="option">SISTEMA MUSCULO ESQUELETICO</mat-option>
+                                                    <mat-option value="option">SISTEMA NERVIOSO</mat-option>
+                                                    <mat-option value="option">SISTEMA RESPIRATORIO</mat-option>
+                                                    <mat-option value="option">SOLUCION HOSPITALARIA</mat-option>
+                                                    <mat-option value="option">SUPLEMENTO Y/O COMP. PROTEICO</mat-option>
+                                                    <mat-option value="option">SUPLEMENTO Y/O COMPLEMENTO ADULTO</mat-option>
+                                                    <mat-option value="option">SUPLEMENTO Y/O COMPLEMENTO DEPORTIVO</mat-option>
+                                                    <mat-option value="option">SUPLEMENTO Y/O COMPLEMENTO DIETETICO</mat-option>
+                                                    <mat-option value="option">SUPLEMENTO Y/O COMPLEMENTO PEDIATRICO</mat-option>
+                                                    <mat-option value="option">TALCO PARA ADULTO</mat-option>
+                                                    <mat-option value="option">TELEFONIA</mat-option>
+                                                    <mat-option value="option">TRACTO ALIMENTARIO Y METABOLISMO</mat-option>
+                                                    <mat-option value="option">VITAMINAS Y MINERALES</mat-option> -->
+                                        <mat-select-search formControlName="jerarquiaProducto3Filter" placeholderLabel="Busqueda"></mat-select-search>
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of listaJerarquiaProducto3Filter" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdJerarquiProducto3 }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Jerarquía de Producto (4)</mat-label>
+                                    <mat-select formControlName="IdJerarquiProducto4">
+                                        <!-- <mat-option value="option">ACCESORIO DE ENTRETENCION INFANTIL</mat-option>
+                                                    <mat-option value="option">ACCESORIO PARA ALIMENTACION INFANTIL</mat-option>
+                                                    <mat-option value="option">ACCESORIO PARA CUIDADO DE LA SALUD INFAN</mat-option>
+                                                    <mat-option value="option">ACCESORIO PARA EXTRACCION DE LECHE</mat-option>
+                                                    <mat-option value="option">ACONDICIONADOR</mat-option>
+                                                    <mat-option value="option">AFTER BATH</mat-option>
+                                                    <mat-option value="option">AFTER SUN</mat-option>
+                                                    <mat-option value="option">AGENTES ANABÓLICOS PARA EL USO SISTEMICO</mat-option>
+                                                    <mat-option value="option">AGENTES ANTITROMBOTICOS</mat-option>
+                                                    <mat-option value="option">AGENTES CONTRA EL ESTREÑIMIENTO</mat-option>
+                                                    <mat-option value="option">AGENTES CONTRA PADEC. FUNCION. GASTROINT</mat-option>
+                                                    <mat-option value="option">AGENTES MODIFICADORES DE LOS LIPIDOS</mat-option>
+                                                    <mat-option value="option">AGENTES PADEC. OBSTRUCTIVOS VIAS RESPIR</mat-option>
+                                                    <mat-option value="option">AGENTES SOBRE SIST. RENINA ANGIOTENSINA</mat-option>
+                                                    <mat-option value="option">AGENTES TRAT. ALTERAC.CAUSADA POR ACIDOS</mat-option>
+                                                    <mat-option value="option">AGUJA</mat-option>
+                                                    <mat-option value="option">ALGODON</mat-option>
+                                                    <mat-option value="option">AMBIENTADOR / DESODORIZADOR</mat-option>
+                                                    <mat-option value="option">AMPOLLA CAPILAR / TONICO</mat-option>
+                                                    <mat-option value="option">ANALGESICOS</mat-option>
+                                                    <mat-option value="option">ANESTESICOS</mat-option>
+                                                    <mat-option value="option">ANTIANEMICOS</mat-option>
+                                                    <mat-option value="option">ANTIB. Y QUIMIOT. PARA USO DERMATOLOGICO</mat-option>
+                                                    <mat-option value="option">ANTIBACTERIANO SISTEMICO</mat-option>
+                                                    <mat-option value="option">ANTICAIDA</mat-option>
+                                                    <mat-option value="option">ANTIDIABETICOS</mat-option>
+                                                    <mat-option value="option">ANTIDIARREICO ANTIINFEC. ANTIINFLAM.INTE</mat-option>
+                                                    <mat-option value="option">ANTIDISMENORREICOS</mat-option>
+                                                    <mat-option value="option">ANTI-EDAD</mat-option>
+                                                    <mat-option value="option">ANTIEDAD FACIAL</mat-option>
+                                                    <mat-option value="option">ANTIEMETICO Y ANTINAUSEOSO</mat-option>
+                                                    <mat-option value="option">ANTIEPILEPTICO</mat-option>
+                                                    <mat-option value="option">ANTIFUNGICO USO DERMATOLOGICO</mat-option>
+                                                    <mat-option value="option">ANTIGOTOSOS</mat-option>
+                                                    <mat-option value="option">ANTIHELMINTICOS</mat-option>
+                                                    <mat-option value="option">ANTIHEMORRAGICOS</mat-option>
+                                                    <mat-option value="option">ANTIHIPERTENSIVOS</mat-option>
+                                                    <mat-option value="option">ANTIHISTAMINICO PARA USO SISTEMICO</mat-option>
+                                                    <mat-option value="option">ANTIINFECCIOSOS Y ANTISEPTICOS GINECOLOG</mat-option>
+                                                    <mat-option value="option">ANTIINFLAMATORIOS Y ANTIREUMATICOS</mat-option>
+                                                    <mat-option value="option">ANTIMICOTICO SISTEMICO</mat-option>
+                                                    <mat-option value="option">ANTINEOPLASICOS</mat-option>
+                                                    <mat-option value="option">ANTIPARKINSONIANO</mat-option>
+                                                    <mat-option value="option">ANTIPROTOZOARIOS</mat-option>
+                                                    <mat-option value="option">ANTIPRURIGINOSO ANTIHISTAMINICO ANESTESI</mat-option>
+                                                    <mat-option value="option">ANTIPSORIATICOS</mat-option>
+                                                    <mat-option value="option">ANTISEPTICOS Y DESINFECTANTES</mat-option>
+                                                    <mat-option value="option">ANTIVIRAL SISTEMICO</mat-option>
+                                                    <mat-option value="option">APOSITO</mat-option>
+                                                    <mat-option value="option">ARTICULO PROMOCIONAL</mat-option>
+                                                    <mat-option value="option">BEBIDA</mat-option>
+                                                    <mat-option value="option">BETABLOQUEANTES</mat-option>
+                                                    <mat-option value="option">BLOQUEADOR</mat-option>
+                                                    <mat-option value="option">BLOQUEANTES DEL CANAL DE CALCIO</mat-option>
+                                                    <mat-option value="option">BRONCEADOR / AUTOBRONCEANTE</mat-option>
+                                                    <mat-option value="option">CATETER, SONDA Y ACCESORIO</mat-option>
+                                                    <mat-option value="option">CEPILLO DENTAL</mat-option>
+                                                    <mat-option value="option">CICATRIZANTE</mat-option>
+                                                    <mat-option value="option">CICATRIZANTES Y REGENERADORES</mat-option>
+                                                    <mat-option value="option">COLORACION MUJER</mat-option>
+                                                    <mat-option value="option">COMPLEMENTO PROTEICO</mat-option>
+                                                    <mat-option value="option">COMPLEMENTOS</mat-option>
+                                                    <mat-option value="option">CORTICOSTEROIDES SISTEMICOS</mat-option>
+                                                    <mat-option value="option">CREMA DE TRATAMIENTO</mat-option>
+                                                    <mat-option value="option">CREMA/SPRAY P/PEINAR</mat-option>
+                                                    <mat-option value="option">CUERPO</mat-option>
+                                                    <mat-option value="option">CUIDADO ANTI-PAÑALITIS</mat-option>
+                                                    <mat-option value="option">CUIDADO CAPILAR BEBE</mat-option>
+                                                    <mat-option value="option">CUIDADO CAPILAR NIÑO</mat-option>
+                                                    <mat-option value="option">CUIDADO E HIGIENE CORPORAL BEBE</mat-option>
+                                                    <mat-option value="option">CUIDADO E HIGIENE CORPORAL NIÑO</mat-option>
+                                                    <mat-option value="option">CUIDADO INFANTIL</mat-option>
+                                                    <mat-option value="option">CUIDADO INTIMO</mat-option>
+                                                    <mat-option value="option">CUIDADO PIEL CON TENDENCIA ACNEICA</mat-option>
+                                                    <mat-option value="option">DEPILACION CORTANTE</mat-option>
+                                                    <mat-option value="option">DEPILACION NO CORTANTE</mat-option>
+                                                    <mat-option value="option">DERMATOLOGICO</mat-option>
+                                                    <mat-option value="option">DESECHABLE COSMETICO</mat-option>
+                                                    <mat-option value="option">DESODORANTE / ANTITRANSP. HOMBRE</mat-option>
+                                                    <mat-option value="option">DESODORANTE / ANTITRANSP. MUJER</mat-option>
+                                                    <mat-option value="option">DESODORANTE / ANTITRANSP. UNISEX</mat-option>
+                                                    <mat-option value="option">DIGESTIVO, INCLUYENDO ENZIMAS DIGE</mat-option>
+                                                    <mat-option value="option">DIGESTIVO, INCLUYENDO ENZIMAS DIGESTIVOS</mat-option>
+                                                    <mat-option value="option">DIURETICOS</mat-option>
+                                                    <mat-option value="option">ECTOPARASIT ESCABECIDAS INSECTI REPELENT</mat-option>
+                                                    <mat-option value="option">EMOLIENTES Y PROTECTORES</mat-option>
+                                                    <mat-option value="option">ENJUAGUE BUCAL</mat-option>
+                                                    <mat-option value="option">EQUIPO DE DIAGNOSTICO Y ACCESORIO</mat-option>
+                                                    <mat-option value="option">EQUIPO DE TRANSFUSION</mat-option>
+                                                    <mat-option value="option">ESMALTE Y TRATAMIENTO UÑAS</mat-option>
+                                                    <mat-option value="option">ESPARADRAPO</mat-option>
+                                                    <mat-option value="option">ESTIMULANTES DEL APETITO</mat-option>
+                                                    <mat-option value="option">ESTUCHE / KIT / SET BEBE</mat-option>
+                                                    <mat-option value="option">ESTUCHE / KIT /SET NIÑO</mat-option>
+                                                    <mat-option value="option">FIJADOR CAPILAR</mat-option>
+                                                    <mat-option value="option">FILTRO SOLAR / REPELENTE BEBE</mat-option>
+                                                    <mat-option value="option">FORMULA LACTEA ETAPA 1</mat-option>
+                                                    <mat-option value="option">FORMULA LACTEA ETAPA 2</mat-option>
+                                                    <mat-option value="option">FORMULA LACTEA ETAPA 3</mat-option>
+                                                    <mat-option value="option">FORMULA LACTEA PREMATUROS</mat-option>
+                                                    <mat-option value="option">FRAGANCIA HOMBRE</mat-option>
+                                                    <mat-option value="option">FRAGANCIA MUJER</mat-option>
+                                                    <mat-option value="option">FUERTE</mat-option>
+                                                    <mat-option value="option">GASA</mat-option>
+                                                    <mat-option value="option">GEL / ESPUMA DE BAÑO</mat-option>
+                                                    <mat-option value="option">GEL / ESPUMA PRE-AFEITADO Y AFEITADO</mat-option>
+                                                    <mat-option value="option">GEL DE MANO</mat-option>
+                                                    <mat-option value="option">GOTEOS</mat-option>
+                                                    <mat-option value="option">HIDRATACION CORPORAL</mat-option>
+                                                    <mat-option value="option">HIDRATACION FACIAL</mat-option>
+                                                    <mat-option value="option">HIGIENE Y HUMECTACION INTIMA</mat-option>
+                                                    <mat-option value="option">HILO DENTAL</mat-option>
+                                                    <mat-option value="option">HISOPO BEBE CON TOPE</mat-option>
+                                                    <mat-option value="option">HISOPO NIÑO</mat-option>
+                                                    <mat-option value="option">HORM SEX. Y MODULADORES DEL SIST.GENITAL</mat-option>
+                                                    <mat-option value="option">HORM. HIPOFISIARIA, HIPOTALAMICA Y ANALO</mat-option>
+                                                    <mat-option value="option">INMUNOESTIMULANTES</mat-option>
+                                                    <mat-option value="option">INMUNOSUPRESORES</mat-option>
+                                                    <mat-option value="option">JABON DE LIMPIEZA</mat-option>
+                                                    <mat-option value="option">JABON DE TOCADOR</mat-option>
+                                                    <mat-option value="option">JERINGA DESCARTABLE</mat-option>
+                                                    <mat-option value="option">LABIOS</mat-option>
+                                                    <mat-option value="option">LIMPIEZA FACIAL</mat-option>
+                                                    <mat-option value="option">LLAVE DE CONEXION DE PASO</mat-option>
+                                                    <mat-option value="option">LUBRICANTE INTIMO</mat-option>
+                                                    <mat-option value="option">MANOS</mat-option>
+                                                    <mat-option value="option">MAQUILLAJE LABIOS</mat-option>
+                                                    <mat-option value="option">MAQUILLAJE OJOS Y CEJAS</mat-option>
+                                                    <mat-option value="option">MAQUILLAJE ROSTRO</mat-option>
+                                                    <mat-option value="option">MAQUINA AFEITADO</mat-option>
+                                                    <mat-option value="option">MODERADO</mat-option>
+                                                    <mat-option value="option">MULTIVITAMINICOS Y/O ASOCIACIONES</mat-option>
+                                                    <mat-option value="option">NUTRACEUTICOS</mat-option>
+                                                    <mat-option value="option">NUTRACEUTICOS DIETETICO</mat-option>
+                                                    <mat-option value="option">NUTRICION ESPECIALIZADA</mat-option>
+                                                    <mat-option value="option">OFTALMOLOGICOS</mat-option>
+                                                    <mat-option value="option">OTOLOGICOS</mat-option>
+                                                    <mat-option value="option">OTRO ACCESORIO DE CUIDADO INFANTIL</mat-option>
+                                                    <mat-option value="option">OTRO ACCESORIO DE CUIDADO PERSONAL</mat-option>
+                                                    <mat-option value="option">OTRO DESECHABLE INFANTIL</mat-option>
+                                                    <mat-option value="option">OTRO DISPOSITIVO MEDICO</mat-option>
+                                                    <mat-option value="option">OTRO PROD. BAZAR</mat-option>
+                                                    <mat-option value="option">OTRO PROD. CAPILAR</mat-option>
+                                                    <mat-option value="option">OTRO PROD. HIGIENE Y CUIDADO BUCAL</mat-option>
+                                                    <mat-option value="option">OTROS ALIMENTOS</mat-option>
+                                                    <mat-option value="option">OTROS FÁRMACOS ACTIVOS SIST. NERVIOSO</mat-option>
+                                                    <mat-option value="option">OTROS MEDIC. DESOR. SIST MUSCULO ESQUEL</mat-option>
+                                                    <mat-option value="option">OTROS PREPARADOS DERMATOLOGICOS</mat-option>
+                                                    <mat-option value="option">OTROS PREPARADOS GINECOLOGICO</mat-option>
+                                                    <mat-option value="option">OTROS PRODUC P/EL TRACTO ALIMENT</mat-option>
+                                                    <mat-option value="option">OTROS PRODUCTOS SISTEMA RESPIRATORIO</mat-option>
+                                                    <mat-option value="option">PAÑAL DESECHABLE BEBE</mat-option>
+                                                    <mat-option value="option">PAÑITO / TOALLA HUMEDA INFANTIL</mat-option>
+                                                    <mat-option value="option">PASTA DENTAL</mat-option>
+                                                    <mat-option value="option">PIEL MIXTA A GRASA</mat-option>
+                                                    <mat-option value="option">PIEL SECA</mat-option>
+                                                    <mat-option value="option">PIEL SENSIBLE</mat-option>
+                                                    <mat-option value="option">PIEL SENSIBLE/SECA</mat-option>
+                                                    <mat-option value="option">PIES</mat-option>
+                                                    <mat-option value="option">PIGMENTACION</mat-option>
+                                                    <mat-option value="option">PILAS</mat-option>
+                                                    <mat-option value="option">POST-AFEITADO</mat-option>
+                                                    <mat-option value="option">PREP. PARA TRATAM. DE ULCERA Y HERIDAS</mat-option>
+                                                    <mat-option value="option">PREPAR. TRATAMIENTO DE ENFERM. OSEAS</mat-option>
+                                                    <mat-option value="option">PREPARACIONES NASALES</mat-option>
+                                                    <mat-option value="option">PREPARADOS ANTI ACNE</mat-option>
+                                                    <mat-option value="option">PREPARADOS ANTIANEMICOS</mat-option>
+                                                    <mat-option value="option">PREPARADOS ANTIOBESIDAD</mat-option>
+                                                    <mat-option value="option">PREPARADOS DERMAT. CON CORTICOSTEROIDES</mat-option>
+                                                    <mat-option value="option">PREPARADOS ESTOMATOLOGICOS</mat-option>
+                                                    <mat-option value="option">PREPARADOS PARA LA GARGANTA</mat-option>
+                                                    <mat-option value="option">PREPARADOS PARA LA TOS Y EL RESFRIADO</mat-option>
+                                                    <mat-option value="option">PRESERVATIVO</mat-option>
+                                                    <mat-option value="option">PROD DERMO CAPILAR</mat-option>
+                                                    <mat-option value="option">PROD DERMO CORPORAL</mat-option>
+                                                    <mat-option value="option">PROD DERMO FACIALES</mat-option>
+                                                    <mat-option value="option">PROD. ANTIACAROS / ANTIHONGOS</mat-option>
+                                                    <mat-option value="option">PRODUC.TOPICOS DOLOR ARTICULAR MUSCULAR</mat-option>
+                                                    <mat-option value="option">PRODUCTO PARA PROTESIS DENTAL</mat-option>
+                                                    <mat-option value="option">PROTECTOR DIARIO</mat-option>
+                                                    <mat-option value="option">PSICOANALEPTICO</mat-option>
+                                                    <mat-option value="option">PSICOLEPTICOS</mat-option>
+                                                    <mat-option value="option">RECARGA VIRTUAL</mat-option>
+                                                    <mat-option value="option">REGULADORES TERMICOS</mat-option>
+                                                    <mat-option value="option">RELAJANTES MUSCULARES</mat-option>
+                                                    <mat-option value="option">REPELENTE</mat-option>
+                                                    <mat-option value="option">ROSACEA</mat-option>
+                                                    <mat-option value="option">ROSTRO</mat-option>
+                                                    <mat-option value="option">SHAMPOO</mat-option>
+                                                    <mat-option value="option">SNACKS</mat-option>
+                                                    <mat-option value="option">SUPL. Y/O COMP. NUTRICIONAL ADULTO</mat-option>
+                                                    <mat-option value="option">SUPL. Y/O COMP. NUTRICIONAL DEPORTIVO</mat-option>
+                                                    <mat-option value="option">SUPL. Y/O COMP. NUTRICIONAL PED.</mat-option>
+                                                    <mat-option value="option">SUPLEMENTOS DIETETICOS</mat-option>
+                                                    <mat-option value="option">SUPLEMENTOS MINERALES</mat-option>
+                                                    <mat-option value="option">SUSTITUTOS DE LA SANGRE Y SOL. PERFUSION</mat-option>
+                                                    <mat-option value="option">SUSTITUTOS DE SANGRE Y SOL. P PERFUSION</mat-option>
+                                                    <mat-option value="option">SUTURA</mat-option>
+                                                    <mat-option value="option">TALCO CORPORAL</mat-option>
+                                                    <mat-option value="option">TALCO PARA PIE</mat-option>
+                                                    <mat-option value="option">TAMPON</mat-option>
+                                                    <mat-option value="option">TARJETA TELEFONICA FISICA</mat-option>
+                                                    <mat-option value="option">TERAPIA BILIAR Y HEPATICA</mat-option>
+                                                    <mat-option value="option">TERAPIA CARDIACA</mat-option>
+                                                    <mat-option value="option">TERAPIA ENDOCRINA</mat-option>
+                                                    <mat-option value="option">TERAPIA TIROIDEA</mat-option>
+                                                    <mat-option value="option">TOALLA HIGIENICA</mat-option>
+                                                    <mat-option value="option">TOALLA Y PROTECTOR INCONTINENCIA ADULTO</mat-option>
+                                                    <mat-option value="option">TODO EL RESTO DE PRODUCTOS NO TERAPEUTIC</mat-option>
+                                                    <mat-option value="option">TODO TIPO DE PIEL</mat-option>
+                                                    <mat-option value="option">TONIFICACION FACIAL</mat-option>
+                                                    <mat-option value="option">TRATAMIENTO CORPORAL</mat-option>
+                                                    <mat-option value="option">UROLOGICO</mat-option>
+                                                    <mat-option value="option">VACUNA</mat-option>
+                                                    <mat-option value="option">VARIOS, FARMA</mat-option>
+                                                    <mat-option value="option">VASODILATADORES PERIFERICOS</mat-option>
+                                                    <mat-option value="option">VASOPROTECTORES</mat-option>
+                                                    <mat-option value="option">VENDA</mat-option>
+                                                    <mat-option value="option">VITAMINAS</mat-option>
+                                                    <mat-option value="option">VITAMINAS SOLAS</mat-option> -->
+                                        <mat-select-search formControlName="jerarquiaProducto4Filter" placeholderLabel="Busqueda"></mat-select-search>
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of listaJerarquiaProducto4Filter" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdJerarquiProducto4 }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Jerarquía de Producto (5)</mat-label>
+                                    <mat-select formControlName="IdJerarquiProducto5">
+                                        <!-- <mat-option value="option">AC. FOL. Y/O COMBIN.</mat-option>
+                                                    <mat-option value="option">ACCES. P/GLUCOMETRO</mat-option>
+                                                    <mat-option value="option">ACEITE BEBE</mat-option>
+                                                    <mat-option value="option">ACEITE NATURAL</mat-option>
+                                                    <mat-option value="option">ACOND CABEL NOR/S/G</mat-option>
+                                                    <mat-option value="option">ACOND CABEL RIZ/LIS</mat-option>
+                                                    <mat-option value="option">ACOND CABELL DAÑ/RES</mat-option>
+                                                    <mat-option value="option">ACOND CABELL TEÑID</mat-option>
+                                                    <mat-option value="option">ACOND CONTR CAIDA</mat-option>
+                                                    <mat-option value="option">ACOND CONTROL CASP</mat-option>
+                                                    <mat-option value="option">ACONDICIONADOR NIÑO</mat-option>
+                                                    <mat-option value="option">ACONDICIOND BEBE</mat-option>
+                                                    <mat-option value="option">ADELGAZANTES NATUR</mat-option>
+                                                    <mat-option value="option">ADH PARA PROTES DEN</mat-option>
+                                                    <mat-option value="option">ADIT. P/SOLUCION IV</mat-option>
+                                                    <mat-option value="option">AGEN CONT ULC PEPTIC</mat-option>
+                                                    <mat-option value="option">AGEN MODIFIC LIPIDOS</mat-option>
+                                                    <mat-option value="option">AGEN. ANTICOLINERGIC</mat-option>
+            
+                                                    <mat-option value="option">AGEN. ANTIINFLAMATOR</mat-option>
+                                                    <mat-option value="option">AGEN. ANTINEMATODOS</mat-option>
+                                                    <mat-option value="option">AGEN. DOPAMINERGICOS</mat-option>
+                                                    <mat-option value="option">AGUA TERMAL</mat-option>
+                                                    <mat-option value="option">AGUJA HIPODERMICA</mat-option>
+                                                    <mat-option value="option">AHORR D/POTASIO ASOC</mat-option>
+                                                    <mat-option value="option">AHORRADOR D/POTASIO</mat-option>
+                                                    <mat-option value="option">ALCALOIDES DEL ERGOT</mat-option>
+                                                    <mat-option value="option">ALGODON</mat-option>
+                                                    <mat-option value="option">ALISADOR CAPILAR</mat-option>
+                                                    <mat-option value="option">AMBIENT/DESODORIZ</mat-option>
+                                                    <mat-option value="option">AMINOG ANTIBACTERIAN</mat-option>
+                                                    <mat-option value="option">AMP CAP/TON CONT CAI</mat-option>
+                                                    <mat-option value="option">AMP CAP/TON FORT CAP</mat-option>
+                                                    <mat-option value="option">AMPCAPIL/TON REST RE</mat-option>
+                                                    <mat-option value="option">ANALG Y ANESTE ASOCI</mat-option>
+                                                    <mat-option value="option">ANALGESICO URINARIO</mat-option>
+                                                    <mat-option value="option">ANDROG ASOC HORM FEM</mat-option>
+                                                    <mat-option value="option">ANDROGENOS</mat-option>
+                                                    <mat-option value="option">ANESTESICO LOCAL</mat-option>
+                                                    <mat-option value="option">ANESTESICO TOPICO</mat-option>
+                                                    <mat-option value="option">ANFENICOLES</mat-option>
+                                                    <mat-option value="option">ANILIDAS</mat-option>
+                                                    <mat-option value="option">ANSIOLITICOS</mat-option>
+                                                    <mat-option value="option">ANTAGO ANGIO II ASOC</mat-option>
+                                                    <mat-option value="option">ANTAGO ANGIO II MONO</mat-option>
+                                                    <mat-option value="option">ANTAGO D/HORMONAS</mat-option>
+                                                    <mat-option value="option">ANTAGO D/RECEPTOR H2</mat-option>
+                                                    <mat-option value="option">ANTAGO D/SEROTONINA</mat-option>
+                                                    <mat-option value="option">ANTAGO D/VITAMINA K</mat-option>
+                                                    <mat-option value="option">ANTIAC C/ANTIFLATULE</mat-option>
+                                                    <mat-option value="option">ANTIAC C/BICARBO SOD</mat-option>
+                                                    <mat-option value="option">ANTIAC C/OTRAS COMBI</mat-option>
+                                                    <mat-option value="option">ANTIAC COMPUES MAGNE</mat-option>
+                                                    <mat-option value="option">ANTIADREN ACCION CEN</mat-option>
+                                                    <mat-option value="option">ANTIADREN ACCION PER</mat-option>
+                                                    <mat-option value="option">ANTIALERG ANTIHISTAM</mat-option>
+                                                    <mat-option value="option">ANTIANDROGENOS</mat-option>
+                                                    <mat-option value="option">ANTIARRIT CLAS 1 Y 3</mat-option>
+                                                    <mat-option value="option">ANTIARTROSICO NATUR</mat-option>
+                                                    <mat-option value="option">ANTIBAC BETALAC PENI</mat-option>
+                                                    <mat-option value="option">ANTIBIOT GINECOLOGIC</mat-option>
+                                                    <mat-option value="option">ANTIBIOT Y CORTICOID</mat-option>
+                                                    <mat-option value="option">ANTIBIOTICOS TOPICOS</mat-option>
+                                                    <mat-option value="option">ANTICOLINERGI SINTET</mat-option>
+                                                    <mat-option value="option">ANTICONCEP EMERGENCI</mat-option>
+                                                    <mat-option value="option">ANTICONCEP HORM SIST</mat-option>
+            
+                                                    <mat-option value="option">ANTICONCEP INTRAUTER</mat-option>
+                                                    <mat-option value="option">ANTICONCEP INTRAVAGI</mat-option>
+                                                    <mat-option value="option">ANTIDEPRESIVOS</mat-option>
+                                                    <mat-option value="option">ANTIDIARREI ANTIBACT</mat-option>
+                                                    <mat-option value="option">ANTI-EDAD</mat-option>
+                                                    <mat-option value="option">ANTIEDAD FAC NOCHE</mat-option>
+                                                    <mat-option value="option">ANTIEDAD FACIAL DIA</mat-option>
+                                                    <mat-option value="option">ANTIEDAD FACIAL OJOS</mat-option>
+                                                    <mat-option value="option">ANTIESPAS ASOC ANALG</mat-option>
+                                                    <mat-option value="option">ANTIFIBRINOLITICOS</mat-option>
+                                                    <mat-option value="option">ANTIFLATULENTO</mat-option>
+                                                    <mat-option value="option">ANTIFUNGICO SISTEMIC</mat-option>
+                                                    <mat-option value="option">ANTIFUNGICO TOPICO</mat-option>
+                                                    <mat-option value="option">ANTIGLAUCOM Y MIOTIC</mat-option>
+                                                    <mat-option value="option">ANTIGRIPAL</mat-option>
+                                                    <mat-option value="option">ANTIHISTAM SISTEMICO</mat-option>
+                                                    <mat-option value="option">ANTIINF ANTISEP ORAL</mat-option>
+                                                    <mat-option value="option">ANTIINF ASOC ANTIMIC</mat-option>
+                                                    <mat-option value="option">ANTIINFEC INTESTINAL</mat-option>
+                                                    <mat-option value="option">ANTIINFEC OFTALMOLOG</mat-option>
+                                                    <mat-option value="option">ANTIINFEC OTOLOGICOS</mat-option>
+                                                    <mat-option value="option">ANTIINFEC URINARIOS</mat-option>
+                                                    <mat-option value="option">ANTIINFL NO ESTE TOP</mat-option>
+                                                    <mat-option value="option">ANTIINFLA ANTIINF AS</mat-option>
+                                                    <mat-option value="option">ANTIINFLA INTESTINAL</mat-option>
+                                                    <mat-option value="option">ANTIINFLAMAT NATUR</mat-option>
+                                                    <mat-option value="option">ANTIMANCHAS</mat-option>
+                                                    <mat-option value="option">ANTIMENOP. NATURAL</mat-option>
+            
+                                                    <mat-option value="option">ANTIMIGRAÑOSO</mat-option>
+                                                    <mat-option value="option">ANTIOBE ACC PERIFERI</mat-option>
+                                                    <mat-option value="option">ANTIOXIDANTE NATUR</mat-option>
+                                                    <mat-option value="option">ANTIPALUDICOS</mat-option>
+                                                    <mat-option value="option">ANTIPROPULSIVOS</mat-option>
+                                                    <mat-option value="option">ANTIPROSTAT. NATUR</mat-option>
+                                                    <mat-option value="option">ANTIPRURIGINO TOPICO</mat-option>
+                                                    <mat-option value="option">ANTIPSICOTICOS</mat-option>
+                                                    <mat-option value="option">ANTIPSORIASICO SISTE</mat-option>
+                                                    <mat-option value="option">ANTIPSORIASICO TOPIC</mat-option>
+                                                    <mat-option value="option">ANTISEPTI DESINFECTA</mat-option>
+                                                    <mat-option value="option">ANTISEPTICOS</mat-option>
+                                                    <mat-option value="option">ANTITREMATODOS</mat-option>
+                                                    <mat-option value="option">ANTIVIRAL ACCION DIR</mat-option>
+                                                    <mat-option value="option">APOSITO</mat-option>
+                                                    <mat-option value="option">ARRUGAS</mat-option>
+                                                    <mat-option value="option">ART PROMO COMERCIAL</mat-option>
+                                                    <mat-option value="option">ASPIRADOR NASAL INF</mat-option>
+                                                    <mat-option value="option">BAND DEPILAT CORPOR</mat-option>
+                                                    <mat-option value="option">BANDA DEPILAT FACIAL</mat-option>
+                                                    <mat-option value="option">BASE</mat-option>
+                                                    <mat-option value="option">BEBIDAS ENERGIZANTE</mat-option>
+                                                    <mat-option value="option">BEBIDAS REHIDRATANT</mat-option>
+                                                    <mat-option value="option">BELLADO DERIVAD MONO</mat-option>
+                                                    <mat-option value="option">BETABLOQ ALFA Y BETA</mat-option>
+                                                    <mat-option value="option">BETABLOQ NO SELECTIV</mat-option>
+                                                    <mat-option value="option">BETABLOQ SELEC DIURE</mat-option>
+                                                    <mat-option value="option">BETABLOQ SELECTIVOS</mat-option>
+                                                    <mat-option value="option">BIBERON BOCA ANCHA</mat-option>
+                                                    <mat-option value="option">BIBERON REGULAR</mat-option>
+                                                    <mat-option value="option">BIBERON VIDRIO</mat-option>
+                                                    <mat-option value="option">BIFOSFONATOS</mat-option>
+                                                    <mat-option value="option">BIFOSFONATOS Y COMBI</mat-option>
+                                                    <mat-option value="option">BLOQ SELECT Y TIAZID</mat-option>
+                                                    <mat-option value="option">BLOQUEAD SOLAR BEB</mat-option>
+                                                    <mat-option value="option">BLOQUEAD SOLAR NIÑO</mat-option>
+                                                    <mat-option value="option">BLOQUEADOR FACIAL</mat-option>
+                                                    <mat-option value="option">BLOQUEADOR REGULAR</mat-option>
+                                                    <mat-option value="option">BODY SPLASH HOMBRE</mat-option>
+                                                    <mat-option value="option">BODY SPLASH MUJER</mat-option>
+                                                    <mat-option value="option">BRILLO LABIAL</mat-option>
+                                                    <mat-option value="option">BRONCEADOR</mat-option>
+                                                    <mat-option value="option">BRONCODILAT ANTIASM</mat-option>
+                                                    <mat-option value="option">BRONCODILAT MUCOLITI</mat-option>
+                                                    <mat-option value="option">CALCIO</mat-option>
+                                                    <mat-option value="option">CALCIO Y ASOCIAC</mat-option>
+                                                    <mat-option value="option">CALCIO Y VIT. D</mat-option>
+                                                    <mat-option value="option">CARBAPENEM</mat-option>
+                                                    <mat-option value="option">CATETER SONDA Y ACC</mat-option>
+                                                    <mat-option value="option">CEFALOSPORINA</mat-option>
+                                                    <mat-option value="option">CEPILLO DENT INTERPR</mat-option>
+                                                    <mat-option value="option">CEPILLO DENT REGULAR</mat-option>
+                                                    <mat-option value="option">CEPILLO DENT TRATAM</mat-option>
+                                                    <mat-option value="option">CEPILLO DENTAL NIÑO</mat-option>
+                                                    <mat-option value="option">CHAMPU NO MEDICINAL</mat-option>
+                                                    <mat-option value="option">CHUPON</mat-option>
+                                                    <mat-option value="option">CICATRIZANTES</mat-option>
+                                                    <mat-option value="option">CIPROHEPTADINA ASOCI</mat-option>
+                                                    <mat-option value="option">CLORFENAMINA COMBINA</mat-option>
+                                                    <mat-option value="option">COLON/BODY SPLAS NIÑ</mat-option>
+                                                    <mat-option value="option">COLONIA BEBE</mat-option>
+                                                    <mat-option value="option">COLONIA FAMILIAR</mat-option>
+                                                    <mat-option value="option">COLOR PERMANEN MUJER</mat-option>
+                                                    <mat-option value="option">COLOR SEMI-PERM MUJE</mat-option>
+                                                    <mat-option value="option">COMPL. COLAGENO</mat-option>
+                                                    <mat-option value="option">COMPL. DIABETES</mat-option>
+                                                    <mat-option value="option">COMPL. PROTEI y AMIN</mat-option>
+                                                    <mat-option value="option">COMPOTA BEBES</mat-option>
+                                                    <mat-option value="option">CONT AMEBIA Y PROTOZ</mat-option>
+                                                    <mat-option value="option">CORREC D OJERAS E IM</mat-option>
+                                                    <mat-option value="option">CORT UÑ/TIJ/SET M IN</mat-option>
+                                                    <mat-option value="option">CORTICOS ANTIASMATIC</mat-option>
+                                                    <mat-option value="option">CORTICOS ANTIINF ASO</mat-option>
+                                                    <mat-option value="option">CORTICOS COMBINACION</mat-option>
+                                                    <mat-option value="option">CORTICOS CON ANTIBIO</mat-option>
+                                                    <mat-option value="option">CORTICOS MONOFARMACO</mat-option>
+                                                    <mat-option value="option">CORTICOS SIST COMBIN</mat-option>
+                                                    <mat-option value="option">CORTICOS SIST MONOFA</mat-option>
+                                                    <mat-option value="option">COXIBS</mat-option>
+                                                    <mat-option value="option">CR DE TRAT CAB DAÑ/S</mat-option>
+                                                    <mat-option value="option">CR DE TRAT CAB RIZ/L</mat-option>
+                                                    <mat-option value="option">CR DE TRAT CONT CAID</mat-option>
+                                                    <mat-option value="option">CR TRAT CAB NOR/S/G</mat-option>
+                                                    <mat-option value="option">CR/LOC/BRIL CORP NIÑ</mat-option>
+                                                    <mat-option value="option">CR/SP P/PE CAB N/S/G</mat-option>
+                                                    <mat-option value="option">CR/SP P/PEI CAB RI/L</mat-option>
+                                                    <mat-option value="option">CR/SP P/PEIN CAB D/R</mat-option>
+                                                    <mat-option value="option">CR/SPR P/PEI CONT CA</mat-option>
+                                                    <mat-option value="option">CREM DE TRAT CAB TEÑ</mat-option>
+                                                    <mat-option value="option">CREM/GEL PRE-AFEITAD</mat-option>
+                                                    <mat-option value="option">CREM/LOC CORPO BEB</mat-option>
+                                                    <mat-option value="option">CREMA</mat-option>
+                                                    <mat-option value="option">CREMA DEPILAT CORP</mat-option>
+                                                    <mat-option value="option">CREMA DEPILAT FACIAL</mat-option>
+                                                    <mat-option value="option">CUIDADO INTIMO</mat-option>
+                                                    <mat-option value="option">CURITA BANDITA ADHES</mat-option>
+                                                    <mat-option value="option">DELINEADOR DE LABIOS</mat-option>
+                                                    <mat-option value="option">DELINEADOR DE OJOS</mat-option>
+                                                    <mat-option value="option">DERIV 2 AMIN 1 FENIL</mat-option>
+                                                    <mat-option value="option">DERIV ACID PROPIONIC</mat-option>
+                                                    <mat-option value="option">DERIV ACIDO ACETICO</mat-option>
+                                                    <mat-option value="option">DERIV ACIDOS GRASOS</mat-option>
+                                                    <mat-option value="option">DERIV BENZODIAZEPINA</mat-option>
+                                                    <mat-option value="option">DERIV BENZOTIAZEPINA</mat-option>
+                                                    <mat-option value="option">DERIV CARBOXAMIDA</mat-option>
+                                                    <mat-option value="option">DERIV DIHIDROPIRIDIN</mat-option>
+                                                    <mat-option value="option">DERIV FENILAQUILAMIN</mat-option>
+                                                    <mat-option value="option">DERIV HIDANTOINICOS</mat-option>
+                                                    <mat-option value="option">DERIV IMIDAZOL</mat-option>
+                                                    <mat-option value="option">DERIV NITROIMIDAZOL</mat-option>
+                                                    <mat-option value="option">DERIV PIPERAZINA</mat-option>
+                                                    <mat-option value="option">DERIV TRIAZOL</mat-option>
+                                                    <mat-option value="option">DERIVADOS PUNIRICOS</mat-option>
+                                                    <mat-option value="option">DES/ANTIT BO SP HOM</mat-option>
+                                                    <mat-option value="option">DES/ANTITR BARR HOM</mat-option>
+                                                    <mat-option value="option">DES/ANTITR BARR MUJ</mat-option>
+                                                    <mat-option value="option">DES/ANTITR CREM HOM</mat-option>
+                                                    <mat-option value="option">DES/ANTITR CREM MUJ</mat-option>
+                                                    <mat-option value="option">DES/ANTITR ROLL ON H</mat-option>
+                                                    <mat-option value="option">DES/ANTITR SP BOD MU</mat-option>
+                                                    <mat-option value="option">DESCONG ANTIALERGICO</mat-option>
+                                                    <mat-option value="option">DESCONG NASAL SISTEM</mat-option>
+                                                    <mat-option value="option">DESCONG NASAL TOPICO</mat-option>
+                                                    <mat-option value="option">DESMAQUILL FACIAL</mat-option>
+                                                    <mat-option value="option">DESMAQUILLANTE OJOS</mat-option>
+                                                    <mat-option value="option">DESOD/ANT ROLL ON M</mat-option>
+                                                    <mat-option value="option">DESOD/ANTITR UNISEX</mat-option>
+                                                    <mat-option value="option">DISFUNCION ERECTIL</mat-option>
+                                                    <mat-option value="option">DISOLV CALC URINARIO</mat-option>
+                                                    <mat-option value="option">DISOLV USO PARENTAL</mat-option>
+                                                    <mat-option value="option">DIURET TECHO ALTO</mat-option>
+                                                    <mat-option value="option">DIURET TECHO BAJO</mat-option>
+                                                    <mat-option value="option">DIURET TECHO BAJO TI</mat-option>
+                                                    <mat-option value="option">ECTOPAR C/ESCABICIDA</mat-option>
+                                                    <mat-option value="option">EDP HOMBRE</mat-option>
+                                                    <mat-option value="option">EDT HOMBRE</mat-option>
+                                                    <mat-option value="option">EDT MUJER</mat-option>
+                                                    <mat-option value="option">EMOLIENTES Y PROTECT</mat-option>
+                                                    <mat-option value="option">ENEMAS</mat-option>
+                                                    <mat-option value="option">ENERGIZANTE NATURAL</mat-option>
+                                                    <mat-option value="option">ENJ BUC ANTIC Y ASOC</mat-option>
+                                                    <mat-option value="option">ENJ BUC ANTIS Y ANTI</mat-option>
+                                                    <mat-option value="option">ENJUAG BUCAL BLANQ</mat-option>
+                                                    <mat-option value="option">ENJUAG BUCAL SIN ALC</mat-option>
+                                                    <mat-option value="option">ENJUAGUE BUCAL NIÑO</mat-option>
+                                                    <mat-option value="option">ENZIMA ANTIBACTERIAN</mat-option>
+                                                    <mat-option value="option">EQUIP TRANSF MICROG</mat-option>
+                                                    <mat-option value="option">ERRAD HELICOBAC PYLO</mat-option>
+                                                    <mat-option value="option">ESMALTE UÑAS</mat-option>
+                                                    <mat-option value="option">ESPARADRAPO</mat-option>
+                                                    <mat-option value="option">ESPONJA DE BAÑO INFA</mat-option>
+                                                    <mat-option value="option">ESPUMA/GEL AFEITADO</mat-option>
+                                                    <mat-option value="option">ESTABILIZ D/CAPILARE</mat-option>
+                                                    <mat-option value="option">ESTEROIDE ANABOLICOS</mat-option>
+                                                    <mat-option value="option">ESTIMULAN CARDIACOS</mat-option>
+                                                    <mat-option value="option">ESTIMULAN OVULACION</mat-option>
+                                                    <mat-option value="option">ESTROGENOS</mat-option>
+                                                    <mat-option value="option">ESTUCH/KIT/SET BEBE</mat-option>
+                                                    <mat-option value="option">ESTUCHE/KIT/SET NIÑO</mat-option>
+                                                    <mat-option value="option">EXFOLIANTE</mat-option>
+                                                    <mat-option value="option">EXFOLIANTE FACIAL</mat-option>
+                                                    <mat-option value="option">EXP Y/O MUC C/ANTIIN</mat-option>
+                                                    <mat-option value="option">EXPECTORANTES</mat-option>
+                                                    <mat-option value="option">FARM DESOR ADICTIVOS</mat-option>
+                                                    <mat-option value="option">FARM DESOR SIST MUSC</mat-option>
+                                                    <mat-option value="option">FARMACO ANTIDEMENCIA</mat-option>
+                                                    <mat-option value="option">FIBRATOS</mat-option>
+                                                    <mat-option value="option">FLUOROQUINOLONAS</mat-option>
+                                                    <mat-option value="option">FORM LACT. AR 1</mat-option>
+                                                    <mat-option value="option">FORM LACT. CONFORT</mat-option>
+                                                    <mat-option value="option">FORM LACT. PREMAT.</mat-option>
+                                                    <mat-option value="option">FORM LACT. REGUL 1</mat-option>
+                                                    <mat-option value="option">FORM LACT. REGUL 2</mat-option>
+                                                    <mat-option value="option">FORM LACT. REGUL 3</mat-option>
+                                                    <mat-option value="option">FORM LACT. SOYA 1</mat-option>
+                                                    <mat-option value="option">FORM LACTEA S/LACT 1</mat-option>
+                                                    <mat-option value="option">FORMULA PRENATAL</mat-option>
+                                                    <mat-option value="option">FOTOPROTECTORES</mat-option>
+                                                    <mat-option value="option">FREC URINAR E INCONT</mat-option>
+                                                    <mat-option value="option">GASA ESTERIL</mat-option>
+                                                    <mat-option value="option">GEL / ESPUMA DE BAÑO</mat-option>
+                                                    <mat-option value="option">GEL CAPILAR HOMBRE</mat-option>
+                                                    <mat-option value="option">GEL DE MANO ANTIBACT</mat-option>
+                                                    <mat-option value="option">GEL/ESPUM DE HIG INT</mat-option>
+                                                    <mat-option value="option">GEL/LOCION AFTER SUN</mat-option>
+                                                    <mat-option value="option">GENERADOR D COLAGENO</mat-option>
+                                                    <mat-option value="option">GLUCOMETRO</mat-option>
+                                                    <mat-option value="option">GLUCOSIDOS CARDIACOS</mat-option>
+                                                    <mat-option value="option">GOLOSINAS Y SNACKS</mat-option>
+                                                    <mat-option value="option">GONADOTRO ESTIMU OVU</mat-option>
+                                                    <mat-option value="option">GRUPO DE LA HEPARINA</mat-option>
+                                                    <mat-option value="option">HID FAC DIA PIEL M/G</mat-option>
+                                                    <mat-option value="option">HID FAC DIA PIEL N/S</mat-option>
+                                                    <mat-option value="option">HID FAC NOC PIEL M/G</mat-option>
+                                                    <mat-option value="option">HID FAC NOC PIEL N/S</mat-option>
+                                                    <mat-option value="option">HIDRATACION LABIOS</mat-option>
+                                                    <mat-option value="option">HIDRATACION PIEL M/G</mat-option>
+                                                    <mat-option value="option">HIDRATACION PIEL SEC</mat-option>
+                                                    <mat-option value="option">HIDRATACION PIEL SEN</mat-option>
+                                                    <mat-option value="option">HIDRATACION ROSACEA</mat-option>
+                                                    <mat-option value="option">HIDRATANTE CORPORAL</mat-option>
+                                                    <mat-option value="option">HIDRATANTE MANO</mat-option>
+                                                    <mat-option value="option">HIDRATANTE OJOS</mat-option>
+                                                    <mat-option value="option">HIERRO Y/O COMBIN.</mat-option>
+                                                    <mat-option value="option">HIGIENE CAPILAR</mat-option>
+                                                    <mat-option value="option">HILO / CINTA DENTAL</mat-option>
+                                                    <mat-option value="option">HIPNOTICO Y SEDANTE</mat-option>
+                                                    <mat-option value="option">HIPOGLUCEMIANTE ORAL</mat-option>
+                                                    <mat-option value="option">HISOP BEBE CON TOPE</mat-option>
+                                                    <mat-option value="option">HISOPO NIÑO</mat-option>
+                                                    <mat-option value="option">HORM LOB ANTERI HIPO</mat-option>
+                                                    <mat-option value="option">HORM LOB POSTER HIPO</mat-option>
+                                                    <mat-option value="option">HORM SEX MOD SIS GEN</mat-option>
+                                                    <mat-option value="option">INHIB BOMBA PROTONES</mat-option>
+                                                    <mat-option value="option">INHIB CALCINEURINA</mat-option>
+                                                    <mat-option value="option">INHIB DIREC FACTO XA</mat-option>
+                                                    <mat-option value="option">INHIB DIREC TROMBINA</mat-option>
+                                                    <mat-option value="option">INHIB ECA ASOCIACION</mat-option>
+                                                    <mat-option value="option">INHIB ECA MONOFARMAC</mat-option>
+                                                    <mat-option value="option">INHIB HMG-CoA REDUCT</mat-option>
+                                                    <mat-option value="option">INHIB PLAQUE S/HEPAR</mat-option>
+                                                    <mat-option value="option">INHIB PROD ACID URIC</mat-option>
+                                                    <mat-option value="option">INHIBIDORES PROLACTI</mat-option>
+                                                    <mat-option value="option">INMUNOESTIMULANTES</mat-option>
+                                                    <mat-option value="option">INMUNOSUPRESORES</mat-option>
+                                                    <mat-option value="option">INSULINAS Y ANALOGOS</mat-option>
+                                                    <mat-option value="option">JAB EN BARRA ANTIBAC</mat-option>
+                                                    <mat-option value="option">JAB LIQUIDO ANTIBACT</mat-option>
+                                                    <mat-option value="option">JAB LIQUIDO REGULAR</mat-option>
+                                                    <mat-option value="option">JAB/GEL DE LIMP BEBE</mat-option>
+                                                    <mat-option value="option">JAB/GEL DE LIMP NIÑO</mat-option>
+                                                    <mat-option value="option">JABON EN BARRA REGUL</mat-option>
+                                                    <mat-option value="option">JERINGA DESCARTABLE</mat-option>
+                                                    <mat-option value="option">LABIAL</mat-option>
+                                                    <mat-option value="option">LACA CAPILAR</mat-option>
+                                                    <mat-option value="option">LAGRI ARTIF LUBR OCU</mat-option>
+                                                    <mat-option value="option">LAXANTE DE CONTACTO</mat-option>
+                                                    <mat-option value="option">LAXANTE MECAN OSMOTI</mat-option>
+                                                    <mat-option value="option">LAXANTE NATURAL</mat-option>
+                                                    <mat-option value="option">LIMP FAC PIEL ACNEIC</mat-option>
+                                                    <mat-option value="option">LIMP FAC PIEL MIX/GR</mat-option>
+                                                    <mat-option value="option">LIMP FAC PIEL NOR/SE</mat-option>
+                                                    <mat-option value="option">LIMPIADOR FACIAL</mat-option>
+                                                    <mat-option value="option">LIMPIADOR NO MEDICIN</mat-option>
+                                                    <mat-option value="option">LIMPIEZ PIEL SEN/SEC</mat-option>
+                                                    <mat-option value="option">LIMPIEZA CUIDADO INT</mat-option>
+                                                    <mat-option value="option">LIMPIEZA PIEL M/G</mat-option>
+                                                    <mat-option value="option">LIMPIEZA PIEL SECA</mat-option>
+                                                    <mat-option value="option">LIMPIEZA PIEL SENSIB</mat-option>
+                                                    <mat-option value="option">LINCOSAMIDAS</mat-option>
+                                                    <mat-option value="option">LLAVE CONEX DE PAS 3</mat-option>
+                                                    <mat-option value="option">LOCION POST-AFEITADO</mat-option>
+                                                    <mat-option value="option">LUBRICANTE INTIMO</mat-option>
+                                                    <mat-option value="option">MACROLIDOS</mat-option>
+                                                    <mat-option value="option">MAGNESIO Y/O ASOCIAC</mat-option>
+                                                    <mat-option value="option">MAQ DESECHABLE DEPIL</mat-option>
+                                                    <mat-option value="option">MAQUINA DESECH AFEIT</mat-option>
+                                                    <mat-option value="option">MICROORG ANTIDIARREI</mat-option>
+                                                    <mat-option value="option">MODIFIC LIPIDOS COMB</mat-option>
+                                                    <mat-option value="option">MOUSSE CAPILAR</mat-option>
+                                                    <mat-option value="option">MUCOLITICOS</mat-option>
+                                                    <mat-option value="option">MULTIVIT. ADULTOS</mat-option>
+                                                    <mat-option value="option">MULTIVIT. GERIATRICO</mat-option>
+                                                    <mat-option value="option">MULTIVIT. PEDIATRICO</mat-option>
+                                                    <mat-option value="option">MULTIVIT. PRONATAL</mat-option>
+                                                    <mat-option value="option">MULTIVITAM COMBINACI</mat-option>
+                                                    <mat-option value="option">MULTIVITAM OFTALMICO</mat-option>
+                                                    <mat-option value="option">NIÑOS</mat-option>
+            
+                                                    <mat-option value="option">OMEGAS (VEGET,ANIM.)</mat-option>
+                                                    <mat-option value="option">OPIOIDE COMB C/ANALG</mat-option>
+                                                    <mat-option value="option">OT PROD.HIG Y CUI BU</mat-option>
+                                                    <mat-option value="option">OTR ACC DE CUID PERS</mat-option>
+                                                    <mat-option value="option">OTR ACCE DE CUID INF</mat-option>
+                                                    <mat-option value="option">OTR ACOND COSMETIC</mat-option>
+                                                    <mat-option value="option">OTR ANTIINFE ANTISEP</mat-option>
+                                                    <mat-option value="option">OTR ANTIINFL ANTIRRE</mat-option>
+                                                    <mat-option value="option">OTR CUID CAPILAR BEB</mat-option>
+                                                    <mat-option value="option">OTR PAST DENTAL ESP</mat-option>
+                                                    <mat-option value="option">OTR PR.PARA LIMP P.D</mat-option>
+                                                    <mat-option value="option">OTR PROD.CUID CAP NI</mat-option>
+                                                    <mat-option value="option">OTR PROD.TRAT CORP</mat-option>
+                                                    <mat-option value="option">OTR RECARG VIRTUAL</mat-option>
+                                                    <mat-option value="option">OTR SHAMP COSMETIC</mat-option>
+                                                    <mat-option value="option">OTR TARJ TELEFON FIS</mat-option>
+                                                    <mat-option value="option">OTRA TOALLA HIGIENIC</mat-option>
+                                                    <mat-option value="option">OTRAS FORM LACT. 1</mat-option>
+                                                    <mat-option value="option">OTRAS FORM LACT. 2</mat-option>
+                                                    <mat-option value="option">OTRAS PILAS</mat-option>
+                                                    <mat-option value="option">OTRAS VITAMINAS</mat-option>
+                                                    <mat-option value="option">OTRO AGEN ANTINEOPLA</mat-option>
+                                                    <mat-option value="option">OTRO AGEN ANTITROMBO</mat-option>
+                                                    <mat-option value="option">OTRO ANTIACNE TOPIC</mat-option>
+                                                    <mat-option value="option">OTRO ANTIEPILEPTICO</mat-option>
+                                                    <mat-option value="option">OTRO DESECH INFANTIL</mat-option>
+                                                    <mat-option value="option">OTRO DISPOSITIVO MED</mat-option>
+                                                    <mat-option value="option">OTRO GEL CAPILAR</mat-option>
+                                                    <mat-option value="option">OTRO NUTRACÉUTICO</mat-option>
+                                                    <mat-option value="option">OTRO PREP ANTIANEMIC</mat-option>
+                                                    <mat-option value="option">OTRO PREP DERMATOLOG</mat-option>
+                                                    <mat-option value="option">OTRO PROD NO TERAPEU</mat-option>
+                                                    <mat-option value="option">OTRO PROD P/ROSTRO</mat-option>
+                                                    <mat-option value="option">OTRO PROD. BAZAR</mat-option>
+                                                    <mat-option value="option">OTRO PROD. CAPILAR</mat-option>
+                                                    <mat-option value="option">OTRO PRODUC GINECOLO</mat-option>
+                                                    <mat-option value="option">OTRO PRODUC UROLOGIC</mat-option>
+                                                    <mat-option value="option">OTRO PROTECT DIARIO</mat-option>
+                                                    <mat-option value="option">OTROS ALIMENTOS</mat-option>
+                                                    <mat-option value="option">OTROS ANTIDIARREICOS</mat-option>
+                                                    <mat-option value="option">OTROS ANTIEMETICOS</mat-option>
+                                                    <mat-option value="option">OTROS COMPL. NUTR.</mat-option>
+                                                    <mat-option value="option">OTROS DIURETICOS</mat-option>
+                                                    <mat-option value="option">OTROS MINERALES</mat-option>
+                                                    <mat-option value="option">OTROS MULTIVIT.</mat-option>
+                                                    <mat-option value="option">OTROS NUT. ESPECIAL</mat-option>
+                                                    <mat-option value="option">OTROS OFTALMOLOGICOS</mat-option>
+                                                    <mat-option value="option">OTROS PREP CARDIACOS</mat-option>
+                                                    <mat-option value="option">OTROS PREP PARA TOS</mat-option>
+                                                    <mat-option value="option">OXICAMS</mat-option>
+            
+                                                    <mat-option value="option">PAD FUNC GASTROINTES</mat-option>
+                                                    <mat-option value="option">PADS / APLICAD COSMT</mat-option>
+                                                    <mat-option value="option">PANTS</mat-option>
+                                                    <mat-option value="option">PAÑ PARA HIGIENE INT</mat-option>
+                                                    <mat-option value="option">PAÑAL GRANDE BEBE</mat-option>
+                                                    <mat-option value="option">PAÑAL MEDIANO BEBE</mat-option>
+                                                    <mat-option value="option">PAÑAL PEQUEÑO BEBE</mat-option>
+                                                    <mat-option value="option">PAÑAL RECIEN NACIDO</mat-option>
+                                                    <mat-option value="option">PAÑAL XG BEBE</mat-option>
+                                                    <mat-option value="option">PAÑAL XXG BEBE</mat-option>
+                                                    <mat-option value="option">PAÑIT/TLLA HUMED INF</mat-option>
+                                                    <mat-option value="option">PARASIMPATICOMIMETIC</mat-option>
+                                                    <mat-option value="option">PAST DENT ANTICAR AS</mat-option>
+                                                    <mat-option value="option">PAST DENT ANTISEP IN</mat-option>
+                                                    <mat-option value="option">PAST DENT BLANQUEAD</mat-option>
+                                                    <mat-option value="option">PAST DENT DESENSIBIL</mat-option>
+                                                    <mat-option value="option">PASTA DENTAL BEBE</mat-option>
+                                                    <mat-option value="option">PASTA DENTAL NIÑO</mat-option>
+                                                    <mat-option value="option">PENIC SEN BETALACTAM</mat-option>
+                                                    <mat-option value="option">PENICIL AMP ESPECTRO</mat-option>
+                                                    <mat-option value="option">PERDIDA DE VOLUMEN</mat-option>
+                                                    <mat-option value="option">PIEL MIXTA A GRASA</mat-option>
+                                                    <mat-option value="option">PILAS AA</mat-option>
+                                                    <mat-option value="option">PILAS AAA</mat-option>
+                                                    <mat-option value="option">PIRAZOLONAS</mat-option>
+                                                    <mat-option value="option">PLATO / CUBIERTO</mat-option>
+                                                    <mat-option value="option">POLV COMPACT Y SUEL</mat-option>
+                                                    <mat-option value="option">PR S/EFEC S/MET ACID</mat-option>
+                                                    <mat-option value="option">PREMIUM</mat-option>
+                                                    <mat-option value="option">PREP ANTI ACNE SISTM</mat-option>
+                                                    <mat-option value="option">PREP ANTI ACNE TOPIC</mat-option>
+                                                    <mat-option value="option">PREP ANTIOB ACC CENT</mat-option>
+                                                    <mat-option value="option">PREP ANTITIROIDEOS</mat-option>
+                                                    <mat-option value="option">PREP ANTIVERTIGO</mat-option>
+                                                    <mat-option value="option">PREP C/ACID SALICILI</mat-option>
+                                                    <mat-option value="option">PREP CON HIERRO</mat-option>
+                                                    <mat-option value="option">PREP DE BISMUTO</mat-option>
+                                                    <mat-option value="option">PREP ENZIMATICOS</mat-option>
+                                                    <mat-option value="option">PREP INFLUY MINERALI</mat-option>
+                                                    <mat-option value="option">PREP PARA GARGANTA</mat-option>
+                                                    <mat-option value="option">PREP. ADELGAZANTES</mat-option>
+                                                    <mat-option value="option">PREPARADOS TIROIDEOS</mat-option>
+                                                    <mat-option value="option">PRESERV ANATOMICO</mat-option>
+                                                    <mat-option value="option">PRESERV CON RETARDAN</mat-option>
+                                                    <mat-option value="option">PRESERV LISO/NORMAL</mat-option>
+                                                    <mat-option value="option">PRESERV TEXTURIZADO</mat-option>
+                                                    <mat-option value="option">PROD P/DOL ARTI MUSC</mat-option>
+                                                    <mat-option value="option">PROD P/SIST RESPIRAT</mat-option>
+                                                    <mat-option value="option">PROD.ANTIACARO/ANT</mat-option>
+                                                    <mat-option value="option">PRODUCT ANTIOBESIDAD</mat-option>
+                                                    <mat-option value="option">PROGES Y ESTROG ASOC</mat-option>
+                                                    <mat-option value="option">PROGES Y ESTROG SECU</mat-option>
+                                                    <mat-option value="option">PROGESTAGENOS</mat-option>
+                                                    <mat-option value="option">PROPULSIVOS</mat-option>
+                                                    <mat-option value="option">PROSTAGLANDINA</mat-option>
+                                                    <mat-option value="option">PROT MAMAR D DESECH</mat-option>
+                                                    <mat-option value="option">PROTEC DE PEZON</mat-option>
+                                                    <mat-option value="option">PROTECT DIARIO CORTO</mat-option>
+                                                    <mat-option value="option">PROTECTOR LABIAL</mat-option>
+                                                    <mat-option value="option">PROTECTOR MUJER</mat-option>
+                                                    <mat-option value="option">PSICOESTIM Y NOOTROP</mat-option>
+                                                    <mat-option value="option">QUERATOSIS ACTINICA</mat-option>
+                                                    <mat-option value="option">QUIMIOTER USO TOPICO</mat-option>
+                                                    <mat-option value="option">QUINOL ANTIBACTERIAN</mat-option>
+                                                    <mat-option value="option">REGENERADOR CICATRIZ</mat-option>
+                                                    <mat-option value="option">REGULADOR INTESTINAL</mat-option>
+                                                    <mat-option value="option">REGULADORES TERMICOS</mat-option>
+                                                    <mat-option value="option">REHIDRATACION ORAL</mat-option>
+                                                    <mat-option value="option">RELAJ MUSC ACC CENTR</mat-option>
+                                                    <mat-option value="option">RELAJANTE NATURAL</mat-option>
+                                                    <mat-option value="option">REPELENTE BEBE</mat-option>
+                                                    <mat-option value="option">REPELENTE REGULAR</mat-option>
+                                                    <mat-option value="option">REPUEST SISTEM AFEIT</mat-option>
+                                                    <mat-option value="option">RETARD D/EYACULACION</mat-option>
+                                                    <mat-option value="option">RIMMEL</mat-option>
+                                                    <mat-option value="option">RUBOR</mat-option>
+            
+                                                    <mat-option value="option">SABANILLA</mat-option>
+                                                    <mat-option value="option">SALICIL ACID Y DERIV</mat-option>
+                                                    <mat-option value="option">SHAMP CAB NOR/S/GR</mat-option>
+                                                    <mat-option value="option">SHAMP CABELL DAÑ/RES</mat-option>
+                                                    <mat-option value="option">SHAMP CABELL RIZA/LI</mat-option>
+                                                    <mat-option value="option">SHAMP CABELLO TEÑID</mat-option>
+                                                    <mat-option value="option">SHAMP CONTROL CAID</mat-option>
+                                                    <mat-option value="option">SHAMP CONTROL CASP</mat-option>
+                                                    <mat-option value="option">SHAMPOO 2 EN 1</mat-option>
+                                                    <mat-option value="option">SHAMPOO BEBE</mat-option>
+                                                    <mat-option value="option">SHAMPOO HOMBRE</mat-option>
+                                                    <mat-option value="option">SHAMPOO NIÑO</mat-option>
+                                                    <mat-option value="option">SISTEMA AFEITADO</mat-option>
+                                                    <mat-option value="option">SOLUC ELECTROLITICAS</mat-option>
+                                                    <mat-option value="option">SOLUCIONES IV</mat-option>
+                                                    <mat-option value="option">SOMBRA DE OJOS</mat-option>
+                                                    <mat-option value="option">STEVIA</mat-option>
+                                                    <mat-option value="option">SUCRALOSA</mat-option>
+                                                    <mat-option value="option">SULFONAMI Y TRIMETOP</mat-option>
+                                                    <mat-option value="option">SUPLEMENTO ADULTOS</mat-option>
+                                                    <mat-option value="option">SUPLEMENTO NIÑOS</mat-option>
+                                                    <mat-option value="option">SUPRES D/TOS Y EXPEC</mat-option>
+                                                    <mat-option value="option">SUPRESORES DE LA TOS</mat-option>
+                                                    <mat-option value="option">SUSTITUTOS D AZUCAR</mat-option>
+                                                    <mat-option value="option">SUTURA ADHESIVA</mat-option>
+                                                    <mat-option value="option">SUTURA CON AGUJA</mat-option>
+                                                    <mat-option value="option">TALCO BEBE</mat-option>
+                                                    <mat-option value="option">TALCO EN POLV CORPO</mat-option>
+                                                    <mat-option value="option">TALCO EN POLVO PIE</mat-option>
+                                                    <mat-option value="option">TALCO EN SPRAY PIES</mat-option>
+                                                    <mat-option value="option">TAMPON CON APLICADOR</mat-option>
+                                                    <mat-option value="option">TAMPON SIN APLICADOR</mat-option>
+                                                    <mat-option value="option">TARJ TELF FISICA CLA</mat-option>
+                                                    <mat-option value="option">TARJ TELF FISICA MOV</mat-option>
+                                                    <mat-option value="option">TAZA/VASO/TOMATO</mat-option>
+                                                    <mat-option value="option">TERAP BILIAR Y LIPOT</mat-option>
+                                                    <mat-option value="option">TERAP HEP LIPOTROPIC</mat-option>
+                                                    <mat-option value="option">TERAP SIND MENSTRUAL</mat-option>
+                                                    <mat-option value="option">TERAPIA ANTIVARICOSA</mat-option>
+                                                    <mat-option value="option">TERAPIA BILIAR</mat-option>
+                                                    <mat-option value="option">TETINA</mat-option>
+                                                    <mat-option value="option">TETRACICLINA</mat-option>
+                                                    <mat-option value="option">TOALLA</mat-option>
+                                                    <mat-option value="option">TOALLA HIGIENC MALLA</mat-option>
+                                                    <mat-option value="option">TOALLA HIGIENIC NOCH</mat-option>
+                                                    <mat-option value="option">TOALLA HIGIENIC TELA</mat-option>
+                                                    <mat-option value="option">TOALLA INCONT ADULTO</mat-option>
+                                                    <mat-option value="option">TOALLAS HÚMEDAS</mat-option>
+                                                    <mat-option value="option">TODO TIPO DE PIEL</mat-option>
+                                                    <mat-option value="option">TON FAC PIEL NORM/S</mat-option>
+                                                    <mat-option value="option">TRAT ANTI ACNE</mat-option>
+                                                    <mat-option value="option">TRAT ANTI CASPA</mat-option>
+                                                    <mat-option value="option">TRAT CORP ANTICELUL</mat-option>
+                                                    <mat-option value="option">TRAT CORP ANTIESTRIA</mat-option>
+                                                    <mat-option value="option">TRAT CORP REAFIRMAN</mat-option> -->
+                                        <!--     <mat-option value="option">TRAT CORP REDUCTOR</mat-option>
+                              <mat-option value="option">TRAT FAC PIEL ACNEIC</mat-option>
+                              <mat-option value="option">TRAT FACIAL DESMANCH</mat-option>
+                              <mat-option value="option">TRAT HEMO FISUR ANAL</mat-option>
+                              <mat-option value="option">TRAT HIPER PROST BEN</mat-option>
+                              <mat-option value="option">TRAT HIPERPIGMENTACI</mat-option>
+                              <mat-option value="option">TRAT PROTEC D PEZON</mat-option>
+                              <mat-option value="option">TRATAM FACIAL ACLAR</mat-option>
+                              <mat-option value="option">TRATAMIEN ORAL LOCAL</mat-option>
+                              <mat-option value="option">TRATAMIENTO CAPILAR</mat-option>
+                              <mat-option value="option">TRATAMIENTO CIC/REG</mat-option>
+                              <mat-option value="option">TRATAMIENTO CICAT</mat-option>
+                              <mat-option value="option">TRATAMIENTO D ACNE</mat-option>
+                              <mat-option value="option">TRATAMIENTO MANOS</mat-option>
+                              <mat-option value="option">TRATAMIENTO PIEL S/S</mat-option>
+                              <mat-option value="option">TRATAMIENTO PIEL SEC</mat-option>
+                              <mat-option value="option">TRATAMIENTO PIES</mat-option>
+                              <mat-option value="option">TRATAMIENTO PIGMENT</mat-option>
+                            <mat-option value="option">UNG/POM ANTI-PAÑALI</mat-option>
+                              <mat-option value="option">UTEROTONICOS</mat-option>
+                              <mat-option value="option">VACU ANTIBACTERIANAS</mat-option>
+                              <mat-option value="option">VACUNA ANTINEUMOCOCO</mat-option>
+                              <mat-option value="option">VALUE</mat-option>
+                              <mat-option value="option">VARIOS TRAC ALIM-MET</mat-option>
+                              <mat-option value="option">VASODIL ENFER CARDIA</mat-option>
+                              <mat-option value="option">VENDA ALASTICA</mat-option>
+                              <mat-option value="option">VENDA DE YESO</mat-option>
+                              <mat-option value="option">VENDA SINTETICA</mat-option>
+                              <mat-option value="option">VIT A Y D EN COMBINA</mat-option>
+                              <mat-option value="option">VIT B Y/O COMBINAC</mat-option>
+                              <mat-option value="option">VIT B1 SOLA O ASOCIA</mat-option>
+                              <mat-option value="option">VIT B12 (CIANOCOB D)</mat-option>
+                              <mat-option value="option">VIT B12 Y ACI FOLICO</mat-option>
+                              <mat-option value="option">VIT COMPLEJO B ASOCI</mat-option>
+                              <mat-option value="option">VIT K Y OTR HEMOSTAT</mat-option>
+                              <mat-option value="option">VIT. A Y/O COMBIN.</mat-option>
+                              <mat-option value="option">VIT. B Y/O COMBIN.</mat-option>
+                              <mat-option value="option">VIT. C Y/O COMBIN.</mat-option>
+                              <mat-option value="option">VIT. E Y/O COMBIN.</mat-option>
+                              <mat-option value="option">VITAMIN ASOCIACIONES</mat-option>
+                              <mat-option value="option">ZINC</mat-option>-->
+                                        <mat-select-search formControlName="jerarquiaProducto5Filter" placeholderLabel="Busqueda"></mat-select-search>
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of listaJerarquiaProducto5Filter" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdJerarquiProducto5 }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!--===================================================================================-->
+                    <!--FIN - Datos Adicionales-->
+                    <!--===================================================================================-->
+                    <!--===================================================================================-->
+                    <!--INI - Unidades de Medida Unidad-->
+                    <!--===================================================================================-->
+
+                    <mat-expansion-panel [collapsed]="true" #UnidadesMedidaUnidad>
+                        <mat-expansion-panel-header class="ht-44 bg-white border-0 border-bottom-red">
+                            <mat-panel-title>
+                                <h4 class="text-black">Unidades de Medida Unidad</h4>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>EAN/UPC (Unidad de Venta)</mat-label>
+                                    <input type="text" class="right-align" matInput formControlName="UVEanUpc" (keydown)="soloNumeros($event)" (blur)="format(13, 'UVEanUpc')"/>
+                                    <mat-error>
+                                        {{ errors.UVEanUpc }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Cantidad</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="UVCantidad" readonly/>
+                                    <mat-error>
+                                        {{ errors.UVCantidad }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>UMI</mat-label>
+                                    <mat-select formControlName="IdUVUmi">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <!-- <mat-option value="option">CJ</mat-option>
+                                                    <mat-option value="option">UN</mat-option> -->
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.UMI)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdUVUmi }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Largo</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="UVLargo" />
+                                    <mat-error>
+                                        {{ errors.UVLargo }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Ancho</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="UVAncho" />
+                                    <mat-error>
+                                        {{ errors.UVAncho }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Altura</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="UVAltura" />
+                                    <mat-error>
+                                        {{ errors.UVAltura }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>DIM</mat-label>
+                                    <mat-select formControlName="IdUVDIM">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <!-- <mat-option value="option">MM</mat-option>
+                                                    <mat-option value="option">CM</mat-option>
+                                                    <mat-option value="option">MT</mat-option> -->
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.DIM)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdUVDIM }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Peso Bruto</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="UVPesoBruto" />
+                                    <mat-error>
+                                        {{ errors.UVPesoBruto }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Peso Neto</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="UVPesoNeto" />
+                                    <mat-error>
+                                        {{ errors.UVPesoNeto }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>UM Peso</mat-label>
+                                    <mat-select formControlName="IdUVUmPeso">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <!-- <mat-option value="option">GR</mat-option>
+                                                    <mat-option value="option">KG</mat-option> -->
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.PESO)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdUVUmPeso }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+
+                    <!--===================================================================================-->
+                    <!--FIN - Unidades de Medida Unidad-->
+                    <!--===================================================================================-->
+
+                    <!--===================================================================================-->
+                    <!--INI - Unidades de medida Master Pack-->
+                    <!--===================================================================================-->
+                    <mat-expansion-panel [collapsed]="true" #UnidadesMedidaMasterPack>
+                        <mat-expansion-panel-header class="ht-44 bg-white border-0 border-bottom-red">
+                            <mat-panel-title>
+                                <h4 class="text-black">Unidades de Medida Master Pack</h4>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>EAN 14 (Master Pack)</mat-label>
+                                    <input type="text" class="right-align" matInput formControlName="MPEAN14" (keydown)="soloNumeros($event)" (blur)="format(14, 'MPEAN14')"/>
+                                    <mat-error>
+                                        {{ errors.MPEAN14 }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Cantidad</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="MPCantidad" />
+                                    <mat-error>
+                                        {{ errors.MPCantidad }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>UMI</mat-label>
+                                    <mat-select formControlName="IdMPUmi">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <!-- <mat-option value="option">CJ</mat-option>
+                                                    <mat-option value="option">UN</mat-option> -->
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.UMI)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdMPUmi }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Largo</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="MPLargo" />
+                                    <mat-error>
+                                        {{ errors.MPLargo }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Ancho</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="MPAncho" />
+                                    <mat-error>
+                                        {{ errors.MPAncho }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Altura</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="MPAltura" />
+                                    <mat-error>
+                                        {{ errors.MPAltura }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>DIM</mat-label>
+                                    <mat-select formControlName="IdMPDIM">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <!-- <mat-option value="option">MM</mat-option>
+                                                    <mat-option value="option">CM</mat-option>
+                                                    <mat-option value="option">MT</mat-option> -->
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.DIM)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdMPDIM }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Peso Bruto</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="MPPesoBruto" />
+                                    <mat-error>
+                                        {{ errors.MPPesoBruto }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Peso Neto</mat-label>
+                                    <input type="number" class="right-align" matInput formControlName="MPPesoNeto" />
+                                    <mat-error>
+                                        {{ errors.MPPesoNeto }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>UM Peso</mat-label>
+                                    <mat-select formControlName="IdMPUmPeso">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <!-- <mat-option value="option">GR</mat-option>
+                                                    <mat-option value="option">KG</mat-option> -->
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.PESO)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                        {{ errors.IdMPUmPeso }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!--===================================================================================-->
+                    <!--FIN - Unidades de medida Master Pack-->
+                    <!--===================================================================================-->
+
+                    <!--===================================================================================-->
+                    <!--INI - Otros Datos RDM-->
+                    <!--===================================================================================-->
+                    <mat-expansion-panel [collapsed]="true" #OtrosDatosRDM>
+                        <mat-expansion-panel-header class="ht-44 bg-white border-0 border-bottom-red">
+                            <mat-panel-title>
+                                <h4 class="text-black">Otros Datos RDM</h4>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Grupo de Transporte</mat-label>
+
+                                    <mat-select formControlName="IdGrupoTransporte">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.GrupoTransporte)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+
+                                    <mat-error>
+                                        {{ errors.IdGrupoTransporte }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Grupo de Tipos de Posición General</mat-label>
+
+                                    <mat-select formControlName="IdGrupoTipoPosicionGeneral">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.GrupoTipoPosicionGeneral)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+
+                                    <mat-error>
+                                        {{ errors.IdGrupoTipoPosicionGeneral }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Susceptible de Bonificación en Especie</mat-label>
+
+                                    <mat-select formControlName="IdSusceptibleBonEsp">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.SusceptibleBonEsp)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+
+                                    <mat-error>
+                                        {{ errors.IdSusceptibleBonEsp }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Marca para Mostrar en PALM/WEB</mat-label>
+
+                                    <mat-select formControlName="IdMarcaMostrarPalmWeb">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.MarcaMostrarPalmWeb)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+
+                                    <mat-error>
+                                        {{ errors.IdMarcaMostrarPalmWeb }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Mostrar Stocks</mat-label>
+
+                                    <mat-select formControlName="IdMostrarStocks">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.MostrarStocks)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+
+                                    <mat-error>
+                                        {{ errors.IdMostrarStocks }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Mostrar Clientes</mat-label>
+
+                                    <mat-select formControlName="IdMostrarClientes">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.MostrarClientes)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+
+                                    <mat-error>
+                                        {{ errors.IdMostrarClientes }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Verificación de Disponibilidad</mat-label>
+
+                                    <mat-select formControlName="IdVerificacionDisponibilidad">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.VerificacionDisponibilidad)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+
+                                    <mat-error>
+                                        {{ errors.IdVerificacionDisponibilidad }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Susceptible Bonificación</mat-label>
+
+                                    <mat-select formControlName="IdSusceptibleBonificacion">
+                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.SusceptibleBonificacion)" [value]="desplegable.Id">{{desplegable.Title}}</mat-option>
+                                    </mat-select>
+
+                                    <mat-error>
+                                        {{ errors.IdSusceptibleBonificacion }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-4">
+                                <div class="pt-22">
+                                    <mat-checkbox color="warn" formControlName="MarcaListaPrecio">
+                                        <span class="font-weight-normal">Marca para Lista de Precios</span>
+                                    </mat-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!--===================================================================================-->
+                    <!--FIN - Otros Datos RDM-->
+                    <!--===================================================================================-->
+
+                    <!--===================================================================================-->
+                    <!--INI - Datos Adjuntos-->
+                    <!--===================================================================================-->
+                    <mat-expansion-panel [collapsed]="true" #DatosAdjuntos>
+                        <mat-expansion-panel-header class="ht-44 bg-white border-0 border-bottom-red">
+                            <mat-panel-title>
+                                <h4 class="text-black">Datos Adjuntos</h4>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="row pt-10 pb-10 pl-0">
+                            <div class="col-lg-3 col-md-3 col-sm-4 p-0">
+                                <app-file-upload (addFiles)="loadFiles($event)" [multiple]="true" chooseLabel="Documentos Adjuntos" [showFiles]="false" [disabled]="!maestroFlujoEtapaActual.CargaDocumentos"></app-file-upload>
+                            </div>
+                        </div>
+                        <div *ngIf="maestroMaterialDocs.length > 0" class="row">
+                            <div class="col">
+                                <div class="mat-elevation-z8">
+                                    <table mat-table [dataSource]="maestroMaterialDocsDS" matSort class="full-width">
+
+                                        <ng-container matColumnDef="Nombre">
+                                            <th class="width-30" mat-header-cell *matHeaderCellDef mat-sort-header> Archivo </th>
+                                            <td mat-cell *matCellDef="let row">
+                                                <a *ngIf="row.urlDownload.length > 0; else noUrl" href="javascript:void(0)" (click)="downloadFile(row);">
+                                                    {{row.InternalName}} 
+                                                </a>
+                                                <ng-template #noUrl>{{row.InternalName}}</ng-template>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="TipoDocumentoAdjunto">
+                                            <th class="width-30" mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de Documento </th>
+                                            <td class="pr-20" mat-cell *matCellDef="let row; let i = index;">
+                                                <mat-form-field appearance="standard" [ngClass]="{'eliminado': row.Oculto}">
+                                                    <!-- <mat-label>Tipo de Documento</mat-label> -->
+                                                    <mat-select [value]="row.IdTipoDocumentoAdjunto" (selectionChange)="changeTipoDocumentoAdjunto($event, i);" [disabled]="row.Oculto">
+                                                        <mat-option [value]="-1">Seleccione</mat-option>
+                                                        <mat-option *ngFor="let desplegable of obtenerListaDesplegablesPorTipo(variables.ColumnasMaestroDesplegables.TipoDocumentoAdjunto)" [value]=" desplegable.Id ">
+                                                            <!-- <span [ngClass]="{'eliminado': row.Oculto}"> -->
+                                                            {{desplegable.Title}}
+                                                            <!-- </span> -->
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="CreadoPor">
+                                            <th class="width-30" mat-header-cell *matHeaderCellDef mat-sort-header> Creado Por </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.Author.Name}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="Actions">
+                                            <th class="width-10" mat-header-cell *matHeaderCellDef> Acciones </th>
+                                            <td mat-cell *matCellDef="let row; let i = index;">
+                                                <div class="row">
+                                                    <div *ngIf="row.Author.Id === datosMaestros.currentUser.Id || row.Author.Id === 0">
+                                                        <a *ngIf="!row.Oculto && maestroFlujoEtapaActual.CargaDocumentos" mat-list-item (click)="eliminarAdjunto(i)" class="float-left">
+                                                            <mat-icon matTooltip="Eliminar" color="warn">delete</mat-icon>
+                                                        </a>
+
+                                                        <a *ngIf="row.Oculto" mat-list-item (click)="regresarAdjunto(i)" class="float-left">
+                                                            <mat-icon matTooltip="Deshacer" class="text-primary">undo</mat-icon>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumnAdjunto"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumnAdjunto;" [ngClass]="{'eliminado': row.Oculto}">
+                                        </tr>
+                                    </table>
+
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!--===================================================================================-->
+                    <!--FIN - Datos Adjuntos-->
+                    <!--===================================================================================-->
+                </mat-accordion>
+            </div>
+
+            <!-- <div class="form-footer text-right p-15">
+            </div> -->
+        </div>
+
+        <app-botonera [formularioSolicitudComponent]="this"></app-botonera>
+    </mat-sidenav-content>
+</mat-sidenav-container>

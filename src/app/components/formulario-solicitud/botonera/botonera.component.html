@@ -1,0 +1,80 @@
+<div class="row w-92 m-auto">
+    <div 
+        *ngIf="formularioSolicitudComponent.botonBorrador" 
+        class="accent col-xs-12 col-md-6 col-xl-3 mt-4 mb-4 pl-0 pr-0" 
+        [ngClass]="{'pr-0': screenWidth <= 991}"
+    >
+        <button type="button" mat-raised-button class="btn btn-block btn-outline-secondary flotante" [disabled]="formularioSolicitudComponent.loadingButtons" (click)="formularioSolicitudComponent.guardar(formularioSolicitudComponent, true)">
+            <mat-icon>edit</mat-icon>
+            Borrador
+        </button>
+    </div>
+
+    <div 
+        *ngIf="formularioSolicitudComponent.botonGuardar" 
+        class="accent col-xs-12 col-md-6 col-xl-3 mt-4 mb-4 pr-0" 
+        [ngClass]="{'pl-0': screenWidth <= 991}"
+    >
+        <button type="button" mat-raised-button class="btn btn-block btn-outline-primary flotante" [disabled]="formularioSolicitudComponent.loadingButtons" (click)="formularioSolicitudComponent.llamarModal()">
+            <mat-icon>save</mat-icon>
+            {{ formularioSolicitudComponent.buttonGuardarName }}
+        </button>
+    </div>
+
+    <div 
+        *ngIf="formularioSolicitudComponent.botonCancelar || formularioSolicitudComponent.botonRechazar" 
+        class="accent col-xs-12 col-md-6 col-xl-3 mt-4 mb-4 pl-0" 
+        [ngClass]="{'pr-0': screenWidth <= 991}"
+    >
+        <button *ngIf="formularioSolicitudComponent.botonCancelar" type="button" mat-raised-button class="accent btn btn-block btn-outline-danger flotante" [disabled]="formularioSolicitudComponent.loadingButtons" [routerLink]="'/material-bandeja-solicitud'">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+        </button>
+        <button *ngIf="formularioSolicitudComponent.botonRechazar" type="button" mat-raised-button class="accent btn btn-block btn-outline-danger flotante" [disabled]="formularioSolicitudComponent.loadingButtons" (click)="formularioSolicitudComponent.llamarModalRechazar()">
+            <mat-icon>cancel</mat-icon>
+            Rechazar
+        </button>
+    </div>
+
+    <!-- formularioSolicitudComponent.maestroFlujoEtapaActual.Id === 14 -->
+    <div 
+        class="accent col-xs-12 col-md-6 col-xl-3 mt-4 mb-4" 
+        [ngClass]="{
+            'pl-0': 
+                screenWidth <= 991 || 
+                (
+                    !formularioSolicitudComponent.botonBorrador && !formularioSolicitudComponent.botonCancelar && !formularioSolicitudComponent.botonGuardar && 
+                    !formularioSolicitudComponent.botonRechazar
+                ), 
+            'pr-0': 
+                formularioSolicitudComponent.botonBorrador || formularioSolicitudComponent.botonCancelar || formularioSolicitudComponent.botonGuardar || 
+                formularioSolicitudComponent.botonRechazar
+        }"        
+    >
+        <button type="button" mat-raised-button class="accent btn btn-block btn-outline-info flotante" [disabled]="!formularioSolicitudComponent.botonHistorial || formularioSolicitudComponent.loadingButtons" (click)="formularioSolicitudComponent.mostrarHistorial()">
+            <mat-icon>history</mat-icon>
+            Historial
+        </button>
+    </div>
+
+    <div 
+        class="accent col-xs-12 col-md-6 col-xl-3 mt-4 mb-4" 
+        [ngClass]="{
+            'pr-0': 
+                screenWidth <= 991 || 
+                (
+                    !formularioSolicitudComponent.botonBorrador && !formularioSolicitudComponent.botonCancelar && !formularioSolicitudComponent.botonGuardar && 
+                    !formularioSolicitudComponent.botonRechazar
+                ), 
+            'pl-0': 
+                formularioSolicitudComponent.botonBorrador || formularioSolicitudComponent.botonCancelar || formularioSolicitudComponent.botonGuardar || 
+                formularioSolicitudComponent.botonRechazar
+        }"
+    >
+        <button type="button" mat-raised-button class="accent btn btn-block btn-outline-success flotante" [disabled]="!formularioSolicitudComponent.botonHistorial || formularioSolicitudComponent.loadingButtons" (click)="formularioSolicitudComponent.exportarExcel()">
+            <mat-icon>history</mat-icon>
+            Excel
+        </button>
+    </div>
+
+</div>

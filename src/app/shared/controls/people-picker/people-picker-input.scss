@@ -1,0 +1,15 @@
+.lbl_autocomplete_subtitle {
+  font-size: 10px;
+}
+.img_autocomplete {
+  height: 40px;
+  border-radius: 20px;
+}
+mat-chip img {
+  height: 32px;
+  border-radius: 16px;
+  margin-left: -12px;
+}
+.ng-invalid::placeholder {
+  color: #f44336;
+}

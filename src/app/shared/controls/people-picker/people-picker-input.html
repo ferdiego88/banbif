@@ -1,0 +1,33 @@
+<mat-chip-list #chipList required="required">
+  <mat-chip
+    *ngFor="let people of peoples"
+    [selectable]="selectable"
+    [removable]="removable"
+    (removed)="remove(people)"
+  >
+    <img src="{{ people.PictureUrl }}" />
+    {{ people.Title }}
+    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+  </mat-chip>
+  <input
+    [placeholder]="placeholderinput"
+    #peopleInput
+    [formControl]="peopleCtrl"
+    [matAutocomplete]="auto"
+    [matChipInputFor]="chipList"
+    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+    [matChipInputAddOnBlur]="addOnBlur"
+    [disabled]="disabledinput"
+  />
+
+  <!--
+            (matChipInputTokenEnd)="add($event)" [required]="_required" 
+        -->
+</mat-chip-list>
+<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+  <mat-option *ngFor="let people of filteredPeoples | async" [value]="people">
+    <img src="{{ people.PictureUrl }}" class="img_autocomplete" />
+    {{ people.Title }}
+    <span class="lbl_autocomplete_subtitle">{{ people.Email }}</span>
+  </mat-option>
+</mat-autocomplete>

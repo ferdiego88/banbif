@@ -1,0 +1,452 @@
+﻿#sideNavBox,
+#s4-titlerow,
+#notificationArea,
+#DeltaPageStatusBar,
+.ms-webpart-chrome-title,
+.ms-cui-topBar2,
+#globalNavBox,
+#s4-ribbonrow,
+.s4-notdlg.noindex {
+    display: none !important;
+}
+
+.suiteBarDelta {
+    display: none;
+}
+
+.colorBlanco {
+    color: #fff !important;
+}
+
+.colorNegro {
+    color: #000000 !important;
+}
+
+#contentBox {
+    margin: 0px !important;
+    margin-top: -50px !important;
+    height: 100%;
+}
+
+#DeltaPlaceHolderMain {
+    height: 100%;
+}
+
+#contentRow {
+    height: 100%;
+}
+
+.ms-wikicontent.ms-rtestate-field {
+    padding-right: 0px !important;
+}
+
+.ms-rte-layoutszone-inner {
+    margin: 0px !important;
+    border: 0px solid white !important;
+}
+
+
+/*
+#s4-workspace{
+	overflow: hidden !important;
+}*/
+
+#s4-bodyContainer {
+    background: #fafafa !important;
+    padding-bottom: 0px !important;
+    height: 100%;
+}
+
+.ms-webpartzone-cell {
+    margin-bottom: 0px !important;
+}
+
+.ms-wikicontentx.ms-rtestate-field {
+    padding-right: 0px !important;
+}
+
+.ms-rte-layoutszone-inner {
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+}
+
+.mat-drawer-transition .mat-drawer-content {
+    margin-bottom: 3px !important;
+}
+
+@media (max-width: 768px) {
+    #suiteBarTop {
+        display: none !important;
+    }
+    app-root mat-sidenav-container.padding-top {
+        padding-top: 35px !important;
+    }
+}
+
+.topbar-hide {
+    display: none !important;
+}
+
+.topbar-show {
+    display: block !important;
+}
+
+mat-sidenav-container.padding-top {
+    padding-top: 0px;
+}
+
+#O365_NavHeader {
+    z-index: 0;
+    position: relative;
+}
+
+.paddingtop70 {
+    padding-top: 70px !important;
+}
+
+
+/*Fix estilos movil*/
+
+.versionmovil .card h2 {
+    font-size: 60px !important;
+    color: #ff6900 !important;
+    font-family: "ProximaNovaA-Bold" !important;
+}
+
+.versionmovil .btn-outline-primary,
+.versionmovil .btn-outline-primary-big,
+.versionmovil .btn-outline-primary-medium,
+.versionmovil .btn-outline-primary-small {
+    background: #ffffff !important;
+    color: #ff6900 !important;
+}
+
+.versionmovil .btn-outline-primary:hover,
+.versionmovil .btn-outline-primary-big:hover,
+.versionmovil .btn-outline-primary-medium:hover,
+.versionmovil .btn-outline-primary-small:hover {
+    background: #ff6900 !important;
+    color: #ffffff !important;
+}
+
+.versionmovil .topbar .navProductos a {
+    color: #ffffff !important;
+}
+
+.versionmovil .topbar .navProductos a:hover {
+    text-decoration: none !important;
+}
+
+.versionmovil .tab-content .tab-content-item.active {
+    display: block !important;
+}
+
+.versionmovil #material-tabs>a,
+.versionmovil #material-tabs3c>a {
+    padding: 19px !important;
+}
+
+.versionmovil #material-tabs>a:hover,
+.versionmovil #material-tabs3c>a:hover {
+    color: #fff !important;
+    /*font-weight: bold !important;*/
+}
+
+.versionmovil .topbar .navProductos span {
+    font-weight: bold !important;
+    top: 6px !important;
+}
+
+.versionmovil .listado a .infoVencido h3 {
+    color: #999999 !important;
+    text-transform: uppercase !important;
+    font-size: 15px !important;
+    margin-bottom: 4px !important;
+    line-height: 22px !important;
+    font-weight: bold !important;
+}
+
+.versionmovil .listado a .infoVencido h5 {
+    color: #999999 !important;
+    font-size: 12px !important;
+    font-family: "ProximaNovaA-Medium" !important;
+}
+
+.versionmovil .btn-opciones button {
+    margin: 0px !important;
+}
+
+.versionmovil .btn-opciones button+.btn {
+    margin-left: -1px !important;
+}
+
+.versionmovil .evalTipo h3 {
+    color: #444444 !important;
+    font-size: 14px !important;
+    font-family: "ProximaNovaA-Bold" !important;
+    margin-bottom: 2px !important;
+}
+
+.versionmovil .panel .panel-heading,
+.versionmovil .panel-default>.panel-heading+.panel-collapse>.panel-body {
+    padding: 0px !important;
+}
+
+.versionmovil .panel-group .panel {
+    border-top: 0px solid #fff !important;
+    border-right: 0px solid #fff !important;
+    border-left: 0px solid #fff !important;
+    border-bottom: 1px solid #cfcfd0 !important;
+}
+
+.versionmovil .panel-title a:focus,
+.versionmovil .panel-title a:hover,
+.versionmovil .panel-title a:active {
+    text-decoration: none !important;
+}
+
+.versionmovil .tituloFormula {
+    color: #444444 !important;
+    font-family: "ProximaNovaA-Bold" !important;
+    font-size: 16px !important;
+}
+
+.versionmovil .tab-content-itemx .descFormula {
+    color: #444444 !important;
+    font-size: 12px !important;
+    font-family: "ProximaNovaA-Medium" !important;
+    line-height: 18px !important;
+}
+
+.versionmovil .rowpadding .col-xs-4 {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+.versionmovil .tab-content .tab-content-item {
+    display: block !important;
+}
+
+.versionmovil .btn-toggle .btn.active,
+.versionmovil .btn-toggle-three .btn.active {
+    background: -webkit-linear-gradient(top, #ff6900 0%, #f9423a 100%) !important;
+    background-image: linear-gradient( to bottom, #ff6900 0%, #f9423a 100%) !important;
+    background-color: #ff6900 !important;
+    color: #ffffff !important;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0) !important;
+    z-index: 0 !important;
+}
+
+.versionmovil .resultados h2 {
+    color: #444444 !important;
+    font-size: 18px !important;
+    font-family: "ProximaNovaA-Bold" !important;
+    text-transform: uppercase !important;
+    margin-top: 10px !important;
+    margin-bottom: 30px !important;
+}
+
+.versionmovil .resultados h3 {
+    color: #444444 !important;
+    font-size: 14px !important;
+    font-family: "ProximaNovaA-Bold" !important;
+    margin-bottom: 4px !important;
+    line-height: 20px !important;
+}
+
+.versionmovil #material-tabs2c {
+    position: relative;
+    display: block;
+    padding: 0;
+    background: #FF6900;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+@media (max-width: 768px) {
+    .versionmovil #material-tabs2c {
+        margin-top: -1px
+    }
+}
+
+.versionmovil #material-tabs2c.sticky {
+    position: fixed;
+    top: 0;
+    width: 780px;
+    z-index: 2
+}
+
+@media only screen and (max-width: 1199px) {
+    .versionmovil #material-tabs2c.sticky {
+        width: 646px
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    .versionmovil #material-tabs2c.sticky {
+        width: 500px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .versionmovil #material-tabs2c.sticky {
+        width: 100%
+    }
+}
+
+@media (max-width: 767px) {
+    .versionmovil {
+        position: relative !important;
+        top: 35px !important;
+    }
+}
+
+.versionmovil #material-tabs2c>a.active {
+    font-family: "ProximaNovaA-Medium";
+    outline: none;
+    color: #ffffff;
+}
+
+.versionmovil #material-tabs2c>a {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+    padding: 19px 22px;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #EABEB0;
+    text-align: center;
+    width: 49.4%;
+    cursor: pointer;
+}
+
+.versionmovil #material-tabs2c>a:hover {
+    color: #fff !important;
+}
+
+#material-tabs2c>a.active {
+    outline: none;
+    color: #fff
+}
+
+#material-tabs2c>a:not(.active):hover {
+    background-color: inherit;
+    color: #FFFFFF
+}
+
+#tab2c-1-tab.active~span.yellow-bar-2c {
+    left: 0;
+    width: 49.3%;
+}
+
+.yellow-bar-2c {
+    position: absolute;
+    z-index: 10;
+    top: 54px;
+    height: 4px;
+    background: #ffffff;
+    display: block;
+    left: 0;
+    transition: left 0.2s ease;
+    -webkit-transition: left 0.2s ease;
+}
+
+#tab2c-2-tab.active~span.yellow-bar-2c {
+    left: 50%;
+    width: 50%;
+}
+
+.yellow-bar-2c {
+    position: absolute;
+    z-index: 10;
+    top: 54px;
+    height: 4px;
+    background: #ffffff;
+    display: block;
+    left: 0;
+    transition: left 0.2s ease;
+    -webkit-transition: left 0.2s ease;
+}
+
+#material-tabs2c.sticky {
+    position: fixed;
+    top: 0;
+    width: 780px;
+    z-index: 2;
+}
+
+.custom-dialog-movil .modal-dialog.vertical-align-center {
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.custom-dialog-movil mat-dialog-container {
+    background: transparent !important;
+}
+
+.custom-dialog-movil .btn-primary-big {
+    border: 1px solid #ff6900 !important;
+}
+
+@media (max-width: 768px) {
+    .cdk-overlay-pane.custom-dialog-movil {
+        width: 100% !important;
+    }
+    .custom-dialog-movil .modal-dialog.vertical-align-center {
+        display: inline-block !important;
+        width: 100% !important;
+        background: transparent !important;
+    }
+}
+
+.mat-checked .mat-slide-toggle-bar,
+.mat-checked .mat-slide-toggle-bar .mat-slide-toggle-thumb {
+    background-color: #FF6900 !important;
+    background: #FF6900 !important;
+}
+
+.cdk-overlay-pane.custom-dialog-movil {
+    overflow: auto !important;
+}
+
+.resultados .informacion tr .respuesta,
+.resultados .informacion td .respuesta {
+    text-transform: capitalize !important;
+}
+
+.tab-content-item .descDetalle,
+.evalTipo .description:not(.comentario),
+.resultados .description:not(.comentario) {
+    overflow-wrap: break-word !important;
+}
+
+.tab-content-item .descDetalle,
+.evalTipo .description:not(.comentario),
+.resultados .description:not(.comentario) {
+    display: block !important;
+    overflow-wrap: break-word !important;
+}
+
+.listado a .infoPendiente h5 {
+    color: #444444 !important;
+    font-size: 12px !important;
+    font-family: "ProximaNovaA-Medium" !important;
+    line-height: 18px !important;
+}
+
+.listado a .infoPendiente h3 {
+    color: #444444 !important;
+    text-transform: uppercase !important;
+    font-size: 15px !important;
+    margin-bottom: 4px !important;
+    line-height: 22px !important;
+    font-weight: bold !important;
+}
+
+.mat-paginator-range-label {
+    display: none !important;
+}

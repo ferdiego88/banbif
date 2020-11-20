@@ -1,0 +1,217 @@
+.btn-primary
+    font-family: $Bold
+    font-size: $sz14
+    padding: 6px 20px
+    +gradient($Orange, $Red)
+    background-color: $Orange
+    border-color: transparent
+    color: $Wh
+    text-transform: uppercase
+    border-radius: 2px
+    border: 1px solid $Orange
+    display: inline-block
+    line-height: normal
+    vertical-align: bottom
+    &-small
+        @extend .btn-primary
+        font-size: $sz12
+        height: 30px
+        padding: 6px 20px
+    &-medium
+        @extend .btn-primary
+        font-size: $sz14
+        height: 40px
+        padding: 10px 20px
+    &-big
+        @extend .btn-primary
+        font-size: $sz16
+        height: 50px
+        padding: 15px 20px
+    &:hover, &:active, &:focus
+        border-color: $Orange!important
+        +gradient($Orange, $Orange)
+        border: 1px solid $Orange
+        color: $Wh
+    &:focus
+        outline: 0 none
+.btn-outline-primary
+    font-family: $Bold
+    font-size: $sz14
+    padding: 6px 20px
+    background: $Wh
+    color: $Orange
+    text-transform: uppercase
+    border-radius: 2px
+    border: 1px solid $Orange
+    display: inline-block
+    line-height: normal
+    vertical-align: bottom
+    &-small
+        @extend .btn-outline-primary
+        font-size: $sz12
+        height: 30px
+        padding: 6px 20px
+    &-medium
+        @extend .btn-outline-primary
+        font-size: $sz14
+        height: 40px
+        padding: 10px 20px
+    &-big
+        @extend .btn-outline-primary
+        font-size: $sz16
+        height: 50px
+        padding: 15px 20px
+    &:hover, &:active, &:focus
+        border-color: $Orange!important
+        +gradient($Orange, $Orange)
+        border: 1px solid $Orange
+        color: $Wh
+    &:focus
+        outline: 0 none
+.btn-ui
+    font-family: $Bold
+    font-size: $sz16
+    height: 50px
+    padding: 15px 20px
+    border-color: transparent
+    color: $Wh
+    text-transform: uppercase
+    border-radius: 2px
+    border: 1px solid transparent
+    display: inline-block
+    line-height: normal
+    vertical-align: bottom
+    background-color: $Gray50
+    &-wrong
+        @extend .btn-ui
+        background-color: $wrong
+    &-succes
+        @extend .btn-ui
+        background-color: $succes
+    &-warning
+        @extend .btn-ui
+        background-color: $warning
+    &:hover, &:active, &:focus
+        border-color: transparent
+        color: $Wh
+    &:focus
+        outline: 0 none
+    &-100
+        width: 100%
+.button 
+    font-family: $Bold
+    width: 100%
+    text-align: center
+    position: relative
+    text-transform: uppercase
+    height: 50px
+    outline: none
+    text-decoration: none
+    border: none
+    margin: auto
+    display: block
+    padding: 16px
+    border-radius: 2px
+    &--orange
+        @include button-bg-gradient($yanbal-color-gradient)
+        background-color: $Orange
+        @include text-color($Wh)
+        &:hover 
+            background-image: none
+            @include button-bg($yanbal-color)
+    &--outlined
+        border: 1px solid $yanbal-color
+        @include text-color($yanbal-color)
+        &:hover
+            background-image: none
+            @include button-bg($yanbal-color)
+            @include text-color($Wh)
+    &--black-outlined
+        @include button-bg(transparent)
+        @include text-color($Dark)
+        border: 1px solid $Dark
+    &--gray 
+        @include button-bg($Gray50)
+        @include text-color($yanbal-color)
+    &--rechazar
+        @include button-bg($wrong)
+        @include text-color($Wh)
+    &--aprobar
+        @include button-bg($succes)
+        @include text-color($Wh)
+    &:hover,
+    &:active,
+    &:focus 
+        text-decoration: none
+        color: $Wh
+.btn-toggle
+    width: 100%
+    z-index: 1
+    button
+        width: 50%
+        padding: 6px
+    button:first-child
+        border-top-right-radius: 0px!important
+        border-bottom-right-radius: 0px!important
+    button:last-child
+        border-top-left-radius: 0px!important
+        border-bottom-left-radius: 0px!important
+    .btn
+        display: inline-block
+        border: 1px solid $Orange
+        line-height: 18px
+        border-radius: 3px
+        font-size: $sz12
+        height: 40px
+        &.active
+            border: 1px solid $Orange
+            +gradient($Orange, $Red)
+            background-color: $Orange
+            color: $Wh
+            -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,.0)
+            box-shadow: inset 0 3px 5px rgba(0,0,0,.0)
+            z-index: 0
+        &:hover
+            border: 1px solid $Orange
+            +gradient($Orange, $Red)
+            background-color: $Orange
+            color: $Wh
+        &:focus
+            box-shadow: none
+            outline: 0 none
+
+.btn-toggle-three
+    width: 100%
+    z-index: 1
+    button
+        width: 33.333333%
+        padding: 6px
+    button:first-child
+        border-top-right-radius: 0px!important
+        border-bottom-right-radius: 0px!important
+    button:last-child
+        border-top-left-radius: 0px!important
+        border-bottom-left-radius: 0px!important
+    .btn
+        display: inline-block
+        border: 1px solid $Orange
+        line-height: 18px
+        border-radius: 3px
+        font-size: $sz12
+        height: 40px
+        &.active
+            border: 1px solid $Orange
+            +gradient($Orange, $Red)
+            background-color: $Orange
+            color: $Wh
+            -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,.0)
+            box-shadow: inset 0 3px 5px rgba(0,0,0,.0)
+            z-index: 0
+        &:hover
+            border: 1px solid $Orange
+            +gradient($Orange, $Red)
+            background-color: $Orange
+            color: $Wh
+        &:focus
+            box-shadow: none
+            outline: 0 none

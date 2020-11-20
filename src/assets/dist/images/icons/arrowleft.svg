@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="19px" viewBox="0 0 10 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>icons/outline/arrow left</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M13.806108,5.18459227 C13.6816341,5.06515021 13.5140731,5 13.3369372,5 L13.3359797,5 C13.1588438,5 12.9922403,5.06515021 12.866809,5.18459227 L5.00005993,12.6189555 L-2.86668912,5.18459227 C-2.99212049,5.06515021 -3.15872398,5 -3.33585989,5 L-3.33681738,5 C-3.51395328,5 -3.68151427,5.06515021 -3.80694564,5.18459227 C-4.06451081,5.42890557 -4.06451081,5.82704576 -3.80598815,6.07135906 L4.39013793,13.8169955 C4.548124,13.967203 4.77696444,14.0314483 5.00005993,13.9853002 C5.046977,13.9943489 5.09389408,13.9997781 5.14081116,13.9997781 C5.31794706,13.9997781 5.48550805,13.9355327 5.61093942,13.8160907 L13.806108,6.07135906 C14.0646307,5.82704576 14.0646307,5.42890557 13.806108,5.18459227" id="path-1"></path>
+    </defs>
+    <g id="Dsk-Nuevos-Productos" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icons/outline/arrow-left" transform="translate(-11.000000, -6.000000)">
+            <g id="grupo">
+                <g id="elements" transform="translate(11.000000, 6.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Fill" fill="#000000" transform="translate(5.000000, 9.500000) rotate(-270.000000) translate(-5.000000, -9.500000) " xlink:href="#path-1"></use>
+                    <g id="colors/brand-primary" mask="url(#mask-2)" fill="#FF6900" fill-rule="nonzero">
+                        <g transform="translate(-11.000000, -6.000000)" id="Rectangle-2-Copy">
+                            <rect x="0" y="0" width="32" height="32"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

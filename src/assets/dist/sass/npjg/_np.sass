@@ -1,0 +1,1054 @@
+//******* GENERALES *******//
+.tabSpace
+    display: block
+    height: 60px
+    @media (max-width: 980px)
+        display: none
+.p-txtArea 
+    padding: 15px 0px 0px 0px !important
+.caracteres
+    float: right
+    font-size: $sz12
+    font-family: $Light
+    color: $Dark50
+    margin-top: 8px
+.fBold
+    font-family: $Bold
+.label-warning 
+    background-color: $Orange
+
+//******* MODAL CENTRADO VERTICALMENTE *******//
+.vertical-alignment-helper 
+    display: table
+    height: 100%
+    width: 100%
+
+.vertical-align-center 
+    display: table-cell
+    vertical-align: middle
+
+.modal-content 
+    width: inherit
+    height: inherit
+    margin: 0 auto
+
+//******* EVALUACION CONTENIDO *******//
+.rspEsperada
+    font-size: $sz12
+    color: $Dark50
+    text-align: right
+    margin-bottom: 10px
+    span 
+        display: block
+        float: right
+        background-color: $Orange
+        height: 5px
+        width: 5px
+        border-radius: 50%
+        margin: 3px 0px 0px 6px
+.cirEsperada
+    display: block
+    background-color: $Orange
+    height: 5px
+    width: 5px
+    border-radius: 50%
+    margin: 4px auto
+.centerButtons
+    width: 50%
+    margin: 0px auto
+    @media (max-width: 480px)
+        width: 100%
+.evalTipo
+    padding: 15px 0px
+    display: block
+    h3
+        color: $Dark
+        font-size: $sz14
+        font-family: $Bold
+        margin-bottom: 2px
+        line-height: $sz20
+        span 
+            color: $Orange
+            font-size: $sz12
+            font-family: $Medium
+    .description
+        color: $Dark50
+        font-size: $sz12
+        font-family: $Medium
+        margin-bottom: 10px
+        line-height: $sz18
+        display: inline-block
+    &::after
+        content: ''
+        display: block
+        clear: both
+.comenTipo
+    display: block
+    .tipo
+        font-size: $sz16
+        font-family: $Bold
+        text-transform: uppercase
+        margin-top: 20px
+        display: inline-block
+        width: 100%
+        .fecha 
+            font-size: $sz12
+            font-family: $Light
+            text-transform: none
+            float: right
+            @media (max-width: 480px)
+                float: inherit
+                margin-top: 8px
+        &.add
+            color: $Dark50
+            font-size: 15px
+    .comentario
+        font-size: $sz12
+        font-family: $Medium
+        background-color: $Gray50
+        padding: 15px
+        line-height: $sz18
+        border-radius: 3px
+        margin: 14px 0px 40px 0px
+    h2 
+        color: $Dark
+        font-size: $sz16
+        font-family: $Bold
+        line-height: $sz22
+        text-transform: uppercase
+        margin: 30px 0px 15px 0px
+        &.add
+            color: $Dark50
+            font-size: 15px
+    h3
+        color: $Dark
+        font-size: $sz14
+        font-family: $Bold
+        margin-bottom: 2px
+        line-height: $sz20
+        span 
+            color: $Orange
+            font-size: $sz12
+            font-family: $Medium
+    .description
+        color: $Dark50
+        font-size: $sz12
+        font-family: $Medium
+        margin-bottom: 10px
+        line-height: $sz18
+        display: inline-block
+    &::after
+        content: ''
+        display: block
+        clear: both
+
+//******* INICIO *******//
+.tituloNp
+    margin-top: 130px
+    text-transform: uppercase
+    margin-bottom: 100px
+    @media (max-width: 414px)
+        margin-bottom: 50px
+    @media (max-width: 375px)
+        margin-bottom: 50px
+    h1
+        font-size: $sz30
+        color: $Dark
+        font-family: $Bold
+        margin-bottom: $sz16
+        @media (max-width: 480px)
+            font-size: $sz22
+        @media (max-width: 320px)
+    span
+        font-size: $sz24
+        color: $Orange
+        font-family: $Medium
+        @media (max-width: 480px)
+            font-size: $sz18
+        @media (max-width: 320px)
+.card
+    border: 1px solid $Gray50
+    border-radius: 2px
+    background-color: $Wh
+    text-align: center
+    @media (max-width: 1024px)
+    @media (max-width: 768px)
+    @media (max-width: 480px)
+    h2
+        font-size: 60px
+        color: $Orange
+        padding: 20px 0px 0px 0px
+        line-height: 80px
+        @media (max-width: 1024px)
+        @media (max-width: 768px)
+        @media (max-width: 480px)
+    span
+        display: block
+        font-size: 16px
+        margin-bottom: 30px
+        font-family: $Bold
+        color: $Dark
+        text-transform: uppercase
+        @media (max-width: 320px)
+            font-size: 17px
+    .mb-btn
+        margin-bottom: 30px
+.form-control 
+    border: 1px solid $Gray50
+    border-radius: 2px
+    line-height: 21px
+
+//******* TOP BAR *******//
+.topbar
+    height: 65px
+    background: $Orange
+    &_logo
+        margin: 16px
+        position: relative
+        display: inline-block
+        img
+            height: 25px
+    .navProductos
+        padding: 16px 0px
+        a 
+            color: $Wh
+        span
+            text-transform: uppercase
+            font-size: $sz14
+            width: 85%
+            display: inline-block
+            white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
+            color: $Wh
+            position: relative
+            top: 4px
+
+//* LISTADOS *//
+.listado
+    border-bottom: 1px solid $Gray50
+    &:hover
+        background: rgba(255, 105, 0, .1)
+    a
+        display: block
+        padding: 20px 0px
+        &:hover
+            h3, h5, p
+                color: $Orange
+            .arrowPendiente
+                color: $Orange
+            .arrowVencido
+                color: $Orange
+                span
+                    color: $Orange
+        .bulletAmarillo
+            width: 8px
+            height: 8px
+            float: left
+            background: #EAC006
+            border-radius: 50%
+            margin: 7px 10px 0px 15px
+        .bulletVerde
+            width: 8px
+            height: 8px
+            float: left
+            background: #0CBF3C
+            border-radius: 50%
+            margin: 7px 10px 0px 15px  
+        .bulletRojo
+            width: 8px
+            height: 8px
+            float: left
+            background: #F92D2D
+            border-radius: 50%
+            margin: 7px 10px 0px 15px
+        .infoPendiente
+            display: inline-block
+            width: 84%
+            @media (max-width: 480px)
+                width: 75%
+            h3
+                color: $Dark
+                text-transform: uppercase
+                font-size: 15px
+                margin-bottom: 4px
+                line-height: $sz22
+            h5
+                color: $Dark
+                font-size: 12px
+                font-family: $Medium
+                line-height: $sz18
+            p
+                color: $Dark50
+                font-size: $sz12
+                font-family: $Light
+                line-height: 23px
+        .infoVencido
+            display: inline-block
+            width: 84%
+            @media (max-width: 480px)
+                width: 75%
+            h3
+                color: $Dark50
+                text-transform: uppercase
+                font-size: 15px
+                margin-bottom: 4px
+                line-height: $sz22
+            h5
+                color: $Dark50
+                font-size: $sz12
+                font-family: $Medium
+                line-height: $sz18
+            p
+                color: $wrong
+                font-size: $sz12
+                font-family: $Light
+                line-height: 23px
+                span 
+                    font-size: $sz16
+                    top: 3px
+                    position: relative
+        .arrowPendiente
+            float: right
+            margin-right: 18px
+            margin-top: 18px
+            font-size: 20px
+            color: $Dark50
+        .arrowVencido
+            float: right
+            margin-right: 18px
+            margin-top: 18px
+            font-size: 20px
+            color: $Dark50
+
+//* BULLETS / ESTADOS *//
+.ml5
+    margin-left: 5px !important
+.mr10
+    margin-right: 10px
+.mt15
+    margin-top: 15px !important
+.mt25
+    margin-top: 25px !important
+.mt35
+    margin-top: 35px !important
+.mb5
+    margin-bottom: 5px
+.mb10
+    margin-bottom: 10px
+.mb15
+    margin-bottom: 15px !important
+.mb20
+    margin-bottom: 20px !important
+.mb35
+    margin-bottom: 35px
+.pb25
+    padding-bottom: 25px
+.frigth
+    float: right
+.line
+    display: block
+    width: 100%
+    height: 1px
+    background-color: $Gray50
+    margin-bottom: 20px
+    margin-top: 20px
+.parrafo
+    display: block
+    height: 20px
+    clear: both
+.evaDetalle
+    font-size: 14px
+    color: $Dark50
+    font-family: $Light
+.subDetalle10
+    font-size: 12px
+    color: $Dark50
+    font-family: $Medium
+.coment
+    font-family: $Medium
+    color: $Dark
+    font-size: 14px
+.vermas
+    a
+        font-size: 14px
+        font-family: $Medium
+        color: $Dark50
+.indicador
+    font-family: $Bold
+    color: $Dark
+    font-size: 17px
+    @media (max-width: 360px)
+        font-size: 17px
+    @media (max-width: 320px)
+        font-size: 14px
+.camp
+    font-size: 18px
+    font-family: $Bold
+    color: $Orange
+    text-transform: uppercase
+.tituloFormula
+    text-transform: uppercase
+    color: $Dark
+    font-family: $Bold
+    font-size: 16px
+.spantituloformula
+    font-size: 12px
+    font-family: $Medium
+    color: $Dark50
+.restante
+    font-size: 12px
+    color: $Dark50
+    font-family: $Medium
+    @media (max-width: 320px)
+        font-size: 9px
+.esperado
+    position: relative
+    &:after
+        content: ''
+        position: absolute
+        background-color: $Orange
+        border-radius: 50%
+        bottom: -10px
+        width: 5px
+        height: 5px
+        left: 50%
+        transform: translateX(-50%)
+.comentado
+    position: relative
+    &:after
+        content: ''
+        position: absolute
+        background: $wrong
+        border-radius: 50%
+        bottom: -10px
+        width: 6px
+        height: 6px
+        left: 50%
+        transform: translateX(-50%)
+.puntaje
+    th
+        width: .1%
+        text-align: center
+        font-size: 12px
+        color: $Dark
+        border: 1px solid $Gray50 !important
+        @media (max-width: 360px)
+            font-size: 13px
+            padding: 5px !important
+        @media (max-width: 320px)
+            font-size: 11px
+            padding: 5px !important
+
+/* TABLAS RESULTADOS */
+.resultados
+    .comentarios
+        font-size: $sz22
+        font-family: $Bold
+        color: $Orange
+        text-align: center
+        margin: 10px 0 30px 0
+        text-transform: uppercase
+    .estado
+        font-size: $sz12
+        font-family: $Medium
+        background-color: $Wh
+        color: $Dark50
+        text-transform: uppercase
+        border: 1px solid $Dark50
+        padding: 10px
+        border-radius: 3px
+        margin-bottom: 15px
+        span 
+            font-size: $sz14
+            font-family: $Bold
+            display: block
+            text-transform: none
+            margin-top: 4px
+    .mostrar-descripcion
+        font-size: $sz12
+        color: $Dark50
+        text-align: right
+        text-align: right
+        margin: 6px 15px
+    h2
+        color: $Dark
+        font-size: $sz18
+        font-family: $Bold
+        text-transform: uppercase
+        margin-top: 10px
+        margin-bottom: 30px
+        display: inline-block
+    h3
+        color: $Dark
+        font-size: $sz14
+        font-family: $Bold
+        margin-bottom: 4px
+        line-height: 20px
+        span
+            color: $Orange
+            font-size: $sz12
+            font-family: $Medium
+    .description
+        color: $Dark50
+        font-size: $sz12
+        font-family: $Medium
+        margin-bottom: 10px
+        line-height: 18px
+        display: inline-block
+    .informacion
+        tr,td
+            border: 0 !important
+            text-align: center
+            width: 25%
+            white-space: normal
+            .respuesta
+                font-size: $sz12
+                color: #0CBF3C
+                line-height: 16px
+                text-transform: uppercase
+                .dato-esperado
+                    font-size: $sz10
+                    color: $Orange
+                    top: -2px
+                    line-height: 9px
+                    position: relative
+                    text-transform: none
+        th,td
+            border: 1px solid #F2F2F2!important
+        th 
+            background-color: #FAFAFA
+            padding: 2px 0px
+            border: 1px solid #F2F2F2!important
+            text-align: center
+            width: 25%
+            white-space: normal
+            .evaluador
+                font-family: $Medium
+                font-size: $sz10
+                color: $Dark50
+                line-height: 17px
+    .headings
+        margin-bottom: 0px
+        tr,td,th
+            border: 0 !important
+            text-align: center
+            width: 25%
+            white-space: normal
+            &:nth-child(2n)
+                background-color: #FAFAFA
+            .evaluador
+                font-family: $Bold
+                font-size: $sz14
+                color: $Dark
+                line-height: 17px
+            .respuesta
+                font-size: $sz12
+                color: #0CBF3C
+                line-height: 16px
+                text-transform: uppercase
+                .dato-esperado
+                    font-size: $sz10
+                    color: $Orange
+                    top: -2px
+                    line-height: 9px
+                    position: relative
+                    text-transform: none
+        th,td
+            border: 1px solid #FAFAFA
+        th 
+            background-color: red
+.table-fixed thead
+    width: 97%
+.table-fixed tbody 
+    height: 230px
+    overflow-y: auto
+    width: 100%
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th
+    display: block
+.table-fixed tbody td, .table-fixed thead > tr> th 
+    float: left
+    border-bottom-width: 0
+
+//******* COLAPSABLES *******//
+.hide
+    display: none
+
+//******* TABS 2C *******//
+.bordeTabs
+    &.paddingTop
+        padding-top: 59px    
+#material-tabs
+    position: relative
+    display: block
+    padding: 0
+    background: $Orange
+    box-shadow: 0px 4px 4px rgba(0,0,0,.2)
+    z-index: 2
+    @media (max-width: 768px)
+        margin-top: -1px
+    &.sticky
+        position: fixed
+        top: 0
+        width: 780px
+        z-index: 2
+        @media only screen and (max-width: 1199px)
+            width: 646px
+        @media only screen and (max-width: 991px)
+            width: 500px
+        @media only screen and (max-width: 767px)
+            width: 100%
+#material-tabs>a
+    position: relative
+    display: inline-block
+    text-decoration: none
+    padding: 22px
+    text-transform: uppercase
+    font-size: 14px
+    color: $Nude
+    text-align: center
+    width: 49.3%
+    cursor: pointer
+    @media (max-width: 480px)
+        font-size: $sz12
+        padding: 22px 10px 22px 10px
+#material-tabs>a.active
+    font-family: $Medium
+    outline: none
+    color: $Wh
+#material-tabs>a:not(.active):hover
+    background-color: inherit
+    color: #FFFFFF
+
+//******* TABS 3C *******//
+#material-tabs3c
+    position: relative
+    display: block
+    padding: 0
+    background: $Orange
+    box-shadow: 0px 4px 4px rgba(0,0,0,.2)
+    z-index: 2
+    @media (max-width: 768px)
+        margin-top: -1px
+    &.sticky
+        position: fixed
+        top: 0
+        width: 780px
+        z-index: 2
+        @media only screen and (max-width: 1199px)
+            width: 646px
+        @media only screen and (max-width: 991px)
+            width: 500px
+        @media only screen and (max-width: 767px)
+            width: 100%
+#material-tabs3c>a
+    position: relative
+    display: inline-block
+    text-decoration: none
+    padding: 22px
+    text-transform: uppercase
+    font-size: $sz14
+    color: $Nude
+    text-align: center
+    width: 32.4%
+    cursor: pointer
+    @media (max-width: 480px)
+        font-size: $sz12
+        padding: 22px 10px 22px 10px
+#material-tabs3c>a.active
+    font-family: $Medium
+    outline: none
+    color: $Wh
+#material-tabs3c>a:not(.active):hover
+    background-color: inherit
+    color: #FFFFFF
+
+//******* CONTENT TABS *******//
+.tab-content
+    padding: 0px 15px 0px 15px
+    border-right: 1px solid $Gray50
+    border-left: 1px solid $Gray50
+    border-bottom: 1px solid $Gray50
+    &-item
+        display: none
+        &.active
+            display: block
+        .tituloFormula
+            color: $Dark
+            text-transform: uppercase
+            font-size: 15px
+            margin-bottom: 12px
+            line-height: 22px
+        .descFormula
+            color: $Dark
+            font-size: $sz12
+            font-family: $Medium
+            line-height: $sz18
+        .subtitFormula
+            display: block
+            font-size: 12px
+            color: $Dark50
+            font-family: $Light
+        .fechaFomula
+            font-size: 12px
+            color: $Dark
+            font-family: $Medium
+            .dias
+                color:$Dark50
+        .campana
+            color: $Orange
+            font-size: $sz18
+            font-family: $Bold
+        .dato
+            color: $Dark
+            font-size: $sz18
+            font-family: $Bold
+        .titleDetalle
+            color: $Orange
+            font-size: $sz16
+            font-family: $Bold
+            padding-bottom: $sz10
+            line-height: 24px
+        .descDetalle
+            font-size: $sz14
+            line-height: 21px
+    &-space
+        padding: 20px 5px
+
+//******* LINEA 2 COLUMNAS *******//
+.yellow-bar
+    position: absolute
+    z-index: 10
+    top: 54px
+    height: 4px
+    background: $Wh
+    display: block
+    left: 0
+    transition: left .2s ease
+    -webkit-transition: left .2s ease
+#tab1-tab.active ~ span.yellow-bar
+    left: 0
+    width: 50%
+#tab2-tab.active ~ span.yellow-bar 
+    left: 50%
+    width: 50%
+
+//******* LINEA 3 COLUMNAS *******//
+.yellow-bar-3c
+    position: absolute
+    z-index: 10
+    top: 54px
+    height: 4px
+    background: $Wh
+    display: block
+    left: 0
+    transition: left .2s ease
+    -webkit-transition: left .2s ease
+    @media (max-width: 480px)
+        top: 52px
+#tab3c-1-tab.active ~ span.yellow-bar-3c
+    left: 0
+    width: 33.3%
+#tab3c-2-tab.active ~ span.yellow-bar-3c
+    left: 33.3%
+    width: 33.3%
+#tab3c-3-tab.active ~ span.yellow-bar-3c
+    left: 66.6%
+    width: 33.4%
+
+//******* TABS *******//
+.content
+    width: 100%
+    font-size: 14px
+    color: #444
+    max-height: 31px
+    overflow: hidden
+    text-overflow: ellipsis
+    -webkit-transition: max-height 0.01s
+    -moz-transition: max-height 0.01s
+    transition: max-height 0.01s
+    display: -webkit-box
+    -webkit-line-clamp: 2
+    -webkit-box-orient: vertical
+    line-height: 17px
+.content.open
+    max-height: 1000px
+    -webkit-transition: max-height 0.7s
+    -moz-transition: max-height 0.7s
+    transition: max-height 0.7s
+    display: block
+#show-more
+    color: #9a9a9a
+    display: block
+    font-size: 12px
+    cursor: pointer
+    margin-top: 5px
+    float: right
+.show-more
+    color: $Dark50
+    display: block
+    font-size: 12px
+    cursor: pointer
+    margin-top: 5px
+    float: right
+    &:hover
+        color: $Dark50
+.content2
+    width: 100%
+    font-size: 14px
+    color: #444
+    max-height: 15px
+    overflow: hidden
+    text-overflow: ellipsis
+    -webkit-transition: max-height 0.01s
+    -moz-transition: max-height 0.01s
+    transition: max-height 0.01s
+    display: -webkit-box
+    -webkit-line-clamp: 1
+    -webkit-box-orient: vertical
+    line-height: 17px
+.content2.open2
+    max-height: 1000px
+    -webkit-transition: max-height 0.7s
+    -moz-transition: max-height 0.7s
+    transition: max-height 0.7s
+    display: block
+#show-more2
+    color: #9a9a9a
+    display: block
+    font-size: 12px
+    cursor: pointer
+    margin-top: 5px
+    float: right
+.show-more2
+    color: $Dark50
+    display: block
+    font-size: 12px
+    cursor: pointer
+    margin-top: 5px
+    float: right
+    &:hover
+        color: $Dark50
+
+//******* TABS (PANELES) *******//
+.panel 
+    border-width: 0 0 1px 0
+    border-style: solid
+    border-color: #fff
+    background: none
+    box-shadow: none
+.panel:last-child 
+    border-bottom: none
+.panel-group > .panel:first-child .panel-heading 
+    border-radius: 4px 4px 0 0
+.panel-group .panel 
+    border-radius: 0
+.panel-group .panel + .panel 
+    margin-top: 0
+.panel-heading 
+    border-radius: 0
+    border: none
+    color: #fff
+    padding: 0
+.panel-default>.panel-heading 
+    color: $Dark
+    font-size: 18px
+    font-family: $Medium
+    text-transform: uppercase
+    background-color: $Wh
+.panel-default 
+    border-bottom: 1px solid $Gray
+.panel-default>.panel-heading+.panel-collapse>.panel-body
+    border-top: 0px
+.panel-title
+    margin-top: 0
+    margin-bottom: 0
+.panel-title a
+    font-size: $sz18
+    font-family: $Bold
+    display: block
+    color: $Dark
+    padding: 15px 0px
+    position: relative
+    &.add
+        font-size: $sz16
+.panel-body 
+    background: #fff
+    padding: 5px 0px 20px 0px
+.panel:last-child .panel-body 
+    border-radius: 0 0 4px 4px
+.panel:last-child .panel-heading 
+    border-radius: 0 0 4px 4px
+    transition: border-radius 0.3s linear 0.2s
+.panel:last-child .panel-heading.active 
+    border-radius: 0
+    transition: border-radius linear 0s
+
+//******* TABS ( < > )  *******//
+#accordion .panel-heading a:before 
+    content: ' \e905'
+    position: absolute
+    font-size: $sz24
+    font-family: 'yanbal-icons' !important
+    right: 0px
+    top: 11px
+    transform: rotate(180deg)
+    transition: all 0.5s
+#accordion .panel-heading.active a:before 
+    transform: rotate(0deg)
+    transition: all 0.5s
+.table-responsive
+    @media screen and (max-width: 767px)
+        border: 0
+.modal-evaluacion
+    color: #545454
+    border-radius: 0px
+    .modal-header
+        padding: 12px 12px 0px 12px
+        border-bottom: 0px
+        .close
+            opacity: 1
+            font-size: $sz28
+            color: $Dark
+            margin-top: 0px
+    .modal-body
+        padding: 0px 30px 50px 30px
+        @media screen and (max-width: 767px)
+            padding: 0px 25px 50px 25px
+        p 
+            font-size: $sz24
+            font-family: $Medium
+            color: $Dark
+            text-align: center
+            line-height: 36px
+        .titulo
+            font-size: $sz16
+            font-family: $Bold
+            color: $Dark
+            span
+                font-size: $sz14
+                font-family: $Medium
+                color: $Dark50
+        .like
+            color: $succes
+            font-size: 56px
+            text-align: center
+        .unlike
+            color: $wrong
+            font-size: 56px
+            text-align: center
+        .txtlike
+            color: $succes
+            text-align: center
+            font-size: $sz20
+            margin-top: 30px
+        .txtunlike
+            color: $wrong
+            text-align: center
+            font-size: $sz20
+            margin-top: 30px
+
+.modal-dialog
+    padding: 10px
+.arrowLeft
+    display: inline-block
+    font-size: 32px
+    vertical-align: middle
+    color: $Wh
+    &:hover
+            color: $Dark
+.groupResultado
+    font-size: 32px
+    color: $Wh
+    &:hover
+            color: $Dark
+.va
+    vertical-align: middle
+.tituloResultado
+    display: block
+    text-align: center
+    margin-bottom: 15px
+    font-size: 18px
+    text-transform: uppercase
+    color: $Dark
+    font-family: $Bold
+    span
+        color: $succes
+        font-size: 20px
+.subtxtResultado
+    text-transform: uppercase
+    color: $Dark
+    font-size: 14px
+    font-family: $Medium
+    margin-bottom: 15px
+.resultadotabla
+    th,td
+        border: 0 !important
+        text-align: center
+        padding: 25px 0px !important
+        font-size: 16px
+.oracion
+    font-size: 12px
+    font-family: $Medium
+    color: $Dark
+    span 
+        color: $Dark50
+.blanco
+    color: $Wh
+.rojo
+    color: $wrong !important
+    span
+        a
+            color: $wrong !important
+            &:hover
+                color: $wrong
+.verde
+    color: $succes
+.txtmodal1
+    text-transform: uppercase
+    font-size: 14px
+    margin-bottom: 15px
+    color: $Dark
+.txtmodal2
+    font-size: 14px
+    color: $Dark
+    margin-bottom: 15px
+    span
+        color: $Dark50
+.iconModal
+    span
+        display: inline-block
+        color: $Orange
+    .profile
+        display: inline-block
+        font-size: 14px
+        text-transform: uppercase
+        font-family: $Medium
+    .calendar
+        display: inline-block
+        font-size: 14px
+        text-transform: uppercase
+        font-family: $Medium
+.pm15
+    padding: 15px 0px
+.modal-dialog2
+    width: 300px !important
+    margin: auto
+    @media (min-width: 768px)and(max-width: 1440px)
+        width: 300px
+.riesgoVencido
+    margin: auto
+    text-align: center
+    font-size: 18px
+    padding: 10px 0px 0px 0px
+    color: $wrong
+    
+/***** SWITCH *****/
+.switch-material
+    .mdl-switch.is-checked .mdl-switch__track
+        background: $Orange
+        opacity: 0.5
+    .mdl-switch.is-checked .mdl-switch__thumb
+        background: $Orange
+.switch-content-hide
+    display: none!important

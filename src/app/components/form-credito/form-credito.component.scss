@@ -1,0 +1,46 @@
+.full-width {
+  width: 100%;
+}
+
+.mid-width {
+  width: 100%;
+}
+
+.mat-card-title{
+  color: rgba(2,139,255,1) !important;
+}
+
+.mat-raised-button.mat-primary{
+  background: rgba(2,139,255,1) !important;
+}
+
+mat-checkbox {
+  &.mat-checkbox-disabled.mat-checkbox-checked .mat-checkbox-background {
+   background: rgba(2,139,255,1) !important;
+  }
+}
+
+.shipping-card {
+  min-width: 120px;
+  margin: 20px auto;
+}
+
+.mat-radio-button {
+  display: block;
+  margin: 5px 0;
+
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.col:last-child {
+  margin-right: 0;
+}

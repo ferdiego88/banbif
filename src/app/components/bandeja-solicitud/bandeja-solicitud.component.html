@@ -1,0 +1,149 @@
+<mat-card class="col-xs-12">
+    <mat-toolbar class="row" color="primary">
+        <div class="mat-toolbar-tools font-white row col-xs-12">
+            <div class="inline-buttons pull-left" flex>
+                <h4>Consulta de solicitud de materiales</h4>
+            </div>
+            <div class="inline-buttons pull-right">
+                <button type="button" mat-button class="mat-icon-button inline-buttons" (click)="reload()">
+                    <mat-icon>refresh</mat-icon>
+                </button>
+
+                <button type="button" mat-button class="mat-icon-button inline-buttons" (click)="openSidenavMenu()">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+
+                <button type="button" mat-button class="mat-icon-button inline-buttons"
+                    (click)="irPaginaExterna('material-formulario-solicitud/-1', '', '')">
+                    <mat-icon>add</mat-icon>
+                </button>
+                
+                <button type="button" mat-button class="mat-icon-button inline-buttons"
+                    (click)="exportarExcel()">
+                    <mat-icon>cloud_download</mat-icon>
+                </button>
+            </div>
+        </div>
+    </mat-toolbar>
+
+
+    <div>
+        <div class="example-container mat-elevation-z8">
+
+            <div class="example-table-container">
+                <table mat-table [dataSource]="dataSourceProjects" class="mat-elevation-z8 table-custom tabla-projects"
+                    matSort matSortActive="Id" matSortDirection="desc">
+                    <ng-container matColumnDef="Id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> ID </th>
+                        <td mat-cell *matCellDef="let element">
+                            <a class="text-ellipsis" routerLink='/material-formulario-solicitud/{{element.Id}}'>
+                                {{element.Id}}
+                            </a>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Created">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Fec. Solicitud</th>
+                        <td mat-cell *matCellDef="let element"> {{element.Created || "(Sin valor)"}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="MaestroFLujoEtapa">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Etapa</th>
+                        <td mat-cell *matCellDef="let element"> {{element.MaestroFLujoEtapa.Title|| "(Sin valor)"}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ResponsableLaboratorio">
+                        <th mat-header-cell *matHeaderCellDef>LAB</th>
+                        <td mat-cell *matCellDef="let element"> {{element.ResponsableLaboratorio|| "(Sin valor)"}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="EjecutivoComercial">
+                        <th mat-header-cell *matHeaderCellDef>LDN</th>
+                        <td mat-cell *matCellDef="let element"> {{element.EjecutivoComercial|| "(Sin valor)"}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ResponsableDT">
+                        <th mat-header-cell *matHeaderCellDef>D.T</th>
+                        <td mat-cell *matCellDef="let element"> {{element.ResponsableDT|| "(Sin valor)"}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ResponsableRDM">
+                        <th mat-header-cell *matHeaderCellDef>R.D.M</th>
+                        <td mat-cell *matCellDef="let element"> {{element.ResponsableRDM|| "(Sin valor)"}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="EnBorrador">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Borrador</th>
+                        <td class="text-center" mat-cell *matCellDef="let element">
+                            {{element.EnBorrador | booleanString}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsProjects"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsProjects;">
+                    </tr>
+                </table>
+
+                <mat-paginator [length]="resultsLength" [pageSizeOptions]="[25, 50, 100]"></mat-paginator>
+                <!-- <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 25, 50, 100]"></mat-paginator> -->
+            </div>
+
+            <div class="msg-filter-applied text-center" style="color:orange;height:35px;" *ngIf="isFilterApplied">
+                <div class="mat-toolbar-tools row col-xs-12" style="height: auto; ">
+                    <button type="button" mat-button class="mat-icon-button inline-buttons" md-no-ink
+                        style="margin-top: -7px;">
+                        <mat-icon style="font-size:30px;">new_releases</mat-icon>
+                    </button>
+                    <div class="md-subhead inline-buttons" flex>
+                        &nbsp;<a target="_blank" (click)="openSidenavMenu()">La lista se encuentra filtrada.</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-card>
+
+
+
+
+<mat-sidenav #sidenavfiltros role="navigation" position="end" class="col-lg-3 col-xs-12 my-left-sidenav"
+    style="display:none;">
+    <mat-toolbar color="primary">
+        <h3 class="col-xs-6">Filtros</h3>
+        <span class="col-xs-6 text-right">
+            <mat-icon (click)="closeSidenavMenu()">close</mat-icon>
+        </span>
+    </mat-toolbar>
+
+    <div name="searchForm">
+        <div class="form-group col-xs-12 col-lg-12" style="display:none;">
+            <mat-form-field>
+                <input autocomplete="off" matInput placeholder="Texto breve material" class="form-control"
+                    [(ngModel)]="tableQuery.filter.Title" maxlength="255" (keydown)="onKeydownCodigo($event)">
+            </mat-form-field>
+        </div>
+
+        <div class="form-group col-xs-12 col-lg-12">
+            <mat-form-field>
+                <mat-label>Etapa</mat-label>
+                <mat-select multiple [(ngModel)]="tableQuery.filter.Etapa">
+                    <mat-option *ngFor="let items of datosMaestros.maestroFLujoEtapa" [value]="items.Id">
+                        {{items.Title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+
+        <div class="text-center">
+            <button type="button" (click)="getProjects()" mat-raised-button color="primary" class="accent">
+                <mat-icon>search</mat-icon>
+                Buscar
+            </button>
+            <button type="button" mat-raised-button (click)="limpiar()" class="md-raised md-secondary">
+                <mat-icon>do_not_disturb</mat-icon>
+                Limpiar
+            </button>
+        </div>
+    </div>
+
+</mat-sidenav>

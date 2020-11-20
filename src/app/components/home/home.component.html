@@ -1,0 +1,267 @@
+<div class="row">
+    <div *ngIf="currentUserPictureUrl" class="col-xs-12 md-display-1">
+    
+        <!-- Inicio Usuario -->
+        <!-- <div *ngIf="currentUserPictureUrl" class="col-xs-12 animated fade"></div> -->
+        <div class="col-sm-12 col-md-12 col-lg-3">
+            <mat-card class="mt-12 pt-0 pb-54 flotante">
+                <mat-card-header>
+                </mat-card-header>
+                <img mat-card-image [src]="currentUserPictureUrl" alt="Usuario Logueado" class="ht-274">
+                <mat-card-content>
+                    <p class="mb-1">
+                        {{ currentUserName }}
+                    </p>
+                    <p class="mb-1 fs-11">
+                        {{ currentUserEmail }}
+                    </p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <!-- Fin Usuario -->
+    
+        <div class="col-sm-12 col-lg-9">
+            <h1 class="mt-10 mb-10 ml-0 mr-10">¡Bienvenido {{currentUserName}}!</h1>
+            <br />
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-3 mb-16 pl-2 pr-2">
+                    <mat-card class="flotante active">
+                        <mat-card-header>
+                            <mat-card-title>
+                                <h3>Mis Solicitudes Pendientes</h3>
+                            </mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <div class="pt-8 info-box" layout="column" layout-align="center center" [ngClass]="{'pb-34': nuevaSolicitud, 'pb-70': !nuevaSolicitud}">
+                                <div class="light-blue-fg font-size-72 line-height-72">
+                                    {{ solicitudesEnPendientes }}
+                                </div>
+                                <div class="h3 secondary-text font-weight-500">PENDIENTES</div>
+                            </div>
+                        </mat-card-content>
+                        <mat-card-actions layout="row" align="start">
+                            <div *ngIf="nuevaSolicitud" class="row m-0 p-0">
+                                <div class="col-md-12 m-0 p-0">
+                                    <button type="button" class="fs-12 m-0 p-0 text-left" (click)="irPaginaExterna('material-formulario-solicitud/-1', '', '')" mat-button aria-label="Go">
+                                        <mat-icon>add</mat-icon>
+                                        Crear nueva solicitud
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row m-0 p-0">
+                                <div class="col-md-12 m-0 p-0">
+                                    <button type="button" class="fs-12 m-0 p-0 text-left" (click)="irPaginaExterna('material-bandeja-solicitud', '', '')" mat-button aria-label="Go">
+                                        <mat-icon>link</mat-icon>
+                                        Ir
+                                    </button>
+                                </div>
+                            </div>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+    
+                <div class="col-xs-12 col-sm-6 col-md-3 mb-16 pl-2 pr-2">
+                    <mat-card class="flotante active">
+                        <mat-card-header>
+                            <mat-card-title>
+                                <h3>Mis Solicitudes en Proceso</h3>
+                            </mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <div class="pt-8 pb-70 info-box" layout="column" layout-align="center center">
+                                <div class="light-blue-fg font-size-72 line-height-72">
+                                    {{ solicitudesEnProceso || 0 }}
+                                </div>
+                                <div class="h3 secondary-text font-weight-500">EN PROCESO</div>
+                            </div>
+                        </mat-card-content>
+                        <mat-card-actions layout="row" align="start">
+                            <button type="button" class="fs-12" mat-button (click)="irPaginaExterna('material-bandeja-solicitud', '', '')" aria-label="Go">
+                                <mat-icon>link</mat-icon>
+                                Ir
+                            </button>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+    
+                <div class="col-xs-12 col-sm-6 col-md-3 mb-16 pl-2 pr-2">
+                    <mat-card class="flotante active">
+                        <mat-card-header>
+                            <mat-card-title>
+                                <h3>Mis Solicitudes Cerradas</h3>
+                            </mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <div class="pt-8 pb-70 info-box" layout="column" layout-align="center center">
+                                <div class="light-blue-fg font-size-72 line-height-72">
+                                    {{ solicitudesCerradas || 0 }}
+                                </div>
+                                <div class="h3 secondary-text font-weight-500">CERRADAS</div>
+                            </div>
+                        </mat-card-content>
+                        <mat-card-actions layout="row" align="start">
+                            <button type="button" class="fs-12" mat-button (click)="irPaginaExterna('material-bandeja-solicitud', '', '')" aria-label="Go">
+                                <mat-icon>link</mat-icon>
+                                Ir
+                            </button>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+    
+                <div class="col-xs-12 col-sm-6 col-md-3 mb-16 pl-2 pr-2">
+                    <mat-card class="flotante active">
+                        <mat-card-header>
+                            <mat-card-title>
+                                <h3>Mis Solicitudes Vencidas</h3>
+                            </mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <div class="pt-8 pb-70 info-box" layout="column" layout-align="center center">
+                                <div class="red-fg font-size-72 line-height-72">
+                                    {{ solicitudesVencidas || 0 }}
+                                </div>
+                                <div class="h3 secondary-text font-weight-500">VENCIDAS</div>
+                            </div>
+                        </mat-card-content>
+                        <mat-card-actions layout="row" align="start">
+                            <button type="button" class="fs-12" mat-button (click)="irPaginaExterna('material-bandeja-solicitud', '', '')" aria-label="Go">
+                                <mat-icon>link</mat-icon>
+                                Ir
+                            </button>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- userAdministrator &&  -->
+<div *ngIf="currentUserPictureUrl && barChartData && barChartData.length > 1" class="row pt-30 pl-19 pr-19">
+
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-2">
+            <mat-form-field appearance="standard">
+                <mat-label>Año</mat-label>
+                <mat-select [formControl]="formControlAnnio">
+                    <mat-option *ngFor="let annio of anniosSelect" [value]="annio">{{annio.toString()}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    
+        <div class="col-xs-6 offset-sm-3 col-sm-3 offset-md-8 col-md-2 pr-15 text-right">
+            <button type="button" *ngIf="screenWidth > 767" mat-button mat-raised-button color="primary" class="btn-block" (click)="cargaEstadistica()">Actualizar</button>
+            <button type="button" *ngIf="screenWidth <= 767" mat-fab color="primary" aria-label="Example icon button with a refresh icon" (click)="cargaEstadistica()">
+                <mat-icon>refresh</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <!-- <div class="row">
+
+        <div *ngIf="pieChartData && pieChartData.length > 1" class="col-lg-6 pl-10" [ngClass]="{'pr-10': screenWidth <= 1199}">        
+            <div class="d-block">
+                <canvas 
+                    baseChart
+                    [data]="pieChartData"
+                    [labels]="pieChartLabel"
+                    [options]="barChartOptions"
+                    [plugins]="barChartPlugins"
+                    [legend]="barChartLegend"
+                    [colors]="pieChartColors"
+                    chartType="pie"
+                >
+                </canvas>
+            </div>
+        </div>
+    
+    </div> -->
+
+    <div class="row">
+
+        <div *ngIf="pieChartData && pieChartData.length > 1" class="col-lg-6 pl-10" [ngClass]="{'pr-10': screenWidth <= 1199}">        
+            <div class="d-block">
+                <canvas 
+                    baseChart
+                    [data]="pieChartData"
+                    [labels]="pieChartLabel"
+                    [options]="pieChartOptions"
+                    [plugins]="pieChartPlugins"
+                    [legend]="barChartLegend"
+                    [colors]="pieChartColors"
+                    chartType="pie"
+                >
+                </canvas>
+            </div>
+        </div>
+
+        <div *ngIf="barChartDataPorMes && barChartDataPorMes.length > 1" class="col-lg-6 pl-10" [ngClass]="{'pr-10': screenWidth <= 1199}">        
+            <div class="d-block">
+                <canvas 
+                    baseChart
+                    [datasets]="barChartDataPorMes"
+                    [labels]="barChartLabelsPorMes"
+                    [options]="barChartOptions"
+                    [plugins]="barChartPlugins"
+                    [legend]="barChartLegend"
+                    [chartType]="barChartType"
+                >
+                </canvas>
+            </div>
+        </div>
+    
+        <!-- <div class="col-lg-6 pr-10" [ngClass]="{'pl-10': screenWidth <= 1199}">
+            <div class="d-block">
+                <canvas 
+                    baseChart
+                    [datasets]="barChartData"
+                    [labels]="barChartLabels"
+                    [options]="barChartOptions"
+                    [plugins]="barChartPlugins"
+                    [legend]="barChartLegend"
+                    [chartType]="barChartType"
+                >
+                </canvas>
+            </div>
+        </div> -->
+    </div>
+
+    <!-- <div class="row">
+        <div *ngIf="barChartDataPorMes && barChartDataPorMes.length > 1" class="col-lg-6 pl-10" [ngClass]="{'pr-10': screenWidth <= 1199}">        
+            <div class="d-block">
+                <canvas 
+                    baseChart
+                    [datasets]="barChartDataPorMes"
+                    [labels]="barChartLabelsPorMes"
+                    [options]="barChartOptions"
+                    [plugins]="barChartPlugins"
+                    [legend]="barChartLegend"
+                    chartType="line"
+                >
+                </canvas>
+            </div>
+        </div>
+    
+        <div class="col-lg-6 pr-10" [ngClass]="{'pl-10': screenWidth <= 1199}">
+            <div class="d-block">
+                <canvas 
+                    baseChart
+                    [datasets]="barChartData"
+                    [labels]="barChartLabels"
+                    [options]="barChartOptions"
+                    [plugins]="barChartPlugins"
+                    [legend]="barChartLegend"
+                    chartType="line"
+                >
+                </canvas>
+            </div>
+        </div>
+    </div> -->
+
+    
+    <!-- <div class="offset-md-10 col-md-2 pl-0 pt-5">
+        <button mat-button mat-raised-button color="primary" (click)="cargaEstadistica()">Actualizar</button>
+        <button mat-fab color="primary" aria-label="Example icon button with a refresh icon" (click)="cargaEstadistica()">
+            <mat-icon>refresh</mat-icon>
+        </button>
+    </div> -->
+</div>

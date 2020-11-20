@@ -1,0 +1,87 @@
+=Position( $post, $top, $right, $bottom, $left )
+    position: $post
+    top: $top
+    right: $right
+    bottom: $bottom
+    left: $left
+
+=content( $text, $sw, $sh )
+    content: $text
+    width: $sw
+    height: $sh
+
+=radius( $value )
+    -moz-border-radius: $value
+    -webkit-border-radius: $value
+    -o-border-radius: $value
+    -ms-border-radius: $value
+    border-radius: $value
+
+=shadow( $value)
+    -moz-box-shadow: $value
+    -webkit-box-shadow: $value
+    -o-box-shadow: $value
+    -ms-box-shadow: $value
+    box-shadow: $value
+
+=gradient( $colour1, $colour2 )
+    background: $colour1
+    background: -moz-linear-gradient(top, $colour1 0%, $colour2 100%)
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, $colour1), color-stop(100%, $colour2))
+    background: -webkit-linear-gradient(top, $colour1 0%, $colour2 100%)
+    background: -o-linear-gradient(top, $colour1 0%, $colour2 100%)
+    background: -ms-linear-gradient(top, $colour1 0%, $colour2 100%)
+    background-image: linear-gradient(to bottom, $colour1 0%, $colour2 100%)
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$colour1', endColorstr='$colour2', GradientType=0 )
+
+
+=gradientPos( $colour1, $colour2 )
+    background: -moz-linear-gradient(top, $colour1 0%, $colour2 50%, $colour2 100%)
+    background: -webkit-linear-gradient(top, $colour1 0%,$colour2 50%,$colour2 100%)
+    background: linear-gradient(to bottom, $colour1 0%,$colour2 50%,$colour2 100%)
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$colour1', endColorstr='$colour2',GradientType=0 )
+
+=transform( $value )
+    -moz-transform: $value
+    -webkit-transform: $value
+    -o-transform: $value
+    -ms-transform: $value
+    transform: $value
+
+=transition( $value )
+    -moz-transform: $value
+    -webkit-transition: $value
+    -o-transition: $value
+    -moz-transition: $value
+    transition: $value
+
+=hover-background($color)
+    background-color: $color
+    &:hover
+        background-color: $color
+  
+=button-bg($bg) 
+    background-color: $bg
+
+
+=button-bg-gradient($bg-gradient) 
+    background-image: $bg-gradient
+
+
+=text-color($color) 
+    color: $color
+
+
+=generic-list-text() 
+    position: relative
+    top: -20px
+    max-width: initial
+    margin: 0 15px
+    width: auto
+    transform: none
+
+
+=font-title($font-family, $font-size, $color) 
+    font-family: $font-family
+    font-size: $font-size
+    color: $color

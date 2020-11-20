@@ -1,0 +1,11 @@
+.scroll-sidebar {
+  height: calc(100% - 20px);
+  position: relative;
+}
+.left-sidebar[data-sidebarbg="skin5"] ul {
+  background: #333d54;
+}
+.sidebar-nav ul {
+  margin: 0;
+  padding: 0;
+}
