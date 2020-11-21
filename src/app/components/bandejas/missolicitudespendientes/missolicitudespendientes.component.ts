@@ -19,6 +19,7 @@ import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { EBandejaSolicitud } from 'src/app/shared/models/fisics/EBandejaSolicitud';
 import { MasterLogic } from 'src/app/shared/models/logics/MasterLogic';
+import { Variables } from 'src/app/shared/variables';
 
 declare var $: any;
 
@@ -50,6 +51,16 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
   itemCount: number;
 
   dataSourceSolicitudes: EBandejaSolicitud[] = [];
+  displayedColumnsSolicitud: string[] = [
+    Variables.columnasSolicitud.Id,  
+    Variables.columnasSolicitud.Author,
+    /*Variables.columnasSolicitud.MaestroFLujoEtapa,   
+    Variables.columnasSolicitud.ResponsableLaboratorio,
+    Variables.columnasSolicitud.EjecutivoComercial,
+    Variables.columnasSolicitud.ResponsableDT,
+    Variables.columnasSolicitud.ResponsableRDM,
+    Variables.columnasSolicitud.EnBorrador*/
+ ];
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;

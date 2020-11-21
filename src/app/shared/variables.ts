@@ -40,11 +40,12 @@ export class Variables {
     home: 'home',
     inicio: 'inicio',
     bandejaSolicitudMaterial: 'material-bandeja-solicitud',
-    formSolicitudMaterial: 'material-formulario-solicitud/:id',
-    formCredito: 'formCredito',
+    formCreditoDetalle: 'hipotecario/solicitud/:id',
+    formCredito: 'hipotecario/solicitud',
     formTable: 'formTable',
     bandejaMisSolicitudes: 'bandejas/missolicitudes',
     bandejaSolicitudes: 'bandejas/solicitudes',
+    
   };
 
   static readonly lists = {

@@ -15,7 +15,7 @@ import { MissolicitudespendientesComponent } from './components/bandejas/missoli
 import { SolicitudesComponent } from './components/bandejas/solicitudes/solicitudes.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/home'  },
+  { path: '', pathMatch: 'full', redirectTo: '/home' },
   {
     path: Variables.path.home,
     component: HomeComponent,
@@ -26,19 +26,15 @@ const routes: Routes = [
     component: BandejaSolicitudComponent,
     //loadChildren: () => import('./components/bandeja-solicitud/bandeja-solicitud.component').then(m => m.BandejaSolicitudComponent)
   },
-  {
-    path: Variables.path.formSolicitudMaterial,
-    component: FormularioSolicitudComponent,
-    //loadChildren: () => import('./components/formulario-solicitud/formulario-solicitud.component').then(m => m.FormularioSolicitudComponent)
-  },
-  {path: Variables.path.formCredito, component: FormCreditoComponent},
-  {path: Variables.path.formTable, component: FormTableComponent},
-  {path: Variables.path.bandejaMisSolicitudes, component: MissolicitudespendientesComponent},
-  {path: Variables.path.bandejaSolicitudes, component: SolicitudesComponent},
+  { path: Variables.path.formCreditoDetalle, component: FormCreditoComponent },
+  { path: Variables.path.formCredito, component: FormCreditoComponent },
+  { path: Variables.path.formTable, component: FormTableComponent },
+  { path: Variables.path.bandejaMisSolicitudes, component: MissolicitudespendientesComponent },
+  { path: Variables.path.bandejaSolicitudes, component: SolicitudesComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
