@@ -42,6 +42,7 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
   isOpenMenu: boolean = false;
   promise: Promise<void>;
 
+  projects: MaestroMaterial[] = [];
   materiales_paged: PagedItemCollection<any[]>;
   // materiales_paged_history: IDictionary = {};
   materiales_paged_history: PagedItemCollection<any[]>[];
