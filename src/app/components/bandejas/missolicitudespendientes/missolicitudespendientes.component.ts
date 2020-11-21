@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ApplicationRef, NgZone, NgModule } from '@angular/core';
-import { FormularioAT } from 'src/app/shared/pages/formularioAT';
+import { FormularioBase } from 'src/app/shared/pages/formularioBase';
 import { Deferred } from 'ts-deferred';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,7 +27,7 @@ declare var $:any;
   templateUrl: './missolicitudespendientes.component.html',
   styleUrls: ['./missolicitudespendientes.component.scss']
 })
-export class MissolicitudespendientesComponent extends FormularioAT implements OnInit {
+export class MissolicitudespendientesComponent extends FormularioBase implements OnInit {
   currentUserName: string = '';
 
   tableQuery: any = {

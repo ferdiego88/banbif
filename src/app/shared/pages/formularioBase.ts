@@ -22,7 +22,7 @@ import { MaestroDesplegables } from '../models/fisics/MaestroDesplegables';
 import { List } from "linqts";
 declare var $:any;
 
-export class FormularioAT {
+export class FormularioBase {
   datosMaestros: MasterLogic;
   nombrePagina: string;
   form: FormGroup;

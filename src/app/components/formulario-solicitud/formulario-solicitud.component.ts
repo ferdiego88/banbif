@@ -22,7 +22,7 @@ import { IFieldInfo } from '@pnp/sp/fields';
 import { IEmailProperties } from '@pnp/sp/sputilities';
 
 import { environment } from 'src/environments/environment';
-import { FormularioAT } from 'src/app/shared/pages/formularioAT';
+import { FormularioBase } from 'src/app/shared/pages/formularioBase';
 
 import { IStatistics } from 'src/app/shared/models/fisics/IStatistics';
 import { MasterLogic } from 'src/app/shared/models/logics/MasterLogic';
@@ -80,7 +80,7 @@ export const MY_FORMATS = {
     }
   ]
 })
-export class FormularioSolicitudComponent extends FormularioAT implements OnInit {
+export class FormularioSolicitudComponent extends FormularioBase implements OnInit {
 
   files: File[];
   maestroMaterialDocs: MaestroMaterialDocs[] = [];

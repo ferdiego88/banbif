@@ -8,7 +8,7 @@ import { Deferred } from 'ts-deferred';
 
 import { environment } from '../../../environments/environment';
 
-import { FormularioAT } from '../../shared/pages/formularioAT';
+import { FormularioBase } from '../../shared/pages/formularioBase';
 
 import { IStatistics } from '../../shared/models/fisics/IStatistics';
 import { MasterLogic } from '../../shared/models/logics/MasterLogic';
@@ -35,7 +35,7 @@ declare var $: any;
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent extends FormularioAT implements OnInit {
+export class HomeComponent extends FormularioBase implements OnInit {
   esMiembroId: boolean;
   currentUserName: string = '';
   currentUserPictureUrl = '';
