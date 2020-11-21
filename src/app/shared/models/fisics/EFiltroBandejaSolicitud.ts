@@ -1,4 +1,4 @@
-export class FiltroBandejaMisSolicitudes {
+export class EFiltroBandejaSolicitud {
   Title: string;
   Author: number;
   Created: Date;
@@ -18,7 +18,7 @@ export class FiltroBandejaMisSolicitudes {
   constructor() {
     this.Title = "";
     this.Author = 0;
-    this.Created = new Date();
+    this.Created = null;
     this.NombreTitular = "";
     this.TipoDocumento = 0;
     this.NumeroDocumento = "";
@@ -30,6 +30,6 @@ export class FiltroBandejaMisSolicitudes {
     this.Zona = 0;
     this.Oficina = 0;
     this.SustentoIngreso = 0;
-    this.FechaEstado = new Date();
+    this.FechaEstado = null;
   }
 }

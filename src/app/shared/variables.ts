@@ -67,6 +67,10 @@ export class Variables {
     MasterObjetosPermiso: 'MasterObjetosPermiso'
   };
 
+  static readonly listas = {
+    Solicitudes: "Solicitud_Hipotecario",
+  }
+
   static readonly columnasSolicitud = {
     Id: "Id",
     ID: "ID",

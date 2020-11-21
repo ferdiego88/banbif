@@ -1,11 +1,9 @@
-import { LookupAddress } from 'dns';
 import { User } from './base/User';
 import { Lookup } from './base/Lookup';
 import { Variables, SPParse } from '../../variables';
 
 export class EBandejaSolicitud {
     Id: number;
-    Title: string;
     Author: string;
     Created: Date;
     NombreTitular: string;
@@ -24,7 +22,6 @@ export class EBandejaSolicitud {
 
     constructor() {
         this.Id = 0;
-        this.Title = "";
         this.Author = "";
         this.Created = new Date();
         this.NombreTitular = "";
@@ -44,8 +41,7 @@ export class EBandejaSolicitud {
 
     public static getColumnasSelect(): string[] {
         return [
-            Variables.columnasSolicitud.ID,
-            Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.ID,          
             Variables.columnasSolicitud.Author + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.Created,
             Variables.columnasSolicitud.NombreTitular,
@@ -65,7 +61,7 @@ export class EBandejaSolicitud {
     }
 
     public static getColumnasExpand(): string[] {
-        const campos = [
+        return [
             Variables.columnasSolicitud.Author,
             Variables.columnasSolicitud.TipoDocumento,
             Variables.columnasSolicitud.TipoProducto,
@@ -76,16 +72,12 @@ export class EBandejaSolicitud {
             Variables.columnasSolicitud.Oficina,
             Variables.columnasSolicitud.SustentoIngreso,
         ];
-
-        const uniques = [...new Set(campos)];
-        return uniques;
     }
 
     public static parseJson(elemento: any): EBandejaSolicitud {
         const item = new EBandejaSolicitud();
 
         item.Id = SPParse.getNumber(elemento[Variables.columnasSolicitud.ID]);
-        item.Title = SPParse.getString(elemento[Variables.columnasSolicitud.Title]);
         item.Author = User.parseJson(elemento[Variables.columnasSolicitud.Author]).Title;
         item.Created = SPParse.getDate(elemento[Variables.columnasSolicitud.Created]);
         item.NombreTitular = SPParse.getString(elemento[Variables.columnasSolicitud.NombreTitular]);
