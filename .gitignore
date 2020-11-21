@@ -1,4 +1,6 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
+# Node Modules rar que levanta el Servidor
+node_modules.rar
 
 # compiled output
 /build
