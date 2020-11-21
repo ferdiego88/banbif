@@ -43,6 +43,8 @@ export class Variables {
     formSolicitudMaterial: 'material-formulario-solicitud/:id',
     formCredito: 'formCredito',
     formTable: 'formTable',
+    bandejaMisSolicitudes: 'bandejas/missolicitudes',
+    bandejaSolicitudes: 'bandejas/solicitudes',
   };
 
   static readonly lists = {

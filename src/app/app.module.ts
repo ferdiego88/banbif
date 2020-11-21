@@ -73,6 +73,8 @@ import { ChartsModule } from 'ng2-charts';
 import { FormCreditoComponent } from './components/form-credito/form-credito.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormTableComponent } from './components/form-table/form-table.component';
+import { MissolicitudespendientesComponent } from './components/bandejas/missolicitudespendientes/missolicitudespendientes.component';
+import { SolicitudesComponent } from './components/bandejas/solicitudes/solicitudes.component';
 
 const materialModules = [
   MatSlideToggleModule,
@@ -129,7 +131,9 @@ const materialModules = [
     BotoneraComponent,
     FileUploadComponent,
     FormCreditoComponent,
-    FormTableComponent
+    FormTableComponent,
+    MissolicitudespendientesComponent,
+    SolicitudesComponent
   ],
   imports: [
     BrowserModule,
