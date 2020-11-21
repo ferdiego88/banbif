@@ -44,32 +44,32 @@
         </mat-nav-list>
         <mat-divider></mat-divider>
         <mat-nav-list>
-            <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel [expanded]="false">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Hipotecario
                     </mat-panel-title>
                 </mat-expansion-panel-header>
 
-                <a mat-list-item routerLink='/material-bandeja-solicitud' (click)="sidenav.toggle()">
+                <!--<a mat-list-item routerLink='/material-bandeja-solicitud' (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>search</mat-icon> Consulta de Solicitudes
                 </a>
 
                 <a mat-list-item routerLink='/material-formulario-solicitud/-1' (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>edit</mat-icon> Formulario de solicitud
-                </a>
+                </a>-->
 
                 <a mat-list-item routerLink='/formCredito' (click)="sidenav.toggle()">
-                    <mat-icon mat-list-icon>edit</mat-icon> Formulario de Pruebas
+                    <mat-icon mat-list-icon>edit</mat-icon> Registrar Solicitud
                 </a>
 
-                <a mat-list-item routerLink='/formTable' (click)="sidenav.toggle()">
+                <!--<a mat-list-item routerLink='/formTable' (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>edit</mat-icon> Formulario de Crédito Hipotecario
-                </a>
+                </a>-->
             </mat-expansion-panel>
         </mat-nav-list>
         <mat-nav-list>
-            <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel [expanded]="false">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Bandejas
