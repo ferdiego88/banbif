@@ -1,3 +1,5 @@
+import { Lookup } from "./base/Lookup";
+
 export class EFiltroBandejaSolicitud {
   Title: string;
   Author: number;
@@ -6,7 +8,7 @@ export class EFiltroBandejaSolicitud {
   TipoDocumento: number;
   NumeroDocumento: string;
   TipoProducto: number;
-  Estado: number;
+  Estado: Lookup[];
   Moneda: number;
   ModalidadPago: number;
   Financiamiento: string;
@@ -23,7 +25,7 @@ export class EFiltroBandejaSolicitud {
     this.TipoDocumento = 0;
     this.NumeroDocumento = "";
     this.TipoProducto = 0;
-    this.Estado = 0;
+    this.Estado = [];  
     this.Moneda = 0;
     this.ModalidadPago = 0;
     this.Financiamiento = "";

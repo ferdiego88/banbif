@@ -36,8 +36,6 @@
 <mat-sidenav-container class="padding-top position-fixed">
     <mat-sidenav #sidenav role="navigation" class=" padding-top">
         <mat-nav-list>
-            <a mat-list-item class="md-no-sticky" style="background-color: rgb(70, 187, 241);">ADMINISTRADOR DE FLUJOS
-            </a>
             <a mat-list-item routerLink='/home' (click)="sidenav.toggle()" *ngIf="esMiembroDocumentOwnersGroup">
                 <mat-icon class="mt-9" mat-list-icon>home</mat-icon> Home
             </a>

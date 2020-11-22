@@ -6,42 +6,42 @@ export class EBandejaSolicitud {
     Id: number;
     Author: string;
     Created: Date;
-    NombreTitular: string;
-    TipoDocumento: string;
-    NumeroDocumento: string;
-    TipoProducto: string;
+    Nombre_Titular: string;
+    Tipo_Documento: string;
+    N_Documento: string;
+    Tipo_Producto: string;
     Estado: string;
     Moneda: string;
-    PrecioVenta: string;
-    ModalidadPago: string;
+    Precio_Venta: string;
+    Modalidad_Pago: string;
     Financiamiento: string;
     Zona: string;
     Oficina: string;
-    SustentoIngreso: string;
-    FechaEstado: Date;
+    Sustento_Ingresos: string;
+    Fecha_Estado: Date;
 
     constructor() {
         this.Id = 0;
         this.Author = "";
         this.Created = new Date();
-        this.NombreTitular = "";
-        this.TipoDocumento = "";
-        this.NumeroDocumento = "";
-        this.TipoProducto = "";
+        this.Nombre_Titular = "";
+        this.Tipo_Documento = "";
+        this.N_Documento = "";
+        this.Tipo_Producto = "";
         this.Estado = "";
         this.Moneda = "";
-        this.PrecioVenta = "";
-        this.ModalidadPago = "";
+        this.Precio_Venta = "";
+        this.Modalidad_Pago = "";
         this.Financiamiento = "";
         this.Zona = "";
         this.Oficina = "";
-        this.SustentoIngreso = "";
-        this.FechaEstado = new Date();
+        this.Sustento_Ingresos = "";
+        this.Fecha_Estado = new Date();
     }
 
     public static getColumnasSelect(): string[] {
         return [
-            Variables.columnasSolicitud.ID,          
+            Variables.columnasSolicitud.ID,
             Variables.columnasSolicitud.Author + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.Created,
             Variables.columnasSolicitud.NombreTitular,
@@ -76,23 +76,27 @@ export class EBandejaSolicitud {
 
     public static parseJson(elemento: any): EBandejaSolicitud {
         const item = new EBandejaSolicitud();
-
+       
         item.Id = SPParse.getNumber(elemento[Variables.columnasSolicitud.ID]);
         item.Author = User.parseJson(elemento[Variables.columnasSolicitud.Author]).Title;
         item.Created = SPParse.getDate(elemento[Variables.columnasSolicitud.Created]);
-        item.NombreTitular = SPParse.getString(elemento[Variables.columnasSolicitud.NombreTitular]);
-        item.TipoDocumento = Lookup.parseJson(elemento[Variables.columnasSolicitud.TipoDocumento]).Title;
-        item.NumeroDocumento = SPParse.getString(elemento[Variables.columnasSolicitud.NumeroDocumento]);
-        item.TipoProducto = Lookup.parseJson(elemento[Variables.columnasSolicitud.TipoProducto]).Title;
+        item.Nombre_Titular = SPParse.getString(elemento[Variables.columnasSolicitud.NombreTitular]);
+        item.Tipo_Documento = Lookup.parseJson(elemento[Variables.columnasSolicitud.TipoDocumento]).Title;
+        item.N_Documento = SPParse.getString(elemento[Variables.columnasSolicitud.NumeroDocumento]);
+        item.Tipo_Producto = Lookup.parseJson(elemento[Variables.columnasSolicitud.TipoProducto]).Title;
         item.Estado = Lookup.parseJson(elemento[Variables.columnasSolicitud.Estado]).Title;
         item.Moneda = Lookup.parseJson(elemento[Variables.columnasSolicitud.Moneda]).Title;
-        item.PrecioVenta = SPParse.getString(elemento[Variables.columnasSolicitud.PrecioVenta]);
-        item.ModalidadPago = Lookup.parseJson(elemento[Variables.columnasSolicitud.ModalidadPago]).Title;
+        item.Precio_Venta = SPParse.getString(elemento[Variables.columnasSolicitud.PrecioVenta]);
+        item.Modalidad_Pago = Lookup.parseJson(elemento[Variables.columnasSolicitud.ModalidadPago]).Title;
         item.Financiamiento = SPParse.getString(elemento[Variables.columnasSolicitud.Financiamiento]);
         item.Zona = Lookup.parseJson(elemento[Variables.columnasSolicitud.Zona]).Title;
         item.Oficina = Lookup.parseJson(elemento[Variables.columnasSolicitud.Oficina]).Title;
-        item.SustentoIngreso = Lookup.parseJson(elemento[Variables.columnasSolicitud.SustentoIngreso]).Title;
-        item.FechaEstado = SPParse.getDate(elemento[Variables.columnasSolicitud.FechaEstado]);
+        item.Sustento_Ingresos = Lookup.parseJson(elemento[Variables.columnasSolicitud.SustentoIngreso]).Title;
+        item.Fecha_Estado = SPParse.getDate(elemento[Variables.columnasSolicitud.FechaEstado]);
+
+        if (item.Financiamiento !== "") {
+            item.Financiamiento = Math.round(parseFloat(item.Financiamiento) * 100) + " %"
+        }
 
         return item;
     }

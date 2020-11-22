@@ -37,10 +37,9 @@ export class SolicitudesService {
     ascending: boolean,
     pagesize: number,
     usuario: User,
-    solicitante = false
+    solicitante: boolean
   ): Promise<PagedItemCollection<any[]>> {
-   
-    debugger;
+       
     const selectFields = EBandejaSolicitud.getColumnasSelect();
     const expandFields = EBandejaSolicitud.getColumnasExpand();
 
@@ -49,8 +48,12 @@ export class SolicitudesService {
     let filterArr = [];
 
     if (solicitante) filterArr.push(`(${Variables.columnasSolicitud.Author}/Id  eq ${usuario.Id})`);
-
+  
     if (filter) {
+
+      if (filter.Estado && filter.Estado.length) {
+        filterArr.push(`(${filter.Estado.map(x => `(${Variables.columnasSolicitud.Estado}/Id eq '${x}')`).join(" or ")})`);
+      }
 
       if (filter.NombreTitular && filter.NombreTitular.trim()) {
         filterArr.push(`(substringof('${filter.NombreTitular}',${Variables.columnasSolicitud.NombreTitular}))`);
@@ -66,12 +69,8 @@ export class SolicitudesService {
 
       if (filter.TipoProducto) {
         filterArr.push(`(${Variables.columnasSolicitud.TipoProducto}/Id  eq ${filter.TipoProducto})`);
-      }
-
-      if (filter.Estado) {
-        filterArr.push(`(${Variables.columnasSolicitud.Estado}/Id  eq ${filter.Estado})`);
-      }
-
+      }      
+      
       if (filter.Moneda) {
         filterArr.push(`(${Variables.columnasSolicitud.Moneda}/Id  eq ${filter.Moneda})`);
       }
@@ -110,11 +109,7 @@ export class SolicitudesService {
      
         const fechaHasta = moment(filter.FechaEstado).format('YYYY-MM-DDT') + '23:59:59.000Z';
         filterArr.push(`(datetime'${fechaHasta}' ge ${Variables.columnasSolicitud.FechaEstado})`);
-      }
-
-      /*if (filter.Etapa && filter.Etapa.length) {
-        filterArr.push(`(${filter.Etapa.map(x => `(${Variables.columns.MaestroFLujoEtapa}/Id eq '${x}')`).join(" or ")})`);
-      }*/
+      }   
     }
 
     query = query.filter(filterArr.join(" and "));

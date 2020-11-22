@@ -45,7 +45,6 @@ export class Variables {
     formTable: 'formTable',
     bandejaMisSolicitudes: 'bandejas/missolicitudes',
     bandejaSolicitudes: 'bandejas/solicitudes',
-    
   };
 
   static readonly lists = {
@@ -70,6 +69,9 @@ export class Variables {
 
   static readonly listas = {
     Solicitudes: "Solicitud_Hipotecario",
+    AdmEstado: "Estado",
+    AdmTipoProducto: "Tipo_Producto",
+    AdmOficina: "Oficina"
   }
 
   static readonly columnasSolicitud = {
@@ -83,7 +85,7 @@ export class Variables {
     NombreTitular : "Nombre_Titular",
     TipoDocumento: "Tipo_Documento",
     NumeroDocumento : "N_Documento",
-    TipoProducto : "Producto",
+    TipoProducto : "Tipo_Producto",
     Estado : "Estado",
     Moneda : "Moneda",
     PrecioVenta : "Precio_Venta",
