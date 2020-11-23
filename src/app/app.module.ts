@@ -32,7 +32,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule} from '@angular/material/dialog';
 
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
@@ -67,6 +67,7 @@ import { HistorialSolicitudComponent } from './shared/components/historial-solic
 import { DateFormatPipe } from './shared/pipes/date-format.pipe';
 import { BotoneraComponent } from './components/formulario-solicitud/botonera/botonera.component';
 import { FileUploadComponent } from './shared/controls/file-upload/file-upload.component';
+import { PeoplePickerInputComponent } from './shared/controls/people-picker/people-picker-input';
 import { DatePipe } from '@angular/common';
 
 import { ChartsModule } from 'ng2-charts';
@@ -132,6 +133,7 @@ const materialModules = [
     FileUploadComponent,
     FormCreditoComponent,
     FormTableComponent,
+    PeoplePickerInputComponent,
     MissolicitudespendientesComponent,
     SolicitudesComponent
   ],

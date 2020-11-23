@@ -50,7 +50,7 @@
                         <td mat-cell *matCellDef="let element"> {{element.Created | date: "dd/MM/yyyy"}}</td>
                     </ng-container>
                     <ng-container matColumnDef="Nombre_Titular">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear >Nombre Titular</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nombre Titular</th>
                         <td mat-cell *matCellDef="let element"> {{element.Nombre_Titular || "(Sin valor)"}}</td>
                     </ng-container>
                     <ng-container matColumnDef="N_Documento">
@@ -119,8 +119,8 @@
     </mat-toolbar>
 
     <div name="searchForm">
-        
-        <div class="form-group col-xs-12 col-lg-12">
+
+        <div class="form-group col-xs-12 col-lg-12" style="padding-top: 20px;">
             <mat-form-field>
                 <mat-label>Estado</mat-label>
                 <mat-select multiple [(ngModel)]="tableQuery.filter.Estado">
@@ -134,7 +134,8 @@
         <div class="form-group col-xs-12 col-lg-12">
             <mat-form-field>
                 <input autocomplete="off" matInput placeholder="Nombre Titular" class="form-control"
-                    [(ngModel)]="tableQuery.filter.NombreTitular" maxlength="50" (keydown)="onKeydownNombreTitular($event)">
+                    [(ngModel)]="tableQuery.filter.NombreTitular" maxlength="50"
+                    (keydown)="onKeydownNombreTitular($event)">
             </mat-form-field>
         </div>
 
