@@ -387,7 +387,7 @@ export class MasterService {
     const subject = new BehaviorSubject<MasterLogic>(masterData);
     const listaPromesas: Promise<any>[] = [];
 
-    // listaPromesas.push(this.userService.getCurrentUser());
+    listaPromesas.push(this.userService.getCurrentUser());
     // listaPromesas.push(this.getMaestroDesplegables());
     // listaPromesas.push(this.getMaestroParametros());
 
@@ -407,7 +407,7 @@ export class MasterService {
       masterData.isDatos = true;
       //debugger;
       masterData.currentUser = results[cont++];
-      masterData.maestroDesplegables = results[cont++];
+     /* masterData.maestroDesplegables = results[cont++];
       masterData.maestroParametros = results[cont++];
 
       masterData.GrupoDT = results[cont++];
@@ -419,7 +419,7 @@ export class MasterService {
       masterData.maestroCampos = results[cont++];
       masterData.maestroFLujoEtapa = results[cont++];
       masterData.maestroLinea = results[cont++];
-      masterData.maestroPrveedor = results[cont++];
+      masterData.maestroPrveedor = results[cont++];*/
 
 
 

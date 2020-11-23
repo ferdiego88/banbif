@@ -6,7 +6,7 @@ export class Variables {
     GrupoEECC: 'GrupoEECC',
     GrupoSL: 'GrupoSL',
     GrupoLAB: 'GrupoLAB',
-    GrupoRDM : 'GrupoRDM',
+    GrupoRDM: 'GrupoRDM',
     Administradores: 'Administradores'
   };
 
@@ -40,9 +40,11 @@ export class Variables {
     home: 'home',
     inicio: 'inicio',
     bandejaSolicitudMaterial: 'material-bandeja-solicitud',
-    formSolicitudMaterial: 'material-formulario-solicitud/:id',
-    formCredito: 'formCredito',
+    formCreditoDetalle: 'hipotecario/solicitud/:id',
+    formCredito: 'hipotecario/solicitud',
     formTable: 'formTable',
+    bandejaMisSolicitudes: 'bandejas/missolicitudes',
+    bandejaSolicitudes: 'bandejas/solicitudes',
   };
 
   static readonly lists = {
@@ -65,6 +67,36 @@ export class Variables {
     MasterObjetosPermiso: 'MasterObjetosPermiso'
   };
 
+  static readonly listas = {
+    Solicitudes: "Solicitud_Hipotecario",
+    AdmEstado: "Estado",
+    AdmTipoProducto: "Tipo_Producto",
+    AdmOficina: "Oficina"
+  }
+
+  static readonly columnasSolicitud = {
+    Id: "Id",
+    ID: "ID",
+    Title: "Title",
+    Author: "Author",
+    Created: "Created",
+    Editor: "Editor",
+    Modified: "Modified",
+    NombreTitular : "Nombre_Titular",
+    TipoDocumento: "Tipo_Documento",
+    NumeroDocumento : "N_Documento",
+    TipoProducto : "Tipo_Producto",
+    Estado : "Estado",
+    Moneda : "Moneda",
+    PrecioVenta : "Precio_Venta",
+    ModalidadPago : "Modalidad_Pago",
+    Financiamiento : "Financiamiento",
+    Zona : "Zona",
+    Oficina : "Oficina",
+    SustentoIngreso : "Sustento_Ingresos",
+    FechaEstado : "Fecha_Estado"
+  }
+
   static readonly columns = {
     IdCanalDistribucion: 'IdCanalDistribucion',
     IdEtapaSiguiente: 'IdEtapaSiguiente',
@@ -86,22 +118,22 @@ export class Variables {
     Abreviatura: 'Abreviatura',
     LAB: 'LAB',
     DT: 'DT',
-    RDM:'RDM',
-    Categoria : 'Categoria',
+    RDM: 'RDM',
+    Categoria: 'Categoria',
     MaestroProveedor: 'MaestroProveedor',
     EECC: 'EECC',
-    Author:'Author',
+    Author: 'Author',
     MaestroFlujoEtapa: 'MaestroFlujoEtapa',
     MaestroFLujoEtapa: 'MaestroFLujoEtapa',
-    ResponsableLaboratorio:'ResponsableLaboratorio',
+    ResponsableLaboratorio: 'ResponsableLaboratorio',
     EjecutivoComercial: 'EjecutivoComercial',
-    ResponsableDT:'ResponsableDT',
+    ResponsableDT: 'ResponsableDT',
     ResponsableRDM: 'ResponsableRDM',
     Padre: 'Padre',
     Codigo: 'Codigo',
     CodigoOp: 'CodigoOp',
     GruposParticipantes: 'GruposParticipantes',
-    NombreGrupo:'NombreGrupo',
+    NombreGrupo: 'NombreGrupo',
     TextoBreveMaterial: 'TextoBreveMaterial',
     Valor: 'Valor',
     ContentTypeId: 'ContentTypeId',
@@ -308,7 +340,7 @@ export class Variables {
     Refrigerado: 'Refrigerado',
     Sector: 'Sector',
     SujetoLote: 'SujetoLote',
-    TipoMaterial:  'TipoMaterial',
+    TipoMaterial: 'TipoMaterial',
     UMI: 'UMI',
     UsoMaterialPromocional: 'UsoMaterialPromocional'
   };

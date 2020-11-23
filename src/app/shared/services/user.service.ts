@@ -37,12 +37,15 @@ export class UserService {
 
   async searchUser(searchValue: string, groupName?: string): Promise<User[]> {
     try {
+      /*const prefixUrl =
+        `https://quicorp.sharepoint.com${environment.webRelativeUrl}` +
+        '/_layouts/15/userphoto.aspx?size=S&accountname=';*/
       const prefixUrl =
-          `https://quicorp.sharepoint.com${environment.webRelativeUrl}` +
-          '/_layouts/15/userphoto.aspx?size=S&accountname=',
-        url =
-          `${environment.proxyUrl}${environment.webRelativeUrl}` +
-          '/_api/SP.UI.ApplicationPages.ClientPeoplePickerWebServiceInterface.clientPeoplePickerSearchUser';
+        `${environment.proxyUrl}${environment.webRelativeUrl}` +
+        '/_layouts/15/userphoto.aspx?size=S&accountname=';
+      const url =
+        `${environment.proxyUrl}${environment.webRelativeUrl}` +
+        '/_api/SP.UI.ApplicationPages.ClientPeoplePickerWebServiceInterface.clientPeoplePickerSearchUser';
 
       let principals: IPrincipalInfo[] = await pnp.sp.utility.searchPrincipals(
         searchValue,
@@ -53,16 +56,17 @@ export class UserService {
       );
 
       return principals.map((entity) => {
-        let EmailCorrecto = '';
+        /*let EmailCorrecto = '';
         if (entity.LoginName) {
+          debugger;
           EmailCorrecto = entity.LoginName.replace('i:0#.f|membership|', '');
-        }
+        }*/
         return <User>{
           Id: entity.PrincipalId,
           Key: entity.LoginName,
           Title: entity.DisplayName,
-          Email: EmailCorrecto,
-          PictureUrl: prefixUrl + EmailCorrecto,
+          Email: entity.Email,
+          /*PictureUrl: prefixUrl + EmailCorrecto,*/
         };
       });
     } catch (err) {

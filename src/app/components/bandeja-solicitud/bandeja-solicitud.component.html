@@ -26,7 +26,6 @@
         </div>
     </mat-toolbar>
 
-
     <div>
         <div class="example-container mat-elevation-z8">
 
@@ -82,8 +81,7 @@
                     </tr>
                 </table>
 
-                <mat-paginator [length]="resultsLength" [pageSizeOptions]="[25, 50, 100]"></mat-paginator>
-                <!-- <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 25, 50, 100]"></mat-paginator> -->
+                <mat-paginator [length]="resultsLength" [pageSizeOptions]="[25, 50, 100]"></mat-paginator>              
             </div>
 
             <div class="msg-filter-applied text-center" style="color:orange;height:35px;" *ngIf="isFilterApplied">
@@ -100,9 +98,6 @@
         </div>
     </div>
 </mat-card>
-
-
-
 
 <mat-sidenav #sidenavfiltros role="navigation" position="end" class="col-lg-3 col-xs-12 my-left-sidenav"
     style="display:none;">

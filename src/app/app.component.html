@@ -1,15 +1,17 @@
-<ng-http-loader [backdrop]="false" [backgroundColor]="'#ff44336'" [debounceDelay]="100" [extraDuration]="300" [minDuration]="300" [opacity]="7" [spinner]="spinkit.skWave">
+<ng-http-loader [backdrop]="false" [backgroundColor]="'#ff44336'" [debounceDelay]="100" [extraDuration]="300"
+    [minDuration]="300" [opacity]="7" [spinner]="spinkit.skWave">
 </ng-http-loader>
 <!-- <mat-toolbar color="warn" class=" position-fixed main-toolbar"> -->
 <mat-toolbar color="warn" class="position-fixed main-toolbar">
     <mat-toolbar-row>
         <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="sidenav.toggle()" color="primary">
-      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-    </button>
+            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
 
-        <button type="button" mat-button class="mat-icon-button" aria-label="Go Back" hide-xs hide-sm (click)="goBack()">
-      <mat-icon>chevron_left</mat-icon>
-    </button>
+        <button type="button" mat-button class="mat-icon-button" aria-label="Go Back" hide-xs hide-sm
+            (click)="goBack()">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
 
 
         <a type="button" mat-button class="mat-icon-button" aria-label="Go Home" routerLink="/">
@@ -22,9 +24,10 @@
 
         <span class="cls-spacer"></span>
 
-        <button type="button" type="button" mat-button class="mat-icon-button" aria-label="Expand" (click)="toggleExpand()">
-      <mat-icon>apps</mat-icon>
-    </button>
+        <button type="button" type="button" mat-button class="mat-icon-button" aria-label="Expand"
+            (click)="toggleExpand()">
+            <mat-icon>apps</mat-icon>
+        </button>
 
     </mat-toolbar-row>
 </mat-toolbar>
@@ -33,36 +36,43 @@
 <mat-sidenav-container class="padding-top position-fixed">
     <mat-sidenav #sidenav role="navigation" class=" padding-top">
         <mat-nav-list>
-            <a mat-list-item class="md-no-sticky" style="background-color: rgb(70, 187, 241);">ADMINISTRADOR DE FLUJOS
-      </a>
             <a mat-list-item routerLink='/home' (click)="sidenav.toggle()" *ngIf="esMiembroDocumentOwnersGroup">
-                <mat-icon class="mt-9" mat-list-icon>home</mat-icon> Home</a>
+                <mat-icon class="mt-9" mat-list-icon>home</mat-icon> Home
+            </a>
         </mat-nav-list>
         <mat-divider></mat-divider>
         <mat-nav-list>
-
-            <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel [expanded]="false">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        Materiales
+                        Hipotecario
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+             
+                <a mat-list-item routerLink='/hipotecario/solicitud' (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>edit</mat-icon> Registrar Solicitud
+                </a>
+               
+            </mat-expansion-panel>
+        </mat-nav-list>
+        <mat-nav-list>
+            <mat-expansion-panel [expanded]="false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Bandejas
                     </mat-panel-title>
                 </mat-expansion-panel-header>
 
-                <a mat-list-item routerLink='/material-bandeja-solicitud' (click)="sidenav.toggle()">
-                    <mat-icon mat-list-icon>search</mat-icon> Consulta de Solicitudes</a>
+                <a mat-list-item routerLink='/bandejas/missolicitudes' (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>search</mat-icon> Mis Solicitudes
+                </a>
 
-                <a mat-list-item routerLink='/material-formulario-solicitud/-1' (click)="sidenav.toggle()">
-                    <mat-icon mat-list-icon>edit</mat-icon> Formulario de solicitud</a>
-
-                    <a mat-list-item routerLink='/formCredito' (click)="sidenav.toggle()">
-                      <mat-icon mat-list-icon>edit</mat-icon> Formulario de Pruebas</a>
-
-                      <a mat-list-item routerLink='/formTable' (click)="sidenav.toggle()">
-                        <mat-icon mat-list-icon>edit</mat-icon> Formulario de Crédito Hipotecario</a>
-
+                <a mat-list-item routerLink='/bandejas/solicitudes' (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>search</mat-icon> Solicitudes
+                </a>
             </mat-expansion-panel>
-
         </mat-nav-list>
+        
 
     </mat-sidenav>
 
