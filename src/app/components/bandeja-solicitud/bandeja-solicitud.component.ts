@@ -3,7 +3,7 @@ import { Deferred } from 'ts-deferred';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { FormularioAT } from 'src/app/shared/pages/formularioAT';
+import { FormularioBase } from 'src/app/shared/pages/formularioBase';
 import { IStatistics } from 'src/app/shared/models/fisics/IStatistics';
 import { MasterService } from 'src/app/shared/services/master.service';
 import { MasterLogic } from 'src/app/shared/models/logics/MasterLogic';
@@ -34,7 +34,7 @@ declare var $:any;
   styleUrls: ['./bandeja-solicitud.component.scss'],
 })
 
-export class BandejaSolicitudComponent  extends FormularioAT implements OnInit {
+export class BandejaSolicitudComponent  extends FormularioBase implements OnInit {
   esMiembroId: boolean;
   currentUserName: string = '';
   statistics: IStatistics;

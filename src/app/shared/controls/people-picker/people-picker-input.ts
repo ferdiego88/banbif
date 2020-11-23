@@ -13,7 +13,7 @@ import { User } from 'src/app/shared/models/fisics/base/User';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { ControlValueAccessor, NgControl, FormControl } from '@angular/forms';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -25,7 +25,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: 'people-picker-input.html',
   styleUrls: ['people-picker-input.scss'],
   providers: [
-    { provide: MatFormFieldControl, useExisting: MyPeoplePickerInput },
+    { provide: MatFormFieldControl, useExisting: PeoplePickerInputComponent },
   ],
   host: {
     '[class.example-floating]': 'shouldLabelFloat',
@@ -34,7 +34,7 @@ import { environment } from 'src/environments/environment';
     '[class.example-selected]': 'isSelectedByUser',
   },
 })
-export class MyPeoplePickerInput
+export class PeoplePickerInputComponent
   implements ControlValueAccessor, MatFormFieldControl<User[]>, OnDestroy {
   static nextId = 0;
 
@@ -43,7 +43,7 @@ export class MyPeoplePickerInput
   focused = false;
   errorState = false;
   controlType = 'people-picker-input';
-  id = `people-picker-input-${MyPeoplePickerInput.nextId++}`;
+  id = `people-picker-input-${PeoplePickerInputComponent.nextId++}`;
   describedBy = '';
   onChange = (_: any) => {};
   onTouched = () => {};

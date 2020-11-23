@@ -14,7 +14,7 @@ import { ModalType } from '../models/fisics/State';
 import { Log } from '../models/fisics/Log';
 //import * as $ from 'jquery';
 declare var $:any;
-export class PopupAt {
+export class PopupBase {
   submitted: boolean;
   form: FormGroup;
   nombrePagina: string;
