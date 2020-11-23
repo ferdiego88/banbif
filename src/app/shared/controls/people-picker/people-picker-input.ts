@@ -13,7 +13,7 @@ import { User } from 'src/app/shared/models/fisics/base/User';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { ControlValueAccessor, NgControl, FormControl } from '@angular/forms';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
