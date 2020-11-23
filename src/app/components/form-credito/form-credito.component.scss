@@ -2,6 +2,11 @@
   width: 100%;
 }
 
+.card-center {
+  width: 25%;
+  margin:auto;
+}
+
 .mat-card-subtitle {
   background: rgba(2,139,255,1) !important;
   color: aliceblue;
@@ -13,7 +18,9 @@
 
 .mat-card-title{
   color: rgba(2,139,255,1) !important;
+  margin-bottom: auto;
 }
+
 
 .mat-raised-button.mat-primary{
   background: rgba(2,139,255,1) !important;
