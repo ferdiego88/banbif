@@ -215,7 +215,315 @@
         <div class="col">
           <p>Tipo de Renta</p>
         </div>
+        <div class="col">
+          <p>Titular</p>
+          <mat-checkbox>1ERA</mat-checkbox><br>
+          <mat-checkbox>2DA</mat-checkbox><br>
+          <mat-checkbox>3ERA</mat-checkbox><br>
+          <mat-checkbox>4TA</mat-checkbox><br>
+          <mat-checkbox>5TA</mat-checkbox>
+        </div>
+
+        <div class="col">
+          <p>Cónyugue</p>
+          <mat-checkbox>1ERA</mat-checkbox><br>
+          <mat-checkbox>2DA</mat-checkbox><br>
+          <mat-checkbox>3ERA</mat-checkbox><br>
+          <mat-checkbox>4TA</mat-checkbox><br>
+          <mat-checkbox>5TA</mat-checkbox>
+        </div>
+        <div class="col">
+          <mat-card-subtitle>
+
+          </mat-card-subtitle>
+        </div>
+
       </div>
+      <div class="row">
+        <div class="col">
+          <mat-card-subtitle>DATOS DE LA OPERACIÓN</mat-card-subtitle>
+          <hr>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+         <p>Nombre de Proyecto</p>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Nombre de Proyecto" formControlName="state">
+              <mat-option *ngFor="let state of states" [value]="state.abbreviation">
+                {{ state.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="addressForm.controls['state'].hasError('required')">
+              Nombre de Proyecto <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-card-subtitle>
+
+          </mat-card-subtitle>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+         <p>Número de Vivienda</p>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Número de Vivienda" formControlName="state">
+              <mat-option *ngFor="let state of states" [value]="state.abbreviation">
+                {{ state.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="addressForm.controls['state'].hasError('required')">
+              Número de Vivienda <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-card-subtitle>
+
+          </mat-card-subtitle>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+         <p>Tipo de Moneda</p>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Tipo de Moneda" formControlName="state">
+              <mat-option *ngFor="let state of states" [value]="state.abbreviation">
+                {{ state.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="addressForm.controls['state'].hasError('required')">
+              Tipo de Moneda <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-card-subtitle>
+
+          </mat-card-subtitle>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+         <p>TEA ( % )</p>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="TEA ( % )" formControlName="state">
+              <mat-option *ngFor="let state of states" [value]="state.abbreviation">
+                {{ state.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="addressForm.controls['state'].hasError('required')">
+              TEA ( % ) <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-card-subtitle>
+
+          </mat-card-subtitle>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+         <p>TEA Autorizada por</p>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="TEA Autorizada por" formControlName="state">
+              <mat-option *ngFor="let state of states" [value]="state.abbreviation">
+                {{ state.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="addressForm.controls['state'].hasError('required')">
+              TEA Autorizada por <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-card-subtitle>
+
+          </mat-card-subtitle>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+         <p>Precio de Venta</p>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="" formControlName="state">
+              <mat-option *ngFor="let state of states" [value]="state.abbreviation">
+                {{ state.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="addressForm.controls['state'].hasError('required')">
+              TEA Autorizada por <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col">
+          <mat-form-field class="mid-width">
+            <input matInput placeholder="" formControlName="lastName">
+            <mat-error *ngIf="addressForm.controls['lastName'].hasError('required')">
+              N° de Documento <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col">
+         <p>( % ) de Financiamiento</p>
+        </div>
+        <div class="col">
+          <mat-form-field class="mid-width">
+            <input matInput placeholder="" formControlName="lastName">
+            <mat-error *ngIf="addressForm.controls['lastName'].hasError('required')">
+              ( % ) de Financiamiento <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-card-subtitle>
+
+          </mat-card-subtitle>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-card-subtitle>DATOS DE LA OPERACIÓN</mat-card-subtitle>
+          <hr>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          Desembolso
+        </div>
+        <div class="col">
+          <mat-card-actions>
+            <button mat-raised-button color="primary" type="submit">Calcular</button>
+          </mat-card-actions>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="S/." formControlName="state">
+              <mat-option *ngFor="let state of states" [value]="state.abbreviation">
+                {{ state.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="addressForm.controls['state'].hasError('required')">
+              S/. <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="mid-width">
+            <input matInput placeholder="" formControlName="lastName">
+            <mat-error *ngIf="addressForm.controls['lastName'].hasError('required')">
+              Desembolso<strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-card-subtitle></mat-card-subtitle>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          Gravamen (120% x Desembolso)
+        </div>
+        <div class="col">
+          <mat-card-actions>
+            <button mat-raised-button color="primary" type="submit">Calcular</button>
+          </mat-card-actions>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="S/." formControlName="state">
+              <mat-option *ngFor="let state of states" [value]="state.abbreviation">
+                {{ state.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="addressForm.controls['state'].hasError('required')">
+              S/. <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="mid-width">
+            <input matInput placeholder="" formControlName="lastName">
+            <mat-error *ngIf="addressForm.controls['lastName'].hasError('required')">
+              Gravamen (120% x Desembolso)<strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-card-subtitle></mat-card-subtitle>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col">
+          Modalidad de Pago
+        </div>
+
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="S/." formControlName="state">
+              <mat-option *ngFor="let state of states" [value]="state.abbreviation">
+                {{ state.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="addressForm.controls['state'].hasError('required')">
+              S/. <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-card-subtitle></mat-card-subtitle>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col">
+          Observaciones(Opcional)
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>Deja una Observación</mat-label>
+            <textarea matInput placeholder="Observaciones" multiline rows="3"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="col">
+        <mat-card-subtitle></mat-card-subtitle>
+        </div>
+      </div>
+
+
 
     </mat-card-content>
     <mat-card-actions>
