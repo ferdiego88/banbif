@@ -10,11 +10,11 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 
 import { HomeComponent } from './components/home/home.component';
 import { BandejaSolicitudComponent } from './components/bandeja-solicitud/bandeja-solicitud.component';
-import { FormularioSolicitudComponent } from './components/formulario-solicitud/formulario-solicitud.component';
-import { BandejaParametrosComponent } from './components/mantenimiento/bandeja-parametros/bandeja-parametros.component';
-import { FormularioParametrosComponent } from './components/mantenimiento/formulario-parametros/formulario-parametros.component';
-import { BandejaEtapasComponent } from './components/mantenimiento/bandeja-etapas/bandeja-etapas.component';
-import { FormularioEtapasComponent } from './components/mantenimiento/formulario-etapas/formulario-etapas.component';
+// import { FormularioSolicitudComponent } from './components/formulario-solicitud/formulario-solicitud.component';
+// import { BandejaParametrosComponent } from './components/mantenimiento/bandeja-parametros/bandeja-parametros.component';
+// import { FormularioParametrosComponent } from './components/mantenimiento/formulario-parametros/formulario-parametros.component';
+// import { BandejaEtapasComponent } from './components/mantenimiento/bandeja-etapas/bandeja-etapas.component';
+// import { FormularioEtapasComponent } from './components/mantenimiento/formulario-etapas/formulario-etapas.component';
 
 //Angular Material Components
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -119,11 +119,11 @@ const materialModules = [
     AppComponent,
     HomeComponent,
     BandejaSolicitudComponent,
-    FormularioSolicitudComponent,
-    BandejaParametrosComponent,
-    FormularioParametrosComponent,
-    BandejaEtapasComponent,
-    FormularioEtapasComponent,
+    // FormularioSolicitudComponent,
+    // BandejaParametrosComponent,
+    // FormularioParametrosComponent,
+    // BandejaEtapasComponent,
+    // FormularioEtapasComponent,
     SidebarComponent,
     ModalDialog,
     BooleanStringPipe,
@@ -162,11 +162,11 @@ const materialModules = [
     ...materialModules,
     HomeComponent,
     BandejaSolicitudComponent,
-    FormularioSolicitudComponent,
-    BandejaParametrosComponent,
-    FormularioParametrosComponent,
-    BandejaEtapasComponent,
-    FormularioEtapasComponent,
+    // FormularioSolicitudComponent,
+    // BandejaParametrosComponent,
+    // FormularioParametrosComponent,
+    // BandejaEtapasComponent,
+    // FormularioEtapasComponent,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
