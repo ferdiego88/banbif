@@ -63,7 +63,7 @@ import { NgHttpLoaderModule } from 'ng-http-loader'; // <============
 import { MatSelectSearchModule } from './mat-select-search/mat-select-search.module';
 import { ModalDialog } from './shared/controls/modal/modal.component';
 import { BooleanStringPipe } from './shared/pipes/boolean-string.pipe';
-import { HistorialSolicitudComponent } from './shared/components/historial-solicitud/historial-solicitud.component';
+// import { HistorialSolicitudComponent } from './shared/components/historial-solicitud/historial-solicitud.component';
 import { DateFormatPipe } from './shared/pipes/date-format.pipe';
 import { BotoneraComponent } from './components/formulario-solicitud/botonera/botonera.component';
 import { FileUploadComponent } from './shared/controls/file-upload/file-upload.component';
@@ -127,7 +127,7 @@ const materialModules = [
     SidebarComponent,
     ModalDialog,
     BooleanStringPipe,
-    HistorialSolicitudComponent,
+    // HistorialSolicitudComponent,
     DateFormatPipe,
     BotoneraComponent,
     FileUploadComponent,
