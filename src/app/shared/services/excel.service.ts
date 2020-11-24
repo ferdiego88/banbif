@@ -19,45 +19,60 @@ export class ExcelService {
     const workbook = new Workbook();
     const worksheet = workbook.addWorksheet(nameSheet);
 
-    worksheet.addRow('');
+    nameFile = nameFile + " -" + new Date().valueOf();
+    //worksheet.addRow('');
+    //headers.unshift('');
 
-    headers.unshift('');
-    const row = worksheet.addRow(headers);
-    row.eachCell(
-      (cell, numberCell) => {
+    let row = worksheet.addRow(headers);
+
+    row.eachCell((cell, numberCell) => {
         let width = 0;
+
         switch (numberCell) {
-          case 1: width = 3.5; break;
-          case 2: width = 4; break;
-          case 3: width = 15; break;
-          case 4: width = 31; break;
-          case 5: width = 26; break;
-          case 6: width = 26; break;
-          case 7: width = 26; break;
-          case 8: width = 26; break;
-          case 9: width = 14; break;          
+          case 1: width = 20; break;
+          case 2: width = 30; break;
+          case 3: width = 20; break;
+          case 4: width = 40; break;
+          case 5: width = 20; break;
+          case 6: width = 20; break;
+          case 7: width = 20; break;
+          case 8: width = 20; break;
+          case 9: width = 20; break;
+          case 10: width = 20; break;
+          case 11: width = 20; break;
+          case 12: width = 20; break;
         }
+
         cell.worksheet.getColumn(numberCell).width = width;
         
-        if (numberCell > 1) {
+        if (numberCell > 0) {
           cell.fill = {
             type: 'pattern',
             pattern: 'solid',
             fgColor: {},
           };
 
-          cell.border = Funciones.excelBorde();
-  
+          cell.border = Funciones.excelBorde();  
           cell.alignment = { vertical: 'middle', horizontal: 'center' };
         }
-        
       }
     );
 
     details.forEach(item => {
-      item.unshift('');
-      console.log(item);
-      worksheet.addRow(item);
+      //item.unshift('');
+      row = worksheet.addRow(item);
+
+      row.eachCell(
+        (cell, numberCell) => {
+        
+          if (numberCell > 0) {
+            
+            cell.border = Funciones.excelBorde();
+  
+            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };          
+          }
+        }
+      );
     });
 
     workbook.xlsx.writeBuffer().then(
