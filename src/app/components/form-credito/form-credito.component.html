@@ -17,8 +17,8 @@
         <div class="col">
           <mat-form-field class="full-width">
             <mat-select placeholder="Producto - Código" formControlName="state">
-              <mat-option *ngFor="let state of states" [value]="state.abbreviation">
-                {{ state.name }}
+              <mat-option *ngFor="let tipoProducto of tipoProductoList" [value]="tipoProducto.Id">
+                {{ tipoProducto.Title }}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="addressForm.controls['state'].hasError('required')">

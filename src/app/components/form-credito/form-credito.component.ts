@@ -1,12 +1,19 @@
-import { Component } from '@angular/core';
+import { listLazyRoutes } from '@angular/compiler/src/aot/lazy_routes';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { GeneralListService } from '../../shared/services/general-list.service';
+import { MasterService } from '../../shared/services/master.service';
+import { TipoProductoModel } from '../../shared/models/fisics';
 
 @Component({
   selector: 'app-form-credito',
   templateUrl: './form-credito.component.html',
   styleUrls: ['./form-credito.component.scss']
 })
-export class FormCreditoComponent {
+export class FormCreditoComponent implements OnInit {
+
+  tipoProductoList: TipoProductoModel;
+
   addressForm = this.fb.group({
     company: null,
     firstName: [null, Validators.required],
@@ -85,9 +92,20 @@ export class FormCreditoComponent {
     {name: 'Wyoming', abbreviation: 'WY'}
   ];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private generalListService: GeneralListService,
+    private masterService: MasterService 
+  ) {}
+
+  ngOnInit() {
+    this.generalListService.get('Tipo_Producto')
+      .then(tipoProductoList => this.tipoProductoList = tipoProductoList)
+      .catch(error => console.error(error));
+  }
 
   onSubmit() {
     alert('Thanks!');
   }
+  
 }
