@@ -37,7 +37,7 @@ export class GeneralListService {
     public add(listName: string, item: any): Promise<any> {
         return new Promise((resolve, reject) => {          
             if (sp !== null && sp !== undefined) {
-                sp.web.lists.getByTitle(listName).items.add(item).then((result:  any) => {
+                sp.web.lists.getByTitle(listName).items.add(item).then((result: any) => {
                     resolve(result);
                 });
             } else {

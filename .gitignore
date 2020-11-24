@@ -12,6 +12,7 @@ node_modules.rar
 
 # dependencies
 /node_modules
+node_modules.rar
 
 # profiling files
 chrome-profiler-events*.json
