@@ -335,7 +335,13 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
     this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
 
     if (this.tableQuery.filter.Estado.length === 0) {
-      this.setearFiltrosBusquedaPorEstado();
+      let estadosSeleccionados: number[] = [];
+
+      estadosSeleccionados = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
+        return elementoEstado.Id === 1 || elementoEstado.Id === 3 || elementoEstado.Id === 5;
+      }).map((elementoEstado: Lookup) => elementoEstado.Id);
+
+      this.tableQuery.filter.Estado = estadosSeleccionados;
     }
 
     let filter = this.tableQuery.filter;
