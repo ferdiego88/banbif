@@ -55,20 +55,24 @@ export class SolicitudesService {
         filterArr.push(`(${filter.Estado.map(x => `(${Variables.columnasSolicitud.Estado}/Id eq '${x}')`).join(" or ")})`);
       }
 
+      if (filter.Id && filter.Id.length > 0 ) {
+        filterArr.push(`(${Variables.columnasSolicitud.Id}  eq ${filter.Id})`);
+      }
+
       if (filter.Author && filter.Author > 0) {
         filterArr.push(`(${Variables.columnasSolicitud.Author}/Id  eq ${filter.Author})`);
       }
 
-      if (filter.NombreTitular && filter.NombreTitular.trim()) {
-        filterArr.push(`(substringof('${filter.NombreTitular}',${Variables.columnasSolicitud.NombreTitular}))`);
+      if (filter.NombreTitular && filter.NombreTitular.trim().length > 0) {
+        filterArr.push(`(substringof('${filter.NombreTitular.trim()}',${Variables.columnasSolicitud.NombreTitular}))`);
       }
 
       if (filter.TipoDocumento && filter.TipoDocumento > 0) {
         filterArr.push(`(${Variables.columnasSolicitud.TipoDocumento}/Id  eq ${filter.TipoDocumento})`);
       }
 
-      if (filter.NumeroDocumento && filter.NumeroDocumento.trim()) {
-        filterArr.push(`(substringof('${filter.NumeroDocumento}',${Variables.columnasSolicitud.NumeroDocumento}))`);
+      if (filter.NumeroDocumento && filter.NumeroDocumento.trim().length > 0) {
+        filterArr.push(`(substringof('${filter.NumeroDocumento.trim()}',${Variables.columnasSolicitud.NumeroDocumento}))`);
       }
 
       if (filter.TipoProducto && filter.TipoProducto > 0) {
