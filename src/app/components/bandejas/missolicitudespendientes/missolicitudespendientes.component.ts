@@ -446,7 +446,7 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
           return dataMap;
         });
        
-        this.excelService.excelListadoGeneral('Mis Solicitudes Pendientes', 'MisSolicitudesPendientes', headers, details);
+        this.excelService.excelListadoMisSolicitudes('Mis Solicitudes Pendientes', 'MisSolicitudesPendientes', headers, details);
         this.ocultarProgreso();
       },
       err => this.guardarLog(err)
