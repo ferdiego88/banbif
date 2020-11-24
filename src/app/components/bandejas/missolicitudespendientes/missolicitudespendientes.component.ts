@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { MatPaginator, } from '@angular/material/paginator';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatSidenav } from '@angular/material/sidenav';
 import { EFiltroBandejaSolicitud } from 'src/app/shared/models/fisics/EFiltroBandejaSolicitud';
@@ -72,6 +72,10 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
   isRateLimitReached = false;
   isFilterApplied = false;
 
+  nombreControles = {
+    filtroSolicitante: 'filtroSolicitante'
+  }
+
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('sidenavfiltros', { static: true }) public myNav: MatSidenav;
@@ -86,10 +90,14 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
     public zone: NgZone,
     public _spinner: SpinnerVisibilityService,
     public solicitudesService: SolicitudesService,
-    public excelService: ExcelService
+    public excelService: ExcelService,
+    public formBuilder: FormBuilder
   ) {
     super('Mis Solicitudes Pendientes', applicationRef, dialog, route, router, masterService, zone, _spinner);
 
+    this.form = this.formBuilder.group({
+      filtroSolicitante: ['']
+    });
   }
 
   ngOnInit(): void {
@@ -240,6 +248,9 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
 
     if (this.tableQuery.filter) this.isOpenMenu = true;
 
+    this.removePeople("solicitante");
+    this.setearFiltrosBusquedaPorEstado();
+  
     this.getSolicitudes();
 
     this.setClearFiltrosAplicados();
@@ -319,6 +330,9 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
 
   async getSolicitudesPaged(): Promise<EBandejaSolicitud[]> {
     this.mostrarProgreso();
+
+    this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
+
     let filter = this.tableQuery.filter;
     let order = this.sort.active;
     let desc = this.sort.direction;
@@ -369,6 +383,14 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
     /*console.dir(items);*/
     this.ocultarProgreso();
     return items;
+  }
+
+  removePeople(tipoControl: string): void {
+
+    if (tipoControl === 'solicitante') {
+      this.form.get(this.nombreControles.filtroSolicitante).setValue([]);
+      this.form.controls[this.nombreControles.filtroSolicitante].updateValueAndValidity();
+    }
   }
 
   exportarExcel() {

@@ -7,6 +7,8 @@ import {
   OnDestroy,
   Optional,
   Self,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { UserService } from 'src/app/shared/services/user.service';
 import { User } from 'src/app/shared/models/fisics/base/User';
@@ -36,6 +38,9 @@ import { environment } from 'src/environments/environment';
 })
 export class PeoplePickerInputComponent
   implements ControlValueAccessor, MatFormFieldControl<User[]>, OnDestroy {
+
+  @Output() onRemove: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   static nextId = 0;
 
   selectValue: User;
@@ -45,8 +50,8 @@ export class PeoplePickerInputComponent
   controlType = 'people-picker-input';
   id = `people-picker-input-${PeoplePickerInputComponent.nextId++}`;
   describedBy = '';
-  onChange = (_: any) => {};
-  onTouched = () => {};
+  onChange = (_: any) => { };
+  onTouched = () => { };
 
   /* Variables del Control - Inicio */
   visible: boolean = true;
@@ -100,6 +105,9 @@ export class PeoplePickerInputComponent
 
     if (index >= 0) {
       this.peoples.splice(index, 1);
+      this.peoples = [...this.peoples];
+
+      this.onRemove.emit(true);
     }
     this.disableInput(this._multiple);
   }
