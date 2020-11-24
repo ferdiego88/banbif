@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { MatPaginator, } from '@angular/material/paginator';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatSidenav } from '@angular/material/sidenav';
 import { EFiltroBandejaSolicitud } from 'src/app/shared/models/fisics/EFiltroBandejaSolicitud';
@@ -20,6 +20,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { EBandejaSolicitud } from 'src/app/shared/models/fisics/EBandejaSolicitud';
 import { MasterLogic } from 'src/app/shared/models/logics/MasterLogic';
 import { Variables } from 'src/app/shared/variables';
+import { Funciones } from 'src/app/shared/funciones';
 import { MasterService } from 'src/app/shared/services/master.service';
 import { MasterBandejaLogic } from 'src/app/shared/models/logics/MasterBandejaLogic';
 
@@ -72,6 +73,10 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
   isRateLimitReached = false;
   isFilterApplied = false;
 
+  nombreControles = {
+    filtroSolicitante: 'filtroSolicitante'
+  }
+
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('sidenavfiltros', { static: true }) public myNav: MatSidenav;
@@ -86,10 +91,14 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
     public zone: NgZone,
     public _spinner: SpinnerVisibilityService,
     public solicitudesService: SolicitudesService,
-    public excelService: ExcelService
+    public excelService: ExcelService,
+    public formBuilder: FormBuilder
   ) {
     super('Mis Solicitudes Pendientes', applicationRef, dialog, route, router, masterService, zone, _spinner);
 
+    this.form = this.formBuilder.group({
+      filtroSolicitante: ['']
+    });
   }
 
   ngOnInit(): void {
@@ -98,8 +107,8 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
 
       this.currentUserName = this.datosMaestrosBandeja.currentUser.Title;
       this.userSolicitante = this.datosMaestrosBandeja.PertenceGrupo_U_Oficina;
-      
-      if(this.datosMaestrosBandeja.PertenceGrupo_U_ReemplazoOficina){
+
+      if (this.datosMaestrosBandeja.PertenceGrupo_U_ReemplazoOficina) {
         this.userSolicitante = false;
       }
 
@@ -240,6 +249,9 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
 
     if (this.tableQuery.filter) this.isOpenMenu = true;
 
+    this.removePeople("solicitante");
+    this.setearFiltrosBusquedaPorEstado();
+
     this.getSolicitudes();
 
     this.setClearFiltrosAplicados();
@@ -250,8 +262,8 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
     window.sessionStorage.setItem("Estado", "");
     window.sessionStorage.setItem("NumeroDocumento", "");
     window.sessionStorage.setItem("TipoProducto", "");
-    window.sessionStorage.setItem("Oficina", "");    
-    
+    window.sessionStorage.setItem("Oficina", "");
+
     this.isFilterApplied = false;
   }
 
@@ -319,6 +331,13 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
 
   async getSolicitudesPaged(): Promise<EBandejaSolicitud[]> {
     this.mostrarProgreso();
+
+    this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
+
+    if (this.tableQuery.filter.Estado.length === 0) {
+      this.setearFiltrosBusquedaPorEstado();
+    }
+
     let filter = this.tableQuery.filter;
     let order = this.sort.active;
     let desc = this.sort.direction;
@@ -366,39 +385,73 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
       return EBandejaSolicitud.parseJson(elemento);
     });
 
-    /*console.dir(items);*/
     this.ocultarProgreso();
     return items;
   }
 
+  removePeople(tipoControl: string): void {
+
+    if (tipoControl === 'solicitante') {
+      this.form.get(this.nombreControles.filtroSolicitante).setValue([]);
+      this.form.controls[this.nombreControles.filtroSolicitante].updateValueAndValidity();
+    }
+  }
+
   exportarExcel() {
-      this.solicitudesService.getBandejaMisSolicitudesPendientes(null, '', true, 100000, this.datosMaestrosBandeja.currentUser,this.userSolicitante).then(
-        (data: PagedItemCollection<any[]>) => {
-          const items: EBandejaSolicitud[] = data.results.map(elemento => {
-            return EBandejaSolicitud.parseJson(elemento);
-          });
-           
-          const headers: string[] = ['ID', 'FEC. SOLICITUD', 'ETAPA', 'LAB', 'LDN', 'D.T.', 'R.D.M.', 'BORRADOR'];
-          const details: any[][] = items.map((item: any) => {
-            const dataMap: any[] = [];
-            dataMap.push(item.Id);
-            dataMap.push(item.Created);
-            /*dataMap.push(item.MaestroFLujoEtapa.Title);
-            dataMap.push(item.ResponsableLaboratorio);
-            dataMap.push(item.EjecutivoComercial);
-            dataMap.push(item.ResponsableDT);
-            dataMap.push(item.ResponsableRDM);
-            dataMap.push(item.EnBorrador ? 'Sí' : 'No');*/
-  
-            return dataMap;
-          });
-  
-          console.log(details);
-          this.excelService.excelListadoGeneral('Consulta Solicitudes', 'ConsultaSolicitudes', headers, details);
-        },
-        err => this.guardarLog(err)
-      );
-  
+    this.mostrarProgreso();
+
+    this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
+
+    if (this.tableQuery.filter.Estado.length === 0) {
+      this.setearFiltrosBusquedaPorEstado();
+    }
+
+    let filter = this.tableQuery.filter;
+    let order = this.sort.active;
+    let desc = this.sort.direction;
+
+    let direction = true;
+
+    if (desc == "asc") {
+      direction = true;
+    } else if (desc == "desc") {
+      direction = false;
+    } else {
+      order = null;
+    }
+
+    this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, 100000, this.datosMaestrosBandeja.currentUser, this.userSolicitante).then(
+      (data: PagedItemCollection<any[]>) => {
+        const items: EBandejaSolicitud[] = data.results.map(elemento => {
+          return EBandejaSolicitud.parseJson(elemento);
+        });
+
+        const headers: string[] = ['N° Solicitud', 'Solicitante', 'Fec. Solicitud', 'Nombre Titular', 'Nro. Documento', 'Tipo Producto', 'Estado', 'Moneda', 'Precio Venta', 'Financiamiento', 'Oficina', 'Fecha Estado'];
+        const details: any[][] = items.map((item: any) => {
+          const dataMap: any[] = [];
+
+          dataMap.push(item.Id);
+          dataMap.push(item.Author);
+          dataMap.push(Funciones.dateFormat(item.Created));
+          dataMap.push(item.Nombre_Titular);
+          dataMap.push(item.N_Documento);
+          dataMap.push(item.Tipo_Producto);
+          dataMap.push(item.Estado);
+          dataMap.push(item.Moneda);
+          dataMap.push(item.Precio_Venta);
+          dataMap.push(item.Financiamiento);
+          dataMap.push(item.Oficina);
+          dataMap.push(item.Fecha_Estado);
+
+          return dataMap;
+        });
+       
+        this.excelService.excelListadoMisSolicitudes('Mis Solicitudes Pendientes', 'MisSolicitudesPendientes', headers, details);
+        this.ocultarProgreso();
+      },
+      err => this.guardarLog(err)
+    );
+
   }
 }
 

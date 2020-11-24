@@ -1,6 +1,7 @@
 import { Lookup } from "./base/Lookup";
 
 export class EFiltroBandejaSolicitud {
+  Id: string
   Title: string;
   Author: number;
   Created: Date;
@@ -18,6 +19,7 @@ export class EFiltroBandejaSolicitud {
   FechaEstado: Date;
 
   constructor() {
+    this.Id = "";
     this.Title = "";
     this.Author = 0;
     this.Created = null;

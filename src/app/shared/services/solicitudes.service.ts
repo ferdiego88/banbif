@@ -39,43 +39,51 @@ export class SolicitudesService {
     usuario: User,
     solicitante: boolean
   ): Promise<PagedItemCollection<any[]>> {
-       
+
     const selectFields = EBandejaSolicitud.getColumnasSelect();
     const expandFields = EBandejaSolicitud.getColumnasExpand();
 
     let query = this.listaSolicitudes.items.expand(...expandFields).select(...selectFields);
-  
+
     let filterArr = [];
 
     if (solicitante) filterArr.push(`(${Variables.columnasSolicitud.Author}/Id  eq ${usuario.Id})`);
-  
+
     if (filter) {
 
       if (filter.Estado && filter.Estado.length) {
         filterArr.push(`(${filter.Estado.map(x => `(${Variables.columnasSolicitud.Estado}/Id eq '${x}')`).join(" or ")})`);
       }
 
-      if (filter.NombreTitular && filter.NombreTitular.trim()) {
-        filterArr.push(`(substringof('${filter.NombreTitular}',${Variables.columnasSolicitud.NombreTitular}))`);
+      if (filter.Id && filter.Id.length > 0 ) {
+        filterArr.push(`(${Variables.columnasSolicitud.Id}  eq ${filter.Id})`);
       }
 
-      if (filter.TipoDocumento) {
+      if (filter.Author && filter.Author > 0) {
+        filterArr.push(`(${Variables.columnasSolicitud.Author}/Id  eq ${filter.Author})`);
+      }
+
+      if (filter.NombreTitular && filter.NombreTitular.trim().length > 0) {
+        filterArr.push(`(substringof('${filter.NombreTitular.trim()}',${Variables.columnasSolicitud.NombreTitular}))`);
+      }
+
+      if (filter.TipoDocumento && filter.TipoDocumento > 0) {
         filterArr.push(`(${Variables.columnasSolicitud.TipoDocumento}/Id  eq ${filter.TipoDocumento})`);
       }
 
-      if (filter.NumeroDocumento && filter.NumeroDocumento.trim()) {
-        filterArr.push(`(substringof('${filter.NumeroDocumento}',${Variables.columnasSolicitud.NumeroDocumento}))`);
+      if (filter.NumeroDocumento && filter.NumeroDocumento.trim().length > 0) {
+        filterArr.push(`(substringof('${filter.NumeroDocumento.trim()}',${Variables.columnasSolicitud.NumeroDocumento}))`);
       }
 
-      if (filter.TipoProducto) {
+      if (filter.TipoProducto && filter.TipoProducto > 0) {
         filterArr.push(`(${Variables.columnasSolicitud.TipoProducto}/Id  eq ${filter.TipoProducto})`);
-      }      
-      
-      if (filter.Moneda) {
+      }
+
+      if (filter.Moneda && filter.Moneda > 0) {
         filterArr.push(`(${Variables.columnasSolicitud.Moneda}/Id  eq ${filter.Moneda})`);
       }
 
-      if (filter.ModalidadPago) {
+      if (filter.ModalidadPago && filter.ModalidadPago > 0) {
         filterArr.push(`(${Variables.columnasSolicitud.ModalidadPago}/Id  eq ${filter.ModalidadPago})`);
       }
 
@@ -83,11 +91,11 @@ export class SolicitudesService {
         filterArr.push(`(${Variables.columnasSolicitud.Financiamiento}/Id  eq ${filter.Financiamiento})`);
       }
 
-      if (filter.Zona) {
+      if (filter.Zona && filter.Zona > 0) {
         filterArr.push(`(${Variables.columnasSolicitud.Zona}/Id  eq ${filter.Zona})`);
       }
 
-      if (filter.Oficina) {
+      if (filter.Oficina && filter.Oficina > 0) {
         filterArr.push(`(${Variables.columnasSolicitud.Oficina}/Id  eq ${filter.Oficina})`);
       }
 
@@ -98,7 +106,7 @@ export class SolicitudesService {
       if (filter.Created) {
         const fechaDesde = moment(filter.Created).format('YYYY-MM-DDT') + '00:00:00.000Z';
         filterArr.push(`(datetime'${fechaDesde}' lt ${Variables.columnasSolicitud.Created})`);
-     
+
         const fechaHasta = moment(filter.Created).format('YYYY-MM-DDT') + '23:59:59.000Z';
         filterArr.push(`(datetime'${fechaHasta}' ge ${Variables.columnasSolicitud.Created})`);
       }
@@ -106,10 +114,10 @@ export class SolicitudesService {
       if (filter.FechaEstado) {
         const fechaDesde = moment(filter.FechaEstado).format('YYYY-MM-DDT') + '00:00:00.000Z';
         filterArr.push(`(datetime'${fechaDesde}' lt ${Variables.columnasSolicitud.FechaEstado})`);
-     
+
         const fechaHasta = moment(filter.FechaEstado).format('YYYY-MM-DDT') + '23:59:59.000Z';
         filterArr.push(`(datetime'${fechaHasta}' ge ${Variables.columnasSolicitud.FechaEstado})`);
-      }   
+      }
     }
 
     query = query.filter(filterArr.join(" and "));
@@ -126,7 +134,7 @@ export class SolicitudesService {
 
         return p;
       });
-   
+
     return results;
   }
 
