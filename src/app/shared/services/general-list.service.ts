@@ -23,6 +23,17 @@ export class GeneralListService {
         });
     }
 
+    public async getByField(listName: string, fieldFilter: string, valueFilter: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            if (sp !== null && sp !== undefined) {
+                const items = sp.web.lists.getByTitle(listName).items.filter(`${fieldFilter} eq ${valueFilter}`).getAll();
+                console.log({items});
+                resolve(items);
+            } else {
+                reject('Failed getting list data...');
+            }
+        });
+    }
 
     public getSub(listName: string): Promise<any> {
         return new Promise((resolve, reject) => {
