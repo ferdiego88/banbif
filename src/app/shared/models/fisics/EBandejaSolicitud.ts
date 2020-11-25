@@ -19,6 +19,7 @@ export class EBandejaSolicitud {
     Oficina: string;
     Sustento_Ingresos: string;
     Fecha_Estado: Date;
+    TiempoAtencion: string;
 
     constructor() {
         this.Id = 0;
@@ -37,6 +38,7 @@ export class EBandejaSolicitud {
         this.Oficina = "";
         this.Sustento_Ingresos = "";
         this.Fecha_Estado = new Date();
+        this.TiempoAtencion = "";
     }
 
     public static getColumnasSelect(): string[] {
