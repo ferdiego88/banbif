@@ -1,18 +1,13 @@
 export const environment = {
-  production: true,
-  /*webRelativeUrl: '/sites/yanbalappsdesa/productosnuevos',
-  proxyUrl: 'https://uniqueyanbal.sharepoint.com',
-  cdnUrl: 'https://uniqueyanbal.sharepoint.com/sites/corporacion/cdn',
-  paredUrl: 'https://uniqueyanbal.sharepoint.com/sites/yanbalappsdesa/productosnuevos/pared/',
-*/
+  production: true,  
   appPage: '/SitePages/app.aspx/',
-  cdnUrl: 'https://quicorp.sharepoint.com/sites/externoperu/creacion-materiales',
-  paredUrl: 'https://quicorp.sharepoint.com/sites/externoperu/creacion-materiales',
-  proxyTenant: 'https://quicorp.sharepoint.com',
-  proxyUrl: 'https://quicorp.sharepoint.com',
-  webRelativeUrl: '/sites/externoperu/creacion-materiales',
+  cdnUrl: 'http://bif1mssapp10/banmin/fdt/hipot',
+  paredUrl: 'http://bif1mssapp10/banmin/fdt/hipot',
+  proxyTenant: 'http://bif1mssapp10',
+  proxyUrl: 'http://bif1mssapp10',
+  webRelativeUrl: '/banmin/fdt/hipot',
   sitePared: 'pared',
-  urlForDownloadTest: 'https://quicorp.sharepoint.com',
+  urlForDownloadTest: 'http://bif1mssapp10',
 
   getRutaBase() {
     return environment.proxyTenant + environment.webRelativeUrl;

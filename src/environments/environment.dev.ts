@@ -1,10 +1,5 @@
 export const environment = {
-  production: true,
-  /*webRelativeUrl: '/sites/yanbalappsdesa/productosnuevos',
-  proxyUrl: 'https://uniqueyanbal.sharepoint.com',
-  cdnUrl: 'https://uniqueyanbal.sharepoint.com/sites/corporacion/cdn',
-  paredUrl: 'https://uniqueyanbal.sharepo int.com/sites/yanbalappsdesa/productosnuevos/pared/',
-*/
+  production: true,  
   appPage: '/SitePages/app.aspx/',
   cdnUrl: 'http://bif1mssapp10/banmin/fdt/hipot',
   paredUrl: 'http://bif1mssapp10/banmin/fdt/hipot',
