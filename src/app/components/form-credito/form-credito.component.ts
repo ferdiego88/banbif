@@ -28,7 +28,7 @@ export class FormCreditoComponent implements OnInit {
   paymentTypeList: TipoProductoModel[];
   tipoSubProductoList: TipoSubProductoModel[];
   zonaModelList: ZonaModel;
- 
+
   typeCurrencySaving: TipoProductoModel[];
   planSituationSavingList: TipoProductoModel[];
   LastValidatedBonoList: TipoProductoModel[];
@@ -72,7 +72,7 @@ export class FormCreditoComponent implements OnInit {
     N_Abonos_Validados: [null, Validators.required],
     Ultimo_Abono_Validado: [null, Validators.required],
     Cta_Ahorro_Banbif: [null, Validators.required],
-    
+
 
     /*Fin Plan Ahorro */
     postalCode: [null, Validators.compose([
@@ -86,26 +86,26 @@ export class FormCreditoComponent implements OnInit {
   monedas = [
     {name: 'Soles', abbreviation: 'S/'},
     {name: 'Dolares', abbreviation: 'USD'},
-  
+
   ];
 
   constructor(
     private fb: FormBuilder,
     private generalListService: GeneralListService,
-    private masterService: MasterService 
+    private masterService: MasterService
   ) {}
 
   ngOnInit() {
    this.cargarCombos();
-    
-     
+
+
   }
 
   cargarCombos(){
     this.getTypeProducts();
     this.valueSubProducto();
+    this.valueModalidad();
     this.getZonas();
-    this.getModalidad();
     this.getOficina();
     this.getTypeDocument();
     this.getSustentoIngresos();
@@ -122,13 +122,13 @@ export class FormCreditoComponent implements OnInit {
     this.getPlanSituationSaving();
     this.getLastValidatedBono();
   }
-  
+
   setTypeCurrency(){
     this.creditForm.get('typeProduct').valueChanges.subscribe(selectedValue => {
       console.log('typeProduct value changed');
       console.log(selectedValue);
     });
-    console.log(this.tipoSubProductoList);  
+    console.log(this.tipoSubProductoList);
   }
 
   getTypeProducts(){
@@ -147,21 +147,31 @@ export class FormCreditoComponent implements OnInit {
         .then((tipoSubProductoList: any) => this.tipoSubProductoList = tipoSubProductoList)
         .catch(error => console.error(error));
     });
-    console.log(this.tipoSubProductoList);   
+    console.log(this.tipoSubProductoList);
   }
 
-  
+
+  valueModalidad(): any{
+    this.creditForm.get('typeProduct').valueChanges.subscribe(selectedValue => {
+      // clean array
+      this.tipoSubProductoList = [];
+      console.log('typeProduct value changed');
+      console.log(selectedValue);
+      this.generalListService.getByField('Modalidad', 'Tipo_ProductoId', selectedValue)
+        .then((modalidadList: any) => this.modalidadList = modalidadList)
+        .catch(error => console.error(error));
+    });
+    console.log(this.modalidadList);
+  }
+
+
+
+
+
 
   getZonas(){
     this.generalListService.get('Zona')
     .then(zonaModelList => this.zonaModelList = zonaModelList)
-    .catch(error => console.error(error));
-  }
-
-
-  getModalidad(){
-    this.generalListService.get('Modalidad')
-    .then(modalidadList => this.modalidadList = modalidadList)
     .catch(error => console.error(error));
   }
 
@@ -172,7 +182,7 @@ export class FormCreditoComponent implements OnInit {
   }
 
 
-    
+
   getTypeDocument(){
     this.generalListService.get('Tipo_Documento')
     .then(typeDocumentList => this.typeDocumentList = typeDocumentList)
@@ -265,5 +275,5 @@ export class FormCreditoComponent implements OnInit {
     .then(LastValidatedBonoList => this.LastValidatedBonoList = LastValidatedBonoList)
     .catch(error => console.error(error));
   }
-  
+
 }
