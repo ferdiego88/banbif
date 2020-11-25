@@ -68,33 +68,33 @@ export class Variables {
   };
 
   static readonly listas = {
-    Solicitudes: "Solicitud_Hipotecario",
-    AdmEstado: "Estado",
-    AdmTipoProducto: "Tipo_Producto",
-    AdmOficina: "Oficina"
-  }
+    Solicitudes: 'Solicitud_Hipotecario',
+    AdmEstado: 'Estado',
+    AdmTipoProducto: 'Tipo_Producto',
+    AdmOficina: 'Oficina',
+  };
 
   static readonly columnasSolicitud = {
-    Id: "Id",
-    ID: "ID",
-    Title: "Title",
-    Author: "Author",
-    Created: "Created",
-    Editor: "Editor",
-    Modified: "Modified",
-    NombreTitular : "Nombre_Titular",
-    TipoDocumento: "Tipo_Documento",
-    NumeroDocumento : "N_Documento",
-    TipoProducto : "Tipo_Producto",
-    Estado : "Estado",
-    Moneda : "Moneda",
-    PrecioVenta : "Precio_Venta",
-    ModalidadPago : "Modalidad_Pago",
-    Financiamiento : "Financiamiento",
-    Zona : "Zona",
-    Oficina : "Oficina",
-    SustentoIngreso : "Sustento_Ingresos",
-    FechaEstado : "Fecha_Estado"
+    Id: 'Id',
+    ID: 'ID',
+    Title: 'Title',
+    Author: 'Author',
+    Created: 'Created',
+    Editor: 'Editor',
+    Modified: 'Modified',
+    NombreTitular : 'Nombre_Titular',
+    TipoDocumento: 'Tipo_Documento',
+    NumeroDocumento : 'N_Documento',
+    TipoProducto : 'Tipo_Producto',
+    Estado : 'Estado',
+    Moneda : 'Moneda',
+    PrecioVenta : 'Precio_Venta',
+    ModalidadPago : 'Modalidad_Pago',
+    Financiamiento : 'Financiamiento',
+    Zona : 'Zona',
+    Oficina : 'Oficina',
+    SustentoIngreso : 'Sustento_Ingresos',
+    FechaEstado : 'Fecha_Estado'
   }
 
   static readonly columns = {

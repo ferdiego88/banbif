@@ -14,6 +14,10 @@ export class GeneralListService {
     public get(listName: string): Promise<any> {
         return new Promise((resolve, reject) => {
             if (sp !== null && sp !== undefined) {
+                // const listExpand = this.variables.ListExpands[listName];
+                // if (listExpand) {
+
+                // }
                 const items = sp.web.lists.getByTitle(listName).items.getAll();
                 console.log({items});
                 resolve(items);
@@ -46,7 +50,7 @@ export class GeneralListService {
             }
         });
     }
-      
+
     public getItemById(listName: string, itemId: any): Promise<any> {
         return new Promise((resolve, reject) => {
             if (sp !== null && sp !== undefined) {
@@ -57,9 +61,9 @@ export class GeneralListService {
             }
         });
     }
-      
+
     public add(listName: string, item: any): Promise<any> {
-        return new Promise((resolve, reject) => {          
+        return new Promise((resolve, reject) => {
             if (sp !== null && sp !== undefined) {
                 sp.web.lists.getByTitle(listName).items.add(item).then((result: any) => {
                     resolve(result);
@@ -69,7 +73,7 @@ export class GeneralListService {
             }
         });
     }
-      
+
     public update(listName: string, itemId: any, item: any): Promise<any> {
         return new Promise((resolve, reject) => {
             if (sp !== null && sp !== undefined) {
@@ -84,7 +88,7 @@ export class GeneralListService {
             }
         });
     }
-      
+
     public delete(listName: string, itemId: any): Promise<any> {
         return new Promise((resolve, reject) => {
             if (sp !== null && sp !== undefined) {
@@ -97,5 +101,5 @@ export class GeneralListService {
             }
         });
     }
-      
+
 }

@@ -1,16 +1,52 @@
 import { listLazyRoutes } from '@angular/compiler/src/aot/lazy_routes';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { GeneralListService } from '../../shared/services/general-list.service';
 import { MasterService } from '../../shared/services/master.service';
 import { TipoProductoModel, TipoSubProductoModel, ZonaModel } from '../../shared/models/fisics';
+import { Variables } from 'src/app/shared/variables';
+
+// import {default as _rollupMoment} from 'moment';
+import * as _moment from 'moment';
+const moment = _moment;
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+
+// See the Moment.js docs for the meaning of these formats:
+// https://momentjs.com/docs/#/displaying/format/
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-form-credito',
   templateUrl: './form-credito.component.html',
-  styleUrls: ['./form-credito.component.scss']
+  styleUrls: ['./form-credito.component.scss'],
+  providers: [
+    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
+    // application's root module. We provide it at the component level here, due to limitations of
+    // our example generation script.
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],
+
 })
 export class FormCreditoComponent implements OnInit {
+  date = new FormControl(moment());
+
 
   tipoProductoList: TipoProductoModel[];
   modalidadList: TipoProductoModel[];
@@ -34,6 +70,9 @@ export class FormCreditoComponent implements OnInit {
   LastValidatedBonoList: TipoProductoModel[];
 
   showSaving = false;
+  showGarantias = false;
+  showBotonesProducto = true;
+  showPVenta = true;
 
   creditForm = this.fb.group({
     typeProduct: [null, Validators.required],
@@ -106,7 +145,7 @@ export class FormCreditoComponent implements OnInit {
     this.valueSubProducto();
     this.valueModalidad();
     this.getZonas();
-    this.getOficina();
+    this.valueOficina();
     this.getTypeDocument();
     this.getSustentoIngresos();
     this.getProject();
@@ -132,7 +171,7 @@ export class FormCreditoComponent implements OnInit {
   }
 
   getTypeProducts(){
-    this.generalListService.get('Tipo_Producto')
+    this.generalListService.get(Variables.listas.AdmTipoProducto)
     .then(tipoProductoList => this.tipoProductoList = tipoProductoList)
     .catch(error => console.error(error));
   }
@@ -141,6 +180,19 @@ export class FormCreditoComponent implements OnInit {
     this.creditForm.get('typeProduct').valueChanges.subscribe(selectedValue => {
       // clean array
       this.tipoSubProductoList = [];
+      if (selectedValue === 4) {
+        this.showGarantias = true;
+        this.showPVenta = false;
+        this.showBotonesProducto = false;
+      } else if (selectedValue === 3) {
+        this.showBotonesProducto = false;
+        this.showPVenta = true;
+      } else{
+        this.showGarantias = false;
+        this.showPVenta = true;
+        this.showBotonesProducto = true;
+      }
+
       console.log('typeProduct value changed');
       console.log(selectedValue);
       this.generalListService.getByField('Sub_Producto', 'ProductoId', selectedValue)
@@ -175,12 +227,19 @@ export class FormCreditoComponent implements OnInit {
     .catch(error => console.error(error));
   }
 
-  getOficina(){
-    this.generalListService.get('Oficina')
-    .then(oficinaList => this.oficinaList = oficinaList)
-    .catch(error => console.error(error));
-  }
 
+  valueOficina(): any{
+    this.creditForm.get('zona').valueChanges.subscribe(selectedValue => {
+      // clean array
+      this.tipoSubProductoList = [];
+      console.log('zona value changed');
+      console.log(selectedValue);
+      this.generalListService.getByField('Oficina', 'ZonaId', selectedValue)
+        .then((oficinaList: any) => this.oficinaList = oficinaList)
+        .catch(error => console.error(error));
+    });
+    console.log(this.oficinaList);
+  }
 
 
   getTypeDocument(){
