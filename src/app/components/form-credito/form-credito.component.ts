@@ -13,6 +13,20 @@ import { TipoProductoModel, TipoSubProductoModel, ZonaModel } from '../../shared
 export class FormCreditoComponent implements OnInit {
 
   tipoProductoList: TipoProductoModel;
+  modalidadList: TipoProductoModel;
+  oficinaList: TipoProductoModel;
+  typeDocumentList: TipoProductoModel;
+  sustIngresosList: TipoProductoModel;
+  projectList: TipoProductoModel;
+  nviviendaList: TipoProductoModel;
+  currencyList: TipoProductoModel;
+  TEAList: TipoProductoModel;
+  typeCurrencyList: TipoProductoModel;
+  paymentMethodList: TipoProductoModel;
+  visitingPlaceList: TipoProductoModel;
+  typeguarenteeList: TipoProductoModel;
+  paymentTypeList: TipoProductoModel;
+
   tipoSubProductoList: TipoSubProductoModel;
   zonaModelList: ZonaModel;
 
@@ -56,11 +70,28 @@ export class FormCreditoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-   
-     this.getTypeProducts();
-     this.getZonas();
-     this.valueSubProducto();
+   this.cargarCombos();
+    
      
+  }
+
+  cargarCombos(){
+    this.getTypeProducts();
+    this.valueSubProducto();
+    this.getZonas();
+    this.getModalidad();
+    this.getOficina();
+    this.getTypeDocument();
+    this.getSustentoIngresos();
+    this.getProject();
+    this.getNVivienda();
+    this.getCurrency();
+    this.getTEA();
+    this.getTypeCurrencyPriceSale();
+    this.getPaymentMethod();
+    this.getVisitingPlace();
+    this.getTypeGuarentee();
+    this.getPaymentType();
   }
   
 
@@ -71,20 +102,115 @@ export class FormCreditoComponent implements OnInit {
     .catch(error => console.error(error));
   }
 
+
+  valueSubProducto(){
+    this.creditForm.get('typeProduct').valueChanges.subscribe(selectedValue => {
+      console.log('typeProduct value changed');
+      console.log(selectedValue);
+      this.generalListService.getSub('Sub_Producto')
+      .then((tipoSubProductoList: any) =>
+      this.tipoSubProductoList = tipoSubProductoList)
+      .catch(error => console.error(error));
+    });
+    console.log(this.tipoSubProductoList);   
+  }
+
+  
+
   getZonas(){
     this.generalListService.get('Zona')
     .then(zonaModelList => this.zonaModelList = zonaModelList)
     .catch(error => console.error(error));
   }
 
-  valueSubProducto(){
-    this.creditForm.get('typeProduct').valueChanges.subscribe(selectedValue => {
-      console.log('typeProduct value changed');
-      console.log(selectedValue);                            // latest value of firstname
-      console.log(this.creditForm.get('typeProduct').value); // latest value of firstname
-    });
 
+  getModalidad(){
+    this.generalListService.get('Modalidad')
+    .then(modalidadList => this.modalidadList = modalidadList)
+    .catch(error => console.error(error));
   }
+
+  getOficina(){
+    this.generalListService.get('Oficina')
+    .then(oficinaList => this.oficinaList = oficinaList)
+    .catch(error => console.error(error));
+  }
+
+
+    
+  getTypeDocument(){
+    this.generalListService.get('Tipo_Documento')
+    .then(typeDocumentList => this.typeDocumentList = typeDocumentList)
+    .catch(error => console.error(error));
+  }
+
+
+  getSustentoIngresos(){
+    this.generalListService.get('Sustento_Ingresos')
+    .then(sustIngresosList => this.sustIngresosList = sustIngresosList)
+    .catch(error => console.error(error));
+  }
+
+  getProject(){
+    this.generalListService.get('Proyectos')
+    .then(projectList => this.projectList = projectList)
+    .catch(error => console.error(error));
+  }
+
+  getNVivienda(){
+    this.generalListService.get('Numero_Vivienda')
+    .then(nviviendaList => this.nviviendaList = nviviendaList)
+    .catch(error => console.error(error));
+  }
+
+  getCurrency(){
+    this.generalListService.get('Moneda')
+    .then(currencyList => this.currencyList = currencyList)
+    .catch(error => console.error(error));
+  }
+
+  getTEA(){
+    this.generalListService.get('TEA_Autorizada')
+    .then(TEAList => this.TEAList = TEAList)
+    .catch(error => console.error(error));
+  }
+
+  getTypeCurrencyPriceSale(){
+    this.generalListService.get('Tipo_Moneda_PrecioVenta')
+    .then(typeCurrencyList => this.typeCurrencyList = typeCurrencyList)
+    .catch(error => console.error(error));
+  }
+
+  getPaymentMethod(){
+    this.generalListService.get('Modalidad_Pago')
+    .then(paymentMethodList => this.paymentMethodList = paymentMethodList)
+    .catch(error => console.error(error));
+  }
+
+  getVisitingPlace(){
+    this.generalListService.get('Lugar_Visita')
+    .then(visitingPlaceList => this.visitingPlaceList = visitingPlaceList)
+    .catch(error => console.error(error));
+  }
+
+  getTypeGuarentee(){
+    this.generalListService.get('Tipo_Garantia')
+    .then(typeguarenteeList => this.typeguarenteeList = typeguarenteeList)
+    .catch(error => console.error(error));
+  }
+
+  getPaymentType(){
+    this.generalListService.get('Tipo_Abono')
+    .then(paymentTypeList => this.paymentTypeList = paymentTypeList)
+    .catch(error => console.error(error));
+  }
+
+
+
+
+
+
+ 
 
   onSubmit() {
     alert('Thanks!');

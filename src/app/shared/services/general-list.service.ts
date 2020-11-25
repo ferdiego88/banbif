@@ -22,6 +22,19 @@ export class GeneralListService {
             }
         });
     }
+
+
+    public getSub(listName: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            if (sp !== null && sp !== undefined) {
+                const items = sp.web.lists.getByTitle(listName).items.getAll();
+                console.log({items});
+                resolve(items);
+            } else {
+                reject('Failed getting list data...');
+            }
+        });
+    }
       
     public getItemById(listName: string, itemId: any): Promise<any> {
         return new Promise((resolve, reject) => {
