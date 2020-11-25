@@ -12,7 +12,7 @@ import { TipoProductoModel, TipoSubProductoModel, ZonaModel } from '../../shared
 })
 export class FormCreditoComponent implements OnInit {
 
-  tipoProductoList: TipoProductoModel;
+  tipoProductoList: TipoProductoModel[];
   modalidadList: TipoProductoModel;
   oficinaList: TipoProductoModel;
   typeDocumentList: TipoProductoModel;
@@ -27,7 +27,7 @@ export class FormCreditoComponent implements OnInit {
   typeguarenteeList: TipoProductoModel;
   paymentTypeList: TipoProductoModel;
 
-  tipoSubProductoList: TipoSubProductoModel;
+  tipoSubProductoList: TipoSubProductoModel[];
   zonaModelList: ZonaModel;
 
   creditForm = this.fb.group({
@@ -94,23 +94,21 @@ export class FormCreditoComponent implements OnInit {
     this.getPaymentType();
   }
   
-
-
   getTypeProducts(){
     this.generalListService.get('Tipo_Producto')
     .then(tipoProductoList => this.tipoProductoList = tipoProductoList)
     .catch(error => console.error(error));
   }
 
-
   valueSubProducto(){
     this.creditForm.get('typeProduct').valueChanges.subscribe(selectedValue => {
+      //clean array
+      this.tipoSubProductoList = [];
       console.log('typeProduct value changed');
       console.log(selectedValue);
-      this.generalListService.getSub('Sub_Producto')
-      .then((tipoSubProductoList: any) =>
-      this.tipoSubProductoList = tipoSubProductoList)
-      .catch(error => console.error(error));
+      this.generalListService.getByField('Sub_Producto', 'ProductoId', selectedValue)
+        .then((tipoSubProductoList: any) => this.tipoSubProductoList = tipoSubProductoList)
+        .catch(error => console.error(error));
     });
     console.log(this.tipoSubProductoList);   
   }
