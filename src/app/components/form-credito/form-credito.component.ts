@@ -35,7 +35,33 @@ export class FormCreditoComponent implements OnInit {
     ejecutivo: [null, Validators.required],
     subProducto: [null, Validators.required],
     zona: [null, Validators.required],
+    modalidad: [null, Validators.required],
+    oficina: [null, Validators.required],
+    tipoDcmto: [null, Validators.required],
+    nroDcmto: [null, Validators.required],
+    nombreTitular: [null, Validators.required],
+    riesgoMaximo: [null, Validators.required],
+    sustentoIngresos: [null, Validators.required],
+    nombreProyecto: [null, Validators.required],
+    numeroVivienda: [null, Validators.required],
+    tipoMoneda: [null, Validators.required],
+    TEA: [null, Validators.required],
+    teaAuth: [null, Validators.required],
+    tipoprecioVenta: [null, Validators.required],
+    precioVenta: [null, Validators.required],
+    pFinanciamiento: [null, Validators.required],
+    monedaDesembolso: [null, Validators.required],
+    desembolso: [null, Validators.required],
+    monedagravamen: [null, Validators.required],
+    gravamen: [null, Validators.required],
+    modalidadPago: [null, Validators.required],
+    lugarVisita: [null, Validators.required],
+    periodoGracia: [null, Validators.required],
+    tipoGarantia: [null, Validators.required],
+    tipoAbono: [null, Validators.required],
+
     company: null,
+
     firstName: [null, Validators.required],
     lastName: [null, Validators.required],
     address: [null, Validators.required],
@@ -50,17 +76,10 @@ export class FormCreditoComponent implements OnInit {
 
   hasUnitNumber = false;
 
-  states = [
-    {name: 'Alabama', abbreviation: 'AL'},
-    {name: 'Alaska', abbreviation: 'AK'},
-    {name: 'American Samoa', abbreviation: 'AS'},
-    {name: 'Arizona', abbreviation: 'AZ'},
-    {name: 'Arkansas', abbreviation: 'AR'},
-    {name: 'California', abbreviation: 'CA'},
-    {name: 'Colorado', abbreviation: 'CO'},
-    {name: 'Connecticut', abbreviation: 'CT'},
-    {name: 'Delaware', abbreviation: 'DE'},
-
+  monedas = [
+    {name: 'Soles', abbreviation: 'S/'},
+    {name: 'Dolares', abbreviation: 'USD'},
+  
   ];
 
   constructor(
@@ -94,7 +113,13 @@ export class FormCreditoComponent implements OnInit {
     this.getPaymentType();
   }
   
-
+  setTypeCurrency(){
+    this.creditForm.get('typeProduct').valueChanges.subscribe(selectedValue => {
+      console.log('typeProduct value changed');
+      console.log(selectedValue);
+    });
+    console.log(this.tipoSubProductoList);  
+  }
 
   getTypeProducts(){
     this.generalListService.get('Tipo_Producto')
