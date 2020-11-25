@@ -13,22 +13,23 @@ import { TipoProductoModel, TipoSubProductoModel, ZonaModel } from '../../shared
 export class FormCreditoComponent implements OnInit {
 
   tipoProductoList: TipoProductoModel[];
-  modalidadList: TipoProductoModel;
-  oficinaList: TipoProductoModel;
-  typeDocumentList: TipoProductoModel;
-  sustIngresosList: TipoProductoModel;
-  projectList: TipoProductoModel;
-  nviviendaList: TipoProductoModel;
-  currencyList: TipoProductoModel;
-  TEAList: TipoProductoModel;
-  typeCurrencyList: TipoProductoModel;
-  paymentMethodList: TipoProductoModel;
-  visitingPlaceList: TipoProductoModel;
-  typeguarenteeList: TipoProductoModel;
-  paymentTypeList: TipoProductoModel;
-
+  modalidadList: TipoProductoModel[];
+  oficinaList: TipoProductoModel[];
+  typeDocumentList: TipoProductoModel[];
+  sustIngresosList: TipoProductoModel[];
+  projectList: TipoProductoModel[];
+  nviviendaList: TipoProductoModel[];
+  currencyList: TipoProductoModel[];
+  TEAList: TipoProductoModel[];
+  typeCurrencyList: TipoProductoModel[];
+  paymentMethodList: TipoProductoModel[];
+  visitingPlaceList: TipoProductoModel[];
+  typeguarenteeList: TipoProductoModel[];
+  paymentTypeList: TipoProductoModel[];
   tipoSubProductoList: TipoSubProductoModel[];
   zonaModelList: ZonaModel;
+
+  showSaving = false;
 
   creditForm = this.fb.group({
     typeProduct: [null, Validators.required],
@@ -230,15 +231,16 @@ export class FormCreditoComponent implements OnInit {
     .catch(error => console.error(error));
   }
 
-
-
-
-
-
- 
-
   onSubmit() {
     alert('Thanks!');
+  }
+
+  CalificacionTradicional() {
+    this.showSaving = false;
+  }
+
+  PlanAhorro() {
+    this.showSaving = true;
   }
   
 }
