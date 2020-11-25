@@ -71,7 +71,8 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
-
+  isFilterApplied = false;
+  
   isCargando = true;
 
   nombreControles = {

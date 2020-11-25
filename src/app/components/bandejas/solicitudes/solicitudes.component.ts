@@ -71,6 +71,7 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
+  isFilterApplied = false;
 
   isCargando = true;
 
