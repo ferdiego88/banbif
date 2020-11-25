@@ -71,7 +71,8 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
-  isFilterApplied = false;
+
+  isCargando = true;
 
   nombreControles = {
     filtroSolicitante: 'filtroSolicitante'
@@ -102,6 +103,7 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
   }
 
   ngOnInit(): void {
+    this.isCargando = true;
     this.mostrarProgreso();
     this.obtenerMaestrosYDatos().then(() => {
 
@@ -146,37 +148,16 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
     ).catch(error => {
       this.mostrarModalError("obtenerMaestrosYDatos", error);
     });
-
   }
 
   private setearFiltrosBusquedaPorEstado() {
-    let visFilterApplied = window.sessionStorage.getItem("NombreTitular");
+    let estadosSeleccionados: number[] = [];
 
-    if (visFilterApplied) {
-      this.isFilterApplied = visFilterApplied == "1" ? true : false;
-    }
+    estadosSeleccionados = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
+      return true;
+    }).map((elementoEstado: Lookup) => elementoEstado.Id);
 
-    if (!this.isFilterApplied) {
-      let estadosSeleccionados: number[] = [];
-
-      estadosSeleccionados = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
-        return elementoEstado.Id === 1 || elementoEstado.Id === 3 || elementoEstado.Id === 5;
-      }).map((elementoEstado: Lookup) => elementoEstado.Id);
-
-      this.tableQuery.filter.Estado = estadosSeleccionados;
-    }
-  }
-
-  cargarDatosPagina() {
-    this.mostrarProgreso();
-
-    this.obtenerMaestrosYDatos().then(
-      () => {
-        this.currentUserName = this.datosMaestrosBandeja.currentUser.Title;
-        this.ocultarProgreso();
-      },
-      err => this.guardarLog(err)
-    );
+    this.tableQuery.filter.Estado = estadosSeleccionados;
   }
 
   obtenerMaestrosYDatos(): Promise<boolean> {
@@ -253,40 +234,19 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
     this.setearFiltrosBusquedaPorEstado();
 
     this.getSolicitudes();
-
-    this.setClearFiltrosAplicados();
-  }
-
-  setClearFiltrosAplicados() {
-    window.sessionStorage.setItem("NombreTitular", "");
-    window.sessionStorage.setItem("Estado", "");
-    window.sessionStorage.setItem("NumeroDocumento", "");
-    window.sessionStorage.setItem("TipoProducto", "");
-    window.sessionStorage.setItem("Oficina", "");
-
-    this.isFilterApplied = false;
   }
 
   async getSolicitudes() {
     this.paginator.pageIndex = 0;
-    this.page_last = -1
-    this.setFiltrosSession();
+    this.page_last = -1;
+
     this.getTablePagination();
     this.closeSidenavMenu();
   }
 
-  setFiltrosSession() {
-    window.sessionStorage.setItem("NombreTitular", this.tableQuery.filter.NombreTitular);
-    window.sessionStorage.setItem("Estado", this.tableQuery.filter.Estado);
-    window.sessionStorage.setItem("NumeroDocumento", this.tableQuery.filter.NumeroDocumento);
-    window.sessionStorage.setItem("TipoProducto", this.tableQuery.filter.TipoProducto);
-    window.sessionStorage.setItem("Oficina", this.tableQuery.filter.Oficina);
-
-    this.isFilterApplied = true;
-  }
-
   getTablePagination() {
     this.mostrarProgreso();
+    this.isCargando = true;
 
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
@@ -315,6 +275,7 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
               this.resultsLength = this.resultsLength + 1;
             }
           }
+          this.isCargando = false;
           this.ocultarProgreso();
           return data;
         }),
@@ -335,13 +296,7 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
     this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
 
     if (this.tableQuery.filter.Estado.length === 0) {
-      let estadosSeleccionados: number[] = [];
-
-      estadosSeleccionados = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
-        return elementoEstado.Id === 1 || elementoEstado.Id === 3 || elementoEstado.Id === 5;
-      }).map((elementoEstado: Lookup) => elementoEstado.Id);
-
-      this.tableQuery.filter.Estado = estadosSeleccionados;
+      this.setearFiltrosBusquedaPorEstado();
     }
 
     let filter = this.tableQuery.filter;
@@ -404,18 +359,13 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
   }
 
   exportarExcel() {
+    this.isCargando = true;
     this.mostrarProgreso();
 
     this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
 
     if (this.tableQuery.filter.Estado.length === 0) {
-      let estadosSeleccionados: number[] = [];
-
-      estadosSeleccionados = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
-        return elementoEstado.Id === 1 || elementoEstado.Id === 3 || elementoEstado.Id === 5;
-      }).map((elementoEstado: Lookup) => elementoEstado.Id);
-
-      this.tableQuery.filter.Estado = estadosSeleccionados;
+      this.setearFiltrosBusquedaPorEstado();
     }
 
     let filter = this.tableQuery.filter;
@@ -457,18 +407,16 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
 
           return dataMap;
         });
-       
+
         this.excelService.excelListadoMisSolicitudes('Mis Solicitudes Pendientes', 'MisSolicitudesPendientes', headers, details);
         this.ocultarProgreso();
+        this.isCargando = false;
       },
       err => this.guardarLog(err)
     );
-
   }
 }
 
 export interface IDictionary {
   [key: number]: PagedItemCollection<any[]>;
 };
-
-//comentario

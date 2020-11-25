@@ -10,11 +10,6 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 
 import { HomeComponent } from './components/home/home.component';
 import { BandejaSolicitudComponent } from './components/bandeja-solicitud/bandeja-solicitud.component';
-// import { FormularioSolicitudComponent } from './components/formulario-solicitud/formulario-solicitud.component';
-// import { BandejaParametrosComponent } from './components/mantenimiento/bandeja-parametros/bandeja-parametros.component';
-// import { FormularioParametrosComponent } from './components/mantenimiento/formulario-parametros/formulario-parametros.component';
-// import { BandejaEtapasComponent } from './components/mantenimiento/bandeja-etapas/bandeja-etapas.component';
-// import { FormularioEtapasComponent } from './components/mantenimiento/formulario-etapas/formulario-etapas.component';
 
 //Angular Material Components
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -38,6 +33,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -76,6 +72,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { FormTableComponent } from './components/form-table/form-table.component';
 import { MissolicitudespendientesComponent } from './components/bandejas/missolicitudespendientes/missolicitudespendientes.component';
 import { SolicitudesComponent } from './components/bandejas/solicitudes/solicitudes.component';
+import { GridLoaderComponent } from './shared/controls/grid-loader/grid-loader.component';
 
 const materialModules = [
   MatSlideToggleModule,
@@ -102,6 +99,7 @@ const materialModules = [
   MatSelectModule,
   MatSidenavModule,
   MatSnackBarModule,
+  MatProgressBarModule,
   MatSortModule,
   MatTableModule,
   MatTabsModule,
@@ -135,7 +133,8 @@ const materialModules = [
     FormTableComponent,
     PeoplePickerInputComponent,
     MissolicitudespendientesComponent,
-    SolicitudesComponent
+    SolicitudesComponent,
+    GridLoaderComponent
   ],
   imports: [
     BrowserModule,

@@ -62,20 +62,9 @@
                         Bandejas
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-
-                <a mat-list-item routerLink='/material-bandeja-solicitud' (click)="sidenav.toggle()">
-                    <mat-icon mat-list-icon>search</mat-icon> Consulta de Solicitudes</a>
-
-                <a mat-list-item routerLink='/material-formulario-solicitud/-1' (click)="sidenav.toggle()">
-                    <mat-icon mat-list-icon>edit</mat-icon> Formulario de solicitud</a>
-
-                    <a mat-list-item routerLink='/formCredito' (click)="sidenav.toggle()">
-                      <mat-icon mat-list-icon>edit</mat-icon> Formulario de Crédito Hipotecario</a>
-
-                      <a mat-list-item routerLink='/formTable' (click)="sidenav.toggle()">
-                        <mat-icon mat-list-icon>edit</mat-icon> Formularios</a>
-                <a mat-list-item routerLink='/bandejas/missolicitudes' (click)="sidenav.toggle()">
-                    <mat-icon mat-list-icon>search</mat-icon> Mis Solicitudes
+                
+                <a mat-list-item routerLink='/bandejas/missolicitudespendientes' (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>search</mat-icon> Mis Solicitudes Pendientes
                 </a>
 
                 <a mat-list-item routerLink='/bandejas/solicitudes' (click)="sidenav.toggle()">

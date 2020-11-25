@@ -43,7 +43,7 @@ export class Variables {
     formCreditoDetalle: 'hipotecario/solicitud/:id',
     formCredito: 'hipotecario/solicitud',
     formTable: 'formTable',
-    bandejaMisSolicitudes: 'bandejas/missolicitudes',
+    bandejaMisSolicitudesPendientes: 'bandejas/missolicitudespendientes',
     bandejaSolicitudes: 'bandejas/solicitudes',
   };
 
