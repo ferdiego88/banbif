@@ -74,6 +74,8 @@ export class FormCreditoComponent implements OnInit {
   showBotonesProducto = true;
   showPVenta = true;
   showmessageVivienda = false;
+  showCuotaInicial = false;
+  showBuenPagador = false;
 
   creditForm = this.fb.group({
     typeProduct: [null, Validators.required],
@@ -186,23 +188,40 @@ export class FormCreditoComponent implements OnInit {
           this.showmessageVivienda = true;
           this.showPVenta = true;
           this.showGarantias = false;
+          this.showCuotaInicial = true;
+          this.showBuenPagador = true;
           break;
         case 2:
           this.showmessageVivienda = true;
           this.showPVenta = false;
           this.showGarantias = false;
+          this.showCuotaInicial = true;
+          this.showBuenPagador = false;
+
           break;
         case 3:
           this.showBotonesProducto = false;
           this.showPVenta = true;
           this.showmessageVivienda = false;
           this.showGarantias = false;
+          this.showCuotaInicial = true;
+          this.showBuenPagador = false;
           break;
         case 4:
           this.showGarantias = true;
           this.showPVenta = false;
           this.showBotonesProducto = false;
           this.showmessageVivienda = false;
+          this.showCuotaInicial = false;
+          this.showBuenPagador = false;
+          break;
+        case 5:
+          this.showGarantias = false;
+          this.showPVenta = true;
+          this.showBotonesProducto = true;
+          this.showmessageVivienda = false;
+          this.showCuotaInicial = true;
+          this.showBuenPagador = false;
           break;
 
         default:

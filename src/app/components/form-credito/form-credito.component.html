@@ -346,8 +346,8 @@
                 </div>
 
                 <div class="" [ngClass]="{
-                  'd-none': showGarantias,
-                  'col-md-12': !showGarantias
+                  'd-none':!showGarantias,
+                  'col-md-12': showGarantias
               }">
 
                   <div class="row">
@@ -625,6 +625,168 @@
               <!-- Fin - Plan de Garantías -->
               <!---------------------------------------------->
 
+              <!---------------------------------------------->
+                    <!-- Ini - Cuota Inicial -->
+                    <!---------------------------------------------->
+                    <div [ngClass]="{
+                      'd-none': !showCuotaInicial,
+                      'col-md-12': showCuotaInicial
+                  }">
+                    <div class="row">
+                      <div class="col">
+                        <mat-card-subtitle>CUOTA INICIAL</mat-card-subtitle>
+                        <hr>
+                    </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <p>Aporte en Efectivo</p>
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-select placeholder="" formControlName="tipoprecioVenta">
+                                <mat-option *ngFor="let typeCurrency of typeCurrencyList" [value]="typeCurrency.Id">
+                                    {{ typeCurrency.Title }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="creditForm.controls['tipoprecioVenta'].hasError('required')">
+                              S/. <strong>requerido</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col">
+                      <mat-form-field class="full-width">
+                          <input matInput placeholder="" formControlName="precioVenta">
+                          <mat-error *ngIf="creditForm.controls['precioVenta'].hasError('required')">
+                            Aporte en Efectivo <strong>requerido</strong>
+                          </mat-error>
+                      </mat-form-field>
+                  </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col">
+                        <p>Aporte de retiro AFP</p>
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-select placeholder="" formControlName="tipoprecioVenta">
+                                <mat-option *ngFor="let typeCurrency of typeCurrencyList" [value]="typeCurrency.Id">
+                                    {{ typeCurrency.Title }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="creditForm.controls['tipoprecioVenta'].hasError('required')">
+                            S/. <strong>requerido</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col">
+                      <mat-form-field class="full-width">
+                          <input matInput placeholder="" formControlName="precioVenta">
+                          <mat-error *ngIf="creditForm.controls['precioVenta'].hasError('required')">
+                            Aporte de retiro AFP <strong>requerido</strong>
+                          </mat-error>
+                      </mat-form-field>
+                  </div>
+                    </div>
+
+                <!---------------------------------------------->
+              <!-- Ini - Buen Pagador -->
+              <!---------------------------------------------->
+
+                    <div [ngClass]="{
+                      'd-none': !showBuenPagador,
+                      'col-md-12': showBuenPagador
+                  }">
+                  <div class="row">
+                    <div class="col">
+                      <p>Bono Buen Pagador (BBP)</p>
+                  </div>
+                  <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="" formControlName="precioVenta">
+                        <mat-error *ngIf="creditForm.controls['precioVenta'].hasError('required')">
+                          S/. <strong>requerido</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                  <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="" formControlName="precioVenta">
+                        <mat-error *ngIf="creditForm.controls['precioVenta'].hasError('required')">
+                          Bono Buen Pagador (BBP) <strong>requerido</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <p>Premio Buen pagador (PBP) </p>
+                  </div>
+                  <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="" formControlName="precioVenta">
+                        <mat-error *ngIf="creditForm.controls['precioVenta'].hasError('required')">
+                          S/. <strong>requerido</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                  <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="" formControlName="precioVenta">
+                        <mat-error *ngIf="creditForm.controls['precioVenta'].hasError('required')">
+                          Premio Buen pagador (PBP) <strong>requerido</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                  </div>
+
+
+                  <div class="row">
+                    <div class="col">
+                      <p>BBP adicional por vivienda sostenible </p>
+                  </div>
+                  <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-select placeholder="" formControlName="tipoprecioVenta">
+                            <mat-option *ngFor="let typeCurrency of typeCurrencyList" [value]="typeCurrency.Id">
+                                {{ typeCurrency.Title }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="creditForm.controls['tipoprecioVenta'].hasError('required')">
+                          BBP adicional por vivienda sostenible <strong>requerido</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                  <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="" formControlName="precioVenta">
+                        <mat-error *ngIf="creditForm.controls['precioVenta'].hasError('required')">
+                          BBP adicional por vivienda sostenible<strong>requerido</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                  </div>
+
+
+                    </div>
+
+                <!---------------------------------------------->
+              <!-- Fin - Bue Pagador -->
+              <!---------------------------------------------->
+
+
+
+              </div>
+              <!---------------------------------------------->
+              <!-- Fin - Cuota Inicial -->
+              <!---------------------------------------------->
                 <div class="row">
                     <div class="col">
                         <mat-card-subtitle>DATOS DE LA OPERACIÓN</mat-card-subtitle>
