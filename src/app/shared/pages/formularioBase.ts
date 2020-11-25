@@ -20,7 +20,7 @@ import { FormBuilder } from '@angular/forms';
 import { SpinnerVisibilityService } from 'ng-http-loader';
 import { MaestroDesplegables } from '../models/fisics/MaestroDesplegables';
 import { List } from "linqts";
-declare var $:any;
+declare var $: any;
 
 export class FormularioBase {
   datosMaestros: MasterLogic;
@@ -30,7 +30,7 @@ export class FormularioBase {
   spinner: SpinnerVisibilityService;
   loading = false;
   loadingButtons = false;
-  
+
   userAdministrator = false;
   //variables: Variables
   constructor(
@@ -48,8 +48,8 @@ export class FormularioBase {
     this.nombrePagina = nombrePagina;
     this.submitted = false;
     this.mostrarHeaderWeb();
-    this.fixBotonAtrasNavegador(applicationRef, router, zone);    
-   // this.spinner = _spinner;
+    this.fixBotonAtrasNavegador(applicationRef, router, zone);
+    // this.spinner = _spinner;
   }
 
   validaUserAdministrator() {
@@ -57,7 +57,7 @@ export class FormularioBase {
     this.userAdministrator = (groupUserAdministrator && groupUserAdministrator.length > 0);
   }
 
-  obtenerListaDesplegablesPorTipo(tipo:string): MaestroDesplegables[]{
+  obtenerListaDesplegablesPorTipo(tipo: string): MaestroDesplegables[] {
     //debugger;
     //let listaDesplegables: MaestroDesplegables[];
     /*if(this.datosMaestros != null){
@@ -65,19 +65,19 @@ export class FormularioBase {
     }*/
 
 
-   // let evaluaciones = new List<MaestroDesplegables>(listaDesplegables).OrderBy(x => x.Title).ToArray()
+    // let evaluaciones = new List<MaestroDesplegables>(listaDesplegables).OrderBy(x => x.Title).ToArray()
 
     let listaDesplegables = [];
-    if(this.datosMaestros != null){
+    if (this.datosMaestros != null) {
       listaDesplegables = new List<MaestroDesplegables>(this.datosMaestros.maestroDesplegables).Where(x => x.TipoText == tipo).OrderBy(x => x.Title).ToArray();
     }
     return listaDesplegables;
   }
 
-  obtenerListaDesplegablesPorTipoYPadre(tipo:string, padre: number): MaestroDesplegables[]{
+  obtenerListaDesplegablesPorTipoYPadre(tipo: string, padre: number): MaestroDesplegables[] {
     let listaDesplegables = [];
 
-    if(this.datosMaestros != null){
+    if (this.datosMaestros != null) {
       listaDesplegables = new List<MaestroDesplegables>(this.datosMaestros.maestroDesplegables).Where(x => x.TipoText == tipo && x.Padre.Id === padre).OrderBy(x => x.Title).ToArray();
     }
 
@@ -85,7 +85,7 @@ export class FormularioBase {
   }
 
   obtenerMaestrosYDatos() {
-    const d: Deferred<boolean> = new Deferred<boolean>(); 
+    const d: Deferred<boolean> = new Deferred<boolean>();
     this.masterService.getDatosMaestros().subscribe((masterLogic: MasterLogic) => {
       if (masterLogic.isDatos) {
         this.datosMaestros = masterLogic;
@@ -145,16 +145,13 @@ export class FormularioBase {
   }
 
   mostrarProgreso(ocultar = true) {
-      //console.log('progreso');
-    // this.loading = true;
     this.loading = ocultar;
     this.spinner.show();
   }
 
   ocultarProgreso() {
-    //console.log('progreso');
-      this.spinner.hide();
-      this.loading = false;
+    this.spinner.hide();
+    this.loading = false;
   }
 
   getValorControlString(nombreControl: string): string {
@@ -315,7 +312,7 @@ export class FormularioBase {
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   mostrarModalSuccess(
@@ -432,7 +429,7 @@ export class FormularioBase {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
       if (result.close && callback) {
-        callback( that, borrador, result.comentarios );
+        callback(that, borrador, result.comentarios);
         // callback();
       }
     });
@@ -447,7 +444,7 @@ export class FormularioBase {
     dialogData.tipoModal = ModalType.Error;
 
     if (error) {
-      this.guardarLog( error );
+      this.guardarLog(error);
     }
 
     const dialogRef = this.dialog.open(ModalDialog, {
@@ -533,8 +530,8 @@ export class FormularioBase {
   }
 
   guardarLog(err: any): void {
-    const log = Log.setNuevoElemento( document.location.href, this.nombrePagina, err);
+    const log = Log.setNuevoElemento(document.location.href, this.nombrePagina, err);
     // console.log(log);
-    this.masterService.guardarLog( log ).then();
+    this.masterService.guardarLog(log).then();
   }
 }

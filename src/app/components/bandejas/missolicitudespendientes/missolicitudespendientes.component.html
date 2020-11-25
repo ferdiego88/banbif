@@ -1,8 +1,9 @@
+<app-grid-loader [isCargando]="isCargando"></app-grid-loader>
 <mat-card class="col-xs-12">
     <mat-toolbar class="row" color="primary">
         <div class="mat-toolbar-tools font-white row col-xs-12">
             <div class="inline-buttons pull-left" flex>
-                <h4>Mis Solicitudes Pendientes</h4>
+                <h4>MIS SOLICITUDES PENDIENTES</h4>
             </div>
             <div class="inline-buttons pull-right">
                 <button type="button" mat-button class="mat-icon-button inline-buttons" (click)="reload()">
@@ -25,7 +26,6 @@
         </div>
     </mat-toolbar>
 
-
     <div>
         <div class="example-container mat-elevation-z8">
 
@@ -34,56 +34,56 @@
                     class="mat-elevation-z8 table-custom tabla-projects" matSort matSortActive="Id"
                     matSortDirection="desc">
                     <ng-container matColumnDef="Id">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> N° Solicitud </th>
-                        <td mat-cell *matCellDef="let element">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> N° Solicitud </th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element">
                             <a class="text-ellipsis" routerLink='/hipotecario/solicitud/{{element.Id}}'>
                                 {{element.Id}}
                             </a>
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="Author">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Solicitante</th>
-                        <td mat-cell *matCellDef="let element"> {{element.Author}}</td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Solicitante</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Author}}</td>
                     </ng-container>
                     <ng-container matColumnDef="Created">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fec. Solicitud</th>
-                        <td mat-cell *matCellDef="let element"> {{element.Created | date: "dd/MM/yyyy"}}</td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fec. Solicitud</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Created | date: "dd/MM/yyyy"}}</td>
                     </ng-container>
                     <ng-container matColumnDef="Nombre_Titular">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nombre Titular</th>
-                        <td mat-cell *matCellDef="let element"> {{element.Nombre_Titular || "(Sin valor)"}}</td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nombre Titular</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Nombre_Titular || "(SIN VALOR)"}}</td>
                     </ng-container>
                     <ng-container matColumnDef="N_Documento">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nro. Documento</th>
-                        <td mat-cell *matCellDef="let element"> {{element.N_Documento|| "(Sin valor)"}}</td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nro. Documento</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.N_Documento|| "(SIN VALOR)"}}</td>
                     </ng-container>
                     <ng-container matColumnDef="Tipo_Producto">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Tipo Producto</th>
-                        <td mat-cell *matCellDef="let element"> {{element.Tipo_Producto || "(Sin valor)"}} </td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Tipo Producto</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Tipo_Producto || "(SIN VALOR)"}} </td>
                     </ng-container>
                     <ng-container matColumnDef="Estado">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Estado</th>
-                        <td mat-cell *matCellDef="let element"> {{element.Estado}} </td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Estado</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Estado}} </td>
                     </ng-container>
                     <ng-container matColumnDef="Moneda">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Moneda</th>
-                        <td mat-cell *matCellDef="let element"> {{element.Moneda || "(Sin valor)"}} </td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Moneda</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Moneda || "(SIN VALOR)"}} </td>
                     </ng-container>
                     <ng-container matColumnDef="Precio_Venta">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Precio Venta</th>
-                        <td mat-cell *matCellDef="let element"> {{element.Precio_Venta || "(Sin valor)"}} </td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Precio Venta</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Precio_Venta || "(SIN VALOR)"}} </td>
                     </ng-container>
                     <ng-container matColumnDef="Financiamiento">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Financiamiento</th>
-                        <td mat-cell *matCellDef="let element"> {{element.Financiamiento || "(Sin valor)"}} </td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Financiamiento</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Financiamiento || "(SIN VALOR)"}} </td>
                     </ng-container>
                     <ng-container matColumnDef="Oficina">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Oficina</th>
-                        <td mat-cell *matCellDef="let element"> {{element.Oficina || "(Sin valor)"}} </td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Oficina</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Oficina || "(SIN VALOR)"}} </td>
                     </ng-container>
                     <ng-container matColumnDef="Fecha_Estado">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fecha Estado</th>
-                        <td mat-cell *matCellDef="let element"> {{element.Fecha_Estado  | date: "dd/MM/yyyy"}} </td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fecha Estado</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Fecha_Estado  | date: "dd/MM/yyyy"}} </td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumnsSolicitud"></tr>
@@ -184,7 +184,7 @@
             </mat-form-field>
         </div>
 
-        <div class="text-center">
+        <div class="text-center" style="padding-bottom: 15px">
             <button type="button" (click)="getSolicitudes()" mat-raised-button color="primary" class="accent">
                 <mat-icon>search</mat-icon>
                 Buscar

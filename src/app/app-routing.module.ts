@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { Variables } from './shared/variables';
 import { HomeComponent } from './components/home/home.component';
-import { BandejaSolicitudComponent } from './components/bandeja-solicitud/bandeja-solicitud.component';
+//import { BandejaSolicitudComponent } from './components/bandeja-solicitud/bandeja-solicitud.component';
 // import { FormularioSolicitudComponent } from './components/formulario-solicitud/formulario-solicitud.component';
 // import { BandejaParametrosComponent } from './components/mantenimiento/bandeja-parametros/bandeja-parametros.component';
 // import { FormularioParametrosComponent } from './components/mantenimiento/formulario-parametros/formulario-parametros.component';
@@ -21,15 +21,10 @@ const routes: Routes = [
     component: HomeComponent,
     //loadChildren: () => import('./components/home/home.component').then(m => m.HomeComponent)
   },
-  {
-    path: Variables.path.bandejaSolicitudMaterial,
-    component: BandejaSolicitudComponent,
-    //loadChildren: () => import('./components/bandeja-solicitud/bandeja-solicitud.component').then(m => m.BandejaSolicitudComponent)
-  },
   { path: Variables.path.formCreditoDetalle, component: FormCreditoComponent },
   { path: Variables.path.formCredito, component: FormCreditoComponent },
   { path: Variables.path.formTable, component: FormTableComponent },
-  { path: Variables.path.bandejaMisSolicitudes, component: MissolicitudespendientesComponent },
+  { path: Variables.path.bandejaMisSolicitudesPendientes, component: MissolicitudespendientesComponent },
   { path: Variables.path.bandejaSolicitudes, component: SolicitudesComponent },
 ];
 

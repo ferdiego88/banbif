@@ -80,20 +80,20 @@ export class EBandejaSolicitud {
         const item = new EBandejaSolicitud();
        
         item.Id = SPParse.getNumber(elemento[Variables.columnasSolicitud.ID]);
-        item.Author = User.parseJson(elemento[Variables.columnasSolicitud.Author]).Title;
+        item.Author = User.parseJson(elemento[Variables.columnasSolicitud.Author]).Title.toUpperCase();
         item.Created = SPParse.getDate(elemento[Variables.columnasSolicitud.Created]);
-        item.Nombre_Titular = SPParse.getString(elemento[Variables.columnasSolicitud.NombreTitular]);
-        item.Tipo_Documento = Lookup.parseJson(elemento[Variables.columnasSolicitud.TipoDocumento]).Title;
-        item.N_Documento = SPParse.getString(elemento[Variables.columnasSolicitud.NumeroDocumento]);
-        item.Tipo_Producto = Lookup.parseJson(elemento[Variables.columnasSolicitud.TipoProducto]).Title;
-        item.Estado = Lookup.parseJson(elemento[Variables.columnasSolicitud.Estado]).Title;
-        item.Moneda = Lookup.parseJson(elemento[Variables.columnasSolicitud.Moneda]).Title;
-        item.Precio_Venta = SPParse.getString(elemento[Variables.columnasSolicitud.PrecioVenta]);
-        item.Modalidad_Pago = Lookup.parseJson(elemento[Variables.columnasSolicitud.ModalidadPago]).Title;
-        item.Financiamiento = SPParse.getString(elemento[Variables.columnasSolicitud.Financiamiento]);
-        item.Zona = Lookup.parseJson(elemento[Variables.columnasSolicitud.Zona]).Title;
-        item.Oficina = Lookup.parseJson(elemento[Variables.columnasSolicitud.Oficina]).Title;
-        item.Sustento_Ingresos = Lookup.parseJson(elemento[Variables.columnasSolicitud.SustentoIngreso]).Title;
+        item.Nombre_Titular = SPParse.getString(elemento[Variables.columnasSolicitud.NombreTitular]).toUpperCase();
+        item.Tipo_Documento = Lookup.parseJson(elemento[Variables.columnasSolicitud.TipoDocumento]).Title.toUpperCase();
+        item.N_Documento = SPParse.getString(elemento[Variables.columnasSolicitud.NumeroDocumento]).toUpperCase();
+        item.Tipo_Producto = Lookup.parseJson(elemento[Variables.columnasSolicitud.TipoProducto]).Title.toUpperCase();
+        item.Estado = Lookup.parseJson(elemento[Variables.columnasSolicitud.Estado]).Title.toUpperCase();
+        item.Moneda = Lookup.parseJson(elemento[Variables.columnasSolicitud.Moneda]).Title.toUpperCase();
+        item.Precio_Venta = SPParse.getString(elemento[Variables.columnasSolicitud.PrecioVenta]).toUpperCase();
+        item.Modalidad_Pago = Lookup.parseJson(elemento[Variables.columnasSolicitud.ModalidadPago]).Title.toUpperCase();
+        item.Financiamiento = SPParse.getString(elemento[Variables.columnasSolicitud.Financiamiento]).toUpperCase();
+        item.Zona = Lookup.parseJson(elemento[Variables.columnasSolicitud.Zona]).Title.toUpperCase();
+        item.Oficina = Lookup.parseJson(elemento[Variables.columnasSolicitud.Oficina]).Title.toUpperCase();
+        item.Sustento_Ingresos = Lookup.parseJson(elemento[Variables.columnasSolicitud.SustentoIngreso]).Title.toUpperCase();
         item.Fecha_Estado = SPParse.getDate(elemento[Variables.columnasSolicitud.FechaEstado]);
 
         if (item.Financiamiento !== "") {
