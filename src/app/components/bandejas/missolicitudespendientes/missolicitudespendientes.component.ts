@@ -464,3 +464,5 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
 export interface IDictionary {
   [key: number]: PagedItemCollection<any[]>;
 };
+
+//comentario
