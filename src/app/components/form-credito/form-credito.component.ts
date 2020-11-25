@@ -73,6 +73,7 @@ export class FormCreditoComponent implements OnInit {
   showGarantias = false;
   showBotonesProducto = true;
   showPVenta = true;
+  showmessageVivienda = false;
 
   creditForm = this.fb.group({
     typeProduct: [null, Validators.required],
@@ -180,19 +181,37 @@ export class FormCreditoComponent implements OnInit {
     this.creditForm.get('typeProduct').valueChanges.subscribe(selectedValue => {
       // clean array
       this.tipoSubProductoList = [];
-      if (selectedValue === 4) {
-        this.showGarantias = true;
-        this.showPVenta = false;
-        this.showBotonesProducto = false;
-      } else if (selectedValue === 3) {
-        this.showBotonesProducto = false;
-        this.showPVenta = true;
-      } else{
-        this.showGarantias = false;
-        this.showPVenta = true;
-        this.showBotonesProducto = true;
-      }
+      switch (selectedValue) {
+        case 1:
+          this.showmessageVivienda = true;
+          this.showPVenta = true;
+          this.showGarantias = false;
+          break;
+        case 2:
+          this.showmessageVivienda = true;
+          this.showPVenta = false;
+          this.showGarantias = false;
+          break;
+        case 3:
+          this.showBotonesProducto = false;
+          this.showPVenta = true;
+          this.showmessageVivienda = false;
+          this.showGarantias = false;
+          break;
+        case 4:
+          this.showGarantias = true;
+          this.showPVenta = false;
+          this.showBotonesProducto = false;
+          this.showmessageVivienda = false;
+          break;
 
+        default:
+          this.showGarantias = false;
+          this.showPVenta = true;
+          this.showBotonesProducto = true;
+          this.showmessageVivienda = false;
+          break;
+      }
       console.log('typeProduct value changed');
       console.log(selectedValue);
       this.generalListService.getByField('Sub_Producto', 'ProductoId', selectedValue)
@@ -206,7 +225,7 @@ export class FormCreditoComponent implements OnInit {
   valueModalidad(): any{
     this.creditForm.get('typeProduct').valueChanges.subscribe(selectedValue => {
       // clean array
-      this.tipoSubProductoList = [];
+      this.modalidadList = [];
       console.log('typeProduct value changed');
       console.log(selectedValue);
       this.generalListService.getByField('Modalidad', 'Tipo_ProductoId', selectedValue)
@@ -231,7 +250,7 @@ export class FormCreditoComponent implements OnInit {
   valueOficina(): any{
     this.creditForm.get('zona').valueChanges.subscribe(selectedValue => {
       // clean array
-      this.tipoSubProductoList = [];
+      this.oficinaList = [];
       console.log('zona value changed');
       console.log(selectedValue);
       this.generalListService.getByField('Oficina', 'ZonaId', selectedValue)

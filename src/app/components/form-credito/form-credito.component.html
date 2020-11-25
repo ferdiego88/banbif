@@ -484,13 +484,24 @@
                     </div>
 
                     <div class="col">
-                        <mat-form-field class="mid-width">
+                        <mat-form-field class="full-width">
                             <input matInput placeholder="" formControlName="precioVenta">
                             <mat-error *ngIf="creditForm.controls['precioVenta'].hasError('required')">
                                 Precio de Venta <strong>requerido</strong>
                             </mat-error>
                         </mat-form-field>
                     </div>
+                </div>
+
+                <div class="" [ngClass]="{
+                  'd-none': !showmessageVivienda,
+                  'col': showmessageVivienda
+              }">
+                  <div class="row padre">
+                    <div class="col md-12">
+                      Corregir: Monto mínimo S/ 60,000, máximo 427,600
+                    </div>
+                  </div>
                 </div>
 
 
