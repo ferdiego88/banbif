@@ -28,6 +28,10 @@ export class FormCreditoComponent implements OnInit {
   paymentTypeList: TipoProductoModel[];
   tipoSubProductoList: TipoSubProductoModel[];
   zonaModelList: ZonaModel;
+ 
+  typeCurrencySaving: TipoProductoModel[];
+  planSituationSavingList: TipoProductoModel[];
+  LastValidatedBonoList: TipoProductoModel[];
 
   showSaving = false;
 
@@ -60,15 +64,17 @@ export class FormCreditoComponent implements OnInit {
     periodoGracia: [null, Validators.required],
     tipoGarantia: [null, Validators.required],
     tipoAbono: [null, Validators.required],
+    /* Plan Ahorro*/
+    Meses_Abono: [null, Validators.required],
+    Tipo_Moneda_Ahorro: [null, Validators.required],
+    Importe_Cuota_Ahorro: [null, Validators.required],
+    Situacion_Plan_Ahorro: [null, Validators.required],
+    N_Abonos_Validados: [null, Validators.required],
+    Ultimo_Abono_Validado: [null, Validators.required],
+    Cta_Ahorro_Banbif: [null, Validators.required],
+    
 
-    company: null,
-
-    firstName: [null, Validators.required],
-    lastName: [null, Validators.required],
-    address: [null, Validators.required],
-    address2: null,
-    city: [null, Validators.required],
-    state: [null, Validators.required],
+    /*Fin Plan Ahorro */
     postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
     ],
@@ -112,6 +118,9 @@ export class FormCreditoComponent implements OnInit {
     this.getVisitingPlace();
     this.getTypeGuarentee();
     this.getPaymentType();
+    this.getTypeCurrencySaving();
+    this.getPlanSituationSaving();
+    this.getLastValidatedBono();
   }
   
   setTypeCurrency(){
@@ -128,9 +137,9 @@ export class FormCreditoComponent implements OnInit {
     .catch(error => console.error(error));
   }
 
-  valueSubProducto(){
+  valueSubProducto(): any{
     this.creditForm.get('typeProduct').valueChanges.subscribe(selectedValue => {
-      //clean array
+      // clean array
       this.tipoSubProductoList = [];
       console.log('typeProduct value changed');
       console.log(selectedValue);
@@ -231,16 +240,30 @@ export class FormCreditoComponent implements OnInit {
     .catch(error => console.error(error));
   }
 
-  onSubmit() {
-    alert('Thanks!');
-  }
-
   CalificacionTradicional() {
     this.showSaving = false;
   }
 
   PlanAhorro() {
     this.showSaving = true;
+  }
+
+  getTypeCurrencySaving(){
+    this.generalListService.get('Tipo_Moneda_Ahorro')
+    .then(typeCurrencySaving => this.typeCurrencySaving = typeCurrencySaving)
+    .catch(error => console.error(error));
+  }
+
+  getPlanSituationSaving(){
+    this.generalListService.get('Situacion_Plan_Ahorro')
+    .then(planSituationSavingList => this.planSituationSavingList = planSituationSavingList)
+    .catch(error => console.error(error));
+  }
+
+  getLastValidatedBono(){
+    this.generalListService.get('Ulitmo_Abono_Validado')
+    .then(LastValidatedBonoList => this.LastValidatedBonoList = LastValidatedBonoList)
+    .catch(error => console.error(error));
   }
   
 }
