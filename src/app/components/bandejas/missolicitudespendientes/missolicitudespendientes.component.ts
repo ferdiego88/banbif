@@ -62,7 +62,7 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
     Variables.columnasSolicitud.NumeroDocumento,
     Variables.columnasSolicitud.TipoProducto,
     Variables.columnasSolicitud.Estado,
-    Variables.columnasSolicitud.Moneda,
+    //Variables.columnasSolicitud.Moneda,
     Variables.columnasSolicitud.PrecioVenta,
     Variables.columnasSolicitud.Financiamiento,
     Variables.columnasSolicitud.Oficina,

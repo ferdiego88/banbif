@@ -34,7 +34,8 @@
                     class="mat-elevation-z8 table-custom tabla-projects" matSort matSortActive="Id"
                     matSortDirection="desc">
                     <ng-container matColumnDef="Id">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> N° Solicitud </th>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> N°
+                            Solicitud </th>
                         <td class="filaTabla" mat-cell *matCellDef="let element">
                             <a class="text-ellipsis" routerLink='/hipotecario/solicitud/{{element.Id}}'>
                                 {{element.Id}}
@@ -42,48 +43,62 @@
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="Author">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Solicitante</th>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                            Solicitante</th>
                         <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Author}}</td>
                     </ng-container>
                     <ng-container matColumnDef="Created">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fec. Solicitud</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Created | date: "dd/MM/yyyy"}}</td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fec.
+                            Solicitud</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element">
+                            {{element.Created | date: "dd/MM/yyyy"}}</td>
                     </ng-container>
                     <ng-container matColumnDef="Nombre_Titular">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nombre Titular</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Nombre_Titular || "(SIN VALOR)"}}</td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nombre
+                            Titular</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Nombre_Titular }}</td>
                     </ng-container>
                     <ng-container matColumnDef="N_Documento">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nro. Documento</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.N_Documento|| "(SIN VALOR)"}}</td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nro.
+                            Documento</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.N_Documento}}</td>
                     </ng-container>
                     <ng-container matColumnDef="Tipo_Producto">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Tipo Producto</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Tipo_Producto || "(SIN VALOR)"}} </td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Tipo
+                            Producto</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Tipo_Producto }} </td>
                     </ng-container>
                     <ng-container matColumnDef="Estado">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Estado</th>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Estado
+                        </th>
                         <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Estado}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="Moneda">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Moneda</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Moneda || "(SIN VALOR)"}} </td>
-                    </ng-container>
+                    <!--<ng-container matColumnDef="Moneda">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Moneda
+                        </th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Moneda }} </td>
+                    </ng-container>-->
                     <ng-container matColumnDef="Precio_Venta">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Precio Venta</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Precio_Venta || "(SIN VALOR)"}} </td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Precio
+                            Venta</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element">{{element.SimboloMoneda}}
+                            {{element.Precio_Venta | currency:'1'}} </td>
                     </ng-container>
                     <ng-container matColumnDef="Financiamiento">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Financiamiento</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Financiamiento || "(SIN VALOR)"}} </td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                            Financiamiento</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Financiamiento }} </td>
                     </ng-container>
                     <ng-container matColumnDef="Oficina">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Oficina</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Oficina || "(SIN VALOR)"}} </td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Oficina
+                        </th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Oficina }} </td>
                     </ng-container>
                     <ng-container matColumnDef="Fecha_Estado">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fecha Estado</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Fecha_Estado  | date: "dd/MM/yyyy"}} </td>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fecha
+                            Estado</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element">
+                            {{element.Fecha_Estado  | date: "dd/MM/yyyy"}} </td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumnsSolicitud"></tr>

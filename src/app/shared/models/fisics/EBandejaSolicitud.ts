@@ -12,6 +12,7 @@ export class EBandejaSolicitud {
     Tipo_Producto: string;
     Estado: string;
     Moneda: string;
+    SimboloMoneda: string;
     Precio_Venta: string;
     Modalidad_Pago: string;
     Financiamiento: string;
@@ -31,6 +32,7 @@ export class EBandejaSolicitud {
         this.Tipo_Producto = "";
         this.Estado = "";
         this.Moneda = "";
+        this.SimboloMoneda = "";
         this.Precio_Venta = "";
         this.Modalidad_Pago = "";
         this.Financiamiento = "";
@@ -100,6 +102,13 @@ export class EBandejaSolicitud {
             item.Financiamiento = Math.round(parseFloat(item.Financiamiento) * 100) + " %"
         }
 
+        if(item.Moneda === "SOLES") {
+            item.SimboloMoneda = "S/";
+        }
+        else if (item.Moneda === "DOLARES" || item.Moneda === "DÓLARES") {
+            item.SimboloMoneda = "$";
+        }
+      
         return item;
     }
 
