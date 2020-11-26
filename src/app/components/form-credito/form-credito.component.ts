@@ -165,14 +165,6 @@ export class FormCreditoComponent implements OnInit {
     this.getLastValidatedBono();
   }
 
-  setTypeCurrency(){
-    this.creditForm.get('typeProduct').valueChanges.subscribe(selectedValue => {
-      console.log('typeProduct value changed');
-      console.log(selectedValue);
-    });
-    console.log(this.tipoSubProductoList);
-  }
-
   getTypeProducts(){
     this.generalListService.get(Variables.listas.AdmTipoProducto)
     .then(tipoProductoList => this.tipoProductoList = tipoProductoList)
@@ -184,22 +176,15 @@ export class FormCreditoComponent implements OnInit {
       // clean array
       this.tipoSubProductoList = [];
       switch (selectedValue) {
-        case 1:
+        case Variables.constantes.TipoProductoMiViviendaId:
           this.showmessageVivienda = true;
+          this.showBotonesProducto = true;
           this.showPVenta = true;
           this.showGarantias = false;
           this.showCuotaInicial = true;
           this.showBuenPagador = true;
           break;
-        case 2:
-          this.showmessageVivienda = true;
-          this.showPVenta = false;
-          this.showGarantias = false;
-          this.showCuotaInicial = true;
-          this.showBuenPagador = false;
-
-          break;
-        case 3:
+        case Variables.constantes.TipoProductoCompraDeudaId:
           this.showBotonesProducto = false;
           this.showPVenta = true;
           this.showmessageVivienda = false;
@@ -207,7 +192,7 @@ export class FormCreditoComponent implements OnInit {
           this.showCuotaInicial = true;
           this.showBuenPagador = false;
           break;
-        case 4:
+        case Variables.constantes.TipoProductoAmpliacionRemodelacionConstruccionId:
           this.showGarantias = true;
           this.showPVenta = false;
           this.showBotonesProducto = false;
@@ -215,7 +200,7 @@ export class FormCreditoComponent implements OnInit {
           this.showCuotaInicial = false;
           this.showBuenPagador = false;
           break;
-        case 5:
+        case Variables.constantes.TipoProductoHipotecarioId:
           this.showGarantias = false;
           this.showPVenta = true;
           this.showBotonesProducto = true;
@@ -233,7 +218,7 @@ export class FormCreditoComponent implements OnInit {
       }
       console.log('typeProduct value changed');
       console.log(selectedValue);
-      this.generalListService.getByField('Sub_Producto', 'ProductoId', selectedValue)
+      this.generalListService.getByField(Variables.listas.AdmTipoSubProducto, Variables.listas.AdmTipoProductoId, selectedValue)
         .then((tipoSubProductoList: any) => this.tipoSubProductoList = tipoSubProductoList)
         .catch(error => console.error(error));
     });
@@ -247,7 +232,7 @@ export class FormCreditoComponent implements OnInit {
       this.modalidadList = [];
       console.log('typeProduct value changed');
       console.log(selectedValue);
-      this.generalListService.getByField('Modalidad', 'Tipo_ProductoId', selectedValue)
+      this.generalListService.getByField(Variables.listas.AdmModalidad, Variables.listas.AdmModalidadProductoId, selectedValue)
         .then((modalidadList: any) => this.modalidadList = modalidadList)
         .catch(error => console.error(error));
     });
@@ -272,7 +257,7 @@ export class FormCreditoComponent implements OnInit {
       this.oficinaList = [];
       console.log('zona value changed');
       console.log(selectedValue);
-      this.generalListService.getByField('Oficina', 'ZonaId', selectedValue)
+      this.generalListService.getByField(Variables.listas.AdmOficina, Variables.listas.AdmZonaId, selectedValue)
         .then((oficinaList: any) => this.oficinaList = oficinaList)
         .catch(error => console.error(error));
     });
@@ -281,68 +266,68 @@ export class FormCreditoComponent implements OnInit {
 
 
   getTypeDocument(){
-    this.generalListService.get('Tipo_Documento')
+    this.generalListService.get(Variables.listas.AdmTipoDocumento)
     .then(typeDocumentList => this.typeDocumentList = typeDocumentList)
     .catch(error => console.error(error));
   }
 
 
   getSustentoIngresos(){
-    this.generalListService.get('Sustento_Ingresos')
+    this.generalListService.get(Variables.listas.AdmSustentoIngresos)
     .then(sustIngresosList => this.sustIngresosList = sustIngresosList)
     .catch(error => console.error(error));
   }
 
   getProject(){
-    this.generalListService.get('Proyectos')
+    this.generalListService.get(Variables.listas.AdmProyectos)
     .then(projectList => this.projectList = projectList)
     .catch(error => console.error(error));
   }
 
   getNVivienda(){
-    this.generalListService.get('Numero_Vivienda')
+    this.generalListService.get(Variables.listas.AdmNumeroVivienda)
     .then(nviviendaList => this.nviviendaList = nviviendaList)
     .catch(error => console.error(error));
   }
 
   getCurrency(){
-    this.generalListService.get('Moneda')
+    this.generalListService.get(Variables.listas.AdmMoneda)
     .then(currencyList => this.currencyList = currencyList)
     .catch(error => console.error(error));
   }
 
   getTEA(){
-    this.generalListService.get('TEA_Autorizada')
+    this.generalListService.get(Variables.listas.AdmTEAAutorizada)
     .then(TEAList => this.TEAList = TEAList)
     .catch(error => console.error(error));
   }
 
   getTypeCurrencyPriceSale(){
-    this.generalListService.get('Tipo_Moneda_PrecioVenta')
+    this.generalListService.get(Variables.listas.AdmTipoMonedaPrecioVenta)
     .then(typeCurrencyList => this.typeCurrencyList = typeCurrencyList)
     .catch(error => console.error(error));
   }
 
   getPaymentMethod(){
-    this.generalListService.get('Modalidad_Pago')
+    this.generalListService.get(Variables.listas.AdmModalidadPago)
     .then(paymentMethodList => this.paymentMethodList = paymentMethodList)
     .catch(error => console.error(error));
   }
 
   getVisitingPlace(){
-    this.generalListService.get('Lugar_Visita')
+    this.generalListService.get(Variables.listas.AdmLugarVisita)
     .then(visitingPlaceList => this.visitingPlaceList = visitingPlaceList)
     .catch(error => console.error(error));
   }
 
   getTypeGuarentee(){
-    this.generalListService.get('Tipo_Garantia')
+    this.generalListService.get(Variables.listas.AdmTipoGarantia)
     .then(typeguarenteeList => this.typeguarenteeList = typeguarenteeList)
     .catch(error => console.error(error));
   }
 
   getPaymentType(){
-    this.generalListService.get('Tipo_Abono')
+    this.generalListService.get(Variables.listas.AdmTipoAbono)
     .then(paymentTypeList => this.paymentTypeList = paymentTypeList)
     .catch(error => console.error(error));
   }
@@ -356,19 +341,19 @@ export class FormCreditoComponent implements OnInit {
   }
 
   getTypeCurrencySaving(){
-    this.generalListService.get('Tipo_Moneda_Ahorro')
+    this.generalListService.get(Variables.listas.AdmTipoMonedaAhorro)
     .then(typeCurrencySaving => this.typeCurrencySaving = typeCurrencySaving)
     .catch(error => console.error(error));
   }
 
   getPlanSituationSaving(){
-    this.generalListService.get('Situacion_Plan_Ahorro')
+    this.generalListService.get(Variables.listas.AdmSituacionPlanAhorro)
     .then(planSituationSavingList => this.planSituationSavingList = planSituationSavingList)
     .catch(error => console.error(error));
   }
 
   getLastValidatedBono(){
-    this.generalListService.get('Ulitmo_Abono_Validado')
+    this.generalListService.get(Variables.listas.AdmUltimoAbonoValidado)
     .then(LastValidatedBonoList => this.LastValidatedBonoList = LastValidatedBonoList)
     .catch(error => console.error(error));
   }

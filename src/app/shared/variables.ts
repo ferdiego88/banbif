@@ -33,7 +33,11 @@ export class Variables {
     IdSiRequiereEspecificacionTecnica: 5771,
     PlazoDiasVencimientoSolicitud: 2,
     Lista: 'Lista',
-    Biblioteca: 'Biblioteca'
+    Biblioteca: 'Biblioteca',
+    TipoProductoMiViviendaId: 1,
+    TipoProductoCompraDeudaId: 3,
+    TipoProductoAmpliacionRemodelacionConstruccionId: 4,
+    TipoProductoHipotecarioId: 5,
   };
 
   static readonly path = {
@@ -70,8 +74,27 @@ export class Variables {
   static readonly listas = {
     Solicitudes: 'Solicitud_Hipotecario',
     AdmEstado: 'Estado',
-    AdmTipoProducto: 'Tipo_Producto',
+    AdmLugarVisita: 'Lugar_Visita',
+    AdmModalidad: 'Modalidad',
+    AdmModalidadPago: 'Modalidad_Pago',
+    AdmMoneda: 'Moneda',
+    AdmNumeroVivienda: 'Numero_Vivienda',
     AdmOficina: 'Oficina',
+    AdmProyectos: 'Proyectos',
+    AdmTipoProductoId: 'ProductoId',
+    AdmTipoSubProducto: 'Sub_Producto',
+    AdmSustentoIngresos: 'Sustento_Ingresos',
+    AdmSituacionPlanAhorro: 'Situacion_Plan_Ahorro',
+    AdmModalidadProductoId: 'Tipo_ProductoId',
+    AdmTipoMonedaPrecioVenta: 'Tipo_Moneda_PrecioVenta',
+    AdmTEAAutorizada: 'TEA_Autorizada',
+    AdmTipoAbono: 'Tipo_Abono',
+    AdmTipoMonedaAhorro: 'Tipo_Moneda_Ahorro',
+    AdmTipoProducto: 'Tipo_Producto',
+    AdmTipoDocumento: 'Tipo_Documento',
+    AdmTipoGarantia: 'Tipo_Garantia',
+    AdmUltimoAbonoValidado: 'Ulitmo_Abono_Validado',
+    AdmZonaId: 'ZonaId',
   };
 
   static readonly columnasSolicitud = {
