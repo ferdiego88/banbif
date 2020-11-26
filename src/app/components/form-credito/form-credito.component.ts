@@ -184,20 +184,35 @@ export class FormCreditoComponent implements OnInit {
     .catch(error => console.error(error));
   }
 
+  setearMonedasSoles(){
+    this.creditForm.get('Moneda').setValue(Variables.constantes.TipoMonedaSolesDatosOperacionId);
+    this.creditForm.get('monedaDesembolso').setValue(Variables.constantes.TipoMonedaSolesPrecioVentaId);
+    this.creditForm.get('monedagravamen').setValue(Variables.constantes.TipoMonedaSolesPrecioVentaId);
+    this.creditForm.get('tipoprecioVenta').setValue(Variables.constantes.TipoMonedaSolesPrecioVentaId);
+    this.creditForm.get('Mon_Ap_Efectivo').setValue(Variables.constantes.TipoMonedaSolesDatosAporteEfectivoId);
+    this.creditForm.get('Mon_Aport_AFP').setValue(Variables.constantes.TipoMonedaSolesMonteAporteAFPId);
+    this.creditForm.get('Mon_BBP').setValue(Variables.constantes.SimboloSoles);
+    this.creditForm.get('Mon_PBP').setValue(Variables.constantes.SimboloSoles);
+  }
+  setearMonedasEmpty(){
+    this.creditForm.get('Moneda').setValue('');
+    this.creditForm.get('monedaDesembolso').setValue('');
+    this.creditForm.get('monedagravamen').setValue('');
+    this.creditForm.get('tipoprecioVenta').setValue('');
+    this.creditForm.get('Mon_Ap_Efectivo').setValue('');
+    this.creditForm.get('Mon_Aport_AFP').setValue('');
+    this.creditForm.get('Mon_BBP').setValue('');
+    this.creditForm.get('Mon_PBP').setValue('');
+  }
+
+
   valueSubProducto(): any{
     this.creditForm.get('typeProduct').valueChanges.subscribe(selectedValue => {
       // clean array
       this.tipoSubProductoList = [];
       switch (selectedValue) {
         case Variables.constantes.TipoProductoMiViviendaId:
-          this.creditForm.get('Moneda').setValue(Variables.constantes.TipoMonedaSolesDatosOperacionId);
-          this.creditForm.get('monedaDesembolso').setValue(Variables.constantes.TipoMonedaSolesPrecioVentaId);
-          this.creditForm.get('monedagravamen').setValue(Variables.constantes.TipoMonedaSolesPrecioVentaId);
-          this.creditForm.get('tipoprecioVenta').setValue(Variables.constantes.TipoMonedaSolesPrecioVentaId);
-          this.creditForm.get('Mon_Ap_Efectivo').setValue(Variables.constantes.TipoMonedaSolesDatosAporteEfectivoId);
-          this.creditForm.get('Mon_Aport_AFP').setValue(Variables.constantes.TipoMonedaSolesMonteAporteAFPId);
-          this.creditForm.get('Mon_BBP').setValue(Variables.constantes.SimboloSoles);
-          this.creditForm.get('Mon_PBP').setValue(Variables.constantes.SimboloSoles);
+          this.setearMonedasSoles();
           this.showmessageVivienda = true;
           this.showBotonesProducto = true;
           this.showPVenta = true;
@@ -214,6 +229,7 @@ export class FormCreditoComponent implements OnInit {
           this.showCuotaInicial = true;
           this.showBuenPagador = false;
           this.showBuenAplicacion = false;
+          this.setearMonedasEmpty();
           break;
         case Variables.constantes.TipoProductoAmpliacionRemodelacionConstruccionId:
           this.showGarantias = true;
@@ -223,6 +239,7 @@ export class FormCreditoComponent implements OnInit {
           this.showCuotaInicial = false;
           this.showBuenPagador = false;
           this.showBuenAplicacion = true;
+          this.setearMonedasEmpty();
           break;
         case Variables.constantes.TipoProductoHipotecarioId:
           this.showGarantias = false;
@@ -232,6 +249,7 @@ export class FormCreditoComponent implements OnInit {
           this.showCuotaInicial = true;
           this.showBuenPagador = false;
           this.showBuenAplicacion = false;
+          this.setearMonedasEmpty();
           break;
 
         default:
@@ -240,6 +258,7 @@ export class FormCreditoComponent implements OnInit {
           this.showBotonesProducto = true;
           this.showmessageVivienda = false;
           this.showBuenAplicacion = false;
+          this.setearMonedasEmpty();
           break;
       }
       console.log('typeProduct value changed');
