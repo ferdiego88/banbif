@@ -76,6 +76,7 @@ export class FormCreditoComponent implements OnInit {
   showmessageVivienda = false;
   showCuotaInicial = false;
   showBuenPagador = false;
+  showBuenAplicacion = false;
 
   creditForm = this.fb.group({
     typeProduct: [null, Validators.required],
@@ -183,6 +184,7 @@ export class FormCreditoComponent implements OnInit {
           this.showGarantias = false;
           this.showCuotaInicial = true;
           this.showBuenPagador = true;
+          this.showBuenAplicacion = false;
           break;
         case Variables.constantes.TipoProductoCompraDeudaId:
           this.showBotonesProducto = false;
@@ -191,6 +193,7 @@ export class FormCreditoComponent implements OnInit {
           this.showGarantias = false;
           this.showCuotaInicial = true;
           this.showBuenPagador = false;
+          this.showBuenAplicacion = false;
           break;
         case Variables.constantes.TipoProductoAmpliacionRemodelacionConstruccionId:
           this.showGarantias = true;
@@ -199,6 +202,7 @@ export class FormCreditoComponent implements OnInit {
           this.showmessageVivienda = false;
           this.showCuotaInicial = false;
           this.showBuenPagador = false;
+          this.showBuenAplicacion = true;
           break;
         case Variables.constantes.TipoProductoHipotecarioId:
           this.showGarantias = false;
@@ -207,6 +211,7 @@ export class FormCreditoComponent implements OnInit {
           this.showmessageVivienda = false;
           this.showCuotaInicial = true;
           this.showBuenPagador = false;
+          this.showBuenAplicacion = false;
           break;
 
         default:
@@ -214,6 +219,7 @@ export class FormCreditoComponent implements OnInit {
           this.showPVenta = true;
           this.showBotonesProducto = true;
           this.showmessageVivienda = false;
+          this.showBuenAplicacion = false;
           break;
       }
       console.log('typeProduct value changed');

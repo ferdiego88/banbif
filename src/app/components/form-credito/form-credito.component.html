@@ -485,43 +485,30 @@
 
                     <div class="row">
                         <div class="col">
-                            <p>Descripción del Inmueble</p>
-                        </div>
-                        <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="" formControlName="Meses_Abono">
+                                <input matInput placeholder="Descripción del Inmueble" formControlName="Meses_Abono">
                                 <mat-error *ngIf="creditForm.controls['Meses_Abono'].hasError('required')">
                                     Descripción del Inmueble <strong>requerido</strong>
                                 </mat-error>
                             </mat-form-field>
                         </div>
-                        <div class="col">
-
-                        </div>
                     </div>
 
                     <div class="row">
                         <div class="col">
-                            Fecha de Tasación
-                        </div>
-                        <div class="col">
                             <mat-form-field appearance="fill">
-                                <mat-label>Seleccione Fecha</mat-label>
+                                <mat-label>Fecha de Tasación</mat-label>
                                 <input matInput [matDatepicker]="dp" [formControl]="date">
                                 <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                                 <mat-datepicker #dp></mat-datepicker>
                             </mat-form-field>
                         </div>
-                        <div class="col"></div>
                     </div>
 
                     <div class="row">
                         <div class="col">
-                            <p>Valor Tasación soles</p>
-                        </div>
-                        <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="" formControlName="Importe_Cuota_Ahorro">
+                                <input matInput placeholder="S/." formControlName="Importe_Cuota_Ahorro">
                                 <mat-error *ngIf="creditForm.controls['Importe_Cuota_Ahorro'].hasError('required')">
                                     S/. <strong>requerido</strong>
                                 </mat-error>
@@ -529,7 +516,7 @@
                         </div>
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="" formControlName="Importe_Cuota_Ahorro">
+                                <input matInput placeholder="Valor Tasación soles" formControlName="Importe_Cuota_Ahorro">
                                 <mat-error *ngIf="creditForm.controls['Importe_Cuota_Ahorro'].hasError('required')">
                                     Valor Tasación soles <strong>requerido</strong>
                                 </mat-error>
@@ -540,11 +527,8 @@
 
                     <div class="row">
                         <div class="col">
-                            <p>VRI soles</p>
-                        </div>
-                        <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="" formControlName="Importe_Cuota_Ahorro">
+                                <input matInput placeholder="S/." formControlName="Importe_Cuota_Ahorro">
                                 <mat-error *ngIf="creditForm.controls['Importe_Cuota_Ahorro'].hasError('required')">
                                     S/. <strong>requerido</strong>
                                 </mat-error>
@@ -552,7 +536,7 @@
                         </div>
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="" formControlName="Importe_Cuota_Ahorro">
+                                <input matInput placeholder="VRI soles" formControlName="Importe_Cuota_Ahorro">
                                 <mat-error *ngIf="creditForm.controls['Importe_Cuota_Ahorro'].hasError('required')">
                                     VRI soles <strong>requerido</strong>
                                 </mat-error>
@@ -720,7 +704,6 @@
                 </div>
 
                 <div class="row">
-
                     <div class="col">
                         <mat-card-actions>
                             <button mat-raised-button color="primary" type="submit">Calcular</button>
@@ -794,7 +777,7 @@
 
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="example-full-width">
+                        <mat-form-field class="full-width">
                             <mat-label>Observaciones (Opcional)</mat-label>
                             <textarea matInput placeholder="Observaciones" multiline rows="3"></textarea>
                         </mat-form-field>
@@ -857,10 +840,92 @@
                 </div>
                 <hr>
 
+                <div class="" [ngClass]="{
+                    'd-none':!showBuenAplicacion,
+                    'col-md-12': showBuenAplicacion
+                }">
+                    <div class="row">
+                        <div class="col">
+                            <mat-card-subtitle>APLICACIÓN</mat-card-subtitle>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">La operación se realizará en </div>
+                        <div class="col">
+                            <mat-form-field class="text-width">
+                                <input matInput placeholder="" formControlName="nroDcmto">
+                                <mat-error *ngIf="creditForm.controls['nroDcmto'].hasError('required')">
+                                    N° de Documento <strong>requerido</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col label-aplicacion">
+                            Desembolsos parciales, los cuales estarán condicionados a:
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">1er Desembolso por S/ </div>
+                        <div class="col">
+                            <mat-form-field class="text-width">
+                                <input matInput placeholder="" formControlName="nroDcmto">
+                                <mat-error *ngIf="creditForm.controls['nroDcmto'].hasError('required')">
+                                    N° de Documento <strong>requerido</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col label-aplicacion">
+                            Bloqueo Inscrito.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">2do Desembolso por S/ </div>
+                        <div class="col">
+                            <mat-form-field class="text-width">
+                                <input matInput placeholder="" formControlName="nroDcmto">
+                                <mat-error *ngIf="creditForm.controls['nroDcmto'].hasError('required')">
+                                    N° de Documento <strong>requerido</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col label-aplicacion">
+                            Contra validación de los recursos entregados 1er Desembolso.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">3er Desembolso por S/ </div>
+                        <div class="col">
+                            <mat-form-field class="text-width">
+                                <input matInput placeholder="" formControlName="nroDcmto">
+                                <mat-error *ngIf="creditForm.controls['nroDcmto'].hasError('required')">
+                                    N° de Documento <strong>requerido</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col label-aplicacion">
+                            Contra validación de los recursos entregados 2do Desembolso.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Aporte de Cliente por S/</div>
+                        <div class="col">
+                            <mat-form-field class="text-width">
+                                <input matInput placeholder="" formControlName="nroDcmto">
+                                <mat-error *ngIf="creditForm.controls['nroDcmto'].hasError('required')">
+                                    N° de Documento <strong>requerido</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col label-red">
+                            (En caso de no financiar el 100% del Presupuesto de Obra)
+                        </div>
+                    </div>
+
+                </div>
+
                 <div class="row">
                     <div class="col">
                         <mat-card-subtitle>CONDICIÓN DE DESEMBOLSO</mat-card-subtitle>
-                        <mat-form-field class="example-full-width">
+                        <mat-form-field class="full-width">
                             <mat-label>Condicion de desembolso</mat-label>
                             <textarea matInput placeholder="Observaciones" multiline rows="3"></textarea>
                         </mat-form-field>
@@ -875,14 +940,11 @@
                 <hr>
 
                 <div class="row">
-                    <div class="col">
-                        Comentarios oficina
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="example-full-width">
-                            <mat-label></mat-label>
+                        <mat-form-field class="full-width">
+                            <mat-label>Comentarios de la Oficina</mat-label>
                             <textarea matInput placeholder="Comentarios de la Oficina" multiline rows="3"></textarea>
                         </mat-form-field>
                     </div>
