@@ -176,8 +176,12 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
     parametroQueryString: string,
     valorQueryString: string
   ) {
-    const url = environment.getRutaBaseApp() + nombrePagina + '?' + parametroQueryString + '=' + valorQueryString;
-    window.open(url, '_blank');
+    if (parametroQueryString !== "") {
+      const url = environment.getRutaBaseApp() + nombrePagina + '?' + parametroQueryString + '=' + valorQueryString;
+      window.open(url, '_blank');
+    } else {
+      const url = environment.getRutaBaseApp() + nombrePagina;
+    }
   }
 
   reload() {
@@ -383,7 +387,7 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
           return EBandejaSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Solicitante', 'Fec. Solicitud', 'Nombre Titular', 'Nro. Documento', 'Tipo Producto', 'Estado', 'Moneda', 'Precio Venta', 'Modalidad Pago', 'Financiamiento','Zona', 'Oficina', 'Sustento Ingresos', 'Fecha Estado'];
+        const headers: string[] = ['N° Solicitud', 'Solicitante', 'Fec. Solicitud', 'Nombre Titular', 'Nro. Documento', 'Tipo Producto', 'Estado', 'Moneda', 'Precio Venta', 'Modalidad Pago', 'Financiamiento', 'Zona', 'Oficina', 'Sustento Ingresos', 'Fecha Estado'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 

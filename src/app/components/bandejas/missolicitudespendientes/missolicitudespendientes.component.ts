@@ -181,8 +181,12 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
     parametroQueryString: string,
     valorQueryString: string
   ) {
-    const url = environment.getRutaBaseApp() + nombrePagina + '?' + parametroQueryString + '=' + valorQueryString;
-    window.open(url, '_blank');
+    if (parametroQueryString !== "") {
+      const url = environment.getRutaBaseApp() + nombrePagina + '?' + parametroQueryString + '=' + valorQueryString;
+      window.open(url, '_blank');
+    } else {
+      const url = environment.getRutaBaseApp() + nombrePagina;
+    }
   }
 
   reload() {
