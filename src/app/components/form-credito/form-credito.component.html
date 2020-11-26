@@ -370,7 +370,7 @@
                 <div class="row">
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <mat-select placeholder="Tipo de Moneda" formControlName="tipoMoneda">
+                            <mat-select placeholder="Tipo de Moneda" formControlName="Moneda">
                                 <mat-option *ngFor="let currency of currencyList" [value]="currency.Id">
                                     {{ currency.Title }}
                                 </mat-option>
@@ -565,12 +565,12 @@
                     <div class="row">
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <mat-select placeholder="Tipo Moneda" formControlName="tipoprecioVenta">
-                                    <mat-option *ngFor="let typeCurrency of typeCurrencyList" [value]="typeCurrency.Id">
+                                <mat-select placeholder="Tipo Moneda" formControlName="Mon_Ap_Efectivo">
+                                    <mat-option *ngFor="let typeCurrency of currencyAporteEfectivoList" [value]="typeCurrency.Id">
                                         {{ typeCurrency.Title }}
                                     </mat-option>
                                 </mat-select>
-                                <mat-error *ngIf="creditForm.controls['tipoprecioVenta'].hasError('required')">
+                                <mat-error *ngIf="creditForm.controls['Mon_Ap_Efectivo'].hasError('required')">
                                     S/. <strong>requerido</strong>
                                 </mat-error>
                             </mat-form-field>
@@ -589,12 +589,12 @@
                     <div class="row">
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <mat-select placeholder="Tipo Moneda" formControlName="tipoprecioVenta">
-                                    <mat-option *ngFor="let typeCurrency of typeCurrencyList" [value]="typeCurrency.Id">
+                                <mat-select placeholder="Tipo Moneda" formControlName="Mon_Aport_AFP">
+                                    <mat-option *ngFor="let typeCurrency of currencyAporteAFPList" [value]="typeCurrency.Id">
                                         {{ typeCurrency.Title }}
                                     </mat-option>
                                 </mat-select>
-                                <mat-error *ngIf="creditForm.controls['tipoprecioVenta'].hasError('required')">
+                                <mat-error *ngIf="creditForm.controls['Mon_Aport_AFP'].hasError('required')">
                                     S/. <strong>requerido</strong>
                                 </mat-error>
                             </mat-form-field>
@@ -662,12 +662,12 @@
                         <div class="row">
                             <div class="col">
                                 <mat-form-field class="full-width">
-                                    <mat-select placeholder="" formControlName="tipoprecioVenta">
-                                        <mat-option *ngFor="let typeCurrency of typeCurrencyList" [value]="typeCurrency.Id">
-                                            {{ typeCurrency.Title }}
+                                    <mat-select placeholder="--" formControlName="BBP_Adicional">
+                                        <mat-option *ngFor="let BBPA of BBPAdicionalList" [value]="BBPA.Id">
+                                            {{ BBPA.Title }}
                                         </mat-option>
                                     </mat-select>
-                                    <mat-error *ngIf="creditForm.controls['tipoprecioVenta'].hasError('required')">
+                                    <mat-error *ngIf="creditForm.controls['BBP_Adicional'].hasError('required')">
                                         BBP adicional por vivienda sostenible <strong>requerido</strong>
                                     </mat-error>
                                 </mat-form-field>

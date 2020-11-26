@@ -56,6 +56,9 @@ export class FormCreditoComponent implements OnInit {
   projectList: TipoProductoModel[];
   nviviendaList: TipoProductoModel[];
   currencyList: TipoProductoModel[];
+  currencyAporteEfectivoList: TipoProductoModel[];
+  currencyAporteAFPList: TipoProductoModel[];
+  BBPAdicionalList: TipoProductoModel[];
   TEAList: TipoProductoModel[];
   typeCurrencyList: TipoProductoModel[];
   paymentMethodList: TipoProductoModel[];
@@ -93,6 +96,7 @@ export class FormCreditoComponent implements OnInit {
     nombreProyecto: [null, Validators.required],
     numeroVivienda: [null, Validators.required],
     tipoMoneda: [null, Validators.required],
+    Moneda: [null, Validators.required],
     TEA: [null, Validators.required],
     teaAuth: [null, Validators.required],
     tipoprecioVenta: [null, Validators.required],
@@ -115,9 +119,13 @@ export class FormCreditoComponent implements OnInit {
     N_Abonos_Validados: [null, Validators.required],
     Ultimo_Abono_Validado: [null, Validators.required],
     Cta_Ahorro_Banbif: [null, Validators.required],
-
-
     /*Fin Plan Ahorro */
+
+    /* Cuota Inicial*/
+    Mon_Ap_Efectivo: [null, Validators.required],
+    Mon_Aport_AFP: [null, Validators.required],
+    BBP_Adicional: [null, Validators.required],
+    /* Fin Cuota Inicial*/
     postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
     ],
@@ -155,6 +163,8 @@ export class FormCreditoComponent implements OnInit {
     this.getProject();
     this.getNVivienda();
     this.getCurrency();
+    this.getCurrencyAporteEfectivo();
+    this.getCurrencyAporteAFP();
     this.getTEA();
     this.getTypeCurrencyPriceSale();
     this.getPaymentMethod();
@@ -178,6 +188,10 @@ export class FormCreditoComponent implements OnInit {
       this.tipoSubProductoList = [];
       switch (selectedValue) {
         case Variables.constantes.TipoProductoMiViviendaId:
+          this.creditForm.get('Moneda').setValue(Variables.constantes.TipoMonedaSolesDatosOperacionId);
+          this.creditForm.get('tipoprecioVenta').setValue(Variables.constantes.TipoMonedaSolesPrecioVentaId);
+          this.creditForm.get('Mon_Ap_Efectivo').setValue(Variables.constantes.TipoMonedaSolesDatosAporteEfectivoId);
+          this.creditForm.get('Mon_Aport_AFP').setValue(Variables.constantes.TipoMonedaSolesMonteAporteAFPId);
           this.showmessageVivienda = true;
           this.showBotonesProducto = true;
           this.showPVenta = true;
@@ -296,6 +310,18 @@ export class FormCreditoComponent implements OnInit {
     .catch(error => console.error(error));
   }
 
+  getCurrencyAporteEfectivo(){
+    this.generalListService.get(Variables.listas.AdmTipoMonedaAporteEfectivo)
+    .then(currencyAporteEfectivoList => this.currencyAporteEfectivoList = currencyAporteEfectivoList)
+    .catch(error => console.error(error));
+  }
+
+  getCurrencyAporteAFP(){
+    this.generalListService.get(Variables.listas.AdmTipoMonedaAporteAFP)
+    .then(currencyAporteAFPList => this.currencyAporteAFPList = currencyAporteAFPList)
+    .catch(error => console.error(error));
+  }
+
   getCurrency(){
     this.generalListService.get(Variables.listas.AdmMoneda)
     .then(currencyList => this.currencyList = currencyList)
@@ -363,5 +389,12 @@ export class FormCreditoComponent implements OnInit {
     .then(LastValidatedBonoList => this.LastValidatedBonoList = LastValidatedBonoList)
     .catch(error => console.error(error));
   }
+
+  getBBPAdicional(){
+    this.generalListService.get(Variables.listas.AdmBBPAdicional)
+    .then(BBPAdicionalList => this.BBPAdicionalList = BBPAdicionalList)
+    .catch(error => console.error(error));
+  }
+
 
 }

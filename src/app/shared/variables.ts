@@ -22,8 +22,8 @@ export class Variables {
     VerdeTono: '92d050',
     Flujo: {
       // Creadas: 'rgba(255,0,0,0.3)',// '#5a5ff0',
-      EnProceso: '#03a9f4',// '#e2e983',
-      Cerradas: '#8a8787',// '#85ed89'
+      EnProceso: '#03a9f4', // '#e2e983',
+      Cerradas: '#8a8787', // '#85ed89'
     }
   };
 
@@ -34,6 +34,10 @@ export class Variables {
     PlazoDiasVencimientoSolicitud: 2,
     Lista: 'Lista',
     Biblioteca: 'Biblioteca',
+    TipoMonedaSolesDatosOperacionId: 1,
+    TipoMonedaSolesPrecioVentaId: 1,
+    TipoMonedaSolesDatosAporteEfectivoId: 1,
+    TipoMonedaSolesMonteAporteAFPId: 1,
     TipoProductoMiViviendaId: 1,
     TipoProductoCompraDeudaId: 3,
     TipoProductoAmpliacionRemodelacionConstruccionId: 4,
@@ -73,6 +77,7 @@ export class Variables {
 
   static readonly listas = {
     Solicitudes: 'Solicitud_Hipotecario',
+    AdmBBPAdicional: 'BBP_Adicional',
     AdmEstado: 'Estado',
     AdmLugarVisita: 'Lugar_Visita',
     AdmModalidad: 'Modalidad',
@@ -90,6 +95,8 @@ export class Variables {
     AdmTEAAutorizada: 'TEA_Autorizada',
     AdmTipoAbono: 'Tipo_Abono',
     AdmTipoMonedaAhorro: 'Tipo_Moneda_Ahorro',
+    AdmTipoMonedaAporteEfectivo: 'T_Mon_Aporte_Efectivo',
+    AdmTipoMonedaAporteAFP: 'T_Mon_Ret_AFP',
     AdmTipoProducto: 'Tipo_Producto',
     AdmTipoDocumento: 'Tipo_Documento',
     AdmTipoGarantia: 'Tipo_Garantia',
