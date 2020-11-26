@@ -11,14 +11,20 @@ import { IFields, IFieldInfo } from '@pnp/sp/fields';
 })
 export class GeneralListService {
 
-    public get(listName: string): Promise<any> {
+    public get(listName: string, orderField = '', orderAscending = true): Promise<any> {
         return new Promise((resolve, reject) => {
             if (sp !== null && sp !== undefined) {
                 // const listExpand = this.variables.ListExpands[listName];
                 // if (listExpand) {
 
                 // }
-                const items = sp.web.lists.getByTitle(listName).items.getAll();
+                let query = sp.web.lists.getByTitle(listName).items;
+                
+                if (orderField !== '') {
+                    query = query.orderBy(orderField, orderAscending);
+                }
+
+                const items = query.get();
                 console.log({items});
                 resolve(items);
             } else {
@@ -27,10 +33,16 @@ export class GeneralListService {
         });
     }
 
-    public async getByField(listName: string, fieldFilter: string, valueFilter: any): Promise<any> {
+    public async getByField(listName: string, fieldFilter: string, valueFilter: any, orderField = '', orderAscending = true): Promise<any> {
         return new Promise((resolve, reject) => {
             if (sp !== null && sp !== undefined) {
-                const items = sp.web.lists.getByTitle(listName).items.filter(`${fieldFilter} eq ${valueFilter}`).getAll();
+                let query = sp.web.lists.getByTitle(listName).items.filter(`${fieldFilter} eq ${valueFilter}`);
+
+                if (orderField !== '') {
+                    query = query.orderBy(orderField, orderAscending);
+                }
+
+                const items = query.get();
                 console.log({items});
                 resolve(items);
             } else {

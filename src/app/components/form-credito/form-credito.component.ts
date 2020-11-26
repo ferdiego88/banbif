@@ -166,7 +166,7 @@ export class FormCreditoComponent implements OnInit {
   }
 
   getTypeProducts(){
-    this.generalListService.get(Variables.listas.AdmTipoProducto)
+    this.generalListService.get(Variables.listas.AdmTipoProducto, 'Title')
     .then(tipoProductoList => this.tipoProductoList = tipoProductoList)
     .catch(error => console.error(error));
   }
