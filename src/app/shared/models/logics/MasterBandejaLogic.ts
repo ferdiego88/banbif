@@ -6,6 +6,7 @@ export class MasterBandejaLogic {
   maestroEstado: Lookup[];
   maestroTipoProducto: Lookup[];
   maestroOficina: Lookup[];
+  maestroZona: Lookup[];
   PertenceGrupo_U_Oficina: boolean;
   PertenceGrupo_U_ReemplazoOficina: boolean;
   PertenceGrupo_U_CPM: boolean;

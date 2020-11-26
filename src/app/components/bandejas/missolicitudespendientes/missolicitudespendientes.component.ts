@@ -72,7 +72,7 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
   isLoadingResults = true;
   isRateLimitReached = false;
   isFilterApplied = false;
-  
+
   isCargando = true;
 
   nombreControles = {
@@ -409,7 +409,7 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
           return dataMap;
         });
 
-        this.excelService.excelListadoMisSolicitudes('Mis Solicitudes Pendientes', 'MisSolicitudesPendientes', headers, details);
+        this.excelService.excelListadoMisSolicitudesPendientes('Mis Solicitudes Pendientes', 'MisSolicitudesPendientes', headers, details);
         this.ocultarProgreso();
         this.isCargando = false;
       },

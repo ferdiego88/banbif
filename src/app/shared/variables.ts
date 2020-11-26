@@ -94,6 +94,7 @@ export class Variables {
     AdmTipoDocumento: 'Tipo_Documento',
     AdmTipoGarantia: 'Tipo_Garantia',
     AdmUltimoAbonoValidado: 'Ulitmo_Abono_Validado',
+    AdmZona: 'Zona',
     AdmZonaId: 'ZonaId',
   };
 

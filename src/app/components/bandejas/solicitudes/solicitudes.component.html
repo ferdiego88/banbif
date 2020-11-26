@@ -73,13 +73,25 @@
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Precio Venta</th>
                         <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Precio_Venta || "(SIN VALOR)"}} </td>
                     </ng-container>
+                    <ng-container matColumnDef="Modalidad_Pago">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Modalidad Pago</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Modalidad_Pago || "(SIN VALOR)"}} </td>
+                    </ng-container>
                     <ng-container matColumnDef="Financiamiento">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Financiamiento</th>
                         <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Financiamiento || "(SIN VALOR)"}} </td>
                     </ng-container>
+                    <ng-container matColumnDef="Zona">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Zona</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Zona || "(SIN VALOR)"}} </td>
+                    </ng-container>
                     <ng-container matColumnDef="Oficina">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Oficina</th>
                         <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Oficina || "(SIN VALOR)"}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Sustento_Ingresos">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Sustento Ingresos</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Sustento_Ingresos || "(SIN VALOR)"}} </td>
                     </ng-container>
                     <ng-container matColumnDef="Fecha_Estado">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fecha Estado</th>
@@ -123,8 +135,8 @@
             <mat-form-field>
                 <mat-label>Estado</mat-label>
                 <mat-select multiple [(ngModel)]="tableQuery.filter.Estado">
-                    <mat-option *ngFor="let items of datosMaestrosBandeja.maestroEstado" [value]="items.Id">
-                        {{items.Title}}
+                    <mat-option *ngFor="let item of datosMaestrosBandeja.maestroEstado" [value]="item.Id">
+                        {{item.Title}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -165,8 +177,19 @@
             <mat-form-field>
                 <mat-label>Tipo Producto</mat-label>
                 <mat-select [(ngModel)]="tableQuery.filter.TipoProducto">
-                    <mat-option *ngFor="let items of datosMaestrosBandeja.maestroTipoProducto" [value]="items.Id">
-                        {{items.Title}}
+                    <mat-option *ngFor="let item of datosMaestrosBandeja.maestroTipoProducto" [value]="item.Id">
+                        {{item.Title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group col-xs-12 col-lg-12">
+            <mat-form-field>
+                <mat-label>Zona</mat-label>
+                <mat-select [(ngModel)]="tableQuery.filter.Zona">
+                    <mat-option *ngFor="let item of datosMaestrosBandeja.maestroZona" [value]="item.Id">
+                        {{item.Title}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -176,12 +199,12 @@
             <mat-form-field>
                 <mat-label>Oficina</mat-label>
                 <mat-select [(ngModel)]="tableQuery.filter.Oficina">
-                    <mat-option *ngFor="let items of datosMaestrosBandeja.maestroOficina" [value]="items.Id">
-                        {{items.Title}}
+                    <mat-option *ngFor="let item of datosMaestrosBandeja.maestroOficina" [value]="item.Id">
+                        {{item.Title}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-        </div>
+        </div>       
 
         <div class="text-center" style="padding-bottom: 15px">
             <button type="button" (click)="getSolicitudes()" mat-raised-button color="primary" class="accent">

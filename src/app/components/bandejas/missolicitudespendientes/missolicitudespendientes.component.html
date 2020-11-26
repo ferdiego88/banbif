@@ -124,8 +124,8 @@
             <mat-form-field>
                 <mat-label>Estado</mat-label>
                 <mat-select multiple [(ngModel)]="tableQuery.filter.Estado">
-                    <mat-option *ngFor="let items of datosMaestrosBandeja.maestroEstado" [value]="items.Id">
-                        {{items.Title}}
+                    <mat-option *ngFor="let item of datosMaestrosBandeja.maestroEstado" [value]="item.Id">
+                        {{item.Title}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -166,8 +166,8 @@
             <mat-form-field>
                 <mat-label>Tipo Producto</mat-label>
                 <mat-select [(ngModel)]="tableQuery.filter.TipoProducto">
-                    <mat-option *ngFor="let items of datosMaestrosBandeja.maestroTipoProducto" [value]="items.Id">
-                        {{items.Title}}
+                    <mat-option *ngFor="let item of datosMaestrosBandeja.maestroTipoProducto" [value]="item.Id">
+                        {{item.Title}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -177,8 +177,8 @@
             <mat-form-field>
                 <mat-label>Oficina</mat-label>
                 <mat-select [(ngModel)]="tableQuery.filter.Oficina">
-                    <mat-option *ngFor="let items of datosMaestrosBandeja.maestroOficina" [value]="items.Id">
-                        {{items.Title}}
+                    <mat-option *ngFor="let item of datosMaestrosBandeja.maestroOficina" [value]="item.Id">
+                        {{item.Title}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>

@@ -24,6 +24,7 @@ export class MasterBandejaService {
   private listaMaestroEstado: IList;
   private listaMaestroTipoProducto: IList;
   private listaMaestroOficina: IList;
+  private listaMaestroZona: IList;
 
   constructor(
     public userService: UserService  
@@ -39,6 +40,7 @@ export class MasterBandejaService {
     this.listaMaestroEstado = sp.web.lists.getByTitle(Variables.listas.AdmEstado);
     this.listaMaestroTipoProducto = sp.web.lists.getByTitle(Variables.listas.AdmTipoProducto);
     this.listaMaestroOficina = sp.web.lists.getByTitle(Variables.listas.AdmOficina);
+    this.listaMaestroZona = sp.web.lists.getByTitle(Variables.listas.AdmZona);
   }
 
   @Cacheable({
@@ -53,7 +55,8 @@ export class MasterBandejaService {
     listaPromesas.push(this.userService.getCurrentUser());   
     listaPromesas.push(this.getMaestroEstado());
     listaPromesas.push(this.getMaestroTipoProducto());   
-    listaPromesas.push(this.getMaestroOficina());   
+    listaPromesas.push(this.getMaestroOficina());
+    listaPromesas.push(this.getMaestroZona());  
 
     Promise.all(listaPromesas).then((results) => {
       let cont = 0;
@@ -63,6 +66,7 @@ export class MasterBandejaService {
       masterData.maestroEstado = results[cont++];
       masterData.maestroTipoProducto = results[cont++];
       masterData.maestroOficina = results[cont++];
+      masterData.maestroZona = results[cont++];
 
       masterData.PertenceGrupo_U_Oficina = masterData.currentUser.Groups.filter(x => x.Title === "U_Oficina").length > 0;
       masterData.PertenceGrupo_U_ReemplazoOficina = masterData.currentUser.Groups.filter(x => x.Title === "U_ReemplazoOficina").length > 0;
@@ -115,6 +119,22 @@ export class MasterBandejaService {
     const selectFields = ["ID","Title"];
     let result: Array<any>;
     let item = this.listaMaestroOficina.items;
+    result = await item.select(...selectFields).top(4999).get();
+
+    const items: Lookup[] = result.map(elemento => {
+      const item = new Lookup();
+      item.Id = elemento.Id;
+      item.Title = elemento.Title;     
+      return item
+    });
+
+    return items;
+  }
+
+  async getMaestroZona(): Promise<Lookup[]> {
+    const selectFields = ["ID","Title"];
+    let result: Array<any>;
+    let item = this.listaMaestroZona.items;
     result = await item.select(...selectFields).top(4999).get();
 
     const items: Lookup[] = result.map(elemento => {

@@ -64,8 +64,11 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
     Variables.columnasSolicitud.Estado,
     Variables.columnasSolicitud.Moneda,
     Variables.columnasSolicitud.PrecioVenta,
+    Variables.columnasSolicitud.ModalidadPago,
     Variables.columnasSolicitud.Financiamiento,
+    Variables.columnasSolicitud.Zona,
     Variables.columnasSolicitud.Oficina,
+    Variables.columnasSolicitud.SustentoIngreso,
     Variables.columnasSolicitud.FechaEstado
   ];
   resultsLength = 0;
@@ -380,7 +383,7 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
           return EBandejaSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Solicitante', 'Fec. Solicitud', 'Nombre Titular', 'Nro. Documento', 'Tipo Producto', 'Estado', 'Moneda', 'Precio Venta', 'Financiamiento', 'Oficina', 'Fecha Estado'];
+        const headers: string[] = ['N° Solicitud', 'Solicitante', 'Fec. Solicitud', 'Nombre Titular', 'Nro. Documento', 'Tipo Producto', 'Estado', 'Moneda', 'Precio Venta', 'Modalidad Pago', 'Financiamiento','Zona', 'Oficina', 'Sustento Ingresos', 'Fecha Estado'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
@@ -393,14 +396,17 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
           dataMap.push(item.Estado);
           dataMap.push(item.Moneda);
           dataMap.push(item.Precio_Venta);
+          dataMap.push(item.Modalidad_Pago);
           dataMap.push(item.Financiamiento);
+          dataMap.push(item.Zona);
           dataMap.push(item.Oficina);
+          dataMap.push(item.Sustento_Ingresos);
           dataMap.push(item.Fecha_Estado);
 
           return dataMap;
         });
 
-        this.excelService.excelListadoMisSolicitudes('Mis Solicitudes Pendientes', 'MisSolicitudesPendientes', headers, details);
+        this.excelService.excelListadoSolicitudes('Solicitudes', 'Solicitudes', headers, details);
         this.ocultarProgreso();
         this.isCargando = false;;
       },
