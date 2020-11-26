@@ -105,6 +105,8 @@ export class FormCreditoComponent implements OnInit {
     monedaDesembolso: [null, Validators.required],
     desembolso: [null, Validators.required],
     monedagravamen: [null, Validators.required],
+    Mon_BBP: [null, Validators.required],
+    Mon_PBP: [null, Validators.required],
     gravamen: [null, Validators.required],
     modalidadPago: [null, Validators.required],
     lugarVisita: [null, Validators.required],
@@ -189,9 +191,13 @@ export class FormCreditoComponent implements OnInit {
       switch (selectedValue) {
         case Variables.constantes.TipoProductoMiViviendaId:
           this.creditForm.get('Moneda').setValue(Variables.constantes.TipoMonedaSolesDatosOperacionId);
+          this.creditForm.get('monedaDesembolso').setValue(Variables.constantes.TipoMonedaSolesPrecioVentaId);
+          this.creditForm.get('monedagravamen').setValue(Variables.constantes.TipoMonedaSolesPrecioVentaId);
           this.creditForm.get('tipoprecioVenta').setValue(Variables.constantes.TipoMonedaSolesPrecioVentaId);
           this.creditForm.get('Mon_Ap_Efectivo').setValue(Variables.constantes.TipoMonedaSolesDatosAporteEfectivoId);
           this.creditForm.get('Mon_Aport_AFP').setValue(Variables.constantes.TipoMonedaSolesMonteAporteAFPId);
+          this.creditForm.get('Mon_BBP').setValue(Variables.constantes.SimboloSoles);
+          this.creditForm.get('Mon_PBP').setValue(Variables.constantes.SimboloSoles);
           this.showmessageVivienda = true;
           this.showBotonesProducto = true;
           this.showPVenta = true;

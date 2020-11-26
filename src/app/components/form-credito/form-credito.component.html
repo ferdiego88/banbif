@@ -630,8 +630,8 @@
 
                             <div class="col">
                                 <mat-form-field class="full-width">
-                                    <input matInput placeholder="Bono Buen Pagador (BBP)" formControlName="precioVenta">
-                                    <mat-error *ngIf="creditForm.controls['precioVenta'].hasError('required')">
+                                    <input matInput placeholder="Bono Buen Pagador (BBP)" formControlName="Mon_BBP">
+                                    <mat-error *ngIf="creditForm.controls['Mon_BBP'].hasError('required')">
                                         Bono Buen Pagador (BBP) <strong>requerido</strong>
                                     </mat-error>
                                 </mat-form-field>
@@ -650,8 +650,8 @@
 
                             <div class="col">
                                 <mat-form-field class="full-width">
-                                    <input matInput placeholder="Premio Buen pagador (PBP)" formControlName="precioVenta">
-                                    <mat-error *ngIf="creditForm.controls['precioVenta'].hasError('required')">
+                                    <input matInput placeholder="Premio Buen pagador (PBP)" formControlName="Mon_PBP">
+                                    <mat-error *ngIf="creditForm.controls['Mon_PBP'].hasError('required')">
                                         Premio Buen pagador (PBP) <strong>requerido</strong>
                                     </mat-error>
                                 </mat-form-field>
@@ -712,8 +712,8 @@
                     <div class="col">
                         <mat-form-field class="full-width">
                             <mat-select placeholder="Seleccione Tipo Moneda" formControlName="monedaDesembolso">
-                                <mat-option *ngFor="let moneda of monedas" [value]="moneda.abbreviation">
-                                    {{ moneda.abbreviation }}
+                                <mat-option *ngFor="let moneda of typeCurrencyList" [value]="moneda.Id">
+                                    {{ moneda.Title }}
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="creditForm.controls['monedaDesembolso'].hasError('required')">
@@ -740,8 +740,8 @@
                     <div class="col">
                         <mat-form-field class="full-width">
                             <mat-select placeholder="Seleccione Tipo Moneda" formControlName="monedagravamen">
-                                <mat-option *ngFor="let moneda of monedas" [value]="moneda.abbreviation">
-                                    {{ moneda.abbreviation }}
+                                <mat-option *ngFor="let moneda of typeCurrencyList" [value]="moneda.Id">
+                                    {{ moneda.Title }}
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="creditForm.controls['monedagravamen'].hasError('required')">

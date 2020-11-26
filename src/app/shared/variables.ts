@@ -34,6 +34,7 @@ export class Variables {
     PlazoDiasVencimientoSolicitud: 2,
     Lista: 'Lista',
     Biblioteca: 'Biblioteca',
+    SimboloSoles: 'S/.',
     TipoMonedaSolesDatosOperacionId: 1,
     TipoMonedaSolesPrecioVentaId: 1,
     TipoMonedaSolesDatosAporteEfectivoId: 1,
