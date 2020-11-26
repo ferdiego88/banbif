@@ -62,7 +62,7 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
     Variables.columnasSolicitud.NumeroDocumento,
     Variables.columnasSolicitud.TipoProducto,
     Variables.columnasSolicitud.Estado,
-    Variables.columnasSolicitud.Moneda,
+    //Variables.columnasSolicitud.Moneda,
     Variables.columnasSolicitud.PrecioVenta,
     Variables.columnasSolicitud.ModalidadPago,
     Variables.columnasSolicitud.Financiamiento,
