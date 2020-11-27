@@ -64,9 +64,12 @@ export class FormCreditoComponent implements OnInit {
   paymentMethodList: TipoProductoModel[];
   visitingPlaceList: TipoProductoModel[];
   typeguarenteeList: TipoProductoModel[];
+  
   paymentTypeList: TipoProductoModel[];
   tipoSubProductoList: TipoSubProductoModel[];
+  estadoList: TipoSubProductoModel[];
   zonaModelList: ZonaModel;
+
 
   typeCurrencySaving: TipoProductoModel[];
   planSituationSavingList: TipoProductoModel[];
@@ -88,6 +91,7 @@ export class FormCreditoComponent implements OnInit {
     zona: [null, Validators.required],
     modalidad: [null, Validators.required],
     oficina: [null, Validators.required],
+    Estado: [null, Validators.required],
     tipoDcmto: [null, Validators.required],
     nroDcmto: [null, Validators.required],
     nombreTitular: [null, Validators.required],
@@ -420,6 +424,13 @@ export class FormCreditoComponent implements OnInit {
     .then(BBPAdicionalList => this.BBPAdicionalList = BBPAdicionalList)
     .catch(error => console.error(error));
   }
+
+  getEstado(){
+    this.generalListService.get(Variables.listas.AdmEstado)
+    .then(estadoList => this.estadoList = estadoList)
+    .catch(error => console.error(error));
+  }
+
 
 
 }

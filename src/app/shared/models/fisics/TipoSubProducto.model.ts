@@ -1,7 +1,10 @@
 import { ListItem } from './base/ListItem';
+
 export class TipoSubProductoModel extends ListItem{
 
-    constructor(Codigo= ''){
+    constructor(
+        Codigo = '' 
+        ) {
         super();
     }
 }
