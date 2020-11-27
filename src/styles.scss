@@ -489,11 +489,11 @@ mat-sidenav-container.padding-top.position-relative .my-left-sidenav {
     text-transform: uppercase;
 }
 
-button {
-    text-transform: uppercase;
-    padding: 0 6px;
-    margin: 6px 8px;
-}
+// button {
+//     text-transform: uppercase;
+//     padding: 0 6px;
+//     margin: 6px 8px;
+// }
 
 button.raised,
 button.md-raised {
@@ -1736,4 +1736,21 @@ a {
 
 .colorBlanco{
     color: #FFFFFF !important;
+}
+
+.title {
+    color: #028bff !important;
+    display: block;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.floating {
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12) !important;
 }
