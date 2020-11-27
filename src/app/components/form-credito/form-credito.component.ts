@@ -64,10 +64,10 @@ export class FormCreditoComponent implements OnInit {
   paymentMethodList: TipoProductoModel[];
   visitingPlaceList: TipoProductoModel[];
   typeguarenteeList: TipoProductoModel[];
-  
+
   paymentTypeList: TipoProductoModel[];
   tipoSubProductoList: TipoSubProductoModel[];
-  estadoList: TipoSubProductoModel[];
+  estadoList: TipoProductoModel[];
   zonaModelList: ZonaModel;
 
 

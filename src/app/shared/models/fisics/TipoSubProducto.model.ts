@@ -4,7 +4,7 @@ export class TipoSubProductoModel extends ListItem{
 
     constructor(
         Codigo = '' 
-        ) {
+    ) {
         super();
     }
 }
