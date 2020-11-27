@@ -326,22 +326,23 @@
 
         <div class="" [ngClass]="{
                   'd-none':showGarantias,
-                  'col-md-12': !showGarantias
+                  'col-md-6': !showGarantias
               }">
 
             <div class="row">
-            </div>
-            <div class="col">
-                <mat-form-field class="full-width">
-                    <mat-select placeholder="Nombre de Proyecto" formControlName="nombreProyecto">
-                        <mat-option *ngFor="let project of projectList" [value]="project.Id">
-                            {{ project.Title }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="creditForm.controls['nombreProyecto'].hasError('required')">
-                        Nombre de Proyecto <strong>requerido</strong>
-                    </mat-error>
-                </mat-form-field>
+
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-select placeholder="Nombre de Proyecto" formControlName="nombreProyecto">
+                            <mat-option *ngFor="let project of projectList" [value]="project.Id">
+                                {{ project.Title }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="creditForm.controls['nombreProyecto'].hasError('required')">
+                            Nombre de Proyecto <strong>requerido</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
             </div>
         </div>
 
@@ -461,7 +462,7 @@
         <!---------------------------------------------->
         <div [ngClass]="{
                       'd-none': !showGarantias,
-                      'col-md-12': showGarantias
+                      'col-md-6': showGarantias
                   }">
             <div class="row">
                 <div class="col">
@@ -542,7 +543,7 @@
         <!---------------------------------------------->
         <div [ngClass]="{
                       'd-none': !showCuotaInicial,
-                      'col-md-12': showCuotaInicial
+                      'col-md-6': showCuotaInicial
                   }">
             <div class="row">
                 <div class="col">
@@ -683,67 +684,81 @@
         <!---------------------------------------------->
         <!-- Fin - Cuota Inicial -->
         <!---------------------------------------------->
-        <div class="row">
-            <div class="col">
-                DATOS DE LA OPERACIÓN
+
+        <!--- Ini Datos-->
+        <div class="row-md-12">
+            <div [ngClass]="{
+                'col-md-12': !showCuotaInicial,
+                'col-md-6': showCuotaInicial
+            }">
+
+                <div class="row">
+                    <div class="col">
+                        DATOS DE LA OPERACIÓN
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button mat-raised-button color="primary" class="full-width" type="button">Calcular</button>
+
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-select placeholder="Seleccione Tipo Moneda" formControlName="monedaDesembolso">
+                                <mat-option *ngFor="let moneda of typeCurrencyList" [value]="moneda.Id">
+                                    {{ moneda.Title }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="creditForm.controls['monedaDesembolso'].hasError('required')">
+                                Tipo Moneda <strong>requerido</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Desembolso" formControlName="desembolso">
+                            <mat-error *ngIf="creditForm.controls['desembolso'].hasError('required')">
+                                Desembolso <strong>requerido</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button mat-raised-button color="primary" class="full-width" type="button">Calcular</button>
+                    </div>
+
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-select placeholder="Seleccione Tipo Moneda" formControlName="monedagravamen">
+                                <mat-option *ngFor="let moneda of typeCurrencyList" [value]="moneda.Id">
+                                    {{ moneda.Title }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="creditForm.controls['monedagravamen'].hasError('required')">
+                                S/. <strong>requerido</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Gravamen (120% x Desembolso)" formControlName="gravamen">
+                            <mat-error *ngIf="creditForm.controls['gravamen'].hasError('required')">
+                                Gravamen (120% x Desembolso) <strong>requerido</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
             </div>
+
+
+
         </div>
+        <!--- Fin Datos-->
 
-        <div class="row">
-            <div class="col">
-                <button mat-raised-button color="primary" type="submit">Calcular</button>
-
-            </div>
-            <div class="col">
-                <mat-form-field class="full-width">
-                    <mat-select placeholder="Seleccione Tipo Moneda" formControlName="monedaDesembolso">
-                        <mat-option *ngFor="let moneda of typeCurrencyList" [value]="moneda.Id">
-                            {{ moneda.Title }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="creditForm.controls['monedaDesembolso'].hasError('required')">
-                        Tipo Moneda <strong>requerido</strong>
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col">
-                <mat-form-field class="full-width">
-                    <input matInput placeholder="Desembolso" formControlName="desembolso">
-                    <mat-error *ngIf="creditForm.controls['desembolso'].hasError('required')">
-                        Desembolso <strong>requerido</strong>
-                    </mat-error>
-                </mat-form-field>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <button mat-raised-button color="primary" type="button">Calcular</button>
-            </div>
-            <div class="col">
-                <mat-form-field class="full-width">
-                    <mat-select placeholder="Seleccione Tipo Moneda" formControlName="monedagravamen">
-                        <mat-option *ngFor="let moneda of typeCurrencyList" [value]="moneda.Id">
-                            {{ moneda.Title }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="creditForm.controls['monedagravamen'].hasError('required')">
-                        S/. <strong>requerido</strong>
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col">
-                <mat-form-field class="full-width">
-                    <input matInput placeholder="Gravamen (120% x Desembolso)" formControlName="gravamen">
-                    <mat-error *ngIf="creditForm.controls['gravamen'].hasError('required')">
-                        Gravamen (120% x Desembolso) <strong>requerido</strong>
-                    </mat-error>
-                </mat-form-field>
-            </div>
-        </div>
-
-
-        <div class="row">
+        <div class="row-md-12">
             <div class="col">
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Modalidad de Pago" formControlName="modalidadPago">
@@ -822,7 +837,7 @@
 
         <div class="" [ngClass]="{
                     'd-none':!showBuenAplicacion,
-                    'col-md-12': showBuenAplicacion
+                    'col-md-8': showBuenAplicacion
                 }">
             <div class="row">
                 <div class="col">
@@ -902,17 +917,34 @@
 
         </div>
 
-        <div class="row">
+        <div class="" [ngClass]="{
+            'd-none':showBuenAplicacion,
+            'col-md-12': !showBuenAplicacion
+        }">
             <div class="col">
                 CONDICIÓN DE DESEMBOLSO
                 <mat-form-field class="full-width">
                     <mat-label>Condicion de desembolso</mat-label>
-                    <textarea matInput placeholder="Observaciones" multiline rows="3"></textarea>
+                    <textarea matInput placeholder="Observaciones" multiline rows="3">
+                    </textarea>
                 </mat-form-field>
             </div>
         </div>
+        <div class="" [ngClass]="{
+                'd-none':!showBuenAplicacion,
+                'col-md-4': showBuenAplicacion
+            }">
+            CONDICIÓN DE DESEMBOLSO
+            <mat-form-field class="full-width">
+                <mat-label>Condicion de desembolso</mat-label>
+                <textarea matInput multiline rows="8">{{ condicion.textoContrato}} 
+{{condicion.textoPagoAdelantado}}
 
-        <div class="row">
+{{condicion.textoChequeGerencia}}</textarea>
+            </mat-form-field>
+        </div>
+
+        <div class="row-md-12">
             <div class="col">
                 DOCUMENTOS DE LA SOLICITUD
             </div>
@@ -930,17 +962,17 @@
             </div>
         </div>
         <hr>
-        <div class="row">
+        <div class="row card-center">
             <div class="col">
-                <button mat-raised-button color="primary" type="submit">Guardar Borrador</button>
+                <button mat-raised-button class="full-width" color="primary" type="submit">Guardar Borrador</button>
 
             </div>
             <div class="col">
-                <button mat-raised-button color="primary" type="submit">Cancelar</button>
+                <button mat-raised-button class="full-width" color="primary" type="submit">Cancelar</button>
 
             </div>
             <div class="col">
-                <button mat-raised-button color="primary" type="submit">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="submit">Enviar</button>
 
             </div>
         </div>

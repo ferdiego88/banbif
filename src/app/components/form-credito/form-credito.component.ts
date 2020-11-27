@@ -64,7 +64,6 @@ export class FormCreditoComponent implements OnInit {
   paymentMethodList: TipoProductoModel[];
   visitingPlaceList: TipoProductoModel[];
   typeguarenteeList: TipoProductoModel[];
-
   paymentTypeList: TipoProductoModel[];
   tipoSubProductoList: TipoSubProductoModel[];
   estadoList: TipoProductoModel[];
@@ -83,6 +82,7 @@ export class FormCreditoComponent implements OnInit {
   showCuotaInicial = false;
   showBuenPagador = false;
   showBuenAplicacion = false;
+
 
   creditForm = this.fb.group({
     typeProduct: [null, Validators.required],
@@ -145,6 +145,12 @@ export class FormCreditoComponent implements OnInit {
     {name: 'Dolares', abbreviation: 'USD'},
 
   ];
+
+  condicion = {
+    textoContrato : Variables.condicionesDesembolso.ContratoFirma,
+    textoPagoAdelantado : Variables.condicionesDesembolso.PagoAdelantado,
+    textoChequeGerencia : Variables.condicionesDesembolso.ChequeGerencia
+    };
 
   constructor(
     private fb: FormBuilder,
