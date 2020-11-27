@@ -111,6 +111,8 @@ export class FormCreditoComponent implements OnInit {
     monedagravamen: [null, Validators.required],
     Mon_BBP: [null, Validators.required],
     Mon_PBP: [null, Validators.required],
+    BBP: [null, Validators.required],
+    PBP: [null, Validators.required],
     gravamen: [null, Validators.required],
     modalidadPago: [null, Validators.required],
     lugarVisita: [null, Validators.required],
@@ -129,9 +131,21 @@ export class FormCreditoComponent implements OnInit {
 
     /* Cuota Inicial*/
     Mon_Ap_Efectivo: [null, Validators.required],
+    Aporte_Efectivo: [null, Validators.required],
     Mon_Aport_AFP: [null, Validators.required],
+    Aporte_RetiroAFP: [null, Validators.required],
     BBP_Adicional: [null, Validators.required],
+    PBP_Adicional_Sostenible: [null, Validators.required],
     /* Fin Cuota Inicial*/
+
+    /* Ini Garantias*/
+    Descripcion_Inmueble: [null, Validators.required],
+    Fecha_Tasacion_Remodelac: [null, Validators.required],
+    Mon_ValorComTas_Soles: [null, Validators.required],
+    ValorComTas_Soles: [null, Validators.required],
+    Mon_VRI_Soles: [null, Validators.required],
+    VRI_Soles: [null, Validators.required],
+    /* Fin Garantias*/
     postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
     ],
@@ -160,7 +174,7 @@ export class FormCreditoComponent implements OnInit {
 
   ngOnInit() {
    this.cargarCombos();
-
+   this.cargarListeners();
 
   }
 
@@ -213,6 +227,85 @@ export class FormCreditoComponent implements OnInit {
     this.creditForm.get('Mon_Aport_AFP').setValue('');
     this.creditForm.get('Mon_BBP').setValue('');
     this.creditForm.get('Mon_PBP').setValue('');
+  }
+
+  setearTipoMoneda(simbolo: string, idtipo: number){
+        this.creditForm.get('Mon_BBP').setValue(simbolo);
+        this.creditForm.get('Mon_PBP').setValue(simbolo);
+        this.creditForm.get('monedaDesembolso').setValue(idtipo);
+        this.creditForm.get('monedagravamen').setValue(idtipo);
+  }
+
+  setPlanAhorroEmpty(){
+    this.creditForm.get('Meses_Abono').setValue('');
+    this.creditForm.get('Importe_Cuota_Ahorro').setValue('');
+    this.creditForm.get('Tipo_Moneda_Ahorro').setValue('');
+    this.creditForm.get('Situacion_Plan_Ahorro').setValue('');
+    this.creditForm.get('N_Abonos_Validados').setValue('');
+    this.creditForm.get('Ultimo_Abono_Validado').setValue('');
+    this.creditForm.get('Cta_Ahorro_Banbif').setValue('');
+  }
+  setPlanAhorroUntouched(){
+    this.creditForm.get('Meses_Abono').markAsUntouched();
+    this.creditForm.get('Importe_Cuota_Ahorro').markAsUntouched();
+    this.creditForm.get('Tipo_Moneda_Ahorro').markAsUntouched();
+    this.creditForm.get('Situacion_Plan_Ahorro').markAsUntouched();
+    this.creditForm.get('N_Abonos_Validados').markAsUntouched();
+    this.creditForm.get('Ultimo_Abono_Validado').markAsUntouched();
+    this.creditForm.get('Cta_Ahorro_Banbif').markAsUntouched();
+  }
+
+  setMonedaGarantia(){
+    this.creditForm.get('Mon_ValorComTas_Soles').setValue(Variables.constantes.SimboloSoles);
+    this.creditForm.get('Mon_ValorComTas_Soles').disable();
+    this.creditForm.get('Mon_VRI_Soles').setValue(Variables.constantes.SimboloSoles);
+    this.creditForm.get('Mon_VRI_Soles').disable();
+  }
+
+  listenerBonoBuenPagador(){
+    this.creditForm.get('precioVenta').valueChanges.subscribe(selectedValue =>{
+        console.log(selectedValue);
+        switch (true) {
+          case ( selectedValue >= Variables.constantes.PrecioVenta9 && selectedValue <= Variables.constantes.PrecioVenta10):
+            this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador5);
+            break;
+        case ( selectedValue >= Variables.constantes.PrecioVenta7 && selectedValue <= Variables.constantes.PrecioVenta8):
+            this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador4);
+            break;
+        case ( selectedValue >= Variables.constantes.PrecioVenta5 && selectedValue <= Variables.constantes.PrecioVenta6):
+            this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador3);
+            break;
+        case ( selectedValue >= Variables.constantes.PrecioVenta3 && selectedValue <= Variables.constantes.PrecioVenta4):
+            this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador2);
+            break;
+        case ( selectedValue >= Variables.constantes.PrecioVenta1 && selectedValue <= Variables.constantes.PrecioVenta2):
+            this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador1);
+            break;
+          default:
+            this.creditForm.get('BBP').setValue('');
+            break;
+        }
+    });
+  }
+
+
+  cargarListeners(){
+    this.listenerTipoMoneda();
+    this.setMonedaGarantia();
+    this.listenerBonoBuenPagador();
+  }
+
+
+
+
+  listenerTipoMoneda(){
+    this.creditForm.get('Moneda').valueChanges.subscribe(selectedValue =>{
+      if (selectedValue === Variables.constantes.TipoMonedaDolaresDatosOperacionId) {
+        this.setearTipoMoneda(Variables.constantes.SimboloDolares, Variables.constantes.TipoMonedaDolaresPrecioVentaId);
+      } else {
+        this.setearTipoMoneda(Variables.constantes.SimboloSoles, Variables.constantes.TipoMonedaSolesPrecioVentaId);
+      }
+    });
   }
 
 
@@ -401,6 +494,8 @@ export class FormCreditoComponent implements OnInit {
 
   CalificacionTradicional() {
     this.showSaving = false;
+    this.setPlanAhorroUntouched();
+    this.setPlanAhorroEmpty();
   }
 
   PlanAhorro() {
