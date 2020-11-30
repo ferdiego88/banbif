@@ -52,6 +52,7 @@ export class Variables {
     BonoBuenPagador3: 18300,
     BonoBuenPagador4: 6800,
     BonoBuenPagador5: 0,
+    BonoBuenPagador6: 3200,
     Lista: 'Lista',
     Biblioteca: 'Biblioteca',
     SimboloSoles: 'S/  ',
@@ -66,6 +67,11 @@ export class Variables {
     TipoProductoCompraDeudaId: 3,
     TipoProductoAmpliacionRemodelacionConstruccionId: 4,
     TipoProductoHipotecarioId: 5,
+    EstadoCreaExpedienteId: 1,
+    EstadoRegistroCPM: 2,
+    EstadoObservadoCPM: 3,
+    EstadoEvaluacionRiesgos: 4,
+    EstadoObservadoRiesgos: 5,
   };
 
   static readonly path = {
@@ -135,7 +141,7 @@ export class Variables {
     ID: 'ID',
     Title: 'Title',
     Author: 'Author',
-    Created: 'Created',    
+    Created: 'Created',
     Editor: 'Editor',
     Modified: 'Modified',
     NombreTitular : 'Nombre_Titular',

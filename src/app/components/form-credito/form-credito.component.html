@@ -110,9 +110,9 @@
                         'offset-md-6': !showBotonesProducto
                     }">
                 <mat-form-field class="full-width">
-                    <mat-select placeholder="Estado" formControlName="oficina">
-                        <mat-option>
-                            --
+                    <mat-select placeholder="Estado" formControlName="Estado">
+                        <mat-option *ngFor="let estado of estadoList"[value]= 'estado.Id' >
+                          {{estado.Title}}
                         </mat-option>
                     </mat-select>
                     <!-- <mat-error *ngIf="creditForm.controls['oficina'].hasError('required')">
@@ -650,7 +650,7 @@
                 <div class="row">
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <mat-select placeholder="--" formControlName="BBP_Adicional">
+                            <mat-select placeholder="" formControlName="BBP_Adicional">
                                 <mat-option *ngFor="let BBPA of BBPAdicionalList" [value]="BBPA.Id">
                                     {{ BBPA.Title }}
                                 </mat-option>
@@ -700,7 +700,7 @@
 
                 <div class="row">
                     <div class="col">
-                        <button mat-raised-button color="primary" class="full-width" type="button">Calcular</button>
+                        <button mat-raised-button color="primary" class="full-width" (click)="calculaDesembolso()" type="button">Calcular</button>
 
                     </div>
                     <div class="col">
@@ -727,7 +727,7 @@
 
                 <div class="row">
                     <div class="col">
-                        <button mat-raised-button color="primary" class="full-width" type="button">Calcular</button>
+                        <button mat-raised-button color="primary" class="full-width" (click)="calculaGravamen()" type="button">Calcular</button>
                     </div>
 
                     <div class="col">
@@ -963,18 +963,41 @@
         </div>
         <hr>
         <div class="row card-center">
-            <div class="col">
+            <div class="" [ngClass]="{
+              'd-none': !showBtnGuardarBorrador,
+              'col': showBtnGuardarBorrador
+              }">
                 <button mat-raised-button class="full-width" color="primary" type="submit">Guardar Borrador</button>
 
             </div>
-            <div class="col">
+            <div  class="" [ngClass]="{
+              'd-none': !showBtnCancelar,
+              'col': showBtnCancelar
+              }">
                 <button mat-raised-button class="full-width" color="primary" type="submit">Cancelar</button>
 
             </div>
-            <div class="col">
+            <div  class="" [ngClass]="{
+              'd-none': !showBtnEnviar,
+              'col': showBtnEnviar
+              }">
                 <button mat-raised-button class="full-width" color="primary" type="submit">Enviar</button>
 
             </div>
+            <div  class="" [ngClass]="{
+              'd-none': !showBtnEnviarRegularizar,
+              'col': showBtnEnviarRegularizar
+              }">
+              <button mat-raised-button class="full-width" color="primary" type="submit">Enviar Regularización</button>
+
+          </div>
+          <div  class="" [ngClass]="{
+            'd-none': !showBtnObservar,
+            'col': showBtnObservar
+            }">
+            <button mat-raised-button class="full-width" color="primary" type="submit">Observar</button>
+
+        </div>
         </div>
 
     </form>

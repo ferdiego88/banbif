@@ -83,6 +83,13 @@ export class FormCreditoComponent implements OnInit {
   showBuenPagador = false;
   showBuenAplicacion = false;
 
+  showBtnGuardarBorrador = true;
+  showBtnCancelar = true;
+  showBtnEnviar = true;
+  showBtnEnviarRegularizar = true;
+  showBtnObservar = true;
+
+
 
   creditForm = this.fb.group({
     typeProduct: [null, Validators.required],
@@ -160,6 +167,8 @@ export class FormCreditoComponent implements OnInit {
 
   ];
 
+desembolso = 0;
+
   condicion = {
     textoContrato : Variables.condicionesDesembolso.ContratoFirma,
     textoPagoAdelantado : Variables.condicionesDesembolso.PagoAdelantado,
@@ -175,7 +184,8 @@ export class FormCreditoComponent implements OnInit {
   ngOnInit() {
    this.cargarCombos();
    this.cargarListeners();
-
+   this.creditForm.get('Estado').disable();
+   this.creditForm.get('Estado').setValue(1);
   }
 
   cargarCombos(){
@@ -200,6 +210,8 @@ export class FormCreditoComponent implements OnInit {
     this.getTypeCurrencySaving();
     this.getPlanSituationSaving();
     this.getLastValidatedBono();
+    this.getEstado();
+    this.getBBPAdicional();
   }
 
   getTypeProducts(){
@@ -269,11 +281,18 @@ export class FormCreditoComponent implements OnInit {
           case ( selectedValue >= Variables.constantes.PrecioVenta9 && selectedValue <= Variables.constantes.PrecioVenta10):
             this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador5);
             break;
+        case ( selectedValue >= Variables.constantes.PrecioVenta9):
+            this.creditForm.get('PBP').setValue(Variables.constantes.BonoBuenPagador5);
+            break;
         case ( selectedValue >= Variables.constantes.PrecioVenta7 && selectedValue <= Variables.constantes.PrecioVenta8):
             this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador4);
+            this.creditForm.get('PBP').setValue(Variables.constantes.BonoBuenPagador6);
             break;
         case ( selectedValue >= Variables.constantes.PrecioVenta5 && selectedValue <= Variables.constantes.PrecioVenta6):
             this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador3);
+            break;
+        case (selectedValue <= Variables.constantes.PrecioVenta6):
+            this.creditForm.get('PBP').setValue(Variables.constantes.BonoBuenPagador5);
             break;
         case ( selectedValue >= Variables.constantes.PrecioVenta3 && selectedValue <= Variables.constantes.PrecioVenta4):
             this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador2);
@@ -283,6 +302,28 @@ export class FormCreditoComponent implements OnInit {
             break;
           default:
             this.creditForm.get('BBP').setValue('');
+            this.creditForm.get('PBP').setValue('');
+            break;
+        }
+    });
+  }
+  listenerBotones(){
+    this.creditForm.get('Estado').valueChanges.subscribe(selectedValue => {
+        console.log('Estado es:' + selectedValue);
+        switch (true) {
+        case ( selectedValue === Variables.constantes.EstadoCreaExpedienteId):
+          this.showBtnEnviarRegularizar = false;
+          break;
+        case ( selectedValue === Variables.constantes.EstadoRegistroCPM):
+          this.showBtnGuardarBorrador = false;
+          break;
+        case ( selectedValue === Variables.constantes.EstadoObservadoCPM):
+          this.showBtnEnviarRegularizar = false;
+          break;
+        case ( selectedValue !== Variables.constantes.EstadoRegistroCPM):
+          this.showBtnObservar = false;
+          break;
+        default:
             break;
         }
     });
@@ -293,6 +334,7 @@ export class FormCreditoComponent implements OnInit {
     this.listenerTipoMoneda();
     this.setMonedaGarantia();
     this.listenerBonoBuenPagador();
+    this.listenerBotones();
   }
 
 
@@ -528,8 +570,29 @@ export class FormCreditoComponent implements OnInit {
 
   getEstado(){
     this.generalListService.get(Variables.listas.AdmEstado)
-    .then(estadoList => this.estadoList = estadoList)
+    .then(estadoList =>  this.estadoList = estadoList)
     .catch(error => console.error(error));
+  }
+
+  calculaDesembolso(){
+    const precioVenta = this.creditForm.get('precioVenta').value;
+    const AporteEfectivo = this.creditForm.get('Aporte_Efectivo').value;
+    const AporteRetiroAFP = this.creditForm.get('Aporte_RetiroAFP').value;
+    const BBP = this.creditForm.get('BBP').value;
+    const PBP = this.creditForm.get('PBP').value;
+    const PBPAdicionalSostenible = this.creditForm.get('PBP_Adicional_Sostenible').value;
+    const desembolso = precioVenta - AporteEfectivo - AporteRetiroAFP - BBP  - PBP - PBPAdicionalSostenible;
+    this.desembolso = desembolso;
+    this.creditForm.get('desembolso').setValue(desembolso);
+
+  }
+
+  calculaGravamen(){
+    const BBP = this.creditForm.get('BBP').value;
+    const PBP = this.creditForm.get('PBP').value;
+    const PBPAdicionalSostenible = this.creditForm.get('PBP_Adicional_Sostenible').value;
+    const gravamen = (this.desembolso + BBP  + PBP + PBPAdicionalSostenible) * 120 / 100;
+    this.creditForm.get('gravamen').setValue(gravamen);
   }
 
 
