@@ -412,7 +412,7 @@ export class SolicitudesfinalizadasComponent extends FormularioBase implements O
           return dataMap;
         });
 
-        this.excelService.excelListadoMisSolicitudesPendientes('Mis Solicitudes Pendientes', 'MisSolicitudesPendientes', headers, details);
+        this.excelService.excelListadoSolicitudesFinalizadas('Solicitudes Finalizadas', 'SolicitudesFinalizadas', headers, details);
         this.ocultarProgreso();
         this.isCargando = false;
       },
