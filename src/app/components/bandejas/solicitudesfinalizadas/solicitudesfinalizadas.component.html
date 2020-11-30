@@ -3,7 +3,7 @@
     <mat-toolbar class="row" color="primary">
         <div class="mat-toolbar-tools font-white row col-xs-12">
             <div class="inline-buttons pull-left" flex>
-                <h4>Mis Solicitudes Pendientes</h4>
+                <h4>Solicitudes Finalizadas</h4>
             </div>
             <div class="inline-buttons pull-right">
                 <button type="button" mat-button class="mat-icon-button inline-buttons" (click)="reload()">
@@ -68,6 +68,12 @@
                             Producto</th>
                         <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Tipo_Producto }} </td>
                     </ng-container>
+                    <ng-container matColumnDef="EstadoGestor">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Estado
+                            Gestor
+                        </th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.EstadoGestor}} </td>
+                    </ng-container>
                     <ng-container matColumnDef="Estado">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Estado
                         </th>
@@ -78,16 +84,21 @@
                         </th>
                         <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Moneda }} </td>
                     </ng-container>-->
-                    <ng-container matColumnDef="Precio_Venta">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Precio
-                            Venta</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element">{{element.SimboloMoneda}}
-                            {{element.Precio_Venta | currency:'1'}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Financiamiento">
+                    <ng-container matColumnDef="Desembolso">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                            Financiamiento</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Financiamiento }} </td>
+                            Desembolso</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element">{{element.SimboloMoneda}}
+                            {{element.Desembolso | currency:'1'}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Modalidad_Pago">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                            Modalidad Pago</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Modalidad_Pago }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Zona">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Zona
+                        </th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Zona}} </td>
                     </ng-container>
                     <ng-container matColumnDef="Oficina">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Oficina
@@ -182,6 +193,17 @@
                 <mat-label>Tipo Producto</mat-label>
                 <mat-select [(ngModel)]="tableQuery.filter.TipoProducto">
                     <mat-option *ngFor="let item of datosMaestrosBandeja.maestroTipoProducto" [value]="item.Id">
+                        {{item.Title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group col-xs-12 col-lg-12">
+            <mat-form-field>
+                <mat-label>Zona</mat-label>
+                <mat-select [(ngModel)]="tableQuery.filter.Zona">
+                    <mat-option *ngFor="let item of datosMaestrosBandeja.maestroZona" [value]="item.Id">
                         {{item.Title}}
                     </mat-option>
                 </mat-select>

@@ -19,7 +19,7 @@ export class Lookup {
   public static parseJson(element: any): Lookup {
     const objeto = new Lookup();
 
-    if (element) {
+    if (element && element.Title !== null) {
       objeto.Id = element[Variables.columns.ID];
       objeto.Title = element[Variables.columns.Title];
     }

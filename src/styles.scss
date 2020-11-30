@@ -64,6 +64,31 @@ fieldset[disabled] .form-control {
     background: rgba(32, 163, 255) !important;
 }
 
+.mat-toolbar.mat-primary {
+    background: #A7A9AC !important;
+    color: white;
+}
+
+.mat-progress-bar-fill::after{
+    background-color: #20A3FF;
+}
+
+.mat-progress-bar-buffer {
+    background-color: #e8f8ff;
+}
+
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary{
+    background-color: #20A3FF;
+}
+
+.mat-primary .mat-pseudo-checkbox-checked, .mat-primary .mat-pseudo-checkbox-indeterminate{
+    background-color: #20A3FF;
+}
+
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled){
+    color: #20A3FF;
+}
+
 .mat-button.mat-primary,
 .mat-icon-button.mat-primary,
 .mat-stroked-button.mat-primary {

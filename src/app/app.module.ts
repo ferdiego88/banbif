@@ -73,6 +73,7 @@ import { FormTableComponent } from './components/form-table/form-table.component
 import { MissolicitudespendientesComponent } from './components/bandejas/missolicitudespendientes/missolicitudespendientes.component';
 import { SolicitudesComponent } from './components/bandejas/solicitudes/solicitudes.component';
 import { GridLoaderComponent } from './shared/controls/grid-loader/grid-loader.component';
+import { SolicitudesfinalizadasComponent } from './components/bandejas/solicitudesfinalizadas/solicitudesfinalizadas.component';
 
 const materialModules = [
   MatSlideToggleModule,
@@ -134,7 +135,8 @@ const materialModules = [
     PeoplePickerInputComponent,
     MissolicitudespendientesComponent,
     SolicitudesComponent,
-    GridLoaderComponent
+    GridLoaderComponent,
+    SolicitudesfinalizadasComponent
   ],
   imports: [
     BrowserModule,

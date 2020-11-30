@@ -27,11 +27,11 @@ import { MasterBandejaLogic } from 'src/app/shared/models/logics/MasterBandejaLo
 declare var $: any;
 
 @Component({
-  selector: 'app-missolicitudespendientes',
-  templateUrl: './missolicitudespendientes.component.html',
-  styleUrls: ['./missolicitudespendientes.component.scss']
+  selector: 'app-solicitudesfinalizadas',
+  templateUrl: './solicitudesfinalizadas.component.html',
+  styleUrls: ['./solicitudesfinalizadas.component.scss']
 })
-export class MissolicitudespendientesComponent extends FormularioBase implements OnInit {
+export class SolicitudesfinalizadasComponent extends FormularioBase implements OnInit {
   currentUserName: string = '';
   userSolicitante: boolean = false;
   datosMaestrosBandeja: MasterBandejaLogic = new MasterBandejaLogic();
@@ -62,9 +62,11 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
     Variables.columnasSolicitud.NumeroDocumento,
     Variables.columnasSolicitud.TipoProducto,
     Variables.columnasSolicitud.Estado,
+    Variables.columnasSolicitud.EstadoGestor,
     //Variables.columnasSolicitud.Moneda,
-    Variables.columnasSolicitud.PrecioVenta,
-    Variables.columnasSolicitud.Financiamiento,
+    Variables.columnasSolicitud.Desembolso,
+    Variables.columnasSolicitud.ModalidadPago,
+    Variables.columnasSolicitud.Zona,
     Variables.columnasSolicitud.Oficina,
     Variables.columnasSolicitud.FechaEstado
   ];
@@ -96,7 +98,7 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
     public excelService: ExcelService,
     public formBuilder: FormBuilder
   ) {
-    super('Mis Solicitudes Pendientes', applicationRef, dialog, route, router, masterService, zone, _spinner);
+    super('Solicitudes Finalizadas', applicationRef, dialog, route, router, masterService, zone, _spinner);
 
     this.form = this.formBuilder.group({
       filtroSolicitante: ['']
@@ -109,14 +111,10 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
     this.obtenerMaestrosYDatos().then(() => {
 
       this.currentUserName = this.datosMaestrosBandeja.currentUser.Title;
-      this.userSolicitante = this.datosMaestrosBandeja.PertenceGrupo_U_Oficina;
-
-      if (this.datosMaestrosBandeja.PertenceGrupo_U_ReemplazoOficina) {
-        this.userSolicitante = false;
-      }
+      this.userSolicitante = false;
 
       this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
-        return elementoEstado.Id === 1 || elementoEstado.Id === 3 || elementoEstado.Id === 5;
+        return elementoEstado.Id === 33 || elementoEstado.Id === 34;
       });
 
       let order: string;
@@ -328,9 +326,9 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
       this.solicitudes_paged_history = [];
 
       this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante).then();
-
+     
     } else {
-
+    
       if (this.solicitudes_paged_history[this.paginator.pageIndex]) {
         this.solicitudes_paged = await this.solicitudes_paged_history[this.paginator.pageIndex - 1].getNext();
       } else {

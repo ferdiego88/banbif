@@ -99,7 +99,7 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
     public excelService: ExcelService,
     public formBuilder: FormBuilder
   ) {
-    super('Mis Solicitudes Pendientes', applicationRef, dialog, route, router, masterService, zone, _spinner);
+    super('Solicitudes', applicationRef, dialog, route, router, masterService, zone, _spinner);
 
     this.form = this.formBuilder.group({
       filtroSolicitante: ['']
@@ -176,11 +176,13 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
     parametroQueryString: string,
     valorQueryString: string
   ) {
+    debugger;
     if (parametroQueryString !== "") {
       const url = environment.getRutaBaseApp() + nombrePagina + '?' + parametroQueryString + '=' + valorQueryString;
       window.open(url, '_blank');
     } else {
       const url = environment.getRutaBaseApp() + nombrePagina;
+      window.open(url, '_blank');
     }
   }
 

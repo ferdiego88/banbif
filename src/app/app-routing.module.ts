@@ -13,6 +13,7 @@ import { FormCreditoComponent } from './components/form-credito/form-credito.com
 import { FormTableComponent } from './components/form-table/form-table.component';
 import { MissolicitudespendientesComponent } from './components/bandejas/missolicitudespendientes/missolicitudespendientes.component';
 import { SolicitudesComponent } from './components/bandejas/solicitudes/solicitudes.component';
+import { SolicitudesfinalizadasComponent } from './components/bandejas/solicitudesfinalizadas/solicitudesfinalizadas.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: Variables.path.formTable, component: FormTableComponent },
   { path: Variables.path.bandejaMisSolicitudesPendientes, component: MissolicitudespendientesComponent },
   { path: Variables.path.bandejaSolicitudes, component: SolicitudesComponent },
+  { path: Variables.path.bandejaSolicitudesFinalizadas, component: SolicitudesfinalizadasComponent },
 ];
 
 @NgModule({

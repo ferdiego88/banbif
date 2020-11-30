@@ -77,6 +77,7 @@ export class Variables {
     formTable: 'formTable',
     bandejaMisSolicitudesPendientes: 'bandejas/missolicitudespendientes',
     bandejaSolicitudes: 'bandejas/solicitudes',
+    bandejaSolicitudesFinalizadas: 'bandejas/solicitudesfinalizadas',
   };
 
   static readonly lists = {
@@ -134,7 +135,7 @@ export class Variables {
     ID: 'ID',
     Title: 'Title',
     Author: 'Author',
-    Created: 'Created',
+    Created: 'Created',    
     Editor: 'Editor',
     Modified: 'Modified',
     NombreTitular : 'Nombre_Titular',
@@ -142,6 +143,7 @@ export class Variables {
     NumeroDocumento : 'N_Documento',
     TipoProducto : 'Tipo_Producto',
     Estado : 'Estado',
+    EstadoGestor: 'EstadoGestor',
     Moneda : 'Moneda',
     PrecioVenta : 'Precio_Venta',
     ModalidadPago : 'Modalidad_Pago',
@@ -149,7 +151,8 @@ export class Variables {
     Zona : 'Zona',
     Oficina : 'Oficina',
     SustentoIngreso : 'Sustento_Ingresos',
-    FechaEstado : 'Fecha_Estado'
+    FechaEstado : 'Fecha_Estado',
+    Desembolso: 'Desembolso'
   }
 
   static readonly columns = {
