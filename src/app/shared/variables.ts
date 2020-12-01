@@ -116,6 +116,7 @@ export class Variables {
     AdmMoneda: 'Moneda',
     AdmNumeroVivienda: 'Numero_Vivienda',
     AdmOficina: 'Oficina',
+    AdmObservacionesCPM: 'Observaciones_CPM',
     AdmProyectos: 'Proyectos',
     AdmTipoProductoId: 'ProductoId',
     AdmTipoSubProducto: 'Sub_Producto',

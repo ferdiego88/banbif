@@ -30,11 +30,13 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public Desembolso = '',
     public Mon_Gravamen = '',
     public Grabamen = '',
-    // public Modalidad_PagoId = '',
-    // public ZonaId = '',
-    // public ZonaId = '',
-    // public ZonaId = '',
-    // public ZonaId = '',
+    public Modalidad_PagoId = '',
+    public Observaciones = '',
+    public Lugar_VisitaId = '',
+    public Periodo_Gracia = '',
+    public Tipo_GarantiaId = '',
+    public Tipo_AbonoId = '',
+    public Condicion_Desembolso = '',
 
   ){
     super();

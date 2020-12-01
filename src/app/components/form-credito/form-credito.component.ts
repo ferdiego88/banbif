@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { GeneralListService } from '../../shared/services/general-list.service';
 import { MasterService } from '../../shared/services/master.service';
-import { TipoProductoModel, TipoSubProductoModel, ZonaModel,SolicitudCreditoHipotecario } from '../../shared/models/fisics';
+import { TipoProductoModel, TipoSubProductoModel, ZonaModel, SolicitudCreditoHipotecario } from '../../shared/models/fisics';
 import { Variables } from 'src/app/shared/variables';
 
 // import {default as _rollupMoment} from 'moment';
@@ -69,6 +69,7 @@ export class FormCreditoComponent implements OnInit {
   paymentTypeList: TipoProductoModel[];
   tipoSubProductoList: TipoSubProductoModel[];
   estadoList: TipoProductoModel[];
+  observacionesCPMList: TipoProductoModel[];
   zonaModelList: ZonaModel;
 
 
@@ -158,6 +159,10 @@ export class FormCreditoComponent implements OnInit {
     Mon_VRI_Soles: [null, Validators.required],
     VRI_Soles: [null, Validators.required],
     /* Fin Garantias*/
+    Observaciones: [null, Validators.required],
+    Observacion_CPM: [null, Validators.required],
+    Condicion_Desembolso: [null, Validators.required],
+ 
     postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
     ],
@@ -192,53 +197,53 @@ desembolso = 0;
    this.getidParams();
    this.cargarListeners();
    this.creditForm.get('Estado').disable();
-   this.creditForm.get('Estado').setValue(1);
+   this.creditForm.get('Estado').setValue('');
   }
 
   getidParams(){
     this.route.params.subscribe(
       param => {
         if (param.id) {
-            console.log(param.id);
-            this.generalListService.getItemById(Variables.listas.Solicitudes, param.id)
-            .then(solicitudHipotecarioList => { this.solicitudHipotecarioList = solicitudHipotecarioList;
-                                                this.creditForm.controls.typeProduct.setValue
-                                                (this.solicitudHipotecarioList.Tipo_ProductoId);
+          console.log(param.id);
+          this.generalListService.getItemById(Variables.listas.Solicitudes, param.id)
+            .then(solicitudHipotecarioList => { 
+              this.solicitudHipotecarioList = solicitudHipotecarioList;
+              this.creditForm.controls.typeProduct.setValue(this.solicitudHipotecarioList.Tipo_ProductoId);
+              this.creditForm.controls.subProducto.setValue(this.solicitudHipotecarioList.Sub_ProductoId);
+              this.creditForm.controls.zona.setValue(this.solicitudHipotecarioList.ZonaId);
+              this.creditForm.controls.modalidad.setValue(this.solicitudHipotecarioList.ModalidadId);
+              this.creditForm.controls.oficina.setValue(this.solicitudHipotecarioList.OficinaId);
+              this.creditForm.controls.Estado.setValue(this.solicitudHipotecarioList.EstadoId);
+              this.creditForm.controls.tipoDcmto.setValue(this.solicitudHipotecarioList.Tipo_DocumentoId);
+              this.creditForm.controls.nroDcmto.setValue(this.solicitudHipotecarioList.N_Documento);
+              this.creditForm.controls.nombreTitular.setValue(this.solicitudHipotecarioList.Nombre_Titular);
+              this.creditForm.controls.riesgoMaximo.setValue(this.solicitudHipotecarioList.Riesgo_Maximo);
+              this.creditForm.controls.sustentoIngresos.setValue(this.solicitudHipotecarioList.Sustento_IngresosId);
+              this.creditForm.controls.nombreProyecto.setValue(this.solicitudHipotecarioList.ProyectoId);
+              this.creditForm.controls.numeroVivienda.setValue(this.solicitudHipotecarioList.N_ViviendaId);
+              this.creditForm.controls.Moneda.setValue(this.solicitudHipotecarioList.MonedaId);
+              this.creditForm.controls.TEA.setValue(this.solicitudHipotecarioList.TEA);
+              this.creditForm.controls.teaAuth.setValue(this.solicitudHipotecarioList.TEA_AutorizadoId);
+              this.creditForm.controls.tipoprecioVenta.setValue(this.solicitudHipotecarioList.Mon_PrecioVentaId);
+              this.creditForm.controls.precioVenta.setValue(this.solicitudHipotecarioList.Precio_Venta);
+              this.creditForm.controls.pFinanciamiento.setValue(this.solicitudHipotecarioList.Financiamiento);
+              this.creditForm.controls.Mon_Ap_Efectivo.setValue(this.solicitudHipotecarioList.Mon_Ap_EfectivoId);
+              this.creditForm.controls.Aporte_Efectivo.setValue(this.solicitudHipotecarioList.Aporte_Efectivo);
+              this.creditForm.controls.Mon_Aport_AFP.setValue(this.solicitudHipotecarioList.Mon_Aport_AFPId);
+              this.creditForm.controls.Aporte_RetiroAFP.setValue(this.solicitudHipotecarioList.Aporte_RetiroAFP);
+              this.creditForm.controls.monedaDesembolso.setValue(this.solicitudHipotecarioList.Mon_Desembolso);
+              this.creditForm.controls.desembolso.setValue(this.solicitudHipotecarioList.Desembolso);
+              this.creditForm.controls.monedagravamen.setValue(this.solicitudHipotecarioList.Mon_Gravamen);
+              this.creditForm.controls.gravamen.setValue(this.solicitudHipotecarioList.Grabamen);
+              this.creditForm.controls.modalidadPago.setValue(this.solicitudHipotecarioList.Modalidad_PagoId);
+              this.creditForm.controls.Observaciones.setValue(this.solicitudHipotecarioList.Observaciones);
+              this.creditForm.controls.lugarVisita.setValue(this.solicitudHipotecarioList.Lugar_VisitaId);
+              this.creditForm.controls.periodoGracia.setValue(this.solicitudHipotecarioList.Periodo_Gracia);
+              this.creditForm.controls.tipoGarantia.setValue(this.solicitudHipotecarioList.Tipo_GarantiaId);
+              this.creditForm.controls.tipoAbono.setValue(this.solicitudHipotecarioList.Tipo_AbonoId);
+              this.creditForm.controls.Condicion_Desembolso.setValue(this.solicitudHipotecarioList.Condicion_Desembolso);
 
-                                                this.creditForm.controls.subProducto.setValue
-                                                (this.solicitudHipotecarioList.Sub_ProductoId);
-
-                                                this.creditForm.controls.zona.setValue
-                                                (this.solicitudHipotecarioList.ZonaId);
-
-                                                this.creditForm.controls.modalidad.setValue
-                                                (this.solicitudHipotecarioList.ModalidadId);
-
-                                                this.creditForm.controls.oficina.setValue
-                                                (this.solicitudHipotecarioList.OficinaId);
-
-                                                this.creditForm.controls.tipoDcmto.setValue
-                                                (this.solicitudHipotecarioList.Tipo_DocumentoId);
-
-                                                this.creditForm.controls.nroDcmto.setValue
-                                                (this.solicitudHipotecarioList.N_Documento);
-
-                                                this.creditForm.controls.nombreTitular.setValue
-                                                (this.solicitudHipotecarioList.Nombre_Titular);
-
-                                                this.creditForm.controls.riesgoMaximo.setValue
-                                                (this.solicitudHipotecarioList.Riesgo_Maximo);
-
-                                                this.creditForm.controls.sustentoIngresos.setValue
-                                                (this.solicitudHipotecarioList.Sustento_IngresosId);
-
-                                                this.creditForm.controls.nombreProyecto.setValue
-                                                (this.solicitudHipotecarioList.ProyectoId);
-
-                                                this.creditForm.controls.numeroVivienda.setValue
-                                                (this.solicitudHipotecarioList.N_ViviendaId);
-
-                                                console.log(this.solicitudHipotecarioList);
+              console.log(this.solicitudHipotecarioList);
 
             })
             .catch(error => console.error(error));
@@ -272,6 +277,7 @@ desembolso = 0;
     this.getLastValidatedBono();
     this.getEstado();
     this.getBBPAdicional();
+    this.getObservacionesCPM();
   }
 
   getTypeProducts(){
@@ -654,6 +660,12 @@ desembolso = 0;
   getEstado(){
     this.generalListService.get(Variables.listas.AdmEstado)
     .then(estadoList =>  this.estadoList = estadoList)
+    .catch(error => console.error(error));
+  }
+
+  getObservacionesCPM(){
+    this.generalListService.get(Variables.listas.AdmObservacionesCPM)
+    .then(observacionesCPMList =>  this.observacionesCPMList = observacionesCPMList)
     .catch(error => console.error(error));
   }
 
