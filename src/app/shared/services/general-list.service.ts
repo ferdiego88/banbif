@@ -19,13 +19,13 @@ export class GeneralListService {
 
                 // }
                 let query = sp.web.lists.getByTitle(listName).items;
-                
+
                 if (orderField !== '') {
                     query = query.orderBy(orderField, orderAscending);
                 }
 
                 const items = query.get();
-                console.log({items});
+                // console.log({items});
                 resolve(items);
             } else {
                 reject('Failed getting list data...');
@@ -68,6 +68,7 @@ export class GeneralListService {
             if (sp !== null && sp !== undefined) {
                 const item =   sp.web.lists.getByTitle(listName).items.getById(itemId).get();
                 resolve(item);
+                console.log({item});
             } else {
                 reject('Failed getting list data...');
             }

@@ -1,9 +1,9 @@
 import { ListItem } from './base/ListItem';
 
 export class TipoProductoModel extends ListItem {
-    
+
     constructor(
-        Codigo = ''        
+        Codigo = ''
     ) {
         super();
     }

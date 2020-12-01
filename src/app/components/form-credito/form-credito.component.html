@@ -39,7 +39,7 @@
             <div class="col-md-6">
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Sub Producto - Código" formControlName="subProducto">
-                        <mat-option *ngFor="let tipoSubProducto of tipoSubProductoList" [value]="tipoSubProductoList">
+                        <mat-option *ngFor="let tipoSubProducto of tipoSubProductoList" [value]="tipoSubProducto.Id">
                             {{ tipoSubProducto.Title }}
                         </mat-option>
                     </mat-select>
@@ -961,6 +961,41 @@
                 </mat-form-field>
             </div>
         </div>
+        <div class="row">
+          <div class="" [ngClass]="{
+            'd-none': !showObservacionCPM,
+            'col': showObservacionCPM
+            }">
+              <mat-form-field class="full-width">
+                  <mat-label>Observación CPM</mat-label>
+                  <textarea matInput placeholder="Observación CPM" multiline rows="3"></textarea>
+              </mat-form-field>
+          </div>
+      </div>
+      <div class="row">
+        <div class="" [ngClass]="{
+          'd-none': !showObservacionCPM,
+          'col': showObservacionCPM
+        }">
+            <mat-form-field class="full-width">
+                <mat-label>Comentarios CPM</mat-label>
+                <textarea matInput placeholder="Comentarios CPM" multiline rows="3"></textarea>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+      <div class="" [ngClass]="{
+        'd-none': !showComentarioRiesgos,
+        'col': showComentarioRiesgos
+      }">
+          <mat-form-field class="full-width">
+              <mat-label>Comentarios de Riesgos</mat-label>
+              <textarea matInput placeholder="Comentarios de Riesgos" multiline rows="3"></textarea>
+          </mat-form-field>
+      </div>
+  </div>
+
+
         <hr>
         <div class="row card-center">
             <div class="" [ngClass]="{
