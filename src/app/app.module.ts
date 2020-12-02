@@ -55,6 +55,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { HttpClientModule } from '@angular/common/http'; // <============
 import { NgHttpLoaderModule } from 'ng-http-loader'; // <============
+/*import the new HTTP Client!!!!!*/
+// import {NgTaxServices} from 'ng-tax-share-point-web-services-module';
+// import {ReactivePeoplePickerModule} from 'reactive-people-picker-angular-material';
+// /*the below is necessary because it's the backend library. You can easily fork the picker and change the backend*/
+// import {TaxReusableComponentsModule} from 'ng-tax-reusable-components';
 
 import { MatSelectSearchModule } from './mat-select-search/mat-select-search.module';
 import { ModalDialog } from './shared/controls/modal/modal.component';
@@ -157,7 +162,8 @@ const materialModules = [
     MatCardModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    // NgTaxServices.forRoot(), ReactivePeoplePickerModule
   ],
   exports: [
     ...materialModules,

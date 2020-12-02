@@ -943,6 +943,17 @@
 {{condicion.textoChequeGerencia}}</textarea>
             </mat-form-field>
         </div>
+          <div class="" [ngClass]="{
+            'd-none':!showPlanAhorro,
+            'col':showPlanAhorro
+          }">
+            PLAN DE AHORRO
+            <mat-form-field class="full-width">
+                <mat-label>Plan de Ahorro</mat-label>
+                <textarea matInput placeholder="Plan de Ahorro" multiline rows="5" formControlName="Plan_Ahorro">
+                </textarea>
+            </mat-form-field>
+        </div>
 
         <div class="row-md-12">
             <div class="col">

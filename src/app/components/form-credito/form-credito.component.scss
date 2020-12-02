@@ -39,10 +39,8 @@
     background: rgba(2, 139, 255, 1) !important;
 }
 
-mat-checkbox {
-    &.mat-checkbox-disabled.mat-checkbox-checked .mat-checkbox-background {
-        background: rgba(2, 139, 255, 1) !important;
-    }
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+  background-color: rgba(2, 139, 255, 1)  !important;
 }
 
 .shipping-card {

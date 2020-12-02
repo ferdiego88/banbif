@@ -54,6 +54,7 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public Situacion_Plan_AhorroId = '',
     public N_Abonos_Validados = '',
     public Ultimo_Abono_ValidadoId = '',
+    public Plan_Ahorro = '',
     // tslint:disable-next-line: variable-name
     public Cta_Ahorro_Banbif = 0,
 

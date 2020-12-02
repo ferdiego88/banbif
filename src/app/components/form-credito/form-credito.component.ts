@@ -85,6 +85,7 @@ export class FormCreditoComponent implements OnInit {
   showCuotaInicial = false;
   showBuenPagador = false;
   showBuenAplicacion = false;
+  showPlanAhorro = false;
 
   showObservacionCPM = true;
   showComentarioRiesgos = true;
@@ -94,12 +95,13 @@ export class FormCreditoComponent implements OnInit {
   showBtnEnviar = true;
   showBtnEnviarRegularizar = true;
   showBtnObservar = true;
-  
+
   rentaTitular = [];
   rentaConyugue = [];
   observacionesOpcional = '';
   condicionDesembolso = '';
   desembolsoAmpliacion = '';
+  planAhorro = '';
 
 
  creditForm = this.fb.group({
@@ -156,6 +158,7 @@ export class FormCreditoComponent implements OnInit {
     N_Abonos_Validados: [null, Validators.required],
     Ultimo_Abono_Validado: [null, Validators.required],
     Cta_Ahorro_Banbif: [null, Validators.required],
+    Plan_Ahorro: [null, Validators.required],
     /*Fin Plan Ahorro */
 
     /* Cuota Inicial*/
@@ -179,7 +182,7 @@ export class FormCreditoComponent implements OnInit {
     Observacion_CPM: [null, Validators.required],
     Condicion_Desembolso: [null, Validators.required],
     Desembolso_Ampliacion: [null, Validators.required],
- 
+
     postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
     ],
@@ -221,9 +224,8 @@ desembolso = 0;
     this.route.params.subscribe(
       param => {
         if (param.id) {
-          console.log(param.id);
           this.generalListService.getItemById(Variables.listas.Solicitudes, param.id)
-            .then(solicitudHipotecarioList => { 
+            .then(solicitudHipotecarioList => {
               this.solicitudHipotecarioList = solicitudHipotecarioList;
               this.creditForm.controls.typeProduct.setValue(this.solicitudHipotecarioList.Tipo_ProductoId);
               this.creditForm.controls.subProducto.setValue(this.solicitudHipotecarioList.Sub_ProductoId);
@@ -238,18 +240,17 @@ desembolso = 0;
               this.creditForm.controls.sustentoIngresos.setValue(this.solicitudHipotecarioList.Sustento_IngresosId);
               this.creditForm.controls.Oferta.setValue(this.solicitudHipotecarioList.Oferta);
 
-              // this.creditForm.controls.primeraT.setValue(this.solicitudHipotecarioList.Tipo_RentaId);
               this.rentaTitular = this.solicitudHipotecarioList.Tipo_RentaId;
               this.rentaConyugue = this.solicitudHipotecarioList.Tipo_RentaConyugueId;
-              if (this.rentaTitular.length > 0) {
+              if (this.rentaTitular != null) {
                 for (const numero of this.rentaTitular){
                   this.creditForm.get(`T${numero}`).setValue(true);
                 }
               }
-              if (this.rentaConyugue.length > 0) {
+              if (this.rentaConyugue.length != null) {
                 for (const numero of this.rentaConyugue){
                   this.creditForm.get(`C${numero}`).setValue(true);
-                }  
+                }
               }
 
               this.creditForm.controls.nombreProyecto.setValue(this.solicitudHipotecarioList.ProyectoId);
@@ -282,15 +283,27 @@ desembolso = 0;
               this.creditForm.controls.gravamen.setValue(this.solicitudHipotecarioList.Grabamen);
               this.creditForm.controls.modalidadPago.setValue(this.solicitudHipotecarioList.Modalidad_PagoId);
 
+              this.planAhorro = this.solicitudHipotecarioList.Plan_Ahorro;
+              if (this.planAhorro != null) {
+                this.showPlanAhorro = true;
+                const tamplanAhorro = this.planAhorro.length;
+                const localizaCaracterIni = this.planAhorro.indexOf('Cliente');
+                const localizaCaracterFin = this.planAhorro.indexOf('</div>');
+                const cad1 = this.planAhorro.substring(localizaCaracterIni, localizaCaracterFin);
+                // const cad2 = desembolsoCad.substring(localizaCaracter + 6);
+                // const planAhorroCad = this.planAhorro.substring(cad1, (tamplanAhorro - 6));
+                this.creditForm.controls.Plan_Ahorro.setValue(cad1);
+              }
+
               this.observacionesOpcional = this.solicitudHipotecarioList.Observaciones;
-              if (this.observacionesOpcional.length > 0) {
+              if (this.observacionesOpcional != null) {
                 const tamObservaciones = this.observacionesOpcional.length;
                 const observacionCad = this.observacionesOpcional.substring(74, (tamObservaciones - 21));
                 this.creditForm.controls.Observaciones.setValue(observacionCad);
               }
 
               this.condicionDesembolso = this.solicitudHipotecarioList.Condicion_Desembolso;
-              if (this.condicionDesembolso.length > 0) {
+              if (this.condicionDesembolso != null) {
                 const tamDesembolso = this.condicionDesembolso.length;
                 const desembolsoCad = this.condicionDesembolso.substring(59, tamDesembolso - 6);
                 const localizaCaracter = desembolsoCad.indexOf('&#160;');
@@ -301,10 +314,10 @@ desembolso = 0;
               }
 
               this.desembolsoAmpliacion = this.solicitudHipotecarioList.Desembolso_Ampliacion;
-              if (this.desembolsoAmpliacion.length > 0) {
+              if (this.desembolsoAmpliacion != null) {
                 const tamDesembolsoAmpliacion = this.desembolsoAmpliacion.length;
                 const desembolsoAmpliacionCad = this.desembolsoAmpliacion.substring(74, tamDesembolsoAmpliacion - 21);
-                this.creditForm.controls.Desembolso_Ampliacion.setValue(desembolsoAmpliacionCad);  
+                this.creditForm.controls.Desembolso_Ampliacion.setValue(desembolsoAmpliacionCad);
               }
 
               this.creditForm.controls.lugarVisita.setValue(this.solicitudHipotecarioList.Lugar_VisitaId);
@@ -411,7 +424,6 @@ desembolso = 0;
 
   listenerBonoBuenPagador(){
     this.creditForm.get('precioVenta').valueChanges.subscribe(selectedValue =>{
-        console.log(selectedValue);
         switch (true) {
           case ( selectedValue >= Variables.constantes.PrecioVenta9 && selectedValue <= Variables.constantes.PrecioVenta10):
             this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador5);
@@ -444,7 +456,6 @@ desembolso = 0;
   }
   listenerBotones(){
     this.creditForm.get('Estado').valueChanges.subscribe(estado => {
-        console.log('Estado es:' + estado);
         switch (true) {
         case ( estado === Variables.constantes.EstadoCreaExpedienteId):
           this.showBtnEnviarRegularizar = false;
@@ -565,13 +576,10 @@ desembolso = 0;
           this.setearMonedasEmpty();
           break;
       }
-      console.log('typeProduct value changed');
-      console.log(selectedValue);
       this.generalListService.getByField(Variables.listas.AdmTipoSubProducto, Variables.listas.AdmTipoProductoId, selectedValue)
         .then((tipoSubProductoList: any) => this.tipoSubProductoList = tipoSubProductoList)
         .catch(error => console.error(error));
     });
-    console.log(this.tipoSubProductoList);
   }
 
 
@@ -579,13 +587,10 @@ desembolso = 0;
     this.creditForm.get('typeProduct').valueChanges.subscribe(selectedValue => {
       // clean array
       this.modalidadList = [];
-      console.log('typeProduct value changed');
-      console.log(selectedValue);
       this.generalListService.getByField(Variables.listas.AdmModalidad, Variables.listas.AdmModalidadProductoId, selectedValue)
         .then((modalidadList: any) => this.modalidadList = modalidadList)
         .catch(error => console.error(error));
     });
-    console.log(this.modalidadList);
   }
 
 
@@ -604,13 +609,10 @@ desembolso = 0;
     this.creditForm.get('zona').valueChanges.subscribe(selectedValue => {
       // clean array
       this.oficinaList = [];
-      console.log('zona value changed');
-      console.log(selectedValue);
       this.generalListService.getByField(Variables.listas.AdmOficina, Variables.listas.AdmZonaId, selectedValue)
         .then((oficinaList: any) => this.oficinaList = oficinaList)
         .catch(error => console.error(error));
     });
-    console.log(this.oficinaList);
   }
 
 
