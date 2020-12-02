@@ -94,10 +94,15 @@ export class FormCreditoComponent implements OnInit {
   showBtnEnviar = true;
   showBtnEnviarRegularizar = true;
   showBtnObservar = true;
+  
+  rentaTitular = [];
+  rentaConyugue = [];
+  observacionesOpcional = '';
+  condicionDesembolso = '';
+  desembolsoAmpliacion = '';
 
 
-
-  creditForm = this.fb.group({
+ creditForm = this.fb.group({
     typeProduct: [null, Validators.required],
     ejecutivo: [null, Validators.required],
     subProducto: [null, Validators.required],
@@ -110,6 +115,17 @@ export class FormCreditoComponent implements OnInit {
     nombreTitular: [null, Validators.required],
     riesgoMaximo: [null, Validators.required],
     sustentoIngresos: [null, Validators.required],
+    Oferta: [null, Validators.required],
+    T1: [null, Validators.required],
+    T2: [null, Validators.required],
+    T3: [null, Validators.required],
+    T4: [null, Validators.required],
+    T5: [null, Validators.required],
+    C1: [null, Validators.required],
+    C2: [null, Validators.required],
+    C3: [null, Validators.required],
+    C4: [null, Validators.required],
+    C5: [null, Validators.required],
     nombreProyecto: [null, Validators.required],
     numeroVivienda: [null, Validators.required],
     tipoMoneda: [null, Validators.required],
@@ -123,7 +139,7 @@ export class FormCreditoComponent implements OnInit {
     desembolso: [null, Validators.required],
     monedagravamen: [null, Validators.required],
     Mon_BBP: [null, Validators.required],
-    Mon_PBP: [null, Validators.required],
+    Mon_PBB: [null, Validators.required],
     BBP: [null, Validators.required],
     PBP: [null, Validators.required],
     gravamen: [null, Validators.required],
@@ -162,6 +178,7 @@ export class FormCreditoComponent implements OnInit {
     Observaciones: [null, Validators.required],
     Observacion_CPM: [null, Validators.required],
     Condicion_Desembolso: [null, Validators.required],
+    Desembolso_Ampliacion: [null, Validators.required],
  
     postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
@@ -219,6 +236,22 @@ desembolso = 0;
               this.creditForm.controls.nombreTitular.setValue(this.solicitudHipotecarioList.Nombre_Titular);
               this.creditForm.controls.riesgoMaximo.setValue(this.solicitudHipotecarioList.Riesgo_Maximo);
               this.creditForm.controls.sustentoIngresos.setValue(this.solicitudHipotecarioList.Sustento_IngresosId);
+              this.creditForm.controls.Oferta.setValue(this.solicitudHipotecarioList.Oferta);
+
+              // this.creditForm.controls.primeraT.setValue(this.solicitudHipotecarioList.Tipo_RentaId);
+              this.rentaTitular = this.solicitudHipotecarioList.Tipo_RentaId;
+              this.rentaConyugue = this.solicitudHipotecarioList.Tipo_RentaConyugueId;
+              if (this.rentaTitular.length > 0) {
+                for (const numero of this.rentaTitular){
+                  this.creditForm.get(`T${numero}`).setValue(true);
+                }
+              }
+              if (this.rentaConyugue.length > 0) {
+                for (const numero of this.rentaConyugue){
+                  this.creditForm.get(`C${numero}`).setValue(true);
+                }  
+              }
+
               this.creditForm.controls.nombreProyecto.setValue(this.solicitudHipotecarioList.ProyectoId);
               this.creditForm.controls.numeroVivienda.setValue(this.solicitudHipotecarioList.N_ViviendaId);
               this.creditForm.controls.Moneda.setValue(this.solicitudHipotecarioList.MonedaId);
@@ -232,16 +265,52 @@ desembolso = 0;
               this.creditForm.controls.Mon_Aport_AFP.setValue(this.solicitudHipotecarioList.Mon_Aport_AFPId);
               this.creditForm.controls.Aporte_RetiroAFP.setValue(this.solicitudHipotecarioList.Aporte_RetiroAFP);
               this.creditForm.controls.monedaDesembolso.setValue(this.solicitudHipotecarioList.Mon_Desembolso);
+
+              this.creditForm.controls.Mon_BBP.setValue(this.solicitudHipotecarioList.Mon_BBP);
+              this.creditForm.controls.BBP.setValue(this.solicitudHipotecarioList.BBP);
+              this.creditForm.controls.Mon_PBB.setValue(this.solicitudHipotecarioList.Mon_PBB);
+              this.creditForm.controls.PBP.setValue(this.solicitudHipotecarioList.PBP);
+              this.creditForm.controls.Tipo_Moneda_Ahorro.setValue(this.solicitudHipotecarioList.Tipo_Moneda_AhorroId);
+              this.creditForm.controls.Meses_Abono.setValue(this.solicitudHipotecarioList.Meses_Abono);
+              this.creditForm.controls.Importe_Cuota_Ahorro.setValue(this.solicitudHipotecarioList.Importe_Cuota_Ahorro);
+              this.creditForm.controls.Situacion_Plan_Ahorro.setValue(this.solicitudHipotecarioList.Situacion_Plan_AhorroId);
+              this.creditForm.controls.N_Abonos_Validados.setValue(this.solicitudHipotecarioList.N_Abonos_Validados);
+              this.creditForm.controls.Ultimo_Abono_Validado.setValue(this.solicitudHipotecarioList.Ultimo_Abono_ValidadoId);
+              this.creditForm.controls.Cta_Ahorro_Banbif.setValue(this.solicitudHipotecarioList.Cta_Ahorro_Banbif);
               this.creditForm.controls.desembolso.setValue(this.solicitudHipotecarioList.Desembolso);
               this.creditForm.controls.monedagravamen.setValue(this.solicitudHipotecarioList.Mon_Gravamen);
               this.creditForm.controls.gravamen.setValue(this.solicitudHipotecarioList.Grabamen);
               this.creditForm.controls.modalidadPago.setValue(this.solicitudHipotecarioList.Modalidad_PagoId);
-              this.creditForm.controls.Observaciones.setValue(this.solicitudHipotecarioList.Observaciones);
+
+              this.observacionesOpcional = this.solicitudHipotecarioList.Observaciones;
+              if (this.observacionesOpcional.length > 0) {
+                const tamObservaciones = this.observacionesOpcional.length;
+                const observacionCad = this.observacionesOpcional.substring(74, (tamObservaciones - 21));
+                this.creditForm.controls.Observaciones.setValue(observacionCad);
+              }
+
+              this.condicionDesembolso = this.solicitudHipotecarioList.Condicion_Desembolso;
+              if (this.condicionDesembolso.length > 0) {
+                const tamDesembolso = this.condicionDesembolso.length;
+                const desembolsoCad = this.condicionDesembolso.substring(59, tamDesembolso - 6);
+                const localizaCaracter = desembolsoCad.indexOf('&#160;');
+                const cad1 = desembolsoCad.substring(0, localizaCaracter - 1);
+                const cad2 = desembolsoCad.substring(localizaCaracter + 6);
+                const cadenaDesembolsoClean = cad1 + cad2;
+                this.creditForm.controls.Condicion_Desembolso.setValue(cadenaDesembolsoClean);
+              }
+
+              this.desembolsoAmpliacion = this.solicitudHipotecarioList.Desembolso_Ampliacion;
+              if (this.desembolsoAmpliacion.length > 0) {
+                const tamDesembolsoAmpliacion = this.desembolsoAmpliacion.length;
+                const desembolsoAmpliacionCad = this.desembolsoAmpliacion.substring(74, tamDesembolsoAmpliacion - 21);
+                this.creditForm.controls.Desembolso_Ampliacion.setValue(desembolsoAmpliacionCad);  
+              }
+
               this.creditForm.controls.lugarVisita.setValue(this.solicitudHipotecarioList.Lugar_VisitaId);
               this.creditForm.controls.periodoGracia.setValue(this.solicitudHipotecarioList.Periodo_Gracia);
               this.creditForm.controls.tipoGarantia.setValue(this.solicitudHipotecarioList.Tipo_GarantiaId);
               this.creditForm.controls.tipoAbono.setValue(this.solicitudHipotecarioList.Tipo_AbonoId);
-              this.creditForm.controls.Condicion_Desembolso.setValue(this.solicitudHipotecarioList.Condicion_Desembolso);
 
               console.log(this.solicitudHipotecarioList);
 
@@ -294,7 +363,7 @@ desembolso = 0;
     this.creditForm.get('Mon_Ap_Efectivo').setValue(Variables.constantes.TipoMonedaSolesDatosAporteEfectivoId);
     this.creditForm.get('Mon_Aport_AFP').setValue(Variables.constantes.TipoMonedaSolesMonteAporteAFPId);
     this.creditForm.get('Mon_BBP').setValue(Variables.constantes.SimboloSoles);
-    this.creditForm.get('Mon_PBP').setValue(Variables.constantes.SimboloSoles);
+    this.creditForm.get('Mon_PBB').setValue(Variables.constantes.SimboloSoles);
   }
   setearMonedasEmpty(){
     this.creditForm.get('Moneda').setValue('');
@@ -304,12 +373,12 @@ desembolso = 0;
     this.creditForm.get('Mon_Ap_Efectivo').setValue('');
     this.creditForm.get('Mon_Aport_AFP').setValue('');
     this.creditForm.get('Mon_BBP').setValue('');
-    this.creditForm.get('Mon_PBP').setValue('');
+    this.creditForm.get('Mon_PBB').setValue('');
   }
 
   setearTipoMoneda(simbolo: string, idtipo: number){
         this.creditForm.get('Mon_BBP').setValue(simbolo);
-        this.creditForm.get('Mon_PBP').setValue(simbolo);
+        this.creditForm.get('Mon_PBB').setValue(simbolo);
         this.creditForm.get('monedaDesembolso').setValue(idtipo);
         this.creditForm.get('monedagravamen').setValue(idtipo);
   }
@@ -379,6 +448,7 @@ desembolso = 0;
         switch (true) {
         case ( estado === Variables.constantes.EstadoCreaExpedienteId):
           this.showBtnEnviarRegularizar = false;
+          this.showSaving = true;
           break;
         case ( estado === Variables.constantes.EstadoRegistroCPM):
           this.showBtnGuardarBorrador = false;

@@ -186,7 +186,7 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <mat-checkbox>Oferta</mat-checkbox>
+                        <mat-checkbox formControlName="Oferta">Oferta</mat-checkbox>
                     </div>
                 </div>
                 <div class="row">
@@ -195,20 +195,20 @@
                     </div>
                     <div class="col">
                         <p>Titular</p>
-                        <mat-checkbox>1ERA</mat-checkbox><br>
-                        <mat-checkbox>2DA</mat-checkbox><br>
-                        <mat-checkbox>3ERA</mat-checkbox><br>
-                        <mat-checkbox>4TA</mat-checkbox><br>
-                        <mat-checkbox>5TA</mat-checkbox>
+                        <mat-checkbox formControlName="T1">1ERA</mat-checkbox><br>
+                        <mat-checkbox formControlName="T2">2DA</mat-checkbox><br>
+                        <mat-checkbox formControlName="T3">3ERA</mat-checkbox><br>
+                        <mat-checkbox formControlName="T3">4TA</mat-checkbox><br>
+                        <mat-checkbox formControlName="T5">5TA</mat-checkbox>
                     </div>
 
                     <div class="col">
                         <p>Cónyugue</p>
-                        <mat-checkbox>1ERA</mat-checkbox><br>
-                        <mat-checkbox>2DA</mat-checkbox><br>
-                        <mat-checkbox>3ERA</mat-checkbox><br>
-                        <mat-checkbox>4TA</mat-checkbox><br>
-                        <mat-checkbox>5TA</mat-checkbox>
+                        <mat-checkbox formControlName="C1">1ERA</mat-checkbox><br>
+                        <mat-checkbox formControlName="C2">2DA</mat-checkbox><br>
+                        <mat-checkbox formControlName="C3">3ERA</mat-checkbox><br>
+                        <mat-checkbox formControlName="C4">4TA</mat-checkbox><br>
+                        <mat-checkbox formControlName="C5">5TA</mat-checkbox>
                     </div>
 
                 </div>
@@ -629,8 +629,8 @@
                 <div class="row">
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="Tipo Moneda" formControlName="Mon_PBP">
-                            <mat-error *ngIf="creditForm.controls['Mon_PBP'].hasError('required')">
+                            <input matInput placeholder="Tipo Moneda" formControlName="Mon_PBB">
+                            <mat-error *ngIf="creditForm.controls['Mon_PBB'].hasError('required')">
                                 S/. <strong>requerido</strong>
                             </mat-error>
                         </mat-form-field>
@@ -925,7 +925,7 @@
                 CONDICIÓN DE DESEMBOLSO
                 <mat-form-field class="full-width">
                     <mat-label>Condicion de desembolso</mat-label>
-                    <textarea matInput placeholder="Observaciones" multiline rows="3" formControlName="Condicion_Desembolso">
+                    <textarea matInput placeholder="Observaciones" multiline rows="4" formControlName="Condicion_Desembolso">
                     </textarea>
                 </mat-form-field>
             </div>
@@ -950,14 +950,13 @@
             </div>
         </div>
         <hr>
-
         <div class="row">
         </div>
         <div class="row">
             <div class="col">
                 <mat-form-field class="full-width">
                     <mat-label>Comentarios de la Oficina</mat-label>
-                    <textarea matInput placeholder="Comentarios de la Oficina" multiline rows="3"></textarea>
+                    <textarea matInput placeholder="Comentarios de la Oficina" formControlName="Desembolso_Ampliacion" multiline rows="3"></textarea>
                 </mat-form-field>
             </div>
         </div>
