@@ -88,20 +88,32 @@ export class FormCreditoComponent implements OnInit {
   showPlanAhorro = false;
 
   showObservacionCPM = true;
+  showComentarioCPM = false;
   showComentarioRiesgos = true;
+  showComentarioRevisor = true;
+
+  showBtnObservacionCPM = false;
+  showBtnAprobar = false;
+  showBtnAprobarSinVerificacion = false;
+  showBtnAprobarEnVerificacion = false;
+  showBtnObservacionOficina = false;
+  showBtnRechazar = false;
 
   showBtnGuardarBorrador = true;
   showBtnCancelar = true;
   showBtnEnviar = true;
   showBtnEnviarRegularizar = true;
   showBtnObservar = true;
+  showAsignacionRiesgos = true;
 
   rentaTitular = [];
   rentaConyugue = [];
+  descripcionInmbueble = '';
   observacionesOpcional = '';
   condicionDesembolso = '';
   desembolsoAmpliacion = '';
   planAhorro = '';
+  comentarioRegistro = '';
 
 
  creditForm = this.fb.group({
@@ -173,13 +185,23 @@ export class FormCreditoComponent implements OnInit {
     /* Ini Garantias*/
     Descripcion_Inmueble: [null, Validators.required],
     Fecha_Tasacion_Remodelac: [null, Validators.required],
-    Mon_ValorComTas_Soles: [null, Validators.required],
-    ValorComTas_Soles: [null, Validators.required],
+    Mon_Valor_ComTas_Soles: [null, Validators.required],
+    Valor_ComTas_Soles: [null, Validators.required],
     Mon_VRI_Soles: [null, Validators.required],
     VRI_Soles: [null, Validators.required],
     /* Fin Garantias*/
+
+    Numero_Desemboslo: [null, Validators.required],
+    Primer_desembolso: [null, Validators.required],
+    Segundo_desembolso: [null, Validators.required],
+    Tercer_desembolso: [null, Validators.required],
+    Aporte_Cliente: [null, Validators.required],
     Observaciones: [null, Validators.required],
+    Observacion_CPMId: [null, Validators.required],
     Observacion_CPM: [null, Validators.required],
+    Comentario_Registro: [null, Validators.required],
+    Cometario_Revisor: [null, Validators.required],
+    Cometario_Evaluacion: [null, Validators.required],
     Condicion_Desembolso: [null, Validators.required],
     Desembolso_Ampliacion: [null, Validators.required],
 
@@ -257,6 +279,28 @@ desembolso = 0;
               this.creditForm.controls.numeroVivienda.setValue(this.solicitudHipotecarioList.N_ViviendaId);
               this.creditForm.controls.Moneda.setValue(this.solicitudHipotecarioList.MonedaId);
               this.creditForm.controls.TEA.setValue(this.solicitudHipotecarioList.TEA);
+
+              this.descripcionInmbueble = this.solicitudHipotecarioList.Descripcion_Inmueble;
+              if (this.descripcionInmbueble != null) {
+                const localizaCaracterIni = this.descripcionInmbueble.indexOf('<div>');
+                const localizaCaracterFin = this.descripcionInmbueble.indexOf('</div>');
+                const cad1 = this.descripcionInmbueble.substring(localizaCaracterIni + 5, localizaCaracterFin);
+                this.creditForm.controls.Descripcion_Inmueble.setValue(cad1);
+              }
+
+
+              this.creditForm.controls.Fecha_Tasacion_Remodelac.setValue(this.solicitudHipotecarioList.Fecha_Tasacion_Remodelac);
+              this.creditForm.controls.Mon_Valor_ComTas_Soles.setValue(this.solicitudHipotecarioList.Mon_Valor_ComTas_Soles);
+              this.creditForm.controls.Valor_ComTas_Soles.setValue(this.solicitudHipotecarioList.Valor_ComTas_Soles);
+              this.creditForm.controls.Mon_VRI_Soles.setValue(this.solicitudHipotecarioList.Mon_VRI_Soles);
+              this.creditForm.controls.VRI_Soles.setValue(this.solicitudHipotecarioList.VRI_Soles);
+
+              this.creditForm.controls.Numero_Desemboslo.setValue(this.solicitudHipotecarioList.Numero_Desemboslo);
+              this.creditForm.controls.Primer_desembolso.setValue(this.solicitudHipotecarioList.Primer_desembolso);
+              this.creditForm.controls.Segundo_desembolso.setValue(this.solicitudHipotecarioList.Segundo_desembolso);
+              this.creditForm.controls.Tercer_desembolso.setValue(this.solicitudHipotecarioList.Tercer_desembolso);
+              this.creditForm.controls.Aporte_Cliente.setValue(this.solicitudHipotecarioList.Aporte_Cliente);
+
               this.creditForm.controls.teaAuth.setValue(this.solicitudHipotecarioList.TEA_AutorizadoId);
               this.creditForm.controls.tipoprecioVenta.setValue(this.solicitudHipotecarioList.Mon_PrecioVentaId);
               this.creditForm.controls.precioVenta.setValue(this.solicitudHipotecarioList.Precio_Venta);
@@ -265,7 +309,7 @@ desembolso = 0;
               this.creditForm.controls.Aporte_Efectivo.setValue(this.solicitudHipotecarioList.Aporte_Efectivo);
               this.creditForm.controls.Mon_Aport_AFP.setValue(this.solicitudHipotecarioList.Mon_Aport_AFPId);
               this.creditForm.controls.Aporte_RetiroAFP.setValue(this.solicitudHipotecarioList.Aporte_RetiroAFP);
-              this.creditForm.controls.monedaDesembolso.setValue(this.solicitudHipotecarioList.Mon_Desembolso);
+              this.creditForm.controls.monedaDesembolso.setValue(this.solicitudHipotecarioList.MonedaId);
 
               this.creditForm.controls.Mon_BBP.setValue(this.solicitudHipotecarioList.Mon_BBP);
               this.creditForm.controls.BBP.setValue(this.solicitudHipotecarioList.BBP);
@@ -279,19 +323,20 @@ desembolso = 0;
               this.creditForm.controls.Ultimo_Abono_Validado.setValue(this.solicitudHipotecarioList.Ultimo_Abono_ValidadoId);
               this.creditForm.controls.Cta_Ahorro_Banbif.setValue(this.solicitudHipotecarioList.Cta_Ahorro_Banbif);
               this.creditForm.controls.desembolso.setValue(this.solicitudHipotecarioList.Desembolso);
-              this.creditForm.controls.monedagravamen.setValue(this.solicitudHipotecarioList.Mon_Gravamen);
+              this.creditForm.controls.monedagravamen.setValue(this.solicitudHipotecarioList.MonedaId);
               this.creditForm.controls.gravamen.setValue(this.solicitudHipotecarioList.Grabamen);
               this.creditForm.controls.modalidadPago.setValue(this.solicitudHipotecarioList.Modalidad_PagoId);
-
+              console.log(this.solicitudHipotecarioList.flag_PlanAhorro);
+              if (this.solicitudHipotecarioList.flag_PlanAhorro === Variables.constantes.Flag_PlanAhorro1){
+                this.showPlanAhorro = true;
+              }else{
+                this.showPlanAhorro = false;
+              }
               this.planAhorro = this.solicitudHipotecarioList.Plan_Ahorro;
               if (this.planAhorro != null) {
-                this.showPlanAhorro = true;
-                const tamplanAhorro = this.planAhorro.length;
                 const localizaCaracterIni = this.planAhorro.indexOf('Cliente');
                 const localizaCaracterFin = this.planAhorro.indexOf('</div>');
                 const cad1 = this.planAhorro.substring(localizaCaracterIni, localizaCaracterFin);
-                // const cad2 = desembolsoCad.substring(localizaCaracter + 6);
-                // const planAhorroCad = this.planAhorro.substring(cad1, (tamplanAhorro - 6));
                 this.creditForm.controls.Plan_Ahorro.setValue(cad1);
               }
 
@@ -320,10 +365,21 @@ desembolso = 0;
                 this.creditForm.controls.Desembolso_Ampliacion.setValue(desembolsoAmpliacionCad);
               }
 
+              this.comentarioRegistro = this.solicitudHipotecarioList.Comentario_Registro;
+              if (this.comentarioRegistro != null) {
+                const localizaCaracterIni = this.comentarioRegistro.indexOf('<div>');
+                const localizaCaracterFin = this.comentarioRegistro.indexOf('</div>');
+                const cad1 = this.comentarioRegistro.substring(localizaCaracterIni + 5, localizaCaracterFin);
+                this.creditForm.controls.Comentario_Registro.setValue(cad1);
+              }
+
+
               this.creditForm.controls.lugarVisita.setValue(this.solicitudHipotecarioList.Lugar_VisitaId);
               this.creditForm.controls.periodoGracia.setValue(this.solicitudHipotecarioList.Periodo_Gracia);
               this.creditForm.controls.tipoGarantia.setValue(this.solicitudHipotecarioList.Tipo_GarantiaId);
               this.creditForm.controls.tipoAbono.setValue(this.solicitudHipotecarioList.Tipo_AbonoId);
+
+              this.creditForm.controls.Observacion_CPMId.setValue(this.solicitudHipotecarioList.Observacion_CPMId);
 
               console.log(this.solicitudHipotecarioList);
 
@@ -416,14 +472,14 @@ desembolso = 0;
   }
 
   setMonedaGarantia(){
-    this.creditForm.get('Mon_ValorComTas_Soles').setValue(Variables.constantes.SimboloSoles);
-    this.creditForm.get('Mon_ValorComTas_Soles').disable();
+    this.creditForm.get('Mon_Valor_ComTas_Soles').setValue(Variables.constantes.SimboloSoles);
+    this.creditForm.get('Mon_Valor_ComTas_Soles').disable();
     this.creditForm.get('Mon_VRI_Soles').setValue(Variables.constantes.SimboloSoles);
     this.creditForm.get('Mon_VRI_Soles').disable();
   }
 
   listenerBonoBuenPagador(){
-    this.creditForm.get('precioVenta').valueChanges.subscribe(selectedValue =>{
+    this.creditForm.get('precioVenta').valueChanges.subscribe(selectedValue => {
         switch (true) {
           case ( selectedValue >= Variables.constantes.PrecioVenta9 && selectedValue <= Variables.constantes.PrecioVenta10):
             this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador5);
@@ -468,14 +524,38 @@ desembolso = 0;
           this.showBtnEnviarRegularizar = false;
           break;
         case ( estado === Variables.constantes.EstadoEvaluacionRiesgos):
-          // this.showBtnEnviarRegularizar = false;
+          this.showBotonesProducto = false;
+          this.showBtnGuardarBorrador = false;
+          this.showBtnEnviar = false;
+          this.showBtnObservacionCPM = true;
+          this.showBtnAprobarSinVerificacion = true;
+          this.showBtnAprobarEnVerificacion = true;
+          this.showBtnObservacionOficina = true;
+          this.showBtnRechazar = true;
+          this.showComentarioRiesgos = true;
+          this.showComentarioCPM = true;
+          this.showComentarioRevisor = true;
+          break;
+        case ( estado === Variables.constantes.EstadoVerificacionRiesgos):
+          this.showBotonesProducto = false;
+          this.showBtnGuardarBorrador = false;
+          this.showBtnEnviar = false;
+          this.showBtnAprobar = true;
+          this.showBtnRechazar = true;
+          this.showBtnCancelar = true;
           break;
         case ( estado === Variables.constantes.EstadoEvaluacionRiesgos):
           this.showBtnGuardarBorrador = false;
           this.showBtnEnviar = false;
           break;
+        case( estado === Variables.constantes.EstadoAsignacionRiesgos):
+          this.showBotonesProducto = false;
+          this.showAsignacionRiesgos = false;
+          this.showBtnGuardarBorrador = false;
+          break;
         case ( estado !== Variables.constantes.EstadoRegistroCPM):
           this.showBtnObservar = false;
+          this.showBtnEnviarRegularizar = false;
           break;
         default:
             break;
@@ -490,11 +570,11 @@ desembolso = 0;
       else{
         this.showObservacionCPM = true;
       }
-      if (estado !== Variables.constantes.EstadoObservadoRiesgos) {
-        this.showComentarioRiesgos = false;
-      }else{
-        this.showComentarioRiesgos = true;
-      }
+      // if (estado !== Variables.constantes.EstadoObservadoRiesgos) {
+      //   this.showComentarioRiesgos = false;
+      // }else{
+      //   this.showComentarioRiesgos = true;
+      // }
   });
   }
 

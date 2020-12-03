@@ -23,6 +23,19 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public N_ViviendaId = '',
     public MonedaId = '',
     public TEA = '',
+
+    public Descripcion_Inmueble = '',
+    public Fecha_Tasacion_Remodelac = '',
+    public Mon_Valor_ComTas_Soles = '',
+    public Valor_ComTas_Soles = '',
+    public Mon_VRI_Soles = '',
+    public VRI_Soles = '',
+    public Numero_Desemboslo = '',
+    public Primer_desembolso = '',
+    public Segundo_desembolso = '',
+    public Tercer_desembolso = '',
+    public Aporte_Cliente = '',
+
     public TEA_AutorizadoId = '',
     public Mon_PrecioVentaId = '',
     public Precio_Venta = '',
@@ -57,6 +70,9 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public Plan_Ahorro = '',
     // tslint:disable-next-line: variable-name
     public Cta_Ahorro_Banbif = 0,
+    public flag_PlanAhorro = 0,
+    public Observacion_CPMId = 0,
+    public Comentario_Registro = '',
 
   ){
     super();
