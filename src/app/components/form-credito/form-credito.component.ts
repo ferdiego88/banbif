@@ -279,7 +279,9 @@ desembolso = 0;
               this.creditForm.controls.numeroVivienda.setValue(this.solicitudHipotecarioList.N_ViviendaId);
               this.creditForm.controls.Moneda.setValue(this.solicitudHipotecarioList.MonedaId);
               this.creditForm.controls.TEA.setValue(this.solicitudHipotecarioList.TEA);
-
+              
+              
+              
               this.descripcionInmbueble = this.solicitudHipotecarioList.Descripcion_Inmueble;
               if (this.descripcionInmbueble != null) {
                 const localizaCaracterIni = this.descripcionInmbueble.indexOf('<div>');
@@ -346,7 +348,10 @@ desembolso = 0;
                 const observacionCad = this.observacionesOpcional.substring(74, (tamObservaciones - 21));
                 this.creditForm.controls.Observaciones.setValue(observacionCad);
               }
-
+              // const exprRegular = new RegExp ('/\<\w{3} |\<\/\w{3}\>|\<\w{4}\>|\<\w{3}\>|\<\/\w{4}\>|\w{15}|\"\>|\w{5}\=|\&\#\d{3}/g');
+              // const limpios = exprRegular.exec(this.condicionDesembolso);
+              // console.log(limpios);
+              // console.log(this.condicionDesembolso);
               this.condicionDesembolso = this.solicitudHipotecarioList.Condicion_Desembolso;
               if (this.condicionDesembolso != null) {
                 const tamDesembolso = this.condicionDesembolso.length;
@@ -373,13 +378,13 @@ desembolso = 0;
                 this.creditForm.controls.Comentario_Registro.setValue(cad1);
               }
 
-
               this.creditForm.controls.lugarVisita.setValue(this.solicitudHipotecarioList.Lugar_VisitaId);
               this.creditForm.controls.periodoGracia.setValue(this.solicitudHipotecarioList.Periodo_Gracia);
               this.creditForm.controls.tipoGarantia.setValue(this.solicitudHipotecarioList.Tipo_GarantiaId);
               this.creditForm.controls.tipoAbono.setValue(this.solicitudHipotecarioList.Tipo_AbonoId);
 
               this.creditForm.controls.Observacion_CPMId.setValue(this.solicitudHipotecarioList.Observacion_CPMId);
+              this.creditForm.controls.Cometario_Revisor.setValue(this.solicitudHipotecarioList.Cometario_Revisor);
 
               console.log(this.solicitudHipotecarioList);
 
