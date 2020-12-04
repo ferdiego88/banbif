@@ -5,6 +5,7 @@ import { GeneralListService } from '../../shared/services/general-list.service';
 import { MasterService } from '../../shared/services/master.service';
 import { TipoProductoModel, TipoSubProductoModel, ZonaModel, SolicitudCreditoHipotecario } from '../../shared/models/fisics';
 import { Variables } from 'src/app/shared/variables';
+import {formatCurrency, getCurrencySymbol} from '@angular/common';
 
 // import {default as _rollupMoment} from 'moment';
 import * as _moment from 'moment';
@@ -13,6 +14,7 @@ import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/mater
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { ActivatedRoute } from '@angular/router';
 import { SolicitudesService } from '../../shared/services/solicitudes.service';
+import Swal from 'sweetalert2';
 
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
@@ -90,8 +92,8 @@ export class FormCreditoComponent implements OnInit {
 
   showObservacionCPM = true;
   showComentarioCPM = false;
-  showComentarioRiesgos = true;
-  showComentarioRevisor = true;
+  showComentarioRiesgos = false;
+  showComentarioRevisor = false;
 
   showBtnObservacionCPM = false;
   showBtnAprobar = false;
@@ -112,6 +114,7 @@ export class FormCreditoComponent implements OnInit {
   descripcionInmbueble = '';
   observacionesOpcional = '';
   condicionDesembolso = '';
+  cantidad = '';
   desembolsoAmpliacion = '';
   planAhorro = '';
   comentarioRegistro = '';
@@ -784,12 +787,14 @@ desembolso = 0;
 
   CalificacionTradicional() {
     this.showSaving = false;
+    this.showPlanAhorro = false;
     this.setPlanAhorroUntouched();
     this.setPlanAhorroEmpty();
   }
 
   PlanAhorro() {
     this.showSaving = true;
+    this.showPlanAhorro = true;
   }
 
   getTypeCurrencySaving(){
@@ -832,7 +837,7 @@ desembolso = 0;
     for (let index = 1; index <= 5; index++) {
       this.creditForm.get(`T${index}`).value && (rentaTitular.push(index)) && (rentaConyugue.push(index));
     }
-    
+
     const solicitudCreditoHipotecario = {
       Tipo_ProductoId: this.creditForm.controls.typeProduct.value,
       Nombre_Titular: this.creditForm.controls.nombreTitular.value,
@@ -889,7 +894,11 @@ desembolso = 0;
       .then(resp => {
         console.log(resp);
         if (resp) {
-          // TODO implement success message
+          Swal.fire(
+            'Se registro Borrador Satisfactoriamente!',
+            'You clicked the button!',
+            'success'
+          );
         }
       })
       .catch(error => console.log(error));
@@ -922,6 +931,15 @@ desembolso = 0;
     const gravamen = (this.desembolso + BBP  + PBP + PBPAdicionalSostenible) * 120 / 100;
     this.creditForm.get('gravamen').setValue(gravamen);
   }
+
+
+  updateValue(value: string) {
+    let val = parseInt(value, 10);
+    if (Number.isNaN(val)) {
+      val = 0;
+    }
+    this.cantidad = formatCurrency(val, 'en-US', getCurrencySymbol('', 'wide'));
+}
 
 
 
