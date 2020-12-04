@@ -145,10 +145,16 @@
 
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="N° de Documento" formControlName="nroDcmto">
+                            <input matInput type="number" placeholder="N° de Documento" formControlName="nroDcmto">
+
                             <mat-error *ngIf="creditForm.controls['nroDcmto'].hasError('required')">
                                 N° de Documento <strong>requerido</strong>
                             </mat-error>
+                            <mat-error *ngIf="creditForm.controls['nroDcmto'].hasError('maxLength')">
+                            No mas de 11  <strong>digitos</strong>
+                          </mat-error>
+
+
                         </mat-form-field>
                     </div>
 
@@ -164,7 +170,7 @@
                     </div>
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="Riesgo Máximo (Monto en USD)" formControlName="riesgoMaximo">
+                            <input matInput type="number" placeholder="Riesgo Máximo (Monto en USD)" formControlName="riesgoMaximo">
                             <mat-error *ngIf="creditForm.controls['riesgoMaximo'].hasError('required')">
                                 Riesgo Máximo (Monto en USD) <strong>requerido</strong>
                             </mat-error>
@@ -428,7 +434,7 @@
 
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="Precio de Venta" formControlName="precioVenta">
+                            <input matInput type="number" placeholder="Precio de Venta" formControlName="precioVenta">
                             <mat-error *ngIf="creditForm.controls['precioVenta'].hasError('required')">
                                 Precio de Venta <strong>requerido</strong>
                             </mat-error>
@@ -451,7 +457,7 @@
                 <div class="row">
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="( % ) de Financiamiento" formControlName="pFinanciamiento">
+                            <input matInput type="number" placeholder="( % ) de Financiamiento" formControlName="pFinanciamiento">
                             <mat-error *ngIf="creditForm.controls['pFinanciamiento'].hasError('required')">
                                 ( % ) de Financiamiento <strong>requerido</strong>
                             </mat-error>
@@ -511,7 +517,7 @@
                     </div>
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="Valor Tasación soles" formControlName="Valor_ComTas_Soles">
+                            <input matInput type="number" placeholder="Valor Tasación soles" formControlName="Valor_ComTas_Soles">
                             <mat-error *ngIf="creditForm.controls['Valor_ComTas_Soles'].hasError('required')">
                                 Valor Tasación soles <strong>requerido</strong>
                             </mat-error>
@@ -531,7 +537,7 @@
                     </div>
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="VRI soles" formControlName="VRI_Soles">
+                            <input type="number" matInput placeholder="VRI soles" formControlName="VRI_Soles">
                             <mat-error *ngIf="creditForm.controls['VRI_Soles'].hasError('required')">
                                 VRI soles <strong>requerido</strong>
                             </mat-error>
@@ -572,7 +578,7 @@
 
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="Aporte en Efectivo" formControlName="Aporte_Efectivo">
+                            <input type="number" matInput placeholder="Aporte en Efectivo" formControlName="Aporte_Efectivo">
                             <mat-error *ngIf="creditForm.controls['Aporte_Efectivo'].hasError('required')">
                                 Aporte en Efectivo <strong>requerido</strong>
                             </mat-error>
@@ -596,7 +602,7 @@
 
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="Aporte de retiro AFP" formControlName="Aporte_RetiroAFP">
+                            <input type="number" matInput placeholder="Aporte de retiro AFP" formControlName="Aporte_RetiroAFP">
                             <mat-error *ngIf="creditForm.controls['Aporte_RetiroAFP'].hasError('required')">
                                 Aporte de retiro AFP <strong>requerido</strong>
                             </mat-error>
@@ -624,7 +630,7 @@
 
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="Bono Buen Pagador (BBP)" formControlName="BBP">
+                                <input type="number" matInput placeholder="Bono Buen Pagador (BBP)" formControlName="BBP">
                                 <mat-error *ngIf="creditForm.controls['BBP'].hasError('required')">
                                     Bono Buen Pagador (BBP) <strong>requerido</strong>
                                 </mat-error>
@@ -644,7 +650,7 @@
 
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="Premio Buen pagador (PBP)" formControlName="PBP">
+                                <input type="number" matInput placeholder="Premio Buen pagador (PBP)" formControlName="PBP">
                                 <mat-error *ngIf="creditForm.controls['PBP'].hasError('required')">
                                     Premio Buen pagador (PBP) <strong>requerido</strong>
                                 </mat-error>
@@ -669,7 +675,7 @@
 
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="BBP adicional por vivienda sostenible" formControlName="PBP_Adicional_Sostenible">
+                                <input type="number" matInput placeholder="BBP adicional por vivienda sostenible" formControlName="PBP_Adicional_Sostenible">
                                 <mat-error *ngIf="creditForm.controls['PBP_Adicional_Sostenible'].hasError('required')">
                                     BBP adicional por vivienda sostenible<strong>requerido</strong>
                                 </mat-error>
@@ -723,7 +729,7 @@
                         </div>
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="Desembolso" formControlName="desembolso">
+                                <input type="number" matInput placeholder="Desembolso" formControlName="desembolso">
                                 <mat-error *ngIf="creditForm.controls['desembolso'].hasError('required')">
                                     Desembolso <strong>requerido</strong>
                                 </mat-error>
@@ -750,7 +756,7 @@
                         </div>
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="Gravamen (120% x Desembolso)" formControlName="gravamen">
+                                <input type="number" matInput placeholder="Gravamen (120% x Desembolso)" formControlName="gravamen">
                                 <mat-error *ngIf="creditForm.controls['gravamen'].hasError('required')">
                                     Gravamen (120% x Desembolso) <strong>requerido</strong>
                                 </mat-error>
@@ -854,7 +860,7 @@
                     <div class="col">La operación se realizará en </div>
                     <div class="col">
                         <mat-form-field class="text-width">
-                            <input matInput placeholder="" formControlName="Numero_Desemboslo">
+                            <input matInput placeholder="" type="number" formControlName="Numero_Desemboslo">
                             <mat-error *ngIf="creditForm.controls['Numero_Desemboslo'].hasError('required')">
                                 Numero Desembolso <strong>requerido</strong>
                             </mat-error>
@@ -868,7 +874,7 @@
                     <div class="col">1er Desembolso por S/ </div>
                     <div class="col">
                         <mat-form-field class="text-width">
-                            <input matInput placeholder="" formControlName="Primer_desembolso">
+                            <input matInput placeholder="" type="number" formControlName="Primer_desembolso">
                             <!-- <mat-error *ngIf="creditForm.controls['nroDcmto'].hasError('required')">
                                 N° de Documento <strong>requerido</strong>
                             </mat-error> -->
@@ -882,7 +888,7 @@
                     <div class="col">2do Desembolso por S/ </div>
                     <div class="col">
                         <mat-form-field class="text-width">
-                            <input matInput placeholder="" formControlName="Segundo_desembolso">
+                            <input matInput placeholder="" type="number" formControlName="Segundo_desembolso">
                             <!-- <mat-error *ngIf="creditForm.controls['nroDcmto'].hasError('required')">
                                 N° de Documento <strong>requerido</strong>
                             </mat-error> -->
@@ -896,7 +902,7 @@
                     <div class="col">3er Desembolso por S/ </div>
                     <div class="col">
                         <mat-form-field class="text-width">
-                            <input matInput placeholder="" formControlName="Tercer_desembolso">
+                            <input matInput placeholder="" type="number" formControlName="Tercer_desembolso">
                             <!-- <mat-error *ngIf="creditForm.controls['nroDcmto'].hasError('required')">
                                 N° de Documento <strong>requerido</strong>
                             </mat-error> -->
@@ -910,7 +916,7 @@
                     <div class="col">Aporte de Cliente por S/</div>
                     <div class="col">
                         <mat-form-field class="text-width">
-                            <input matInput placeholder="" formControlName="Aporte_Cliente">
+                            <input matInput placeholder="" type="number" formControlName="Aporte_Cliente">
                             <!-- <mat-error *ngIf="creditForm.controls['nroDcmto'].hasError('required')">
                                 N° de Documento <strong>requerido</strong>
                             </mat-error> -->
@@ -945,7 +951,7 @@
                     <mat-label>Condicion de desembolso</mat-label>
                     <textarea matInput multiline rows="8">{{ condicion.textoContrato}}
     {{condicion.textoPagoAdelantado}}
-    
+
     {{condicion.textoChequeGerencia}}</textarea>
                 </mat-form-field>
             </div>

@@ -125,7 +125,7 @@ export class FormCreditoComponent implements OnInit {
     oficina: [null, Validators.required],
     Estado: [null, Validators.required],
     tipoDcmto: [null, Validators.required],
-    nroDcmto: [null, Validators.required],
+    nroDcmto: [null, [Validators.required, Validators.maxLength(11)]],
     nombreTitular: [null, Validators.required],
     riesgoMaximo: [null, Validators.required],
     sustentoIngresos: [null, Validators.required],
@@ -279,9 +279,9 @@ desembolso = 0;
               this.creditForm.controls.numeroVivienda.setValue(this.solicitudHipotecarioList.N_ViviendaId);
               this.creditForm.controls.Moneda.setValue(this.solicitudHipotecarioList.MonedaId);
               this.creditForm.controls.TEA.setValue(this.solicitudHipotecarioList.TEA);
-              
-              
-              
+
+
+
               this.descripcionInmbueble = this.solicitudHipotecarioList.Descripcion_Inmueble;
               if (this.descripcionInmbueble != null) {
                 const localizaCaracterIni = this.descripcionInmbueble.indexOf('<div>');
