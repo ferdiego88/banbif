@@ -204,7 +204,7 @@
                         <mat-checkbox formControlName="T1">1ERA</mat-checkbox><br>
                         <mat-checkbox formControlName="T2">2DA</mat-checkbox><br>
                         <mat-checkbox formControlName="T3">3ERA</mat-checkbox><br>
-                        <mat-checkbox formControlName="T3">4TA</mat-checkbox><br>
+                        <mat-checkbox formControlName="T4">4TA</mat-checkbox><br>
                         <mat-checkbox formControlName="T5">5TA</mat-checkbox>
                     </div>
 
@@ -1115,7 +1115,7 @@
               'd-none': !showBtnGuardarBorrador,
               'col': showBtnGuardarBorrador
               }">
-                <button mat-raised-button class="full-width" color="primary" type="submit">Guardar Borrador</button>
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="saveDraft()">Guardar Borrador</button>
 
             </div>
             <div class="" [ngClass]="{
