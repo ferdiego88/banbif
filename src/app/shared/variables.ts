@@ -56,7 +56,7 @@ export class Variables {
     BonoBuenPagador6: 3200,
     Lista: 'Lista',
     Biblioteca: 'Biblioteca',
-    SimboloSoles: 'S/  ',
+    SimboloSoles: 'S/',
     SimboloDolares: 'USD',
     TipoMonedaSolesDatosOperacionId: 1,
     TipoMonedaDolaresDatosOperacionId: 2,
