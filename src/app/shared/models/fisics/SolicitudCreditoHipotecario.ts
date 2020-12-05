@@ -48,6 +48,7 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public BBP = 0,
     public Mon_PBB = 0,
     public PBP = 0,
+    public PBP_Adiconal_Sostenible=0,
     public Mon_Desembolso = '',
     public Desembolso = 0,
     public Mon_Gravamen = '',

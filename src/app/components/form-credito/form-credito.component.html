@@ -657,7 +657,7 @@
                     <div class="row">
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <mat-select placeholder="" formControlName="BBP_Adicional">
+                                <mat-select placeholder="Seleccione" formControlName="BBP_Adicional">
                                     <mat-option *ngFor="let BBPA of BBPAdicionalList" [value]="BBPA.Id">
                                         {{ BBPA.Title }}
                                     </mat-option>
@@ -670,8 +670,8 @@
 
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="BBP adicional por vivienda sostenible" type="number" formControlName="PBP_Adicional_Sostenible">
-                                <mat-error *ngIf="creditForm.controls['PBP_Adicional_Sostenible'].hasError('required')">
+                                <input matInput placeholder="BBP adicional por vivienda sostenible" type="number" formControlName="PBP_Adiconal_Sostenible">
+                                <mat-error *ngIf="creditForm.controls['PBP_Adiconal_Sostenible'].hasError('required')">
                                     BBP adicional por vivienda sostenible<strong>requerido</strong>
                                 </mat-error>
                             </mat-form-field>

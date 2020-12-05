@@ -183,7 +183,7 @@ export class FormCreditoComponent implements OnInit {
     Mon_Aport_AFP: [null, Validators.required],
     Aporte_RetiroAFP: [null, Validators.required],
     BBP_Adicional: [null, Validators.required],
-    PBP_Adicional_Sostenible: [null, Validators.required],
+    PBP_Adiconal_Sostenible: [null, Validators.required],
     /* Fin Cuota Inicial*/
 
     /* Ini Garantias*/
@@ -490,6 +490,14 @@ desembolso = 0;
     this.creditForm.get('Mon_VRI_Soles').disable();
   }
 
+  setdisabledBuenPagadorControls(){
+    this.creditForm.get('Mon_BBP').disable();
+    this.creditForm.get('BBP').disable();
+    this.creditForm.get('Mon_PBB').disable();
+    this.creditForm.get('PBP').disable();
+    this.creditForm.get('PBP_Adiconal_Sostenible').disable();
+  }
+
   listenerBonoBuenPagador(){
     this.creditForm.get('precioVenta').valueChanges.subscribe(selectedValue => {
         switch (true) {
@@ -521,13 +529,55 @@ desembolso = 0;
             this.creditForm.get('PBP').setValue('');
             break;
         }
-        if (selectedValue >= 60000 && selectedValue <= 427600) {
+        if (selectedValue >= Variables.constantes.PrecioVenta1 && selectedValue <= Variables.constantes.PrecioVenta10) {
           this.showmessageVivienda = false;
         } else {
           this.showmessageVivienda = true;
         }
-      console.log(selectedValue);
+       
     });
+   
+  }
+  listenerPBPAdicionalSostenibles(){
+    this.creditForm.get('BBP_Adicional').valueChanges.subscribe(selectedValue => {
+      if (selectedValue !== Variables.constantes.TipoBonoViviendaAdicionalSostenibleId) {
+          this.creditForm.get('precioVenta').valueChanges.subscribe(precio => {
+            if (precio <= Variables.constantes.PrecioVenta8) {
+              this.creditForm.get('PBP_Adiconal_Sostenible').setValue(Variables.constantes.BonoAdicionalViviendaSostenible);
+            } else if (precio > Variables.constantes.PrecioVenta8 && precio < Variables.constantes.PrecioVenta10) {
+              this.creditForm.get('PBP_Adiconal_Sostenible').setValue(Variables.constantes.BonoBuenPagador5);
+            }else{
+              this.creditForm.get('PBP_Adiconal_Sostenible').setValue(Variables.constantes.BonoBuenPagador5);
+              // this.creditForm.get('BBP_Adicional').
+            }
+            console.log(precio);
+          });
+          console.log(selectedValue);
+      } else {
+        this.creditForm.get('PBP_Adiconal_Sostenible').setValue(Variables.constantes.BonoBuenPagador5);
+      }
+      
+
+    });
+  }
+  listenerPBPAdicionalSostenible(){
+    this.creditForm.get('precioVenta').valueChanges.subscribe(precio => {
+      this.creditForm.get('BBP_Adicional').valueChanges.subscribe(idPBP => {
+      if (precio <= Variables.constantes.PrecioVenta8) {
+          if (idPBP !== Variables.constantes.TipoBonoViviendaAdicionalSostenibleId && precio <= Variables.constantes.PrecioVenta8){
+            this.creditForm.get('PBP_Adiconal_Sostenible').setValue(Variables.constantes.BonoAdicionalViviendaSostenible);
+          }else{
+            this.creditForm.get('PBP_Adiconal_Sostenible').setValue(Variables.constantes.BonoBuenPagador5);
+          }
+        
+      } else if (precio > Variables.constantes.PrecioVenta8 && precio < Variables.constantes.PrecioVenta10) {
+        this.creditForm.get('PBP_Adiconal_Sostenible').setValue(Variables.constantes.BonoBuenPagador5);
+        
+      } else{
+        this.creditForm.get('PBP_Adiconal_Sostenible').setValue(Variables.constantes.BonoBuenPagador5);
+      }
+    });
+  });
   }
   listenerBotones(){
     this.creditForm.get('Estado').valueChanges.subscribe(estado => {
@@ -604,6 +654,8 @@ desembolso = 0;
     this.listenerBonoBuenPagador();
     this.listenerBotones();
     this.listenerObservaciones();
+    this.setdisabledBuenPagadorControls();
+    this.listenerPBPAdicionalSostenible();
   }
 
 
@@ -928,7 +980,7 @@ desembolso = 0;
     const AporteRetiroAFP = this.creditForm.get('Aporte_RetiroAFP').value;
     const BBP = this.creditForm.get('BBP').value;
     const PBP = this.creditForm.get('PBP').value;
-    const PBPAdicionalSostenible = this.creditForm.get('PBP_Adicional_Sostenible').value;
+    const PBPAdicionalSostenible = this.creditForm.get('PBP_Adiconal_Sostenible').value;
     const desembolso = precioVenta - AporteEfectivo - AporteRetiroAFP - BBP  - PBP - PBPAdicionalSostenible;
     this.desembolso = desembolso;
     this.creditForm.get('desembolso').setValue(desembolso);
@@ -938,7 +990,7 @@ desembolso = 0;
   calculaGravamen(){
     const BBP = this.creditForm.get('BBP').value;
     const PBP = this.creditForm.get('PBP').value;
-    const PBPAdicionalSostenible = this.creditForm.get('PBP_Adicional_Sostenible').value;
+    const PBPAdicionalSostenible = this.creditForm.get('PBP_Adiconal_Sostenible').value;
     const gravamen = (this.desembolso + BBP  + PBP + PBPAdicionalSostenible) * 120 / 100;
     this.creditForm.get('gravamen').setValue(gravamen);
   }
