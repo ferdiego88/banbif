@@ -1,6 +1,7 @@
 {
     "extends": "tslint:recommended",
     "rules": {
+        "no-unused-expression": false,
         "prefer-for-of": false,
         "no-conditional-assignment": false,
         "no-string-literal": false,

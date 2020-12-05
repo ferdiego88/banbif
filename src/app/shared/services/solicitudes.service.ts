@@ -138,4 +138,28 @@ export class SolicitudesService {
     return results;
   }
 
+  async save(id: number, solicitudCreditoHipotecario: any): Promise<boolean> {
+    
+    debugger;
+
+    try {
+      let iar: IItemAddResult;
+  
+      if (id === 0){
+        iar = await this.listaSolicitudes.items.add(
+          solicitudCreditoHipotecario
+        );
+      } else {    
+        iar = await this.listaSolicitudes.items.getById( id ).update(
+          solicitudCreditoHipotecario
+        );
+      }
+      
+      return true;
+
+    } catch (error) {
+      throw error;
+    }
+  }
+  
 }
