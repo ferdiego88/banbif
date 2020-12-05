@@ -19,7 +19,7 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public Oferta = '',
     public Tipo_RentaId= [],
     public Tipo_RentaConyugueId= [],
-    public ProyectoId = '',
+    public ProyectoId = 0,
     public N_ViviendaId = '',
     public MonedaId = '',
     public TEA = '',
