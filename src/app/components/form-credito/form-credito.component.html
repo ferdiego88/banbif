@@ -223,8 +223,10 @@
                         'd-none': !showPlanAhorro,
                         'col-md-6': showPlanAhorro
                     }">
-                <div class="row">
-                    <h5>PLAN DE AHORRO PROGRAMADO</h5>
+                <div class="col sub-title-col">
+                    <span class="sub-title">
+                        PLAN DE AHORRO PROGRAMADO
+                    </span>
                 </div>
                 <hr>
                 <div class="row">
@@ -971,11 +973,13 @@
             </div>
             <div class="" [ngClass]="{
                 'd-none':!showPlanAhorro,
-                'col sub-title-col':showPlanAhorro
+                'col':showPlanAhorro
               }">
-                <span class="sub-title">
-                    PLAN DE AHORRO
-                </span>
+                <div class="col sub-title-col">
+                    <span class="sub-title">
+                        PLAN DE AHORRO
+                    </span>
+                </div>
                 <mat-form-field class="full-width">
                     <mat-label>Plan de Ahorro</mat-label>
                     <textarea matInput placeholder="Plan de Ahorro" multiline rows="5" formControlName="Plan_Ahorro">
@@ -991,10 +995,23 @@
                         </span>
                 </div>
             </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <a href="{{enlaceDocumentos}}" target="_blank">{{descripcionDocumentos }}</a>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col sub-title-col">
+                    <span class="sub-title">
+                        COMENTARIOS DE LA OFICINA
+                    </span>
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
                     <mat-form-field class="full-width">
-                        <mat-label>Comentarios de la Oficina</mat-label>
                         <textarea matInput placeholder="Comentarios de la Oficina" formControlName="Desembolso_Ampliacion" multiline rows="3"></textarea>
                     </mat-form-field>
                 </div>

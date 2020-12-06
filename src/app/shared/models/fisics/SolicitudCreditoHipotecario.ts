@@ -74,7 +74,11 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public Observacion_CPMId = 0,
     public Comentario_Registro = '',
     public Cometario_Revisor = '',
-
+    public Enlace_Documentos = {
+      Description: '',
+      Url: ''
+    }
+    ,
   ){
     super();
   }

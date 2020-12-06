@@ -48,6 +48,35 @@
     background: rgb(2, 139, 255) !important;
 }
 
+a:link {
+    color: rgb(220, 52, 32)!important;
+}
+
+
+/* visited link */
+
+a:visited {
+    color: rgb(250, 159, 9)!important;
+}
+
+
+/* mouse over link */
+
+a:hover {
+    color: rgb(2, 139, 255) !important;
+}
+
+
+/* selected link */
+
+a:active {
+    color: blue!important;
+}
+
+// .a-color {
+//     color: rgb(240, 41, 41);
+//     border-bottom: 2px;
+// }
 :disabled {
     background-color: rgb(253, 255, 204);
     color: gray;
