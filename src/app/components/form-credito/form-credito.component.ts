@@ -1,5 +1,5 @@
 import { listLazyRoutes } from '@angular/compiler/src/aot/lazy_routes';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ApplicationRef, NgZone } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { GeneralListService } from '../../shared/services/general-list.service';
 import { MasterService } from '../../shared/services/master.service';
@@ -16,6 +16,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SolicitudesService } from '../../shared/services/solicitudes.service';
 import Swal from 'sweetalert2';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { FormularioBase } from '../../shared/pages/formularioBase';
+import { MatDialog } from '@angular/material/dialog';
+import { SpinnerVisibilityService } from 'ng-http-loader';
 
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
@@ -49,7 +52,7 @@ export const MY_FORMATS = {
   ],
 
 })
-export class FormCreditoComponent implements OnInit {
+export class FormCreditoComponent extends FormularioBase implements OnInit {
   date = new FormControl(moment());
 
 
@@ -239,11 +242,17 @@ desembolso = 0;
   constructor(
     private fb: FormBuilder,
     private generalListService: GeneralListService,
-    private masterService: MasterService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private solicitudService: SolicitudesService
-  ) {}
+    public masterService: MasterService,
+    public route: ActivatedRoute,
+    public router: Router,
+    private solicitudService: SolicitudesService,
+    public applicationRef: ApplicationRef,
+    public dialog: MatDialog,
+    public zone: NgZone,
+    public spinner: SpinnerVisibilityService
+  ) {
+    super('Solicitud de Crédito Hipotecario', applicationRef, dialog, route, router, masterService, zone, spinner);
+  }
 
   ngOnInit() {
    this.cargarCombos();
@@ -257,9 +266,16 @@ desembolso = 0;
     this.route.params.subscribe(
       param => {
         if (param.id) {
-          this.generalListService.getItemById(Variables.listas.Solicitudes, param.id)
+          this.solicitudService.getItemById(param.id)
             .then(solicitudHipotecarioList => {
-              this.solicitudHipotecarioList = solicitudHipotecarioList;
+              this.solicitudHipotecarioList = solicitudHipotecarioList[0];              
+
+              const ejecutivo = {
+                Id: solicitudHipotecarioList[0].Ejecutivo.Id,
+                Title: solicitudHipotecarioList[0].Ejecutivo.Title
+              };
+
+              this.creditForm.controls.ejecutivo.setValue([ejecutivo]);
               this.creditForm.controls.typeProduct.setValue(this.solicitudHipotecarioList.Tipo_ProductoId);
               this.creditForm.controls.subProducto.setValue(this.solicitudHipotecarioList.Sub_ProductoId);
               this.creditForm.controls.zona.setValue(this.solicitudHipotecarioList.ZonaId);
@@ -972,7 +988,10 @@ desembolso = 0;
       this.creditForm.get(`T${index}`).value && (rentaTitular.push(index)) && (rentaConyugue.push(index));
     }
 
+    const ejecutivo = this.getValorControlPeoplePicker('ejecutivo', this.creditForm);
+
     const solicitudCreditoHipotecario = {
+      EjecutivoId: ejecutivo,
       Tipo_ProductoId: this.creditForm.controls.typeProduct.value,
       Sub_ProductoId: this.creditForm.controls.subProducto.value,
       ModalidadId: this.creditForm.controls.modalidad.value,
@@ -1105,8 +1124,10 @@ desembolso = 0;
       val = 0;
     }
     this.cantidad = formatCurrency(val, 'en-US', getCurrencySymbol('', 'wide'));
-}
+  }
 
-
-
+  removePeople(): void {
+    this.creditForm.get('Ejecutivo').setValue([]);
+    this.creditForm.controls['Ejecutivo'].updateValueAndValidity();
+  }
 }

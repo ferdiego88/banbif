@@ -138,6 +138,25 @@ export class SolicitudesService {
     return results;
   }
 
+  public async getItemById(itemId: any): Promise<any> {
+    // return new Promise((resolve, reject) => {
+        if (sp !== null && sp !== undefined) {
+
+          const item = await this.listaSolicitudes.items
+                          .expand(...['Ejecutivo'])
+                          .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id'])
+                          // .getById(itemId)
+                          .filter(`Id eq ${itemId}`)
+                          .get();
+          // resolve(item);
+          console.log({item});
+          return item;
+        // } else {
+        //     reject('Failed getting list data...');
+        }
+    // });
+  }
+
   async save(id: number, solicitudCreditoHipotecario: any): Promise<boolean> {
     
     debugger;

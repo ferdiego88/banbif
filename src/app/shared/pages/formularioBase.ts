@@ -213,8 +213,9 @@ export class FormularioBase {
     return idUsuario;
   }
 
-  getValorControlPeoplePicker(nombreControl: string): number {
-    const usuario = this.form.get(nombreControl).value;
+  getValorControlPeoplePicker(nombreControl: string, form?: FormGroup): number {
+    !form && (form = this.form);
+    const usuario = form.get(nombreControl).value;
 
     if (usuario) {
       if (Array.isArray(usuario)) {

@@ -26,10 +26,10 @@
 
             <div class="col-md-6">
                 <mat-form-field class="full-width">
-                    <input matInput placeholder="Ejecutivo" formControlName="ejecutivo">
-                    <mat-error *ngIf="creditForm.controls['ejecutivo'].hasError('required')">
-                        Ejecutivo <strong>requerido</strong>
-                    </mat-error>
+                    <mat-label>Ejecutivo</mat-label>
+                    <people-picker-input formControlName="ejecutivo"
+                        (onRemove)="removePeople()" placeholder="Escribe un nombre..." [multiple]="false">
+                    </people-picker-input>
                 </mat-form-field>
             </div>
 
