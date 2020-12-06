@@ -37,7 +37,8 @@ export class Variables {
     IdEtapaFinal: 14,
     IdSiRequiereEspecificacionTecnica: 5771,
     PlazoDiasVencimientoSolicitud: 2,
-    Flag_PlanAhorro1: 1,
+    Flag_PlanAhorro1: '1',
+    Flag_PlanAhorro0: '0',
     PrecioVenta1: 60000,
     PrecioVenta2: 85700,
     PrecioVenta3: 85701,
@@ -77,6 +78,7 @@ export class Variables {
     EstadoObservadoRiesgos: 5,
     EstadoAsignacionRiesgos: 30,
     EstadoVerificacionRiesgos: 32,
+    EstadoRegularizacionCPM: 35,
   };
 
   static readonly path = {

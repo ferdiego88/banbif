@@ -27,7 +27,7 @@
 }
 
 .label-black {
-  color: black;
+    color: black;
 }
 
 .mat-card-title {
@@ -39,8 +39,12 @@
     background: rgba(2, 139, 255, 1) !important;
 }
 
+.mat-raised-button.mat-warn {
+    background: rgb(236, 112, 99)!important;
+}
+
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
-  background-color: rgba(2, 139, 255, 1)  !important;
+    background-color: rgba(2, 139, 255, 1) !important;
 }
 
 .shipping-card {
