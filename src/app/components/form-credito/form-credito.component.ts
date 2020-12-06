@@ -510,6 +510,48 @@ desembolso = 0;
     this.creditForm.get('PBP_Adiconal_Sostenible').disable();
     this.creditForm.controls.Condicion_Desembolso.disable();
   }
+  setdisabledAplicacionControls(){
+    this.creditForm.get('Numero_Desemboslo').disable();
+    this.creditForm.get('Primer_desembolso').disable();
+    this.creditForm.get('Segundo_desembolso').disable();
+    this.creditForm.get('Tercer_desembolso').disable();
+    this.creditForm.get('Aporte_Cliente').disable();
+  }
+
+  setdisabledDescripcionInmueble(){
+    this.creditForm.get('Descripcion_Inmueble').disable();
+    this.creditForm.get('Fecha_Tasacion_Remodelac').disable();
+  }
+  setdisabledObservacioneOpcional(){
+    this.creditForm.get('Observaciones').disable();
+    this.creditForm.get('lugarVisita').disable();
+    this.creditForm.get('periodoGracia').disable();
+  }
+  setdisabledCabezera(){
+    this.creditForm.get('typeProduct').disable();
+    this.creditForm.get('ejecutivo').disable();
+    this.creditForm.get('modalidad').disable();
+    this.creditForm.get('subProducto').disable();
+    this.creditForm.get('zona').disable();
+    this.creditForm.get('oficina').disable();
+    this.creditForm.get('tipoDcmto').disable();
+    this.creditForm.get('nroDcmto').disable();
+    this.creditForm.get('nombreTitular').disable();
+    this.creditForm.get('riesgoMaximo').disable();
+    this.creditForm.get('sustentoIngresos').disable();
+    this.creditForm.get('Oferta').disable();
+    this.creditForm.get('T1').disable();
+    this.creditForm.get('T2').disable();
+    this.creditForm.get('T3').disable();
+    this.creditForm.get('T4').disable();
+    this.creditForm.get('T5').disable();
+    this.creditForm.get('T4').disable();
+    this.creditForm.get('C1').disable();
+    this.creditForm.get('C2').disable();
+    this.creditForm.get('C3').disable();
+    this.creditForm.get('C4').disable();
+    this.creditForm.get('C5').disable();
+  }
 
   listenerBonoBuenPagador(){
     this.creditForm.get('precioVenta').valueChanges.subscribe(selectedValue => {
@@ -607,6 +649,16 @@ desembolso = 0;
           this.showBtnAprobar = true;
           this.showBtnRechazar = true;
           this.showBtnCancelar = true;
+          this.showComentarioRiesgos = true;
+          this.showComentarioCPM = true;
+          this.showComentarioRevisor = true;
+          this.creditForm.controls.Comentario_Registro.disable();
+          this.creditForm.controls.Cometario_Revisor.disable();
+          this.setdisabledCabezera();
+          this.setdisabledDescripcionInmueble();
+          this.setdisabledBuenPagadorControls();
+          this.setdisabledAplicacionControls();
+          this.setdisabledObservacioneOpcional();
           break;
         case ( estado === Variables.constantes.EstadoEvaluacionRiesgos):
           this.showBtnGuardarBorrador = false;
@@ -710,6 +762,7 @@ desembolso = 0;
           this.showGarantias = true;
           this.showPVenta = false;
           this.showBotonesProducto = false;
+
           this.showmessageVivienda = false;
           this.showCuotaInicial = false;
           this.showBuenPagador = false;
@@ -720,10 +773,12 @@ desembolso = 0;
           this.showGarantias = false;
           this.showPVenta = true;
           this.showBotonesProducto = true;
+
           this.showmessageVivienda = false;
           this.showCuotaInicial = true;
           this.showBuenPagador = false;
           this.showBuenAplicacion = false;
+
           this.setearMonedasEmpty();
           break;
 
@@ -897,10 +952,7 @@ desembolso = 0;
     .catch(error => console.error(error));
   }
 
-  saveDraft() {
-    //TODO, necessary public?
-    // this.rentaTitular,
-    // this.rentaConyugue,
+  saveDraft(){
     if (this.creditForm.controls.Meses_Abono !== null ||
        this.creditForm.controls.Tipo_Moneda_Ahorro.value !== null ||
        this.creditForm.controls.Importe_Cuota_Ahorro.value !== null ||
@@ -985,19 +1037,37 @@ desembolso = 0;
       flag_PlanAhorro: this.flagPlanAhorro
     };
 
-
-    this.solicitudService.save(0, solicitudCreditoHipotecario)
-      .then(resp => {
-        console.log(resp);
-        if (resp) {
-          Swal.fire(
-            'Datos guardados correctamente!',
-            '',
-            'success'
-          );
-        }
-      })
-      .catch(error => console.log(error));
+    this.route.params.subscribe(param => { 
+      if (param.id) {
+        
+        this.solicitudService.save(param.id, solicitudCreditoHipotecario)
+          .then(resp => {
+            console.log(resp);
+            if (resp) {
+              Swal.fire(
+                'Datos guardados correctamente!',
+                '',
+                'success'
+              );
+            }
+          })
+          .catch(error => console.log(error));
+      } else {
+        this.solicitudService.save(0, solicitudCreditoHipotecario)
+          .then(resp => {
+            console.log(resp);
+            if (resp) {
+              Swal.fire(
+                'Datos guardados correctamente!',
+                '',
+                'success'
+              );
+            }
+          })
+          .catch(error => console.log(error));
+      }
+      
+    });
 
   }
 

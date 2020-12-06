@@ -43,6 +43,16 @@
     background: rgb(236, 112, 99)!important;
 }
 
+::ng-deep .mat-form-field-underline {
+    /*change color of label*/
+    background: rgb(2, 139, 255) !important;
+}
+
+:disabled {
+    background-color: rgb(253, 255, 204);
+    color: gray;
+}
+
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
     background-color: rgba(2, 139, 255, 1) !important;
 }

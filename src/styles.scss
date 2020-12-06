@@ -69,7 +69,7 @@ fieldset[disabled] .form-control {
     color: white;
 }
 
-.mat-progress-bar-fill::after{
+.mat-progress-bar-fill::after {
     background-color: #20A3FF;
 }
 
@@ -77,15 +77,19 @@ fieldset[disabled] .form-control {
     background-color: #e8f8ff;
 }
 
-.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary{
+.mat-flat-button.mat-primary,
+.mat-raised-button.mat-primary,
+.mat-fab.mat-primary,
+.mat-mini-fab.mat-primary {
     background-color: #20A3FF;
 }
 
-.mat-primary .mat-pseudo-checkbox-checked, .mat-primary .mat-pseudo-checkbox-indeterminate{
+.mat-primary .mat-pseudo-checkbox-checked,
+.mat-primary .mat-pseudo-checkbox-indeterminate {
     background-color: #20A3FF;
 }
 
-.mat-primary .mat-option.mat-selected:not(.mat-option-disabled){
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
     color: #20A3FF;
 }
 
@@ -1767,6 +1771,21 @@ a {
     display: block;
     text-align: center;
     font-size: 24px;
+    font-weight: 600;
+}
+
+// .sub-title-col {
+//     background-color: #028bff !important;
+//     text-align: left;
+// }
+.sub-title-col {
+    border-bottom: #028bff 2px solid !important;
+}
+
+.sub-title {
+    color: #028bff !important;
+    text-align: left;
+    font-size: 20px;
     font-weight: 600;
 }
 

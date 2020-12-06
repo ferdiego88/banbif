@@ -325,9 +325,8 @@
              'col-md-12': showAsignacionRiesgos
         }">
             <div class="row">
-                <div class="col">
-                    DATOS DE LA OPERACIÓN
-                    <hr>
+                <div class="col sub-title-col">
+                    <span class="sub-title">DATOS DE LA OPERACIÓN</span>
                 </div>
             </div>
 
@@ -472,9 +471,10 @@
                           'col-md-12': showGarantias
                       }">
                 <div class="row">
-                    <div class="col">
-                        GARANTÍAS
-                        <hr>
+                    <div class="col sub-title-col">
+                        <span class="sub-title">
+                            GARANTÍAS
+                        </span>
                     </div>
                 </div>
 
@@ -553,8 +553,10 @@
                           'col-md-6': showCuotaInicial
                       }">
                 <div class="row">
-                    <div class="col">
-                        CUOTA INICIAL
+                    <div class="col sub-title-col">
+                        <span class="sub-title">
+                            CUOTA INICIAL
+                        </span>
                     </div>
                 </div>
                 <div class="row">
@@ -700,10 +702,13 @@
                 }">
 
                     <div class="row">
-                        <div class="col">
-                            DATOS DE LA OPERACIÓN
+                        <div class="col sub-title-col">
+                            <span class="sub-title">
+                                DATOS DE LA OPERACIÓN
+                            </span>
                         </div>
                     </div>
+                    <br>
 
                     <div class="row">
                         <div class="col">
@@ -813,8 +818,19 @@
             </div>
             <hr>
             <div class="row">
+                <div class="col sub-title-col">
+                    <span class="sub-title">
+                        TIPO DE GARANTÍA
+                    </span>
+                </div>
+                <div class="col sub-title-col">
+                    <span class="sub-title">
+                        TIPO DE ABONO
+                    </span>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col">
-                    TIPO DE GARANTÍA
                     <mat-form-field class="full-width">
                         <mat-select placeholder="" formControlName="tipoGarantia">
                             <mat-option *ngFor="let typeGuarentee of typeguarenteeList" [value]="typeGuarentee.Id">
@@ -827,7 +843,6 @@
                     </mat-form-field>
                 </div>
                 <div class="col">
-                    TIPO DE ABONO
                     <mat-form-field class="full-width">
                         <mat-select placeholder="" formControlName="tipoAbono">
                             <mat-option *ngFor="let abono of paymentTypeList" [value]="abono.Id">
@@ -844,11 +859,13 @@
 
             <div class="" [ngClass]="{
                         'd-none':!showBuenAplicacion,
-                        'col-md-8': showBuenAplicacion
+                        'col': showBuenAplicacion
                     }">
                 <div class="row">
-                    <div class="col">
-                        APLICACIÓN
+                    <div class="col sub-title-col">
+                        <span class="sub-title">
+                            APLICACIÓN
+                        </span>
                     </div>
                 </div>
                 <div class="row">
@@ -926,10 +943,12 @@
 
             <div class="" [ngClass]="{
                 'd-none':showBuenAplicacion,
-                'col-md-12': !showBuenAplicacion
+                'col': !showBuenAplicacion
             }">
+                <div class="col sub-title-col">
+                    <span class="sub-title">CONDICIÓN DE DESEMBOLSO</span>
+                </div>
                 <div class="col">
-                    CONDICIÓN DE DESEMBOLSO
                     <mat-form-field class="full-width">
                         <mat-label>Condicion de desembolso</mat-label>
                         <textarea matInput placeholder="Observaciones" multiline rows="4" formControlName="Condicion_Desembolso">
@@ -939,12 +958,12 @@
             </div>
             <div class="" [ngClass]="{
                     'd-none':!showBuenAplicacion,
-                    'col-md-4': showBuenAplicacion
+                    'col': showBuenAplicacion
                 }">
                 CONDICIÓN DE DESEMBOLSO
                 <mat-form-field class="full-width">
                     <mat-label>Condicion de desembolso</mat-label>
-                    <textarea matInput multiline rows="8">{{ condicion.textoContrato}}
+                    <textarea matInput multiline rows="8" formControlName="Condicion_Desembolso">{{ condicion.textoContrato}}
     {{condicion.textoPagoAdelantado}}
 
     {{condicion.textoChequeGerencia}}</textarea>
@@ -952,9 +971,11 @@
             </div>
             <div class="" [ngClass]="{
                 'd-none':!showPlanAhorro,
-                'col':showPlanAhorro
+                'col sub-title-col':showPlanAhorro
               }">
-                PLAN DE AHORRO
+                <span class="sub-title">
+                    PLAN DE AHORRO
+                </span>
                 <mat-form-field class="full-width">
                     <mat-label>Plan de Ahorro</mat-label>
                     <textarea matInput placeholder="Plan de Ahorro" multiline rows="5" formControlName="Plan_Ahorro">
@@ -962,13 +983,13 @@
                 </mat-form-field>
             </div>
 
-            <div class="row-md-12">
-                <div class="col">
-                    DOCUMENTOS DE LA SOLICITUD
-                </div>
-            </div>
-            <hr>
+
             <div class="row">
+                <div class="col sub-title-col">
+                    <span class="sub-title">
+                            DOCUMENTOS DE LA SOLICITUD
+                        </span>
+                </div>
             </div>
             <div class="row">
                 <div class="col">
@@ -1033,17 +1054,17 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="" [ngClass]="{
-        'd-none': showAsignacionRiesgos,
-        'col-md-6': !showAsignacionRiesgos
-      }">
+        <div class="" [ngClass]="{
+            'd-none': showAsignacionRiesgos,
+            'row': !showAsignacionRiesgos
+          }">
+            <div class="col">
                 <mat-form-field class="full-width">
                     <mat-label>Comentario de Revision</mat-label>
                     <textarea matInput placeholder="Comentario de Revision" multiline rows="3"></textarea>
                 </mat-form-field>
             </div>
-            <div class="col-md-6">
+            <div class="col">
                 <mat-form-field class="full-width">
                     <input matInput placeholder="Analista de Riesgos" formControlName="ejecutivo">
                     <!-- <mat-error *ngIf="creditForm.controls['ejecutivo'].hasError('required')">
