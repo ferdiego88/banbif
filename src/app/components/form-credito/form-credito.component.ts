@@ -69,7 +69,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   typeCurrencyList: TipoProductoModel[];
   paymentMethodList: TipoProductoModel[];
   visitingPlaceList: TipoProductoModel[];
-  typeguarenteeList: TipoProductoModel;
+  typeguarenteeList: TipoProductoModel[];
   paymentTypeList: TipoProductoModel[];
   tipoSubProductoList: TipoSubProductoModel[];
   estadoList: TipoProductoModel[];
@@ -766,10 +766,14 @@ desembolso = 0;
   // }
   listenerTipoGarantia(){
     this.creditForm.get('tipoGarantia').valueChanges.subscribe(id => {
-      // this.textoCondicionDesembolso = this.typeguarenteeList;
-      this.creditForm.controls.Condicion_Desembolso.setValue(this.typeguarenteeList.Condiciones);
-      console.log(id);
-      console.log(this.typeguarenteeList[0].Condiciones);
+      if (this.typeguarenteeList !== null) {
+        const garantias = this.typeguarenteeList.find(item => item.Id === id).Condiciones;
+        const cadCondicionDesembolso = garantias.replace(/(<([^>]+)>)/ig, '');
+        this.creditForm.controls.Condicion_Desembolso.setValue(cadCondicionDesembolso);
+      } else {
+       this.creditForm.controls.Condicion_Desembolso.setValue(null);
+      }
+  
     });
   }
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
@@ -1203,7 +1207,6 @@ desembolso = 0;
   send() {
     const EstadoIdOld = this.creditForm.controls.Estado.value;
     // let Fecha_Registro_CPM: Date;
-
     let EstadoId = 0;
     EstadoIdOld === Variables.constantes.EstadoCreaExpedienteId && (EstadoId = Variables.constantes.EstadoRegistroCPM)/* && (Fecha_Registro_CPM = new Date())*/;
     EstadoIdOld === Variables.constantes.EstadoRegistroCPM && (EstadoId = Variables.constantes.EstadoAsignacionRiesgos);
