@@ -112,7 +112,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   showBtnCancelar = true;
   showBtnEnviar = true;
   showBtnEnviarRegularizar = true;
-  showBtnGrabar = true;
+  showBtnGrabar = false;
   showBtnObservar = true;
   showAsignacionRiesgos = true;
 
@@ -1191,10 +1191,10 @@ desembolso = 0;
   }
 
   saveDraft(): void{
-    
+
     const solicitudCreditoHipotecario = this.getObjectToSave();
 
-    this.route.params.subscribe(param => { 
+    this.route.params.subscribe(param => {
       if (param.id) {
 
         this.solicitudService.save(param.id, solicitudCreditoHipotecario)
@@ -1284,7 +1284,7 @@ desembolso = 0;
     itemSave.Fecha_Estado = new Date();
 
     // Fecha_Registro_CPM && (itemSave.Fecha_Registro_CPM = Fecha_Registro_CPM);
-    
+
     this.update(itemSave);
   }
 
