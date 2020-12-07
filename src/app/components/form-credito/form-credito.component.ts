@@ -271,7 +271,7 @@ desembolso = 0;
         if (param.id) {
           this.solicitudService.getItemById(param.id)
             .then(solicitudHipotecarioList => {
-              this.solicitudHipotecarioList = solicitudHipotecarioList[0];              
+              this.solicitudHipotecarioList = solicitudHipotecarioList[0];
 
               const ejecutivo = {
                 Id: solicitudHipotecarioList[0].Ejecutivo.Id,
@@ -312,7 +312,7 @@ desembolso = 0;
               this.creditForm.controls.TEA.setValue(this.solicitudHipotecarioList.TEA * 100);
 
 
-              
+
               this.descripcionInmbueble = this.solicitudHipotecarioList.Descripcion_Inmueble;
               if (this.descripcionInmbueble !== null) {
                 const cadDescripcionInmueble = this.descripcionInmbueble.replace(/(<([^>]+)>)/ig, '');
@@ -367,12 +367,12 @@ desembolso = 0;
               }else{
                 this.showPlanAhorro = false;
               }
-              
+
               this.planAhorro = this.solicitudHipotecarioList.Plan_Ahorro;
               if (this.planAhorro !== null) {
                 const cadPlanAhorro = this.planAhorro.replace(/(<([^>]+)>)/ig, '');
                 this.creditForm.controls.Plan_Ahorro.setValue(cadPlanAhorro);
-                
+
               } else {
                 this.creditForm.controls.Plan_Ahorro.setValue(this.planAhorro);
               }
@@ -381,7 +381,7 @@ desembolso = 0;
               if (this.observacionesOpcional !== null) {
                 const cadObservaciones = this.observacionesOpcional.replace(/(<([^>]+)>)/ig, '');
                 this.creditForm.controls.Observaciones.setValue(cadObservaciones);
-                
+
               } else {
                 this.creditForm.controls.Observaciones.setValue(this.observacionesOpcional);
               }
@@ -390,7 +390,7 @@ desembolso = 0;
               if (this.condicionDesembolso !== null) {
                 const cadCondicionDesembolso = this.condicionDesembolso.replace(/(<([^>]+)>)/ig, '');
                 this.creditForm.controls.Condicion_Desembolso.setValue(cadCondicionDesembolso);
-                
+
               } else {
                 this.creditForm.controls.Condicion_Desembolso.setValue(this.condicionDesembolso);
               }
@@ -399,13 +399,13 @@ desembolso = 0;
               if (this.comentarioRegistro !== null) {
                 const cadComentarioRegistro = this.comentarioRegistro.replace(/(<([^>]+)>)/ig, '');
                 this.creditForm.controls.Comentario_Registro.setValue(cadComentarioRegistro);
-                
+
               } else {
                 this.creditForm.controls.Comentario_Registro.setValue(this.comentarioRegistro);
               }
-              
+
               this.comentarioRevisor = this.solicitudHipotecarioList.Cometario_Revisor;
-              if (this.comentarioRevisor !== null) {  
+              if (this.comentarioRevisor !== null) {
                 const cadComentarioRevisor = this.comentarioRevisor.replace(/(<([^>]+)>)/ig, '');
                 this.creditForm.controls.Cometario_Revisor.setValue(cadComentarioRevisor);
               } else {
@@ -413,13 +413,13 @@ desembolso = 0;
               }
 
               this.desembolsoAmpliacion = this.solicitudHipotecarioList.Desembolso_Ampliacion;
-              if (this.desembolsoAmpliacion !== null) {  
+              if (this.desembolsoAmpliacion !== null) {
                 const cadDesembolsoAmpliacion = this.desembolsoAmpliacion.replace(/(<([^>]+)>)/ig, '');
                 this.creditForm.controls.Desembolso_Ampliacion.setValue(cadDesembolsoAmpliacion);
               } else {
                 this.creditForm.controls.Desembolso_Ampliacion.setValue(this.desembolsoAmpliacion);
               }
-              
+
               this.creditForm.controls.Observacion_CPMId.setValue(this.solicitudHipotecarioList.Observacion_CPMId);
               this.creditForm.controls.lugarVisita.setValue(this.solicitudHipotecarioList.Lugar_VisitaId);
               this.creditForm.controls.periodoGracia.setValue(this.solicitudHipotecarioList.Periodo_Gracia);
@@ -644,9 +644,9 @@ desembolso = 0;
         } else {
           this.showmessageVivienda = true;
         }
-       
+
     });
-   
+
   }
 
   listenerPBPAdicionalSostenible(){
@@ -659,10 +659,10 @@ desembolso = 0;
           }else{
             this.creditForm.get('PBP_Adiconal_Sostenible').setValue(Variables.constantes.BonoBuenPagador5);
           }
-        
+
       } else if (precio > Variables.constantes.PrecioVenta8 && precio < Variables.constantes.PrecioVenta10) {
         this.creditForm.get('PBP_Adiconal_Sostenible').setValue(Variables.constantes.BonoBuenPagador5);
-        
+
       } else{
         this.creditForm.get('PBP_Adiconal_Sostenible').setValue(Variables.constantes.BonoBuenPagador5);
       }
@@ -773,7 +773,7 @@ desembolso = 0;
       } else {
        this.creditForm.controls.Condicion_Desembolso.setValue(null);
       }
-  
+
     });
   }
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
@@ -1048,7 +1048,7 @@ desembolso = 0;
       this.creditForm.controls.Cta_Ahorro_BanBif.value
     ) {
       this.flagPlanAhorro = Variables.constantes.Flag_PlanAhorro1;
-      
+
     } else {
       this.flagPlanAhorro = Variables.constantes.Flag_PlanAhorro0;
     }
@@ -1129,9 +1129,9 @@ desembolso = 0;
       flag_PlanAhorro: this.flagPlanAhorro
     };
 
-    this.route.params.subscribe(param => { 
+    this.route.params.subscribe(param => {
       if (param.id) {
-        
+
         this.solicitudService.save(param.id, solicitudCreditoHipotecario)
           .then(resp => {
             console.log(resp);
@@ -1158,7 +1158,7 @@ desembolso = 0;
           })
           .catch(error => console.log(error));
       }
-      
+
     });
 
   }
@@ -1208,7 +1208,8 @@ desembolso = 0;
     const EstadoIdOld = this.creditForm.controls.Estado.value;
     // let Fecha_Registro_CPM: Date;
     let EstadoId = 0;
-    EstadoIdOld === Variables.constantes.EstadoCreaExpedienteId && (EstadoId = Variables.constantes.EstadoRegistroCPM)/* && (Fecha_Registro_CPM = new Date())*/;
+    EstadoIdOld === Variables.constantes.EstadoCreaExpedienteId && (EstadoId = Variables.constantes.EstadoRegistroCPM)
+    /* && (Fecha_Registro_CPM = new Date())*/;
     EstadoIdOld === Variables.constantes.EstadoRegistroCPM && (EstadoId = Variables.constantes.EstadoAsignacionRiesgos);
     EstadoIdOld === Variables.constantes.EstadoAsignacionRiesgos && (EstadoId = Variables.constantes.EstadoEvaluacionRiesgos);
 
