@@ -24,14 +24,11 @@ import { SpinnerVisibilityService } from 'ng-http-loader';
 // https://momentjs.com/docs/#/displaying/format/
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'MM',
+    dateInput: 'DD/MM/YYYY'
   },
   display: {
-    dateInput: 'DD/MM/YYYY',
-    monthYearLabel: 'MM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MM YYYY',
-  },
+    dateInput: 'DD/MM/YYYY'
+  }
 };
 
 @Component({
@@ -198,7 +195,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
     /* Ini Garantias*/
     Descripcion_Inmueble: [null, Validators.required],
-    Fecha_Tasacion_Remodelac: [null, Validators.required],
+    Fecha_Tasacion_Remodelac: [new Date(), Validators.required],
     Mon_Valor_ComTas_Soles: [null, Validators.required],
     Valor_ComTas_Soles: [null, Validators.required],
     Mon_VRI_Soles: [null, Validators.required],
@@ -321,7 +318,9 @@ desembolso = 0;
                 this.creditForm.controls.Descripcion_Inmueble.setValue(this.descripcionInmbueble);
               }
 
-              this.creditForm.controls.Fecha_Tasacion_Remodelac.setValue(this.solicitudHipotecarioList.Fecha_Tasacion_Remodelac);
+              const Fecha_Tasacion_Remodelac = this.solicitudHipotecarioList.Fecha_Tasacion_Remodelac;
+              debugger;
+              this.creditForm.controls.Fecha_Tasacion_Remodelac.setValue(Fecha_Tasacion_Remodelac);
               this.creditForm.controls.Mon_Valor_ComTas_Soles.setValue(this.solicitudHipotecarioList.Mon_Valor_ComTas_Soles);
               this.creditForm.controls.Valor_ComTas_Soles.setValue(this.solicitudHipotecarioList.Valor_ComTas_Soles);
               this.creditForm.controls.Mon_VRI_Soles.setValue(this.solicitudHipotecarioList.Mon_VRI_Soles);
@@ -904,8 +903,15 @@ desembolso = 0;
   }
 
   getProject(){
-    this.generalListService.get(Variables.listas.AdmProyectos)
-    .then(projectList => this.projectList = projectList)
+    // TODO, implement search
+    this.generalListService.get(Variables.listas.AdmProyectos, Variables.columns.Title)
+    .then(projectList => {
+      this.projectList = projectList;
+      console.log({
+        projectList,
+        projectList2: this.projectList
+      });
+    })
     .catch(error => console.error(error));
   }
 
@@ -1013,14 +1019,14 @@ desembolso = 0;
 
   saveDraft(){
     if (this.creditForm.controls.Meses_Abono !== null ||
-       this.creditForm.controls.Tipo_Moneda_Ahorro.value !== null ||
-       this.creditForm.controls.Importe_Cuota_Ahorro.value !== null ||
-       this.creditForm.controls.Situacion_Plan_Ahorro.value !== null ||
-       this.creditForm.controls.N_Abonos_Validados.value !== null ||
-       this.creditForm.controls.Ultimo_Abono_Validado.value !== null ||
-       this.creditForm.controls.Cta_Ahorro_BanBif.value
-      ) {
-        this.flagPlanAhorro = Variables.constantes.Flag_PlanAhorro1;
+      this.creditForm.controls.Tipo_Moneda_Ahorro.value !== null ||
+      this.creditForm.controls.Importe_Cuota_Ahorro.value !== null ||
+      this.creditForm.controls.Situacion_Plan_Ahorro.value !== null ||
+      this.creditForm.controls.N_Abonos_Validados.value !== null ||
+      this.creditForm.controls.Ultimo_Abono_Validado.value !== null ||
+      this.creditForm.controls.Cta_Ahorro_BanBif.value
+    ) {
+      this.flagPlanAhorro = Variables.constantes.Flag_PlanAhorro1;
       
     } else {
       this.flagPlanAhorro = Variables.constantes.Flag_PlanAhorro0;
@@ -1032,6 +1038,9 @@ desembolso = 0;
     }
 
     const ejecutivo = this.getValorControlPeoplePicker('ejecutivo', this.creditForm);
+
+    const Fecha_Tasacion_Remodelac = this.creditForm.controls.Fecha_Tasacion_Remodelac.value;
+    debugger;
 
     const solicitudCreditoHipotecario = {
       EjecutivoId: ejecutivo,
@@ -1084,7 +1093,7 @@ desembolso = 0;
       Tercer_desembolso: this.creditForm.controls.Tercer_desembolso.value,
       Aporte_Cliente: this.creditForm.controls.Aporte_Cliente.value,
       Descripcion_Inmueble: this.creditForm.controls.Descripcion_Inmueble.value,
-      Fecha_Tasacion_Remodelac: this.creditForm.controls.Fecha_Tasacion_Remodelac.value,
+      Fecha_Tasacion_Remodelac,
       Valor_ComTas_Soles: this.creditForm.controls.Valor_ComTas_Soles.value,
       VRI_Soles: this.creditForm.controls.VRI_Soles.value,
 
@@ -1172,5 +1181,107 @@ desembolso = 0;
   removePeople(): void {
     this.creditForm.get('Ejecutivo').setValue([]);
     this.creditForm.controls['Ejecutivo'].updateValueAndValidity();
+  }
+
+  send() {
+    const EstadoIdOld = this.form.controls.Estado.value;
+    let Fecha_Registro_CPM: Date;
+
+    let EstadoId = 0;
+    EstadoIdOld === Variables.constantes.EstadoCreaExpedienteId && (EstadoId = Variables.constantes.EstadoRegistroCPM) && (Fecha_Registro_CPM = new Date());
+    EstadoIdOld === Variables.constantes.EstadoRegistroCPM && (EstadoId = Variables.constantes.EstadoAsignacionRiesgos);
+    EstadoIdOld === Variables.constantes.EstadoAsignacionRiesgos && (EstadoId = Variables.constantes.EstadoEvaluacionRiesgos);
+
+    const itemSave: any = {
+      EstadoId,
+      Fecha_Estado: new Date()
+    };
+
+    Fecha_Registro_CPM && (itemSave.Fecha_Registro_CPM = Fecha_Registro_CPM);
+
+    this.update(itemSave);
+  }
+
+  observationReview(): void {
+    const itemSave = {
+      EstadoId: 31 // TODO, create constant
+    };
+
+    this.update(itemSave);
+  }
+
+  approve(): void {
+    const itemSave = {
+      EstadoId: 34, // TODO, create constant
+      Fecha_Aprob_Verifica: new Date()
+    };
+
+    this.update(itemSave);
+  }
+
+  approveWithoutVerification(): void {
+    const itemSave = {
+      EstadoId: 33, // TODO, create constant
+      Fecha_AprobSVerifica: new Date()
+    };
+
+    this.update(itemSave);
+  }
+
+  inVerification(): void {
+    const itemSave = {
+      EstadoId: 32, // TODO, create constant
+      Fecha_Estado: new Date(),
+      Fecha_Verific_Riesgos: new Date(),
+    };
+
+    this.update(itemSave);
+  }
+
+  officeObservation(): void {
+    const itemSave = {
+      EstadoId: 5, // TODO, create constant
+      Fecha_Estado: new Date(),
+      Fecha_Observ_Riesgos: new Date(),
+    };
+
+    this.update(itemSave);
+  }
+
+  cpmObservation(): void {
+    const itemSave = {
+      EstadoId: 37, // TODO, create constant
+      Fecha_Estado: new Date()
+    };
+
+    this.update(itemSave);
+  }
+
+  rejected(): void {
+    const itemSave = {
+      EstadoId: 6, // TODO, create constant
+      Fecha_Rechaz_Riesgos: new Date()
+    };
+
+    this.update(itemSave);
+  }
+
+  update(itemSave: any): void {
+    this.solicitudService.save(this.solicitudHipotecarioList.Id, itemSave)
+    .then(resp => {
+      console.log(resp);
+      if (resp) {
+        Swal.fire(
+          'Datos guardados correctamente!',
+          '',
+          'success'
+        );
+      }
+    })
+    .catch(error => console.log(error)); // TODO, define some message error
+  }
+
+  cancel(): void {
+
   }
 }

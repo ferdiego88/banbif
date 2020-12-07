@@ -1100,21 +1100,21 @@
                 'd-none': !showBtnAprobar,
                 'col': showBtnAprobar
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="submit">Aprobar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="approve()">Aprobar</button>
 
             </div>
             <div class="" [ngClass]="{
                 'd-none': !showBtnAprobarSinVerificacion,
                 'col': showBtnAprobarSinVerificacion
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="submit">Aprobar sin Verificación</button>
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="approveWithoutVerification()">Aprobar sin Verificación</button>
 
             </div>
             <div class="" [ngClass]="{
                 'd-none': !showBtnAprobarEnVerificacion,
                 'col': showBtnAprobarEnVerificacion
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="submit">En Verificación</button>
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="inVerification()">En Verificación</button>
 
             </div>
 
@@ -1122,7 +1122,7 @@
                 'd-none': !showBtnObservacionOficina,
                 'col': showBtnObservacionOficina
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="submit">Observacion Oficina</button>
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="officeObservation()">Observacion Oficina</button>
 
             </div>
 
@@ -1131,7 +1131,7 @@
                 'd-none': !showBtnObservacionCPM,
                 'col': showBtnObservacionCPM
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="submit">Observacion CPM</button>
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="cpmObservation()">Observacion CPM</button>
 
             </div>
 
@@ -1140,7 +1140,7 @@
                 'd-none': !showBtnRechazar,
                 'col': showBtnRechazar
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="submit">Rechazar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="rejected()">Rechazar</button>
 
             </div>
 
@@ -1155,14 +1155,14 @@
               'd-none': !showBtnCancelar,
               'col': showBtnCancelar
               }">
-                <button [routerLink]="['/']" mat-raised-button class="full-width" color="primary" type="submit">Cancelar</button>
+                <button [routerLink]="['/']" mat-raised-button class="full-width" color="primary" type="button" (click)="cancel()">Cancelar</button>
 
             </div>
             <div class="" [ngClass]="{
               'd-none': !showBtnEnviar,
               'col': showBtnEnviar
               }">
-                <button mat-raised-button class="full-width" color="primary" type="submit">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="send()">Enviar</button>
 
             </div>
             <div class="" [ngClass]="{
