@@ -371,7 +371,8 @@ desembolso = 0;
               this.creditForm.controls.gravamen.setValue(this.solicitudHipotecarioList.Grabamen);
               this.creditForm.controls.modalidadPago.setValue(this.solicitudHipotecarioList.Modalidad_PagoId);
               console.log(this.solicitudHipotecarioList.flag_PlanAhorro);
-              if (this.solicitudHipotecarioList.flag_PlanAhorro === Variables.constantes.Flag_PlanAhorro1){
+              if (this.solicitudHipotecarioList.flag_PlanAhorro === Variables.constantes.Flag_PlanAhorro1
+                && this.solicitudHipotecarioList.EstadoId !== Variables.constantes.EstadoAsignacionRiesgos){
                 this.showPlanAhorro = true;
               }else{
                 this.showPlanAhorro = false;
@@ -758,6 +759,7 @@ desembolso = 0;
           this.showBotonesProducto = false;
           this.showAsignacionRiesgos = false;
           this.showBtnGuardarBorrador = false;
+          this.showPlanAhorro = false;
           this.setDisableControlsCabezera();
           break;
         case( estado === Variables.constantes.EstadoRegularizacionCPM):
