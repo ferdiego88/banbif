@@ -73,6 +73,7 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public flag_PlanAhorro = '',
     public Observacion_CPMId = 0,
     public Comentario_Registro = '',
+    public Anlista_RiesgosId = '',
     public Cometario_Revisor = '',
     public Enlace_Documentos = {
       Description: '',

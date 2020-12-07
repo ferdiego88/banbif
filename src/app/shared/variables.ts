@@ -80,6 +80,7 @@ export class Variables {
     EstadoObservadoRiesgos: 5,
     EstadoVerificacionRiesgos: 32,
     EstadoRegularizacionCPM: 35,
+    EstadoAprobadoSinVerificacion: 33,
   };
 
   static readonly path = {
@@ -118,6 +119,7 @@ export class Variables {
     Solicitudes: 'Solicitud_Hipotecario',
     AdmBBPAdicional: 'BBP_Adicional',
     AdmEstado: 'Estado',
+    AdmEstadoGestor: 'Estado_Gestor',
     AdmLugarVisita: 'Lugar_Visita',
     AdmModalidad: 'Modalidad',
     AdmModalidadPago: 'Modalidad_Pago',

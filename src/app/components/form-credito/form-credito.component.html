@@ -818,44 +818,52 @@
                 </div>
             </div>
             <hr>
-            <div class="row">
-                <div class="col sub-title-col">
-                    <span class="sub-title">
-                        TIPO DE GARANTÍA
-                    </span>
-                </div>
-                <div class="col sub-title-col">
-                    <span class="sub-title">
-                        TIPO DE ABONO
-                    </span>
-                </div>
+            <div class="" [ngClass]="{
+              'd-none':!showTipoGarantiaAbono,
+              'col': showTipoGarantiaAbono
+          }">
+          <div class="row">
+            <div class="col sub-title-col">
+                <span class="sub-title">
+                    TIPO DE GARANTÍA
+                </span>
             </div>
-            <div class="row">
-                <div class="col">
-                    <mat-form-field class="full-width">
-                        <mat-select placeholder="" formControlName="tipoGarantia">
-                            <mat-option *ngFor="let typeGuarentee of typeguarenteeList" [value]="typeGuarentee.Id">
-                                {{ typeGuarentee.Title }}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="creditForm.controls['tipoGarantia'].hasError('required')">
-                            Tipo de Garantia<strong>requerido</strong>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col">
-                    <mat-form-field class="full-width">
-                        <mat-select placeholder="" formControlName="tipoAbono">
-                            <mat-option *ngFor="let abono of paymentTypeList" [value]="abono.Id">
-                                {{ abono.Title }}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="creditForm.controls['tipoAbono'].hasError('required')">
-                            Tipo de Abono<strong>requerido</strong>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+            <div class="col sub-title-col">
+                <span class="sub-title">
+                    TIPO DE ABONO
+                </span>
             </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="" formControlName="tipoGarantia">
+                        <mat-option *ngFor="let typeGuarentee of typeguarenteeList" [value]="typeGuarentee.Id">
+                            {{ typeGuarentee.Title }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="creditForm.controls['tipoGarantia'].hasError('required')">
+                        Tipo de Garantia<strong>requerido</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="" formControlName="tipoAbono">
+                        <mat-option *ngFor="let abono of paymentTypeList" [value]="abono.Id">
+                            {{ abono.Title }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="creditForm.controls['tipoAbono'].hasError('required')">
+                        Tipo de Abono<strong>requerido</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        </div>
+
+
             <hr>
 
             <div class="" [ngClass]="{
@@ -942,10 +950,7 @@
 
             </div>
 
-            <div class="" [ngClass]="{
-                'd-none':showBuenAplicacion,
-                'col': !showBuenAplicacion
-            }">
+            <div class="col">
                 <div class="col sub-title-col">
                     <span class="sub-title">CONDICIÓN DE DESEMBOLSO</span>
                 </div>
@@ -953,7 +958,6 @@
                     <mat-form-field class="full-width">
                         <mat-label>Condicion de desembolso</mat-label>
                         <textarea matInput placeholder="Observaciones" multiline rows="4" formControlName="Condicion_Desembolso">
-                            {{condicionDesembolso}}
                         </textarea>
                     </mat-form-field>
                 </div>
@@ -1056,7 +1060,45 @@
                     </mat-form-field>
                 </div>
             </div>
+
+            <div class="" [ngClass]="{
+              'd-none': !showControlesGestor,
+              'col': showControlesGestor
+            }">
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <mat-select placeholder="Seleccione Gestor">
+                        <mat-option *ngFor="let estado of estadoGestorList" [value]="estado.Id">
+                            {{ estado.Title }}
+                        </mat-option>
+                    </mat-select>
+                    <!-- <mat-error *ngIf="creditForm.controls['monedaDesembolso'].hasError('required')">
+                      Gestor <strong>requerido</strong>
+                    </mat-error> -->
+                </mat-form-field>
+              </div>
+              <div class="col">
+                  <mat-form-field class="full-width" appearance="fill">
+                      <mat-label>Fecha de Gestor</mat-label>
+                      <input matInput [matDatepicker]="dpi" formControlName="Fecha_Gestor">
+                      <mat-datepicker-toggle matSuffix [for]="dpi"></mat-datepicker-toggle>
+                      <mat-datepicker #dpi></mat-datepicker>
+                  </mat-form-field>
+              </div>
+              </div>
+               <div class="row">
+                 <div class="col">
+                  <mat-form-field class="full-width">
+                    <mat-label>Comentario Gestor</mat-label>
+                    <textarea matInput placeholder="Comentarios Gestor"  multiline rows="3"></textarea>
+                </mat-form-field>
+                 </div>
+               </div>
+            </div>
+
         </div>
+
 
         <div class="" [ngClass]="{
             'd-none': showAsignacionRiesgos,
@@ -1070,16 +1112,13 @@
             </div>
             <div class="col">
                 <mat-form-field class="full-width">
-                    <input matInput placeholder="Analista de Riesgos" formControlName="ejecutivo">
+                    <input matInput placeholder="Analista de Riesgos" formControlName="Anlista_RiesgosId">
                     <!-- <mat-error *ngIf="creditForm.controls['ejecutivo'].hasError('required')">
                         Ejecutivo <strong>requerido</strong>
                     </mat-error> -->
                 </mat-form-field>
             </div>
         </div>
-
-
-
 
         <hr>
         <div class="row card-center">
@@ -1139,6 +1178,13 @@
 
             </div>
             <div class="" [ngClass]="{
+              'd-none': !showBtnGrabar,
+              'col': showBtnGrabar
+              }">
+                  <button mat-raised-button class="full-width" color="primary" type="submit">Grabar</button>
+
+              </div>
+            <div class="" [ngClass]="{
               'd-none': !showBtnCancelar,
               'col': showBtnCancelar
               }">
@@ -1174,6 +1220,7 @@
                 <button mat-raised-button class="full-width" color="warn" type="submit">Observar Registro</button>
 
             </div>
+
         </div>
 
     </form>
