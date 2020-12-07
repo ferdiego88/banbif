@@ -493,7 +493,7 @@
                     <div class="col">
                         <mat-form-field class="full-width" appearance="fill">
                             <mat-label>Fecha de Tasación</mat-label>
-                            <input matInput [matDatepicker]="dp" formControlName="Fecha_Tasacion_Remodelac" [formControl]="date" (dateInput)="addEvent('input', $event)">
+                            <input matInput [matDatepicker]="dp" formControlName="Fecha_Tasacion_Remodelac">
                             <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                             <mat-datepicker #dp></mat-datepicker>
                         </mat-form-field>

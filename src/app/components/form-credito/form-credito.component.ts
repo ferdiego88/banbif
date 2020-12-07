@@ -322,7 +322,7 @@ desembolso = 0;
 
               const Fecha_Tasacion_Remodelac = this.solicitudHipotecarioList.Fecha_Tasacion_Remodelac;
               debugger;
-              this.creditForm.controls.Fecha_Tasacion_Remodelac.setValue(Fecha_Tasacion_Remodelac);
+              this.creditForm.controls.Fecha_Tasacion_Remodelac.setValue(new Date(Fecha_Tasacion_Remodelac));
               this.creditForm.controls.Mon_Valor_ComTas_Soles.setValue(this.solicitudHipotecarioList.Mon_Valor_ComTas_Soles);
               this.creditForm.controls.Valor_ComTas_Soles.setValue(this.solicitudHipotecarioList.Valor_ComTas_Soles);
               this.creditForm.controls.Mon_VRI_Soles.setValue(this.solicitudHipotecarioList.Mon_VRI_Soles);
@@ -1199,11 +1199,11 @@ desembolso = 0;
   }
 
   send() {
-    const EstadoIdOld = this.form.controls.Estado.value;
-    let Fecha_Registro_CPM: Date;
+    const EstadoIdOld = this.creditForm.controls.Estado.value;
+    // let Fecha_Registro_CPM: Date;
 
     let EstadoId = 0;
-    EstadoIdOld === Variables.constantes.EstadoCreaExpedienteId && (EstadoId = Variables.constantes.EstadoRegistroCPM) && (Fecha_Registro_CPM = new Date());
+    EstadoIdOld === Variables.constantes.EstadoCreaExpedienteId && (EstadoId = Variables.constantes.EstadoRegistroCPM)/* && (Fecha_Registro_CPM = new Date())*/;
     EstadoIdOld === Variables.constantes.EstadoRegistroCPM && (EstadoId = Variables.constantes.EstadoAsignacionRiesgos);
     EstadoIdOld === Variables.constantes.EstadoAsignacionRiesgos && (EstadoId = Variables.constantes.EstadoEvaluacionRiesgos);
 
@@ -1212,7 +1212,7 @@ desembolso = 0;
       Fecha_Estado: new Date()
     };
 
-    Fecha_Registro_CPM && (itemSave.Fecha_Registro_CPM = Fecha_Registro_CPM);
+    // Fecha_Registro_CPM && (itemSave.Fecha_Registro_CPM = Fecha_Registro_CPM);
 
     this.update(itemSave);
   }
@@ -1291,6 +1291,8 @@ desembolso = 0;
           '',
           'success'
         );
+
+        this.router.navigate(['/bandejas/solicitudes']);
       }
     })
     .catch(error => console.log(error)); // TODO, define some message error
