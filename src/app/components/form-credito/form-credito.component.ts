@@ -69,7 +69,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   typeCurrencyList: TipoProductoModel[];
   paymentMethodList: TipoProductoModel[];
   visitingPlaceList: TipoProductoModel[];
-  typeguarenteeList: TipoProductoModel[];
+  typeguarenteeList: TipoProductoModel;
   paymentTypeList: TipoProductoModel[];
   tipoSubProductoList: TipoSubProductoModel[];
   estadoList: TipoProductoModel[];
@@ -125,6 +125,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   events: string[] = [];
   descripcionDocumentos = '';
   enlaceDocumentos = '';
+  valueCondicionDesembolso = '';
 
 
  creditForm = this.fb.group({
@@ -214,6 +215,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     Cometario_Revisor: [null, Validators.required],
     Cometario_Evaluacion: [null, Validators.required],
     Condicion_Desembolso: [null, Validators.required],
+    Condicion_Desembolso1: [null, Validators.required],
     Desembolso_Ampliacion: [null, Validators.required],
     Enlace_Documentos: [null, Validators.required],
 
@@ -451,7 +453,7 @@ desembolso = 0;
     this.getTypeCurrencyPriceSale();
     this.getPaymentMethod();
     this.getVisitingPlace();
-    this.getTypeGuarentee();
+    this.getvalueGarantias();
     this.getPaymentType();
     this.getTypeCurrencySaving();
     this.getPlanSituationSaving();
@@ -761,6 +763,13 @@ desembolso = 0;
 
   // });
   // }
+  listenerTipoGarantia(){
+    this.creditForm.get('tipoGarantia').valueChanges.subscribe(id => {
+      this.creditForm.controls.Condicion_Desembolso.setValue(this.typeguarenteeList.Condiciones);
+      console.log(id);
+      console.log(this.typeguarenteeList);
+    });
+  }
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
     this.events.push(`${type}: ${event.value}`);
     for (const e of this.events) {
@@ -770,6 +779,7 @@ desembolso = 0;
 
   cargarListeners(){
     this.listenerTipoMoneda();
+    this.listenerTipoGarantia();
     this.setMonedaGarantia();
     this.listenerBonoBuenPagador();
     this.listenerBotones();
@@ -963,11 +973,16 @@ desembolso = 0;
     .catch(error => console.error(error));
   }
 
-  getTypeGuarentee(){
-    this.generalListService.get(Variables.listas.AdmTipoGarantia)
-    .then(typeguarenteeList => this.typeguarenteeList = typeguarenteeList)
-    .catch(error => console.error(error));
+  getvalueGarantias(): any{
+    this.creditForm.get('modalidad').valueChanges.subscribe(selectedValue => {
+      // clean array
+      //this.typeguarenteeList = ;
+      this.generalListService.getByField(Variables.listas.AdmTipoGarantia, Variables.listas.AdmModalidad, selectedValue)
+        .then((typeguarenteeList: any) => this.typeguarenteeList = typeguarenteeList)
+        .catch(error => console.error(error));
+    });
   }
+
 
   getPaymentType(){
     this.generalListService.get(Variables.listas.AdmTipoAbono)
@@ -1052,7 +1067,7 @@ desembolso = 0;
       EstadoId: Variables.constantes.EstadoCreaExpedienteId,
       Nombre_Titular: this.creditForm.controls.nombreTitular.value,
       Tipo_DocumentoId: this.creditForm.controls.tipoDcmto.value,
-      N_Documento: this.creditForm.controls.nroDcmto.value,
+      N_Documento: `${this.creditForm.controls.nroDcmto.value}`,
 
       Riesgo_Maximo: +this.creditForm.controls.riesgoMaximo.value,
       Sustento_IngresosId: this.creditForm.controls.sustentoIngresos.value,

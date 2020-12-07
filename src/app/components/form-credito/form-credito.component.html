@@ -27,8 +27,7 @@
             <div class="col-md-6">
                 <mat-form-field class="full-width">
                     <mat-label>Ejecutivo</mat-label>
-                    <people-picker-input formControlName="ejecutivo"
-                        (onRemove)="removePeople()" placeholder="Escribe un nombre..." [multiple]="false">
+                    <people-picker-input formControlName="ejecutivo" (onRemove)="removePeople()" placeholder="Escribe un nombre..." [multiple]="false">
                     </people-picker-input>
                 </mat-form-field>
             </div>
@@ -145,7 +144,7 @@
 
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="N° de Documento" type="text" formControlName="nroDcmto">
+                            <input matInput placeholder="N° de Documento" type="number" formControlName="nroDcmto">
 
                             <mat-error *ngIf="creditForm.controls['nroDcmto'].hasError('required')">
                                 N° de Documento <strong>requerido</strong>
@@ -811,7 +810,7 @@
                 </div>
                 <div class="col">
                     <mat-form-field class="full-width">
-                        <input matInput placeholder="Período de Gracia" formControlName="periodoGracia">
+                        <input matInput placeholder="Período de Gracia" type="number" formControlName="periodoGracia">
                         <mat-error *ngIf="creditForm.controls['periodoGracia'].hasError('required')">
                             Período de Gracia <strong>requerido</strong>
                         </mat-error>
@@ -954,22 +953,10 @@
                     <mat-form-field class="full-width">
                         <mat-label>Condicion de desembolso</mat-label>
                         <textarea matInput placeholder="Observaciones" multiline rows="4" formControlName="Condicion_Desembolso">
+                            {{condicionDesembolso}}
                         </textarea>
                     </mat-form-field>
                 </div>
-            </div>
-            <div class="" [ngClass]="{
-                    'd-none':!showBuenAplicacion,
-                    'col': showBuenAplicacion
-                }">
-                CONDICIÓN DE DESEMBOLSO
-                <mat-form-field class="full-width">
-                    <mat-label>Condicion de desembolso</mat-label>
-                    <textarea matInput multiline rows="8" formControlName="Condicion_Desembolso">{{ condicion.textoContrato}}
-    {{condicion.textoPagoAdelantado}}
-
-    {{condicion.textoChequeGerencia}}</textarea>
-                </mat-form-field>
             </div>
             <div class="" [ngClass]="{
                 'd-none':!showPlanAhorro,

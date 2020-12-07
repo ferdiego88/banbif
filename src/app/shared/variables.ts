@@ -28,7 +28,8 @@ export class Variables {
   };
 
   static readonly condicionesDesembolso = {
-    ContratoFirma : '- Contra firma de minuta y bloqueo registral  inscrito en primer rango a favor de BanBif.',
+  ContratoFirma : `- Contra firma de minuta y bloqueo registral  inscrito en primer rango a favor de BanBif.
+  - El cliente realice el pago por adelantado de las valorizaciones a realizarse para validar el uso de los fondos por cada desembolso parcial.`,
     PagoAdelantado: '- El cliente realice el pago por adelantado de las valorizaciones a realizarse para validar el uso de los fondos por cada desembolso parcial.',
     ChequeGerencia: '- Se emitirá cheque de gerencia a favor del cliente; la firma de la EEPP se realizará contra entrega del cheque de gerencia.'
   };
@@ -74,9 +75,9 @@ export class Variables {
     EstadoCreaExpedienteId: 1,
     EstadoRegistroCPM: 2,
     EstadoObservadoCPM: 3,
+    EstadoAsignacionRiesgos: 30,
     EstadoEvaluacionRiesgos: 4,
     EstadoObservadoRiesgos: 5,
-    EstadoAsignacionRiesgos: 30,
     EstadoVerificacionRiesgos: 32,
     EstadoRegularizacionCPM: 35,
   };
