@@ -109,3 +109,7 @@ a:active {
 .col:last-child {
     margin-right: 0;
 }
+
+input[type="number"] {
+    text-align: right !important;
+}

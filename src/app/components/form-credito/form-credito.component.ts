@@ -135,7 +135,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     zona: [null, Validators.required],
     modalidad: [null, Validators.required],
     oficina: [null, Validators.required],
-    Estado: [null, Validators.required],
+    Estado: [0, Validators.required],
     tipoDcmto: [null, Validators.required],
     nroDcmto: [null, [Validators.required, Validators.maxLength(11)]],
     nombreTitular: [null, Validators.required],
@@ -1032,7 +1032,7 @@ desembolso = 0;
     .catch(error => console.error(error));
   }
 
-  saveDraft(){
+  getObjectToSave(): any {
     if (this.creditForm.controls.Meses_Abono !== null ||
       this.creditForm.controls.Tipo_Moneda_Ahorro.value !== null ||
       this.creditForm.controls.Importe_Cuota_Ahorro.value !== null ||
@@ -1123,6 +1123,13 @@ desembolso = 0;
       flag_PlanAhorro: this.flagPlanAhorro
     };
 
+    return solicitudCreditoHipotecario;
+  }
+
+  saveDraft(): void{
+    
+    const solicitudCreditoHipotecario = this.getObjectToSave();
+
     this.route.params.subscribe(param => { 
       if (param.id) {
         
@@ -1135,6 +1142,7 @@ desembolso = 0;
                 '',
                 'success'
               );
+              this.router.navigate(['/bandejas/solicitudes']);
             }
           })
           .catch(error => console.log(error));
@@ -1148,6 +1156,7 @@ desembolso = 0;
                 '',
                 'success'
               );
+              this.router.navigate(['/bandejas/solicitudes']);
             }
           })
           .catch(error => console.log(error));
@@ -1203,17 +1212,16 @@ desembolso = 0;
     // let Fecha_Registro_CPM: Date;
 
     let EstadoId = 0;
-    EstadoIdOld === Variables.constantes.EstadoCreaExpedienteId && (EstadoId = Variables.constantes.EstadoRegistroCPM)/* && (Fecha_Registro_CPM = new Date())*/;
+    [0, Variables.constantes.EstadoCreaExpedienteId].includes(EstadoIdOld) && (EstadoId = Variables.constantes.EstadoRegistroCPM)/* && (Fecha_Registro_CPM = new Date())*/;
     EstadoIdOld === Variables.constantes.EstadoRegistroCPM && (EstadoId = Variables.constantes.EstadoAsignacionRiesgos);
     EstadoIdOld === Variables.constantes.EstadoAsignacionRiesgos && (EstadoId = Variables.constantes.EstadoEvaluacionRiesgos);
 
-    const itemSave: any = {
-      EstadoId,
-      Fecha_Estado: new Date()
-    };
+    const itemSave = this.getObjectToSave();
+    itemSave.EstadoId = EstadoId;
+    itemSave.Fecha_Estado = new Date();
 
     // Fecha_Registro_CPM && (itemSave.Fecha_Registro_CPM = Fecha_Registro_CPM);
-
+    
     this.update(itemSave);
   }
 
