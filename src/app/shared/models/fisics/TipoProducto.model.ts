@@ -3,7 +3,8 @@ import { ListItem } from './base/ListItem';
 export class TipoProductoModel extends ListItem {
 
     constructor(
-        Codigo = ''
+        public Codigo = '',
+        public Condiciones = '',
     ) {
         super();
     }
