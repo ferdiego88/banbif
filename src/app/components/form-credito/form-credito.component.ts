@@ -117,9 +117,10 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   rentaTitular = [];
   rentaConyugue = [];
+  textoCondicionDesembolso: string[] = [];
+  condicionDesembolso = '';
   descripcionInmbueble = '';
   observacionesOpcional = '';
-  condicionDesembolso = '';
   cantidad = '';
   desembolsoAmpliacion = '';
   planAhorro = '';
@@ -766,9 +767,10 @@ desembolso = 0;
   // }
   listenerTipoGarantia(){
     this.creditForm.get('tipoGarantia').valueChanges.subscribe(id => {
+      // this.textoCondicionDesembolso = this.typeguarenteeList;
       this.creditForm.controls.Condicion_Desembolso.setValue(this.typeguarenteeList.Condiciones);
       console.log(id);
-      console.log(this.typeguarenteeList);
+      console.log(this.typeguarenteeList[0].Condiciones);
     });
   }
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
