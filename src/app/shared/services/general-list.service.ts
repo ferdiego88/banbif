@@ -24,7 +24,7 @@ export class GeneralListService {
                     query = query.orderBy(orderField, orderAscending);
                 }
 
-                const items = query.get();
+                const items = query.top(4999).get();
                 // console.log({items});
                 resolve(items);
             } else {
