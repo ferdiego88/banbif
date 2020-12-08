@@ -300,7 +300,8 @@ desembolso = 0;
               this.creditForm.controls.riesgoMaximo.setValue(this.solicitudHipotecarioList.Riesgo_Maximo);
               this.creditForm.controls.sustentoIngresos.setValue(this.solicitudHipotecarioList.Sustento_IngresosId);
               this.creditForm.controls.Oferta.setValue(this.solicitudHipotecarioList.Oferta);
-              this.descripcionDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Description;
+
+              this.solicitudHipotecarioList.Enlace_Documentos && this.solicitudHipotecarioList.Enlace_Documentos !== null && (this.descripcionDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Description);
               this.enlaceDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Url;
               this.rentaTitular = this.solicitudHipotecarioList.Tipo_RentaId;
               if (this.rentaTitular != null) {
