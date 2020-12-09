@@ -876,7 +876,6 @@ Desembolso = 0;
 
   valueOficina(): any{
     this.creditForm.get('ZonaId').valueChanges.subscribe(selectedValue => {
-      // clean array
       this.oficinaList = [];
       this.generalListService.getByField(Variables.listas.AdmOficina, Variables.listas.AdmZonaId, selectedValue)
         .then((oficinaList: any) => this.oficinaList = oficinaList)
