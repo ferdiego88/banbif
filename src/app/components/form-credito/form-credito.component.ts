@@ -743,7 +743,7 @@ Desembolso = 0;
   listenerTipoGarantia(){
     this.creditForm.get('Tipo_GarantiaId').valueChanges.subscribe(id => {
       if (this.typeguarenteeList !== null && this.typeguarenteeList) {
-        console.log(this.typeguarenteeList);
+
         const garantias = this.typeguarenteeList.find(item => item.Id === id).Condiciones;
         const cadCondicionDesembolso = garantias.replace(this.expRegular, '');
         this.creditForm.controls.Condicion_Desembolso.setValue(cadCondicionDesembolso);
@@ -818,7 +818,7 @@ Desembolso = 0;
     ${Variables.condicionesDesembolso.PagoAdelantado}
     ${Variables.condicionesDesembolso.ChequeGerencia}`);
           this.showGarantias = true;
-          this.showTipoGarantiaAbono = true;
+          this.showTipoGarantiaAbono = false;
           this.showPVenta = false;
           this.showBotonesProducto = false;
           this.showmessageVivienda = false;
@@ -1070,7 +1070,7 @@ Desembolso = 0;
       TEA_AutorizadoId: this.creditForm.controls.TEA_AutorizadoId.value,
       Mon_PrecioVentaId: this.creditForm.controls.Mon_PrecioVentaId.value,
       Mon_Ap_EfectivoId: this.creditForm.controls.Mon_Ap_Efectivo.value,
-      Mon_Aport_AFPIdId: this.creditForm.controls.Mon_Aport_AFPId.value,
+      Mon_Aport_AFPId: this.creditForm.controls.Mon_Aport_AFPId.value,
       Mon_BBP: this.creditForm.controls.Mon_BBP.value,
       BBP: this.creditForm.controls.BBP.value,
       Mon_PBB: this.creditForm.controls.Mon_PBB.value,
@@ -1171,8 +1171,7 @@ Desembolso = 0;
 
   getObservacionesCPM(){
     this.generalListService.get(Variables.listas.AdmObservacionesCPM)
-    .then(observacionesCPMList =>  {this.observacionesCPMList = observacionesCPMList;
-                                    console.log(this.observacionesCPMList); })
+    .then(observacionesCPMList => this.observacionesCPMList = observacionesCPMList)
     .catch(error => console.error(error));
   }
 
