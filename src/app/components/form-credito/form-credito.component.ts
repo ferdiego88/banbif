@@ -71,6 +71,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   visitingPlaceList: TipoProductoModel[];
   estadoGestorList: TipoProductoModel[];
   typeguarenteeList: TipoProductoModel[];
+  garantiasList: TipoProductoModel[];
   paymentTypeList: TipoProductoModel[];
   tipoSubProductoList: TipoSubProductoModel[];
   estadoList: TipoProductoModel[];
@@ -97,6 +98,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   showObservacionCPM = false;
   showComentarioCPM = false;
   showComentarioRiesgos = false;
+  showAnalistaRiesgos = false;
   showControlesGestor = false;
   showComentarioRevisor = false;
 
@@ -127,25 +129,29 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   planAhorro = '';
   comentarioRegistro = '';
   comentarioRevisor = '';
+  comentarioEvaluacion = '';
+  comentarioGestorHipotecario = '';
   events: string[] = [];
   descripcionDocumentos = '';
   enlaceDocumentos = '';
   valueCondicionDesembolso = '';
-
-
+  expRegular = /(<([^>]+)>|\&\w{4}|\&\#\w{3})/ig;
+  colorBoton = 'rgba(2, 139, 255, 1)';
+  colorletraBoton = 'white';
  creditForm = this.fb.group({
-    typeProduct: [null, Validators.required],
+    Tipo_ProductoId: [null, Validators.required],
     ejecutivo: [null, Validators.required],
-    subProducto: [null, Validators.required],
-    zona: [null, Validators.required],
-    modalidad: [null, Validators.required],
-    oficina: [null, Validators.required],
-    Estado: [0, Validators.required],
-    tipoDcmto: [null, Validators.required],
-    nroDcmto: [null, [Validators.required, Validators.maxLength(11)]],
-    nombreTitular: [null, Validators.required],
-    riesgoMaximo: [null, Validators.required],
-    sustentoIngresos: [null, Validators.required],
+    Analista_Riesgos: [null, Validators.required],
+    Sub_ProductoId: [null, Validators.required],
+    ZonaId: [null, Validators.required],
+    ModalidadId: [null, Validators.required],
+    OficinaId: [null, Validators.required],
+    EstadoId: [0, Validators.required],
+    Tipo_DocumentoId: [null, Validators.required],
+    N_Documento: [null, [Validators.required, Validators.maxLength(11)]],
+    Nombre_Titular: [null, Validators.required],
+    Riesgo_Maximo: [null, Validators.required],
+    Sustento_IngresosId: [null, Validators.required],
     Oferta: [null, Validators.required],
     T1: [null, Validators.required],
     T2: [null, Validators.required],
@@ -157,35 +163,35 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     C3: [null, Validators.required],
     C4: [null, Validators.required],
     C5: [null, Validators.required],
-    nombreProyecto: [null, Validators.required],
-    numeroVivienda: [null, Validators.required],
+    ProyectoId: [null, Validators.required],
+    N_ViviendaId: [null, Validators.required],
     tipoMoneda: [null, Validators.required],
-    Moneda: [null, Validators.required],
+    MonedaId: [null, Validators.required],
     TEA: [null, Validators.required],
-    teaAuth: [null, Validators.required],
-    tipoprecioVenta: [null, Validators.required],
-    precioVenta: [null, Validators.required],
+    TEA_AutorizadoId: [null, Validators.required],
+    Mon_PrecioVentaId: [null, Validators.required],
+    Precio_Venta: [null, Validators.required],
     pFinanciamiento: [null, Validators.required],
-    monedaDesembolso: [null, Validators.required],
-    desembolso: [null, Validators.required],
-    monedagravamen: [null, Validators.required],
+    Mon_Desembolso: [null, Validators.required],
+    Desembolso: [null, Validators.required],
+    Mon_Gravamen: [null, Validators.required],
     Mon_BBP: [null, Validators.required],
     Mon_PBB: [null, Validators.required],
     BBP: [null, Validators.required],
     PBP: [null, Validators.required],
-    gravamen: [null, Validators.required],
-    modalidadPago: [null, Validators.required],
-    lugarVisita: [null, Validators.required],
-    periodoGracia: [null, Validators.required],
-    tipoGarantia: [null, Validators.required],
-    tipoAbono: [null, Validators.required],
+    Grabamen: [null, Validators.required],
+    Modalidad_PagoId: [null, Validators.required],
+    Lugar_VisitaId: [null, Validators.required],
+    Periodo_Gracia: [null, Validators.required],
+    Tipo_GarantiaId: [null, Validators.required],
+    Tipo_AbonoId: [null, Validators.required],
     /* Plan Ahorro*/
     Meses_Abono: [null, Validators.required],
-    Tipo_Moneda_Ahorro: [null, Validators.required],
+    Tipo_Moneda_AhorroId: [null, Validators.required],
     Importe_Cuota_Ahorro: [null, Validators.required],
-    Situacion_Plan_Ahorro: [null, Validators.required],
+    Situacion_Plan_AhorroId: [null, Validators.required],
     N_Abonos_Validados: [null, Validators.required],
-    Ultimo_Abono_Validado: [null, Validators.required],
+    Ultimo_Abono_ValidadoId: [null, Validators.required],
     Cta_Ahorro_BanBif: [null, Validators.required],
     Plan_Ahorro: [null, Validators.required],
     /*Fin Plan Ahorro */
@@ -193,7 +199,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     /* Cuota Inicial*/
     Mon_Ap_Efectivo: [null, Validators.required],
     Aporte_Efectivo: [null, Validators.required],
-    Mon_Aport_AFP: [null, Validators.required],
+    Mon_Aport_AFPId: [null, Validators.required],
     Aporte_RetiroAFP: [null, Validators.required],
     BBP_Adicional: [null, Validators.required],
     PBP_Adiconal_Sostenible: [null, Validators.required],
@@ -202,30 +208,33 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     /* Ini Garantias*/
     Descripcion_Inmueble: [null, Validators.required],
     Fecha_Tasacion_Remodelac: [new Date(), Validators.required],
-    Fecha_Gestor: [new Date(), Validators.required],
     Mon_Valor_ComTas_Soles: [null, Validators.required],
     Valor_ComTas_Soles: [null, Validators.required],
     Mon_VRI_Soles: [null, Validators.required],
     VRI_Soles: [null, Validators.required],
     /* Fin Garantias*/
-
+    
     Numero_Desemboslo: [null, Validators.required],
     Primer_desembolso: [null, Validators.required],
     Segundo_desembolso: [null, Validators.required],
     Tercer_desembolso: [null, Validators.required],
     Aporte_Cliente: [null, Validators.required],
     Observaciones: [null, Validators.required],
-    Observacion_CPMId: [null, Validators.required],
-    Observacion_CPM: [null, Validators.required],
+    Observacion_CPMId: [null, ],
+    Observacion_CPM: [null, ],
     Comentario_Registro: [null, Validators.required],
     Cometario_Revisor: [null, Validators.required],
+    Cometario_Revisor1: [null, Validators.required],
     Cometario_Evaluacion: [null, Validators.required],
     Condicion_Desembolso: [null, Validators.required],
     Condicion_Desembolso1: [null, Validators.required],
     Desembolso_Ampliacion: [null, Validators.required],
     Enlace_Documentos: [null, Validators.required],
     Anlista_RiesgosId: [null, Validators.required],
-
+    EstadoGestorId: [null, Validators.required],
+    Fecha_Gestor_Hip: [new Date(), Validators.required],
+    Comentario_Gestor_Hip: [null, Validators.required],
+    
     postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
     ],
@@ -233,21 +242,13 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   });
 
   hasUnitNumber = false;
+  comentarios = [
+  Variables.columnasSolicitud.Descripcion_Inmueble, Variables.columnasSolicitud.Plan_Ahorro, Variables.columnasSolicitud.Observaciones,
+  Variables.columnasSolicitud.Condicion_Desembolso, Variables.columnasSolicitud.Comentario_Registro,
+  Variables.columnasSolicitud.Desembolso_Ampliacion, Variables.columnasSolicitud.Cometario_Evaluacion, 
+  Variables.columnasSolicitud.Comentario_Gestor_Hip ];
 
-  monedas = [
-    {name: 'Soles', abbreviation: 'S/'},
-    {name: 'Dolares', abbreviation: 'USD'},
-
-  ];
-
-desembolso = 0;
-
-  condicion = {
-    textoContrato : Variables.condicionesDesembolso.ContratoFirma,
-    textoPagoAdelantado : Variables.condicionesDesembolso.PagoAdelantado,
-    textoChequeGerencia : Variables.condicionesDesembolso.ChequeGerencia
-    };
-
+Desembolso = 0;
   constructor(
     private fb: FormBuilder,
     private generalListService: GeneralListService,
@@ -267,7 +268,7 @@ desembolso = 0;
    this.cargarCombos();
    this.getidParams();
    this.cargarListeners();
-   this.creditForm.get('Estado').disable();
+   this.creditForm.get('EstadoId').disable();
    this.setDisableControlsDesembolso();
   }
 
@@ -287,22 +288,30 @@ desembolso = 0;
                   this.creditForm.controls.ejecutivo.setValue([ejecutivo]);
                }
 
+              if (solicitudHipotecarioList[0].Anlista_RiesgosId) {
+                  const analista = {
+                  Id: solicitudHipotecarioList[0].Anlista_RiesgosId.Id,
+                  Title: solicitudHipotecarioList[0].Anlista_RiesgosId.Title
+                };
+                  this.creditForm.controls.Analista_Riesgos.setValue([analista]);
+               }
 
-              this.creditForm.controls.typeProduct.setValue(this.solicitudHipotecarioList.Tipo_ProductoId);
-              this.creditForm.controls.subProducto.setValue(this.solicitudHipotecarioList.Sub_ProductoId);
-              this.creditForm.controls.zona.setValue(this.solicitudHipotecarioList.ZonaId);
-              this.creditForm.controls.modalidad.setValue(this.solicitudHipotecarioList.ModalidadId);
-              this.creditForm.controls.oficina.setValue(this.solicitudHipotecarioList.OficinaId);
-              this.creditForm.controls.Estado.setValue(this.solicitudHipotecarioList.EstadoId);
-              this.creditForm.controls.tipoDcmto.setValue(this.solicitudHipotecarioList.Tipo_DocumentoId);
-              this.creditForm.controls.nroDcmto.setValue(this.solicitudHipotecarioList.N_Documento);
-              this.creditForm.controls.nombreTitular.setValue(this.solicitudHipotecarioList.Nombre_Titular);
-              this.creditForm.controls.riesgoMaximo.setValue(this.solicitudHipotecarioList.Riesgo_Maximo);
-              this.creditForm.controls.sustentoIngresos.setValue(this.solicitudHipotecarioList.Sustento_IngresosId);
-              this.creditForm.controls.Oferta.setValue(this.solicitudHipotecarioList.Oferta);
-
-              this.solicitudHipotecarioList.Enlace_Documentos && this.solicitudHipotecarioList.Enlace_Documentos !== null && (this.descripcionDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Description);
-              this.enlaceDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Url;
+              for (const i of this.comentarios) {
+                const controlForm = this.solicitudHipotecarioList[i];
+                if (controlForm !== null) {
+                  const cadControlForm = controlForm.replace(this.expRegular, '');
+                  this.creditForm.controls[i].setValue(cadControlForm);
+                }
+               }
+       
+              for (const key in Variables.columnasHipo) {
+                 if (Object.prototype.hasOwnProperty.call(Variables.columnasHipo, key)) {
+                   const element = Variables.columnasHipo[key];
+                   this.creditForm.controls[element].setValue(this.solicitudHipotecarioList[element]);
+                 }
+               }
+              this.creditForm.controls.TEA.setValue(this.solicitudHipotecarioList.TEA * 100);
+              this.creditForm.controls.pFinanciamiento.setValue(this.solicitudHipotecarioList.Financiamiento * 100);
               this.rentaTitular = this.solicitudHipotecarioList.Tipo_RentaId;
               if (this.rentaTitular != null) {
                 for (const numero of this.rentaTitular){
@@ -315,131 +324,29 @@ desembolso = 0;
                   this.creditForm.get(`C${numero}`).setValue(true);
                 }
               }
-
-              this.creditForm.controls.nombreProyecto.setValue(this.solicitudHipotecarioList.ProyectoId);
-              this.creditForm.controls.numeroVivienda.setValue(this.solicitudHipotecarioList.N_ViviendaId);
-              this.creditForm.controls.Moneda.setValue(this.solicitudHipotecarioList.MonedaId);
-              this.creditForm.controls.TEA.setValue(this.solicitudHipotecarioList.TEA * 100);
-
-
-
-              this.descripcionInmbueble = this.solicitudHipotecarioList.Descripcion_Inmueble;
-              if (this.descripcionInmbueble !== null) {
-                const cadDescripcionInmueble = this.descripcionInmbueble.replace(/(<([^>]+)>|\&\w{4}|\&\#\w{3})/ig, '');
-                this.creditForm.controls.Descripcion_Inmueble.setValue(cadDescripcionInmueble);
-              } else {
-                this.creditForm.controls.Descripcion_Inmueble.setValue(this.descripcionInmbueble);
-              }
-
               const Fecha_Tasacion_Remodelac = this.solicitudHipotecarioList.Fecha_Tasacion_Remodelac;
-              debugger;
+              const Fecha_Gestor_Hip = this.solicitudHipotecarioList.Fecha_Gestor_Hip;
+              // debugger;
               this.creditForm.controls.Fecha_Tasacion_Remodelac.setValue(new Date(Fecha_Tasacion_Remodelac));
-              this.creditForm.controls.Mon_Valor_ComTas_Soles.setValue(this.solicitudHipotecarioList.Mon_Valor_ComTas_Soles);
-              this.creditForm.controls.Valor_ComTas_Soles.setValue(this.solicitudHipotecarioList.Valor_ComTas_Soles);
-              this.creditForm.controls.Mon_VRI_Soles.setValue(this.solicitudHipotecarioList.Mon_VRI_Soles);
-              this.creditForm.controls.VRI_Soles.setValue(this.solicitudHipotecarioList.VRI_Soles);
-
-              this.creditForm.controls.Numero_Desemboslo.setValue(this.solicitudHipotecarioList.Numero_Desemboslo);
-              this.creditForm.controls.Primer_desembolso.setValue(this.solicitudHipotecarioList.Primer_desembolso);
-              this.creditForm.controls.Segundo_desembolso.setValue(this.solicitudHipotecarioList.Segundo_desembolso);
-              this.creditForm.controls.Tercer_desembolso.setValue(this.solicitudHipotecarioList.Tercer_desembolso);
-              this.creditForm.controls.Aporte_Cliente.setValue(this.solicitudHipotecarioList.Aporte_Cliente);
-
-              this.creditForm.controls.teaAuth.setValue(this.solicitudHipotecarioList.TEA_AutorizadoId);
-              this.creditForm.controls.tipoprecioVenta.setValue(this.solicitudHipotecarioList.Mon_PrecioVentaId);
-              this.creditForm.controls.precioVenta.setValue(this.solicitudHipotecarioList.Precio_Venta);
-              this.creditForm.controls.pFinanciamiento.setValue(this.solicitudHipotecarioList.Financiamiento * 100);
-              this.creditForm.controls.Mon_Ap_Efectivo.setValue(this.solicitudHipotecarioList.Mon_Ap_EfectivoId);
-              this.creditForm.controls.Aporte_Efectivo.setValue(this.solicitudHipotecarioList.Aporte_Efectivo);
-              this.creditForm.controls.Mon_Aport_AFP.setValue(this.solicitudHipotecarioList.Mon_Aport_AFPId);
-              this.creditForm.controls.Aporte_RetiroAFP.setValue(this.solicitudHipotecarioList.Aporte_RetiroAFP);
-
-              this.creditForm.controls.monedaDesembolso.setValue(this.solicitudHipotecarioList.Mon_Desembolso);
-              this.creditForm.controls.monedagravamen.setValue(this.solicitudHipotecarioList.Mon_Gravamen);
-
-              this.creditForm.controls.Mon_BBP.setValue(this.solicitudHipotecarioList.Mon_BBP);
-              this.creditForm.controls.BBP.setValue(this.solicitudHipotecarioList.BBP);
-              this.creditForm.controls.Mon_PBB.setValue(this.solicitudHipotecarioList.Mon_PBB);
-              this.creditForm.controls.PBP.setValue(this.solicitudHipotecarioList.PBP);
-              this.creditForm.controls.Tipo_Moneda_Ahorro.setValue(this.solicitudHipotecarioList.Tipo_Moneda_AhorroId);
-              this.creditForm.controls.Meses_Abono.setValue(this.solicitudHipotecarioList.Meses_Abono);
-              this.creditForm.controls.Importe_Cuota_Ahorro.setValue(this.solicitudHipotecarioList.Importe_Cuota_Ahorro);
-              this.creditForm.controls.Situacion_Plan_Ahorro.setValue(this.solicitudHipotecarioList.Situacion_Plan_AhorroId);
-              this.creditForm.controls.N_Abonos_Validados.setValue(this.solicitudHipotecarioList.N_Abonos_Validados);
-              this.creditForm.controls.Ultimo_Abono_Validado.setValue(this.solicitudHipotecarioList.Ultimo_Abono_ValidadoId);
-              this.creditForm.controls.Cta_Ahorro_BanBif.setValue(this.solicitudHipotecarioList.Cta_Ahorro_BanBif);
-              this.creditForm.controls.desembolso.setValue(this.solicitudHipotecarioList.Desembolso);
-              this.creditForm.controls.gravamen.setValue(this.solicitudHipotecarioList.Grabamen);
-              this.creditForm.controls.modalidadPago.setValue(this.solicitudHipotecarioList.Modalidad_PagoId);
-              console.log(this.solicitudHipotecarioList.flag_PlanAhorro);
+              if (Fecha_Gestor_Hip) {  
+                this.creditForm.controls.Fecha_Gestor_Hip.setValue(new Date(Fecha_Gestor_Hip));
+              } else {
+                this.creditForm.controls.Fecha_Gestor_Hip.setValue(new Date());
+              }
               if (this.solicitudHipotecarioList.flag_PlanAhorro === Variables.constantes.Flag_PlanAhorro1
                 && this.solicitudHipotecarioList.EstadoId !== Variables.constantes.EstadoAsignacionRiesgos){
                 this.showPlanAhorro = true;
               }else{
                 this.showPlanAhorro = false;
               }
-
-              this.planAhorro = this.solicitudHipotecarioList.Plan_Ahorro;
-              if (this.planAhorro !== null) {
-                const cadPlanAhorro = this.planAhorro.replace(/(<([^>]+)>|\&\w{4}|\&\#\w{3})/ig, '');
-                this.creditForm.controls.Plan_Ahorro.setValue(cadPlanAhorro);
-
-              } else {
-                this.creditForm.controls.Plan_Ahorro.setValue(this.planAhorro);
-              }
-
-              this.observacionesOpcional = this.solicitudHipotecarioList.Observaciones;
-              if (this.observacionesOpcional !== null) {
-                const cadObservaciones = this.observacionesOpcional.replace(/(<([^>]+)>|\&\w{4}|\&\#\w{3})/ig, '');
-                this.creditForm.controls.Observaciones.setValue(cadObservaciones);
-
-              } else {
-                this.creditForm.controls.Observaciones.setValue(this.observacionesOpcional);
-              }
-
-              this.condicionDesembolso = this.solicitudHipotecarioList.Condicion_Desembolso;
-              if (this.condicionDesembolso !== null) {
-                const cadCondicionDesembolso = this.condicionDesembolso.replace(/(<([^>]+)>|\&\w{4}|\&\#\w{3})/ig, '');
-                this.creditForm.controls.Condicion_Desembolso.setValue(cadCondicionDesembolso);
-
-              } else {
-                this.creditForm.controls.Condicion_Desembolso.setValue(this.condicionDesembolso);
-              }
-
-              this.comentarioRegistro = this.solicitudHipotecarioList.Comentario_Registro;
-              if (this.comentarioRegistro !== null) {
-                const cadComentarioRegistro = this.comentarioRegistro.replace(/(<([^>]+)>|\&\w{4}|\&\#\w{3})/ig, '');
-                this.creditForm.controls.Comentario_Registro.setValue(cadComentarioRegistro);
-
-              } else {
-                this.creditForm.controls.Comentario_Registro.setValue(this.comentarioRegistro);
-              }
-
               this.comentarioRevisor = this.solicitudHipotecarioList.Cometario_Revisor;
               if (this.comentarioRevisor !== null) {
-                const cadComentarioRevisor = this.comentarioRevisor.replace(/(<([^>]+)>|\&\w{4}|\&\#\w{3})/ig, '');
+                const cadComentarioRevisor = this.comentarioRevisor.replace(this.expRegular, '');
                 this.creditForm.controls.Cometario_Revisor.setValue(cadComentarioRevisor);
-              } else {
-                this.creditForm.controls.Cometario_Revisor.setValue(this.comentarioRevisor);
+                this.creditForm.controls.Cometario_Revisor1.setValue(cadComentarioRevisor);
               }
-
-              this.desembolsoAmpliacion = this.solicitudHipotecarioList.Desembolso_Ampliacion;
-              if (this.desembolsoAmpliacion !== null) {
-                const cadDesembolsoAmpliacion = this.desembolsoAmpliacion.replace(/(<([^>]+)>|\&\w{4}|\&\#\w{3})/ig, '');
-                this.creditForm.controls.Desembolso_Ampliacion.setValue(cadDesembolsoAmpliacion);
-              } else {
-                this.creditForm.controls.Desembolso_Ampliacion.setValue(this.desembolsoAmpliacion);
-              }
-
-              this.creditForm.controls.Observacion_CPMId.setValue(this.solicitudHipotecarioList.Observacion_CPMId);
-              this.creditForm.controls.lugarVisita.setValue(this.solicitudHipotecarioList.Lugar_VisitaId);
-              this.creditForm.controls.periodoGracia.setValue(this.solicitudHipotecarioList.Periodo_Gracia);
-              this.creditForm.controls.tipoGarantia.setValue(this.solicitudHipotecarioList.Tipo_GarantiaId);
-              this.creditForm.controls.tipoAbono.setValue(this.solicitudHipotecarioList.Tipo_AbonoId);
-
-
-              console.log(this.solicitudHipotecarioList);
-
+              this.solicitudHipotecarioList.Enlace_Documentos && this.solicitudHipotecarioList.Enlace_Documentos !== null && (this.descripcionDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Description);
+              this.enlaceDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Url;
             })
             .catch(error => console.error(error));
         } else {
@@ -483,22 +390,22 @@ desembolso = 0;
   }
 
   setearMonedasSoles(){
-    this.creditForm.get('Moneda').setValue(Variables.constantes.TipoMonedaSolesDatosOperacionId);
-    this.creditForm.get('monedaDesembolso').setValue(Variables.constantes.SimboloSoles);
-    this.creditForm.get('monedagravamen').setValue(Variables.constantes.SimboloSoles);
-    this.creditForm.get('tipoprecioVenta').setValue(Variables.constantes.TipoMonedaSolesPrecioVentaId);
+    this.creditForm.get('MonedaId').setValue(Variables.constantes.TipoMonedaSolesDatosOperacionId);
+    this.creditForm.get('Mon_Desembolso').setValue(Variables.constantes.SimboloSoles);
+    this.creditForm.get('Mon_Gravamen').setValue(Variables.constantes.SimboloSoles);
+    this.creditForm.get('Mon_PrecioVentaId').setValue(Variables.constantes.TipoMonedaSolesPrecioVentaId);
     this.creditForm.get('Mon_Ap_Efectivo').setValue(Variables.constantes.TipoMonedaSolesDatosAporteEfectivoId);
-    this.creditForm.get('Mon_Aport_AFP').setValue(Variables.constantes.TipoMonedaSolesMonteAporteAFPId);
+    this.creditForm.get('Mon_Aport_AFPId').setValue(Variables.constantes.TipoMonedaSolesMonteAporteAFPId);
     this.creditForm.get('Mon_BBP').setValue(Variables.constantes.SimboloSoles);
     this.creditForm.get('Mon_PBB').setValue(Variables.constantes.SimboloSoles);
   }
   setearMonedasEmpty(){
-    this.creditForm.get('Moneda').setValue(null);
-    this.creditForm.get('monedaDesembolso').setValue(null);
-    this.creditForm.get('monedagravamen').setValue(null);
-    this.creditForm.get('tipoprecioVenta').setValue(null);
+    this.creditForm.get('MonedaId').setValue(null);
+    this.creditForm.get('Mon_Desembolso').setValue(null);
+    this.creditForm.get('Mon_Gravamen').setValue(null);
+    this.creditForm.get('Mon_PrecioVentaId').setValue(null);
     this.creditForm.get('Mon_Ap_Efectivo').setValue(null);
-    this.creditForm.get('Mon_Aport_AFP').setValue(null);
+    this.creditForm.get('Mon_Aport_AFPId').setValue(null);
     this.creditForm.get('Mon_BBP').setValue(null);
     this.creditForm.get('Mon_PBB').setValue(null);
   }
@@ -506,26 +413,26 @@ desembolso = 0;
   setearTipoMoneda(simbolo: string, idtipo?: number){
         this.creditForm.get('Mon_BBP').setValue(simbolo);
         this.creditForm.get('Mon_PBB').setValue(simbolo);
-        this.creditForm.get('monedaDesembolso').setValue(simbolo);
-        this.creditForm.get('monedagravamen').setValue(simbolo);
+        this.creditForm.get('Mon_Desembolso').setValue(simbolo);
+        this.creditForm.get('Mon_Gravamen').setValue(simbolo);
   }
 
   setPlanAhorroEmpty(){
     this.creditForm.get('Meses_Abono').setValue(null);
     this.creditForm.get('Importe_Cuota_Ahorro').setValue(null);
-    this.creditForm.get('Tipo_Moneda_Ahorro').setValue(null);
-    this.creditForm.get('Situacion_Plan_Ahorro').setValue(null);
+    this.creditForm.get('Tipo_Moneda_AhorroId').setValue(null);
+    this.creditForm.get('Situacion_Plan_AhorroId').setValue(null);
     this.creditForm.get('N_Abonos_Validados').setValue(null);
-    this.creditForm.get('Ultimo_Abono_Validado').setValue(null);
+    this.creditForm.get('Ultimo_Abono_ValidadoId').setValue(null);
     this.creditForm.get('Cta_Ahorro_BanBif').setValue(null);
   }
   setPlanAhorroUntouched(){
     this.creditForm.get('Meses_Abono').markAsUntouched();
     this.creditForm.get('Importe_Cuota_Ahorro').markAsUntouched();
-    this.creditForm.get('Tipo_Moneda_Ahorro').markAsUntouched();
-    this.creditForm.get('Situacion_Plan_Ahorro').markAsUntouched();
+    this.creditForm.get('Tipo_Moneda_AhorroId').markAsUntouched();
+    this.creditForm.get('Situacion_Plan_AhorroId').markAsUntouched();
     this.creditForm.get('N_Abonos_Validados').markAsUntouched();
-    this.creditForm.get('Ultimo_Abono_Validado').markAsUntouched();
+    this.creditForm.get('Ultimo_Abono_ValidadoId').markAsUntouched();
     this.creditForm.get('Cta_Ahorro_BanBif').markAsUntouched();
   }
 
@@ -551,6 +458,16 @@ desembolso = 0;
     this.creditForm.get('Tercer_desembolso').disable();
     this.creditForm.get('Aporte_Cliente').disable();
   }
+  setDisableControlsPlanAhorroProgramado(){
+    this.creditForm.get('Meses_Abono').disable();
+    this.creditForm.get('Tipo_Moneda_AhorroId').disable();
+    this.creditForm.get('Importe_Cuota_Ahorro').disable();
+    this.creditForm.get('Situacion_Plan_AhorroId').disable();
+    this.creditForm.get('N_Abonos_Validados').disable();
+    this.creditForm.get('Ultimo_Abono_ValidadoId').disable();
+    this.creditForm.get('Cta_Ahorro_BanBif').disable();
+    this.creditForm.get('Plan_Ahorro').disable();
+  }
 
   setDisableControlsDescripcionInmueble(){
     this.creditForm.get('Descripcion_Inmueble').disable();
@@ -558,8 +475,8 @@ desembolso = 0;
   }
   setDisableObservacionesOpcional(){
     this.creditForm.get('Observaciones').disable();
-    this.creditForm.get('lugarVisita').disable();
-    this.creditForm.get('periodoGracia').disable();
+    this.creditForm.get('Lugar_VisitaId').disable();
+    this.creditForm.get('Periodo_Gracia').disable();
   }
 
   setDisableComentarios(){
@@ -568,60 +485,53 @@ desembolso = 0;
     this.creditForm.get('Cometario_Evaluacion').disable();
   }
   setDisableControlsCabezera(){
-    this.creditForm.get('typeProduct').disable();
+    this.creditForm.get('Tipo_ProductoId').disable();
     this.creditForm.get('ejecutivo').disable();
-    this.creditForm.get('modalidad').disable();
-    this.creditForm.get('subProducto').disable();
-    this.creditForm.get('zona').disable();
-    this.creditForm.get('oficina').disable();
-    this.creditForm.get('tipoDcmto').disable();
-    this.creditForm.get('nroDcmto').disable();
-    this.creditForm.get('nombreTitular').disable();
-    this.creditForm.get('riesgoMaximo').disable();
-    this.creditForm.get('sustentoIngresos').disable();
+    this.creditForm.get('ModalidadId').disable();
+    this.creditForm.get('Sub_ProductoId').disable();
+    this.creditForm.get('ZonaId').disable();
+    this.creditForm.get('OficinaId').disable();
+    this.creditForm.get('Tipo_DocumentoId').disable();
+    this.creditForm.get('N_Documento').disable();
+    this.creditForm.get('Nombre_Titular').disable();
+    this.creditForm.get('Riesgo_Maximo').disable();
+    this.creditForm.get('Sustento_IngresosId').disable();
     this.creditForm.get('Oferta').disable();
-    this.creditForm.get('T1').disable();
-    this.creditForm.get('T2').disable();
-    this.creditForm.get('T3').disable();
-    this.creditForm.get('T4').disable();
-    this.creditForm.get('T5').disable();
-    this.creditForm.get('T4').disable();
-    this.creditForm.get('C1').disable();
-    this.creditForm.get('C2').disable();
-    this.creditForm.get('C3').disable();
-    this.creditForm.get('C4').disable();
-    this.creditForm.get('C5').disable();
+    for (let index = 1; index <= 5; index++) {
+      this.creditForm.get(`T${index}`).disable();
+      this.creditForm.get(`C${index}`).disable();
+    }
   }
 
   setDisableControlsDatosOperacion(){
-    this.creditForm.get('nombreProyecto').disable();
-    this.creditForm.get('numeroVivienda').disable();
-    this.creditForm.get('Moneda').disable();
+    this.creditForm.get('ProyectoId').disable();
+    this.creditForm.get('N_ViviendaId').disable();
+    this.creditForm.get('MonedaId').disable();
     this.creditForm.get('TEA').disable();
-    this.creditForm.get('teaAuth').disable();
-    this.creditForm.get('tipoprecioVenta').disable();
-    this.creditForm.get('precioVenta').disable();
+    this.creditForm.get('TEA_AutorizadoId').disable();
+    this.creditForm.get('Mon_PrecioVentaId').disable();
+    this.creditForm.get('Precio_Venta').disable();
     this.creditForm.get('pFinanciamiento').disable();
   }
 
   setDisableControlsDesembolso(){
-    this.creditForm.get('desembolso').disable();
-    this.creditForm.get('gravamen').disable();
+    this.creditForm.get('Desembolso').disable();
+    this.creditForm.get('Grabamen').disable();
   }
   setDisableControlsCuotaInicial(){
     this.creditForm.get('Mon_Ap_Efectivo').disable();
     this.creditForm.get('Aporte_Efectivo').disable();
-    this.creditForm.get('Mon_Aport_AFP').disable();
+    this.creditForm.get('Mon_Aport_AFPId').disable();
     this.creditForm.get('Aporte_RetiroAFP').disable();
-    this.creditForm.get('monedaDesembolso').disable();
-    this.creditForm.get('desembolso').disable();
-    this.creditForm.get('monedagravamen').disable();
-    this.creditForm.get('gravamen').disable();
-    this.creditForm.get('modalidadPago').disable();
+    this.creditForm.get('Mon_Desembolso').disable();
+    this.creditForm.get('Desembolso').disable();
+    this.creditForm.get('Mon_Gravamen').disable();
+    this.creditForm.get('Grabamen').disable();
+    this.creditForm.get('Modalidad_PagoId').disable();
   }
   setDisableControlsTipoGarantiaAbono(){
-    this.creditForm.get('tipoGarantia').disable();
-    this.creditForm.get('tipoAbono').disable();
+    this.creditForm.get('Tipo_GarantiaId').disable();
+    this.creditForm.get('').disable();
   }
   setDisableControlsGarantias(){
     this.creditForm.get('Descripcion_Inmueble').disable();
@@ -633,9 +543,15 @@ desembolso = 0;
     this.showComentarioCPM = true;
     this.showComentarioRiesgos = true;
   }
+  showInputObservacion(){
+    this.showObservacionCPM = false;
+    this.showComentarioCPM = true;
+    this.showComentarioRiesgos = true;
+    this.creditForm.controls.Cometario_Revisor1.disable();
+  }
 
   listenerBonoBuenPagador(){
-    this.creditForm.get('precioVenta').valueChanges.subscribe(selectedValue => {
+    this.creditForm.get('Precio_Venta').valueChanges.subscribe(selectedValue => {
         switch (true) {
           case ( selectedValue >= Variables.constantes.PrecioVenta9 && selectedValue <= Variables.constantes.PrecioVenta10):
             this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador5);
@@ -676,7 +592,7 @@ desembolso = 0;
   }
 
   listenerPBPAdicionalSostenible(){
-    this.creditForm.get('precioVenta').valueChanges.subscribe(precio => {
+    this.creditForm.get('Precio_Venta').valueChanges.subscribe(precio => {
       this.creditForm.controls.BBP_Adicional.setValue(Variables.constantes.TipoBonoViviendaAdicionalSostenibleId);
       this.creditForm.get('BBP_Adicional').valueChanges.subscribe(idPBP => {
       if (precio <= Variables.constantes.PrecioVenta8) {
@@ -696,14 +612,14 @@ desembolso = 0;
   });
   }
   listenerBotones(){
-    this.creditForm.get('Estado').valueChanges.subscribe(estado => {
+    this.creditForm.get('EstadoId').valueChanges.subscribe(estado => {
         switch (true) {
         case ( estado === Variables.constantes.EstadoCreaExpedienteId):
           this.showBtnEnviarRegularizar = false;
           this.showSaving = true;
           this.setDisabledControlsBuenPagador();
-          this.creditForm.get('desembolso').disable();
-          this.creditForm.get('gravamen').disable();
+          this.creditForm.get('Desembolso').disable();
+          this.creditForm.get('Grabamen').disable();
           break;
         case ( estado === Variables.constantes.EstadoRegistroCPM):
           this.showBtnGuardarBorrador = false;
@@ -729,12 +645,13 @@ desembolso = 0;
           this.showBtnObservacionCPM = true;
           this.showBtnRechazar = true;
           this.showComentarioRevisor = true;
-          this.showInputTextObservacion();
+          this.showAnalistaRiesgos = true;
+          this.showInputObservacion();
           this.setDisableControlsCabezera();
-          this.setDisableControlsDatosOperacion();
           this.setDisableControlsGarantias();
           this.setDisableObservacionesOpcional();
           this.setDisableControlsAplicacion();
+          this.setDisableControlsPlanAhorroProgramado();
           this.creditForm.controls.Comentario_Registro.disable();
           this.creditForm.controls.Cometario_Revisor.disable();
           break;
@@ -755,6 +672,7 @@ desembolso = 0;
           this.setDisabledControlsBuenPagador();
           this.setDisableControlsAplicacion();
           this.setDisableObservacionesOpcional();
+          this.setDisableControlsPlanAhorroProgramado();
           break;
         case( estado === Variables.constantes.EstadoAsignacionRiesgos):
           this.showBotonesProducto = false;
@@ -762,6 +680,7 @@ desembolso = 0;
           this.showBtnGuardarBorrador = false;
           this.showPlanAhorro = false;
           this.setDisableControlsCabezera();
+          this.setDisableControlsPlanAhorroProgramado();
           break;
         case( estado === Variables.constantes.EstadoRegularizacionCPM):
           this.showBotonesProducto = false;
@@ -776,11 +695,13 @@ desembolso = 0;
           this.setDisableControlsDatosOperacion();
           this.setDisableControlsTipoGarantiaAbono();
           this.setDisableObservacionesOpcional();
+          this.setDisableControlsPlanAhorroProgramado();
           break;
         case ( estado === Variables.constantes.EstadoAprobadoSinVerificacion):
           this.showComentarioRiesgos = true;
           this.showComentarioCPM = true;
           this.showComentarioRevisor = true;
+          this.showAnalistaRiesgos = true;
           this.setDisableControlsCabezera();
           this.setDisableControlsCuotaInicial();
           this.setDisableControlsDatosOperacion();
@@ -788,12 +709,15 @@ desembolso = 0;
           this.setDisableObservacionesOpcional();
           this.setDisableControlsAplicacion();
           this.setDisableComentarios();
+          this.setDisableControlsPlanAhorroProgramado();
           this.showBtnObservar = false;
           this.showBtnGuardarBorrador = false;
           this.showBtnEnviar = false;
           this.showBtnGrabar = true;
           this.showBtnEnviarRegularizar = false;
           this.showControlesGestor = true;
+          this.colorBoton = 'rgb(24, 255, 120)';
+          this.colorletraBoton = 'black';
           break;
         case ( estado !== Variables.constantes.EstadoRegistroCPM):
           this.showBtnObservar = false;
@@ -806,7 +730,7 @@ desembolso = 0;
     });
   }
   // listenerObservaciones(){
-  //   this.creditForm.get('Estado').valueChanges.subscribe(estado => {
+  //   this.creditForm.get('EstadoId').valueChanges.subscribe(estado => {
   //     if (estado !== Variables.constantes.EstadoObservadoCPM) {
   //       this.showObservacionCPM = false;
   //     }
@@ -817,11 +741,11 @@ desembolso = 0;
   // });
   // }
   listenerTipoGarantia(){
-    this.creditForm.get('tipoGarantia').valueChanges.subscribe(id => {
+    this.creditForm.get('Tipo_GarantiaId').valueChanges.subscribe(id => {
       if (this.typeguarenteeList !== null && this.typeguarenteeList) {
         console.log(this.typeguarenteeList);
         const garantias = this.typeguarenteeList.find(item => item.Id === id).Condiciones;
-        const cadCondicionDesembolso = garantias.replace(/(<([^>]+)>|\&\w{4}|\&\#\w{3})/ig, '');
+        const cadCondicionDesembolso = garantias.replace(this.expRegular, '');
         this.creditForm.controls.Condicion_Desembolso.setValue(cadCondicionDesembolso);
       } else {
         // this.creditForm.controls.Condicion_Desembolso.setValue('');
@@ -850,7 +774,7 @@ desembolso = 0;
 
 
   listenerTipoMoneda(){
-    this.creditForm.get('Moneda').valueChanges.subscribe(selectedValue => {
+    this.creditForm.get('MonedaId').valueChanges.subscribe(selectedValue => {
       if (selectedValue === Variables.constantes.TipoMonedaDolaresDatosOperacionId) {
         this.setearTipoMoneda(Variables.constantes.SimboloDolares, Variables.constantes.TipoMonedaDolaresPrecioVentaId);
       } else {
@@ -861,7 +785,7 @@ desembolso = 0;
 
 
   valueSubProducto(): any{
-    this.creditForm.get('typeProduct').valueChanges.subscribe(selectedValue => {
+    this.creditForm.get('Tipo_ProductoId').valueChanges.subscribe(selectedValue => {
       // clean array
       this.tipoSubProductoList = [];
       switch (selectedValue) {
@@ -875,6 +799,7 @@ desembolso = 0;
           this.showBuenPagador = true;
           this.showBuenAplicacion = false;
           this.showTipoGarantiaAbono = true;
+          this.creditForm.controls.Condicion_Desembolso.setValue('');
           break;
         case Variables.constantes.TipoProductoCompraDeudaId:
           this.showBotonesProducto = false;
@@ -886,17 +811,20 @@ desembolso = 0;
           this.showBuenAplicacion = false;
           this.showTipoGarantiaAbono = true;
           this.setearMonedasEmpty();
+          this.creditForm.controls.Condicion_Desembolso.setValue('');
           break;
         case Variables.constantes.TipoProductoAmpliacionRemodelacionConstruccionId:
+          this.creditForm.controls.Condicion_Desembolso.setValue( `    ${Variables.condicionesDesembolso.ContratoFirma}
+    ${Variables.condicionesDesembolso.PagoAdelantado}
+    ${Variables.condicionesDesembolso.ChequeGerencia}`);
           this.showGarantias = true;
+          this.showTipoGarantiaAbono = true;
           this.showPVenta = false;
           this.showBotonesProducto = false;
-          this.showTipoGarantiaAbono = false;
           this.showmessageVivienda = false;
           this.showCuotaInicial = false;
           this.showBuenPagador = false;
           this.showBuenAplicacion = true;
-
           this.setearMonedasEmpty();
           break;
         case Variables.constantes.TipoProductoHipotecarioId:
@@ -908,7 +836,7 @@ desembolso = 0;
           this.showCuotaInicial = true;
           this.showBuenPagador = false;
           this.showBuenAplicacion = false;
-
+          this.creditForm.controls.Condicion_Desembolso.setValue('');
           this.setearMonedasEmpty();
           break;
 
@@ -919,6 +847,7 @@ desembolso = 0;
           this.showmessageVivienda = false;
           this.showBuenAplicacion = false;
           this.setearMonedasEmpty();
+          this.creditForm.controls.Condicion_Desembolso.setValue('');
           break;
       }
       this.generalListService.getByField(Variables.listas.AdmTipoSubProducto, Variables.listas.AdmTipoProductoId, selectedValue)
@@ -929,7 +858,7 @@ desembolso = 0;
 
 
   valueModalidad(): any{
-    this.creditForm.get('typeProduct').valueChanges.subscribe(selectedValue => {
+    this.creditForm.get('Tipo_ProductoId').valueChanges.subscribe(selectedValue => {
       // clean array
       this.modalidadList = [];
       this.generalListService.getByField(Variables.listas.AdmModalidad, Variables.listas.AdmModalidadProductoId, selectedValue)
@@ -938,20 +867,15 @@ desembolso = 0;
     });
   }
 
-
-
-
-
-
   getZonas(){
-    this.generalListService.get('Zona')
+    this.generalListService.get(Variables.listas.AdmZona)
     .then(zonaModelList => this.zonaModelList = zonaModelList)
     .catch(error => console.error(error));
   }
 
 
   valueOficina(): any{
-    this.creditForm.get('zona').valueChanges.subscribe(selectedValue => {
+    this.creditForm.get('ZonaId').valueChanges.subscribe(selectedValue => {
       // clean array
       this.oficinaList = [];
       this.generalListService.getByField(Variables.listas.AdmOficina, Variables.listas.AdmZonaId, selectedValue)
@@ -979,10 +903,6 @@ desembolso = 0;
     this.generalListService.get(Variables.listas.AdmProyectos, Variables.columns.Title)
     .then(projectList => {
       this.projectList = projectList;
-      console.log({
-        projectList,
-        projectList2: this.projectList
-      });
     })
     .catch(error => console.error(error));
   }
@@ -1041,7 +961,7 @@ desembolso = 0;
   }
 
   getvalueGarantias(): any{
-    this.creditForm.get('modalidad').valueChanges.subscribe(selectedValue => {
+    this.creditForm.get('ModalidadId').valueChanges.subscribe(selectedValue => {
       // clean array
       //this.typeguarenteeList = ;
       this.generalListService.getByField(Variables.listas.AdmTipoGarantia, Variables.listas.AdmModalidad, selectedValue)
@@ -1049,6 +969,13 @@ desembolso = 0;
         .catch(error => console.error(error));
     });
   }
+
+  // getGarantiasAll(){
+  //   this.generalListService.get(Variables.listas.AdmTipoGarantia)
+  //   .then(garantiasList => this.garantiasList = garantiasList)
+  //   .catch(error => console.error(error));
+  // }
+
 
 
   getPaymentType(){
@@ -1100,12 +1027,12 @@ desembolso = 0;
   }
 
   getObjectToSave(): any {
-    if (this.creditForm.controls.Meses_Abono !== null ||
-      this.creditForm.controls.Tipo_Moneda_Ahorro.value !== null ||
+    if (this.creditForm.controls.Meses_Abono.value !== null ||
+      this.creditForm.controls.Tipo_Moneda_AhorroId.value !== null ||
       this.creditForm.controls.Importe_Cuota_Ahorro.value !== null ||
-      this.creditForm.controls.Situacion_Plan_Ahorro.value !== null ||
+      this.creditForm.controls.Situacion_Plan_AhorroId.value !== null ||
       this.creditForm.controls.N_Abonos_Validados.value !== null ||
-      this.creditForm.controls.Ultimo_Abono_Validado.value !== null ||
+      this.creditForm.controls.Ultimo_Abono_ValidadoId.value !== null ||
       this.creditForm.controls.Cta_Ahorro_BanBif.value
     ) {
       this.flagPlanAhorro = Variables.constantes.Flag_PlanAhorro1;
@@ -1116,57 +1043,45 @@ desembolso = 0;
     const rentaTitular = [];
     const rentaConyugue = [];
     for (let index = 1; index <= 5; index++) {
-      this.creditForm.get(`T${index}`).value && (rentaTitular.push(index)) && (rentaConyugue.push(index));
+      this.creditForm.get(`T${index}`).value && (rentaTitular.push(index));
+      this.creditForm.get(`C${index}`).value && (rentaConyugue.push(index));
     }
 
     const ejecutivo = this.getValorControlPeoplePicker('ejecutivo', this.creditForm);
+    const analistaRiesgo = this.getValorControlPeoplePicker('Analista_Riesgos', this.creditForm);
 
     const Fecha_Tasacion_Remodelac = this.creditForm.controls.Fecha_Tasacion_Remodelac.value;
+    const Fecha_Gestor_Hip = this.creditForm.controls.Fecha_Gestor_Hip.value;
     debugger;
 
     const solicitudCreditoHipotecario = {
-      EjecutivoId: ejecutivo,
-      Tipo_ProductoId: this.creditForm.controls.typeProduct.value,
-      Sub_ProductoId: this.creditForm.controls.subProducto.value,
-      ModalidadId: this.creditForm.controls.modalidad.value,
-      ZonaId: this.creditForm.controls.zona.value,
-      OficinaId: this.creditForm.controls.oficina.value,
-      EstadoId: Variables.constantes.EstadoCreaExpedienteId,
-      Nombre_Titular: this.creditForm.controls.nombreTitular.value,
-      Tipo_DocumentoId: this.creditForm.controls.tipoDcmto.value,
-      N_Documento: `${this.creditForm.controls.nroDcmto.value}`,
-
-      Riesgo_Maximo: +this.creditForm.controls.riesgoMaximo.value,
-      Sustento_IngresosId: this.creditForm.controls.sustentoIngresos.value,
+      Tipo_ProductoId: this.creditForm.controls.Tipo_ProductoId.value,
+      Sub_ProductoId: this.creditForm.controls.Sub_ProductoId.value,
+      ZonaId: this.creditForm.controls.ZonaId.value,
+      ModalidadId: this.creditForm.controls.ModalidadId.value,
+      OficinaId: this.creditForm.controls.OficinaId.value,
+      Nombre_Titular: this.creditForm.controls.Nombre_Titular.value,
+      Tipo_DocumentoId: this.creditForm.controls.Tipo_DocumentoId.value,
+      Sustento_IngresosId: this.creditForm.controls.Sustento_IngresosId.value,
       Oferta: this.creditForm.controls.Oferta.value,
-      Tipo_RentaId: {results: rentaTitular},
-      Tipo_RentaConyugueId: {results: rentaConyugue},
-      ProyectoId: this.creditForm.controls.nombreProyecto.value,
-      N_ViviendaId: this.creditForm.controls.numeroVivienda.value,
-      MonedaId: this.creditForm.controls.Moneda.value,
-      TEA: ((+this.creditForm.controls.TEA.value) / 100),
-      TEA_AutorizadoId: this.creditForm.controls.teaAuth.value,
-      Mon_PrecioVentaId: this.creditForm.controls.tipoprecioVenta.value,
-      Precio_Venta: +this.creditForm.controls.precioVenta.value,
-      Financiamiento: ((+this.creditForm.controls.pFinanciamiento.value) / 100),
+      ProyectoId: this.creditForm.controls.ProyectoId.value,
+      N_ViviendaId: this.creditForm.controls.N_ViviendaId.value,
+      MonedaId: this.creditForm.controls.MonedaId.value,
+      TEA_AutorizadoId: this.creditForm.controls.TEA_AutorizadoId.value,
+      Mon_PrecioVentaId: this.creditForm.controls.Mon_PrecioVentaId.value,
       Mon_Ap_EfectivoId: this.creditForm.controls.Mon_Ap_Efectivo.value,
-      Aporte_Efectivo: +this.creditForm.controls.Aporte_Efectivo.value,
-      Mon_Aport_AFPId: this.creditForm.controls.Mon_Aport_AFP.value,
-      Aporte_RetiroAFP: +this.creditForm.controls.Aporte_RetiroAFP.value,
+      Mon_Aport_AFPIdId: this.creditForm.controls.Mon_Aport_AFPId.value,
       Mon_BBP: this.creditForm.controls.Mon_BBP.value,
       BBP: this.creditForm.controls.BBP.value,
       Mon_PBB: this.creditForm.controls.Mon_PBB.value,
-      PBP: +this.creditForm.controls.PBP.value,
-      Mon_Desembolso: this.creditForm.controls.monedaDesembolso.value,
-      Desembolso: this.creditForm.controls.desembolso.value,
-      Mon_Gravamen: this.creditForm.controls.monedagravamen.value,
-      Grabamen: +this.creditForm.controls.gravamen.value,
-      Modalidad_PagoId: this.creditForm.controls.modalidadPago.value,
+      Mon_Desembolso: this.creditForm.controls.Mon_Desembolso.value,
+      Desembolso: this.creditForm.controls.Desembolso.value,
+      Mon_Gravamen: this.creditForm.controls.Mon_Gravamen.value,
+      Modalidad_PagoId: this.creditForm.controls.Modalidad_PagoId.value,
       Observaciones: this.creditForm.controls.Observaciones.value,
-      Lugar_VisitaId: this.creditForm.controls.lugarVisita.value,
-      Periodo_Gracia: +this.creditForm.controls.periodoGracia.value,
-      Tipo_GarantiaId: this.creditForm.controls.tipoGarantia.value,
-      Tipo_AbonoId: this.creditForm.controls.tipoAbono.value,
+      Lugar_VisitaId: this.creditForm.controls.Lugar_VisitaId.value,
+      Tipo_GarantiaId: this.creditForm.controls.Tipo_GarantiaId.value,
+      Tipo_AbonoId: this.creditForm.controls.Tipo_AbonoId.value,
       Condicion_Desembolso: this.creditForm.controls.Condicion_Desembolso.value,
       Desembolso_Ampliacion: this.creditForm.controls.Desembolso_Ampliacion.value,
       Numero_Desemboslo: this.creditForm.controls.Numero_Desemboslo.value,
@@ -1175,21 +1090,42 @@ desembolso = 0;
       Tercer_desembolso: this.creditForm.controls.Tercer_desembolso.value,
       Aporte_Cliente: this.creditForm.controls.Aporte_Cliente.value,
       Descripcion_Inmueble: this.creditForm.controls.Descripcion_Inmueble.value,
-      Fecha_Tasacion_Remodelac,
+      Comentario_Registro: this.creditForm.controls.Comentario_Registro.value,
+      Cometario_Revisor: this.creditForm.controls.Cometario_Revisor.value,
+      Cometario_Evaluacion: this.creditForm.controls.Cometario_Evaluacion.value,
+      EstadoGestorId: this.creditForm.controls.EstadoGestorId.value,
+      Comentario_Gestor_Hip: this.creditForm.controls.Comentario_Gestor_Hip.value,
       Valor_ComTas_Soles: this.creditForm.controls.Valor_ComTas_Soles.value,
       VRI_Soles: this.creditForm.controls.VRI_Soles.value,
-
       Meses_Abono: this.creditForm.controls.Meses_Abono.value,
-      Tipo_Moneda_AhorroId: this.creditForm.controls.Tipo_Moneda_Ahorro.value,
+      Tipo_Moneda_AhorroId: this.creditForm.controls.Tipo_Moneda_AhorroId.value,
       Importe_Cuota_Ahorro: this.creditForm.controls.Importe_Cuota_Ahorro.value,
-      Situacion_Plan_AhorroId: this.creditForm.controls.Situacion_Plan_Ahorro.value,
+      Situacion_Plan_AhorroId: this.creditForm.controls.Situacion_Plan_AhorroId.value,
       N_Abonos_Validados: this.creditForm.controls.N_Abonos_Validados.value,
-      Ultimo_Abono_ValidadoId: this.creditForm.controls.Ultimo_Abono_Validado.value,
+      Ultimo_Abono_ValidadoId: this.creditForm.controls.Ultimo_Abono_ValidadoId.value,
       Plan_Ahorro: this.creditForm.controls.Plan_Ahorro.value,
       Cta_Ahorro_BanBif: this.creditForm.controls.Cta_Ahorro_BanBif.value,
-      flag_PlanAhorro: this.flagPlanAhorro
+      Observacion_CPMId: this.creditForm.controls.Observacion_CPMId.value,
+      
+      Precio_Venta: +this.creditForm.controls.Precio_Venta.value,
+      Aporte_Efectivo: +this.creditForm.controls.Aporte_Efectivo.value,
+       Aporte_RetiroAFP: +this.creditForm.controls.Aporte_RetiroAFP.value,
+      Riesgo_Maximo: +this.creditForm.controls.Riesgo_Maximo.value,
+      Tipo_RentaConyugueId: {results: rentaConyugue},
+      Anlista_RiesgosId: analistaRiesgo,
+      N_Documento: `${this.creditForm.controls.N_Documento.value}`,
+      Tipo_RentaId: {results: rentaTitular},
+      PBP: +this.creditForm.controls.PBP.value,
+      Grabamen: +this.creditForm.controls.Grabamen.value,
+      Periodo_Gracia: +this.creditForm.controls.Periodo_Gracia.value,
+      EstadoId: Variables.constantes.EstadoCreaExpedienteId,
+      TEA: ((+this.creditForm.controls.TEA.value) / 100),
+      Financiamiento: ((+this.creditForm.controls.pFinanciamiento.value) / 100),
+      Fecha_Tasacion_Remodelac,
+      Fecha_Gestor_Hip,
+      flag_PlanAhorro: this.flagPlanAhorro,
+      EjecutivoId: ejecutivo
     };
-
     return solicitudCreditoHipotecario;
   }
 
@@ -1235,20 +1171,21 @@ desembolso = 0;
 
   getObservacionesCPM(){
     this.generalListService.get(Variables.listas.AdmObservacionesCPM)
-    .then(observacionesCPMList =>  this.observacionesCPMList = observacionesCPMList)
+    .then(observacionesCPMList =>  {this.observacionesCPMList = observacionesCPMList;
+                                    console.log(this.observacionesCPMList); })
     .catch(error => console.error(error));
   }
 
   calculaDesembolso(){
-    const precioVenta = this.creditForm.get('precioVenta').value;
+    const precioVenta = this.creditForm.get('Precio_Venta').value;
     const AporteEfectivo = this.creditForm.get('Aporte_Efectivo').value;
     const AporteRetiroAFP = this.creditForm.get('Aporte_RetiroAFP').value;
     const BBP = this.creditForm.get('BBP').value;
     const PBP = this.creditForm.get('PBP').value;
     const PBPAdicionalSostenible = this.creditForm.get('PBP_Adiconal_Sostenible').value;
-    const desembolso = precioVenta - AporteEfectivo - AporteRetiroAFP - BBP  - PBP - PBPAdicionalSostenible;
-    this.desembolso = desembolso;
-    this.creditForm.get('desembolso').setValue(desembolso);
+    const Desembolso = precioVenta - AporteEfectivo - AporteRetiroAFP - BBP  - PBP - PBPAdicionalSostenible;
+    this.Desembolso = Desembolso;
+    this.creditForm.get('Desembolso').setValue(Desembolso);
 
   }
 
@@ -1256,8 +1193,8 @@ desembolso = 0;
     const BBP = this.creditForm.get('BBP').value;
     const PBP = this.creditForm.get('PBP').value;
     const PBPAdicionalSostenible = this.creditForm.get('PBP_Adiconal_Sostenible').value;
-    const gravamen = (this.desembolso + BBP  + PBP + PBPAdicionalSostenible) * 120 / 100;
-    this.creditForm.get('gravamen').setValue(gravamen);
+    const Grabamen = (this.Desembolso + BBP  + PBP + PBPAdicionalSostenible) * 120 / 100;
+    this.creditForm.get('Grabamen').setValue(Grabamen);
   }
 
 
@@ -1273,9 +1210,13 @@ desembolso = 0;
     this.creditForm.get('Ejecutivo').setValue([]);
     this.creditForm.controls['Ejecutivo'].updateValueAndValidity();
   }
+  removeAnalista(): void {
+    this.creditForm.get('Analista_Riesgos').setValue([]);
+    this.creditForm.controls['Analista_Riesgos'].updateValueAndValidity();
+  }
 
   send() {
-    const EstadoIdOld = this.creditForm.controls.Estado.value;
+    const EstadoIdOld = this.creditForm.controls.EstadoId.value;
     // let Fecha_Registro_CPM: Date;
     let EstadoId = 0;
     [0, Variables.constantes.EstadoCreaExpedienteId].includes(EstadoIdOld) && (EstadoId = Variables.constantes.EstadoRegistroCPM)/* && (Fecha_Registro_CPM = new Date())*/;

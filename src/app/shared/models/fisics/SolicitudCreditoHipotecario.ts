@@ -75,6 +75,10 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public Comentario_Registro = '',
     public Anlista_RiesgosId = '',
     public Cometario_Revisor = '',
+    public Cometario_Evaluacion = '',
+    public EstadoGestorId = '',
+    public Fecha_Gestor_Hip = '',
+    public Comentario_Gestor_Hip = '',
     public Enlace_Documentos = {
       Description: '',
       Url: ''

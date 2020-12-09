@@ -43,6 +43,10 @@
     background: rgb(236, 112, 99)!important;
 }
 
+.mat-raised-button.mat-acent {
+    background: rgb(24, 255, 120)!important;
+}
+
 ::ng-deep .mat-form-field-underline {
     /*change color of label*/
     background: rgb(2, 139, 255) !important;

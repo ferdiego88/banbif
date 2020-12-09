@@ -28,8 +28,7 @@ export class Variables {
   };
 
   static readonly condicionesDesembolso = {
-  ContratoFirma : `- Contra firma de minuta y bloqueo registral  inscrito en primer rango a favor de BanBif.
-  - El cliente realice el pago por adelantado de las valorizaciones a realizarse para validar el uso de los fondos por cada desembolso parcial.`,
+  ContratoFirma : `- Contra firma de minuta y bloqueo registral  inscrito en primer rango a favor de BanBif.`,
     PagoAdelantado: '- El cliente realice el pago por adelantado de las valorizaciones a realizarse para validar el uso de los fondos por cada desembolso parcial.',
     ChequeGerencia: '- Se emitirá cheque de gerencia a favor del cliente; la firma de la EEPP se realizará contra entrega del cheque de gerencia.'
   };
@@ -146,13 +145,76 @@ export class Variables {
     AdmZona: 'Zona',
     AdmZonaId: 'ZonaId',
   };
-
+  
+  static columnasHipo = {
+    Tipo_ProductoId: 'Tipo_ProductoId',
+    Sub_ProductoId: 'Sub_ProductoId',
+    ZonaId: 'ZonaId',
+    ModalidadId: 'ModalidadId',
+    OficinaId: 'OficinaId',
+    EstadoId: 'EstadoId',
+    Tipo_DocumentoId: 'Tipo_DocumentoId',
+    N_Documento: 'N_Documento',
+    Nombre_Titular: 'Nombre_Titular',
+    Riesgo_Maximo: 'Riesgo_Maximo',
+    Sustento_IngresosId: 'Sustento_IngresosId',
+    Oferta: 'Oferta',
+    ProyectoId: 'ProyectoId',
+    N_ViviendaId: 'N_ViviendaId',
+    MonedaId: 'MonedaId',
+    Mon_Valor_ComTas_Soles: 'Mon_Valor_ComTas_Soles',
+    Valor_ComTas_Soles: 'Valor_ComTas_Soles',
+    Mon_VRI_Soles: 'Mon_VRI_Soles',
+    VRI_Soles: 'VRI_Soles',
+    Numero_Desemboslo: 'Numero_Desemboslo',
+    Primer_desembolso: 'Primer_desembolso',
+    Segundo_desembolso: 'Segundo_desembolso',
+    Tercer_desembolso: 'Tercer_desembolso',
+    Aporte_Cliente: 'Aporte_Cliente',
+    TEA_AutorizadoId: 'TEA_AutorizadoId',
+    Mon_PrecioVentaId: 'Mon_PrecioVentaId',
+    Precio_Venta: 'Precio_Venta',
+    Mon_Ap_Efectivo: 'Mon_Ap_Efectivo',
+    Aporte_Efectivo: 'Aporte_Efectivo',
+    Mon_Aport_AFPId: 'Mon_Aport_AFPId',
+    Aporte_RetiroAFP: 'Aporte_RetiroAFP',
+    Mon_Desembolso: 'Mon_Desembolso',
+    Mon_Gravamen: 'Mon_Gravamen',
+    Mon_BBP: 'Mon_BBP',
+    BBP: 'BBP',
+    Mon_PBB: 'Mon_PBB',
+    PBP: 'PBP',
+    Tipo_Moneda_AhorroId: 'Tipo_Moneda_AhorroId',
+    Meses_Abono: 'Meses_Abono',
+    Importe_Cuota_Ahorro: 'Importe_Cuota_Ahorro',
+    Situacion_Plan_AhorroId: 'Situacion_Plan_AhorroId',
+    N_Abonos_Validados: 'N_Abonos_Validados',
+    Ultimo_Abono_ValidadoId: 'Ultimo_Abono_ValidadoId',
+    Cta_Ahorro_BanBif: 'Cta_Ahorro_BanBif',
+    Desembolso: 'Desembolso',
+    Grabamen: 'Grabamen',
+    Modalidad_PagoId: 'Modalidad_PagoId',
+    Observacion_CPMId: 'Observacion_CPMId',
+    Lugar_VisitaId: 'Lugar_VisitaId',
+    Periodo_Gracia: 'Periodo_Gracia',
+    Tipo_GarantiaId: 'Tipo_GarantiaId',
+    Tipo_AbonoId: 'Tipo_AbonoId',
+    EstadoGestorId: 'EstadoGestorId'
+  };
   static readonly columnasSolicitud = {
     Id: 'Id',
     ID: 'ID',
     Title: 'Title',
     Author: 'Author',
     Created: 'Created',
+    Descripcion_Inmueble: 'Descripcion_Inmueble',
+    Plan_Ahorro: 'Plan_Ahorro',
+    Observaciones: 'Observaciones',
+    Condicion_Desembolso: 'Condicion_Desembolso',
+    Comentario_Registro: 'Comentario_Registro',
+    Desembolso_Ampliacion: 'Desembolso_Ampliacion',
+    Cometario_Evaluacion: 'Cometario_Evaluacion',
+    Comentario_Gestor_Hip: 'Comentario_Gestor_Hip',
     Editor: 'Editor',
     Modified: 'Modified',
     NombreTitular : 'Nombre_Titular',
@@ -170,7 +232,7 @@ export class Variables {
     SustentoIngreso : 'Sustento_Ingresos',
     FechaEstado : 'Fecha_Estado',
     Desembolso: 'Desembolso'
-  }
+  };
 
   static readonly columns = {
     IdCanalDistribucion: 'IdCanalDistribucion',
