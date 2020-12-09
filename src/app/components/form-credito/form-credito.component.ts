@@ -1052,7 +1052,6 @@ Desembolso = 0;
 
     const Fecha_Tasacion_Remodelac = this.creditForm.controls.Fecha_Tasacion_Remodelac.value;
     const Fecha_Gestor_Hip = this.creditForm.controls.Fecha_Gestor_Hip.value;
-    debugger;
 
     const solicitudCreditoHipotecario = {
       Tipo_ProductoId: this.creditForm.controls.Tipo_ProductoId.value,
@@ -1129,43 +1128,29 @@ Desembolso = 0;
   }
 
   saveDraft(): void{
+    this.showLoading();
 
     const solicitudCreditoHipotecario = this.getObjectToSave();
     solicitudCreditoHipotecario.EstadoId = Variables.constantes.EstadoCreaExpedienteId;
 
-    this.route.params.subscribe(param => {
-      if (param.id) {
+    const id = this.solicitudHipotecarioList && this.solicitudHipotecarioList.Id ? this.solicitudHipotecarioList.Id : 0;
 
-        this.solicitudService.save(param.id, solicitudCreditoHipotecario)
-          .then(resp => {
-            // console.log(resp);
-            if (resp) {
-              Swal.fire(
-                'Datos guardados correctamente!',
-                '',
-                'success'
-              );
-              this.router.navigate(['/bandejas/solicitudes']);
-            }
-          })
-          .catch(error => console.log(error));
-      } else {
-        this.solicitudService.save(0, solicitudCreditoHipotecario)
-          .then(resp => {
-            // console.log(resp);
-            if (resp) {
-              Swal.fire(
-                'Datos guardados correctamente!',
-                '',
-                'success'
-              );
-              this.router.navigate(['/bandejas/solicitudes']);
-            }
-          })
-          .catch(error => console.log(error));
-      }
+    this.solicitudService.save(id, solicitudCreditoHipotecario)
+      .then(resp => {
+        if (resp) {
+          this.hideLoading();
 
-    });
+          Swal.fire('Datos guardados correctamente!', '', 'success');
+
+          this.router.navigate(['/bandejas/solicitudes']);
+        } else {
+          this.hideLoading();
+        }
+      })
+      .catch(error => {
+        this.hideLoading();
+        Swal.fire('Error', 'Ocurrió un error, no se grabó el registro. Comuníquese con TI', 'error');
+      });
 
   }
 
