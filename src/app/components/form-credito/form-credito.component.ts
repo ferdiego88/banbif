@@ -1228,7 +1228,7 @@ Desembolso = 0;
     Swal.fire({
       title: '¿Esta seguro de Enviar la Solicitud?',
       showCancelButton: true,
-      confirmButtonText: `Enviar`,
+      confirmButtonText: `Enviar`,icon:'question'
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
@@ -1249,7 +1249,7 @@ Desembolso = 0;
     Swal.fire({
       title: '¿Esta seguro de pasar la Solicitud a Revision de Observaciones?',
       showCancelButton: true,
-      confirmButtonText: `Aceptar`,
+      confirmButtonText: `Aceptar`,icon:'question'
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
@@ -1271,7 +1271,7 @@ Desembolso = 0;
     Swal.fire({
       title: '¿Esta seguro de Aprobar la Solicitud?',
       showCancelButton: true,
-      confirmButtonText: `Aprobar`,
+      confirmButtonText: `Aprobar`,icon:'question'
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
@@ -1293,7 +1293,7 @@ Desembolso = 0;
     Swal.fire({
       title: '¿Esta seguro de aprobar la Solicitud sin Verificación?',
       showCancelButton: true,
-      confirmButtonText: `Aprobar`,
+      confirmButtonText: `Aprobar`,icon:'question'
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
@@ -1315,7 +1315,7 @@ Desembolso = 0;
     Swal.fire({
       title: '¿Esta seguro de pasar la Solicitud para su Verificación?',
       showCancelButton: true,
-      confirmButtonText: `Aceptar`,
+      confirmButtonText: `Aceptar`,icon:'question'
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
@@ -1337,7 +1337,7 @@ Desembolso = 0;
     Swal.fire({
       title: '¿Esta seguro de pasar la Solicitud a Observación de Oficina?',
       showCancelButton: true,
-      confirmButtonText: `Observar`,
+      confirmButtonText: `Observar`,icon:'question'
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
@@ -1357,7 +1357,7 @@ Desembolso = 0;
     Swal.fire({
       title: '¿Esta seguro de enviar la Solicitud a Observación CPM?',
       showCancelButton: true,
-      confirmButtonText: `Aceptar`,
+      confirmButtonText: `Aceptar`,icon:'question'
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {

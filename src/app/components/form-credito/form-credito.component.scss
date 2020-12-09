@@ -39,6 +39,10 @@
     background: rgb(32, 163, 255) !important;
 }
 
+::ng-deep .mat-raised-button.mat-primary:hover {
+  background: rgb(198, 92, 117)!important;
+}
+
 .mat-raised-button.mat-warn {
     background: rgb(236, 112, 99)!important;
 }
@@ -102,6 +106,9 @@ a:active {
 .row {
     display: flex;
     flex-direction: row;
+}
+.div{
+  border-radius: 20px!important;
 }
 
 .col {
