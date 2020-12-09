@@ -1281,7 +1281,8 @@ Desembolso = 0;
   }
 
   update(itemSave: any): void {
-    this.solicitudService.save(this.solicitudHipotecarioList.Id, itemSave)
+    const id = this.solicitudHipotecarioList && this.solicitudHipotecarioList.Id ? this.solicitudHipotecarioList.Id : 0;
+    this.solicitudService.save(id, itemSave)
     .then(resp => {
       console.log(resp);
       if (resp) {
