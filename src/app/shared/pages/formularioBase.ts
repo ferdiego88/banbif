@@ -20,6 +20,7 @@ import { FormBuilder } from '@angular/forms';
 import { SpinnerVisibilityService } from 'ng-http-loader';
 import { MaestroDesplegables } from '../models/fisics/MaestroDesplegables';
 import { List } from "linqts";
+import Swal from 'sweetalert2';
 declare var $: any;
 
 export class FormularioBase {
@@ -534,5 +535,18 @@ export class FormularioBase {
     const log = Log.setNuevoElemento(document.location.href, this.nombrePagina, err);
     // console.log(log);
     this.masterService.guardarLog(log).then();
+  }
+
+  showLoading(): void {
+    Swal.fire({
+      title: 'Cargando...',
+      showConfirmButton: false,
+      allowEscapeKey: false,
+      allowOutsideClick: false
+    });
+  }
+
+  hideLoading(): void {
+    Swal.close();
   }
 }
