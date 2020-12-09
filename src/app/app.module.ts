@@ -77,6 +77,7 @@ import { MissolicitudespendientesComponent } from './components/bandejas/missoli
 import { SolicitudesComponent } from './components/bandejas/solicitudes/solicitudes.component';
 import { GridLoaderComponent } from './shared/controls/grid-loader/grid-loader.component';
 import { SolicitudesfinalizadasComponent } from './components/bandejas/solicitudesfinalizadas/solicitudesfinalizadas.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 const materialModules = [
   MatSlideToggleModule,
@@ -139,7 +140,8 @@ const materialModules = [
     MissolicitudespendientesComponent,
     SolicitudesComponent,
     GridLoaderComponent,
-    SolicitudesfinalizadasComponent
+    SolicitudesfinalizadasComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,

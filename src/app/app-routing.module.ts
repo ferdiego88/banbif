@@ -14,12 +14,13 @@ import { FormTableComponent } from './components/form-table/form-table.component
 import { MissolicitudespendientesComponent } from './components/bandejas/missolicitudespendientes/missolicitudespendientes.component';
 import { SolicitudesComponent } from './components/bandejas/solicitudes/solicitudes.component';
 import { SolicitudesfinalizadasComponent } from './components/bandejas/solicitudesfinalizadas/solicitudesfinalizadas.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
   {
     path: Variables.path.home,
-    component: HomeComponent,
+    component: WelcomeComponent,
     //loadChildren: () => import('./components/home/home.component').then(m => m.HomeComponent)
   },
   { path: Variables.path.formCreditoDetalle, component: FormCreditoComponent },

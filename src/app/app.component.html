@@ -4,18 +4,18 @@
 <!-- <mat-toolbar color="warn" class=" position-fixed main-toolbar"> -->
 <mat-toolbar color="warn" class="position-fixed main-toolbar">
     <mat-toolbar-row>
-        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="sidenav.toggle()" color="primary">
-            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        <button class="mat-icon-white" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="sidenav.toggle()" color="primary">
+            <mat-icon class="mat-icon-white" aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
 
         <button type="button" mat-button class="mat-icon-button" aria-label="Go Back" hide-xs hide-sm
             (click)="goBack()">
-            <mat-icon>chevron_left</mat-icon>
+            <mat-icon class="mat-icon-white">chevron_left</mat-icon>
         </button>
 
 
         <a type="button" mat-button class="mat-icon-button" aria-label="Go Home" routerLink="/">
-            <mat-icon>home</mat-icon>
+            <mat-icon class="mat-icon-white">home</mat-icon>
         </a>
         <!-- <img src="/assets/img/bb.png" width="200" height="70"> -->
         <h3 md-truncate class="md-truncate-titulo">
@@ -80,4 +80,5 @@
             <router-outlet #o="outlet"></router-outlet>
         </main>
     </mat-sidenav-content>
+
 </mat-sidenav-container>

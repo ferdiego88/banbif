@@ -50,21 +50,25 @@ mat-sidenav {
 }
 
 mat-panel-title {
-    color: rgb(32, 163, 255)!important;;
+    color: rgb(32, 163, 255)!important;
 }
 mat-nav-list {
-    color: rgb(32, 163, 255)!important;;
+    color: rgb(32, 163, 255)!important;
 }
 
 a {
-    color: rgb(32, 163, 255)!important;;
+    color: rgb(32, 163, 255)!important;
 }
 
 mat-expansion-panel {
-    color: rgb(32, 163, 255)!important;;
+    color: rgb(32, 163, 255)!important;
 }
 mat-icon {
-    color: rgb(32, 163, 255)!important;;
+    color: rgb(32, 163, 255)!important;
+}
+.mat-icon-white {
+  color: white!important;
+  background: rgb(32, 163, 255)!important;
 }
 
 main.contenedor-main {
