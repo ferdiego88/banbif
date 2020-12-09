@@ -13,7 +13,7 @@
 }
 
 .mat-card-subtitle {
-    background: rgba(2, 139, 255, 1) !important;
+    background: rgb(32, 163, 255) !important;
     color: aliceblue;
 }
 
@@ -31,12 +31,12 @@
 }
 
 .mat-card-title {
-    color: rgba(2, 139, 255, 1) !important;
+  background: rgb(32, 163, 255) !important;
     margin-bottom: auto;
 }
 
 .mat-raised-button.mat-primary {
-    background: rgba(2, 139, 255, 1) !important;
+    background: rgb(32, 163, 255) !important;
 }
 
 .mat-raised-button.mat-warn {
@@ -49,7 +49,7 @@
 
 ::ng-deep .mat-form-field-underline {
     /*change color of label*/
-    background: rgb(2, 139, 255) !important;
+    background: rgb(32, 163, 255) !important;
 }
 
 a:link {
@@ -67,7 +67,7 @@ a:visited {
 /* mouse over link */
 
 a:hover {
-    color: rgb(2, 139, 255) !important;
+  color: rgb(2, 139, 255) !important;
 }
 
 
@@ -87,9 +87,8 @@ a:active {
 }
 
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
-    background-color: rgba(2, 139, 255, 1) !important;
+  background: rgb(32, 163, 255) !important;
 }
-
 .shipping-card {
     min-width: 120px;
     margin: 20px auto;

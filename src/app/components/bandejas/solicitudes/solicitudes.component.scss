@@ -1,11 +1,15 @@
 .cabeceraTabla {
     font-size: 12px !important;
+    color: rgb(32, 163, 255) !important;
 }
 
 .filaTabla {
     font-size: 11px !important;
 }
-
+div{
+  border: 1px solid rgb(32, 163, 255);
+  border-radius: 12px;
+ }
 /*
 .mat-toolbar.mat-primary {
     background: #A7A9AC !important;

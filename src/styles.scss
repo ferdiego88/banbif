@@ -27,7 +27,7 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 $default-font-stack: Roboto,
 "Helvetica Neue",
 sans-serif !important;
-$principal-color: rgba(2, 139, 255, 1);
+$principal-color: rgb(32, 163, 255, 1);
 router-outlet~* {
     /*position: absolute;*/
     height: 100%;
@@ -61,7 +61,7 @@ fieldset[disabled] .form-control {
 }
 
 .mat-toolbar.mat-warn {
-    background: rgba(32, 163, 255) !important;
+    background: rgb(32, 163, 255) !important;
 }
 
 .mat-toolbar.mat-primary {
@@ -1767,7 +1767,7 @@ a {
 }
 
 .title {
-    color: #028bff !important;
+    color:rgb(32, 163, 255) !important;
     display: block;
     text-align: center;
     font-size: 24px;
@@ -1779,11 +1779,11 @@ a {
 //     text-align: left;
 // }
 .sub-title-col {
-    border-bottom: #028bff 2px solid !important;
+    border-bottom: rgb(32, 163, 255) 2px solid !important;
 }
 
 .sub-title {
-    color: #028bff !important;
+    color: rgb(32, 163, 255) !important;
     text-align: left;
     font-size: 20px;
     font-weight: 600;
