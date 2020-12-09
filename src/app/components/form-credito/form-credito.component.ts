@@ -14,11 +14,11 @@ import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/mater
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SolicitudesService } from '../../shared/services/solicitudes.service';
-import Swal from 'sweetalert2';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { FormularioBase } from '../../shared/pages/formularioBase';
 import { MatDialog } from '@angular/material/dialog';
 import { SpinnerVisibilityService } from 'ng-http-loader';
+import Swal from 'sweetalert2';
 
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
@@ -720,6 +720,28 @@ Desembolso = 0;
           this.colorBoton = 'rgb(24, 255, 120)';
           this.colorletraBoton = 'black';
           break;
+        case ( estado === Variables.constantes.EstadoRechazado):
+          this.showComentarioRiesgos = true;
+          this.showComentarioCPM = true;
+          this.showComentarioRevisor = true;
+          this.showAnalistaRiesgos = true;
+          this.setDisableControlsCabezera();
+          this.setDisableControlsCuotaInicial();
+          this.setDisableControlsDatosOperacion();
+          this.setDisableControlsTipoGarantiaAbono();
+          this.setDisableObservacionesOpcional();
+          this.setDisableControlsAplicacion();
+          this.setDisableComentarios();
+          this.setDisableControlsPlanAhorroProgramado();
+          this.showBtnObservar = false;
+          this.showBtnGuardarBorrador = false;
+          this.showBtnEnviar = false;
+          this.showBtnGrabar = true;
+          this.showBtnEnviarRegularizar = false;
+          this.showControlesGestor = true;
+          this.colorBoton = 'rgb(24, 255, 120)';
+          this.colorletraBoton = 'black';
+          break;
         case ( estado !== Variables.constantes.EstadoRegistroCPM):
           this.showBtnObservar = false;
           this.showBtnEnviarRegularizar = false;
@@ -1139,17 +1161,17 @@ Desembolso = 0;
       .then(resp => {
         if (resp) {
           this.hideLoading();
-
-          Swal.fire('Datos guardados correctamente!', '', 'success');
+          this.showSuccessMessage('El Borrador se Guardo Correctamente');
 
           this.router.navigate(['/bandejas/solicitudes']);
         } else {
           this.hideLoading();
+          this.showErrorMessage('no se grabó el registro');
         }
       })
       .catch(error => {
         this.hideLoading();
-        Swal.fire('Error', 'Ocurrió un error, no se grabó el registro. Comuníquese con TI', 'error');
+        this.showErrorMessage('no se grabó el registro');
       });
 
   }
@@ -1181,7 +1203,6 @@ Desembolso = 0;
     this.creditForm.get('Grabamen').setValue(Grabamen);
   }
 
-
   updateValue(value: string) {
     let val = parseInt(value, 10);
     if (Number.isNaN(val)) {
@@ -1212,8 +1233,19 @@ Desembolso = 0;
     itemSave.Fecha_Estado = new Date();
 
     // Fecha_Registro_CPM && (itemSave.Fecha_Registro_CPM = Fecha_Registro_CPM);
+    Swal.fire({
+      title: '¿Esta seguro de Enviar la Solicitud?',
+      showCancelButton: true,
+      confirmButtonText: `Enviar`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.update(itemSave, 'La Solicitud se envio', 'No se pudo enviar la Solicitud');
+      } else if (result.isDismissed) {
+        Swal.fire('No se Envio la Solicitud', '', 'info');
+      }
+    });
 
-    this.update(itemSave);
   }
 
   observationReview(): void {
@@ -1221,7 +1253,19 @@ Desembolso = 0;
       EstadoId: 31 // TODO, create constant
     };
 
-    this.update(itemSave);
+    Swal.fire({
+      title: '¿Esta seguro de pasar la Solicitud a Revision de Observaciones?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.update(itemSave, 'La Solicitud paso a revisión', 'No se pudo pasar la Solicitud para su revisión');
+      } else if (result.isDismissed) {
+        Swal.fire('No se Envio la Solicitud', '', 'info');
+      }
+    });
+
   }
 
   approve(): void {
@@ -1230,7 +1274,19 @@ Desembolso = 0;
       Fecha_Aprob_Verifica: new Date()
     };
 
-    this.update(itemSave);
+    Swal.fire({
+      title: '¿Esta seguro de Aprobar la Solicitud?',
+      showCancelButton: true,
+      confirmButtonText: `Aprobar`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.update(itemSave, 'La Solicitud se Aprobó', 'No se pudo Aprobar la Solicitud');
+      } else if (result.isDismissed) {
+        Swal.fire('No se Envio la Solicitud', '', 'info');
+      }
+    });
+
   }
 
   approveWithoutVerification(): void {
@@ -1239,7 +1295,19 @@ Desembolso = 0;
       Fecha_AprobSVerifica: new Date()
     };
 
-    this.update(itemSave);
+    Swal.fire({
+      title: '¿Esta seguro de aprobar la Solicitud sin Verificación?',
+      showCancelButton: true,
+      confirmButtonText: `Aprobar`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.update(itemSave, 'La Solicitud se Aprobó sin Verificación', 'No se pudo aprobar la Solicitud sin Verificación');
+      } else if (result.isDismissed) {
+        Swal.fire('No se Envio la Solicitud', '', 'info');
+      }
+    });
+
   }
 
   inVerification(): void {
@@ -1248,8 +1316,19 @@ Desembolso = 0;
       Fecha_Estado: new Date(),
       Fecha_Desestimado: new Date(),
     };
+    Swal.fire({
+      title: '¿Esta seguro de pasar la Solicitud para su Verificación?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.update(itemSave, 'La Solicitud pasó a verificación', 'No se pudo enviar la Solicitud para su verificación');
+      } else if (result.isDismissed) {
+        Swal.fire('No se Envio la Solicitud', '', 'info');
+      }
+    });
 
-    this.update(itemSave);
   }
 
   officeObservation(): void {
@@ -1258,8 +1337,18 @@ Desembolso = 0;
       Fecha_Estado: new Date(),
       FechaObs_Evaluacion: new Date(),
     };
-
-    this.update(itemSave);
+    Swal.fire({
+      title: '¿Esta seguro de pasar la Solicitud a Observación de Oficina?',
+      showCancelButton: true,
+      confirmButtonText: `Observar`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.update(itemSave, 'La Solicitud pasó a Observación de Oficina', 'No se pudo pasar la Solicitud a Observación de Oficina');
+      } else if (result.isDismissed) {
+        Swal.fire('No se Envio la Solicitud', '', 'info');
+      }
+    });
   }
 
   cpmObservation(): void {
@@ -1267,39 +1356,68 @@ Desembolso = 0;
       EstadoId: 37, // TODO, create constant
       Fecha_Estado: new Date()
     };
+    Swal.fire({
+      title: '¿Esta seguro de enviar la Solicitud a Observación CPM?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.update(itemSave, 'La Solicitud pasó a Observación CPM', 'No se pudo pasar la Solicitud a Observación CPM');
+      } else if (result.isDismissed) {
+        Swal.fire('No se Envio la Solicitud', '', 'info');
+      }
+    });
 
-    this.update(itemSave);
   }
 
   rejected(): void {
+    this.showLoading();
+
     const itemSave = {
       EstadoId: 6, // TODO, create constant
       Fecha_Rechazado_Evaluacion: new Date()
     };
+    Swal.fire({
+      title: 'Esta seguro de Rechazar la Solicitud?',
+      text: 'No podrá revertir los CamBios!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, rechazar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.update(itemSave, 'Ha rechazado la solicitud', 'No se pudo rechazar la Solicitud');
+      }
+    });
 
-    this.update(itemSave);
   }
 
-  update(itemSave: any): void {
+  update(itemSave: any, successMessage: string, errorMessage: string): void {
+
     this.solicitudService.save(this.solicitudHipotecarioList.Id, itemSave)
     .then(resp => {
       console.log(resp);
       if (resp) {
-        Swal.fire(
-          'Datos guardados correctamente!',
-          '',
-          'success'
-        );
+        this.hideLoading();
+        this.showSuccessMessage(successMessage);
 
         this.router.navigate(['/bandejas/solicitudes']);
+      } else {
+        this.hideLoading();
+        this.showErrorMessage(errorMessage);
       }
     })
-    .catch(error => console.log(error)); // TODO, define some message error
+    .catch(error => {
+      this.hideLoading();
+      this.showErrorMessage(errorMessage);
+    });
   }
 
   save(): void {
     const itemSave = this.getObjectToSave();
-    this.update(itemSave);
+    this.update(itemSave, 'La Solicitud se actualizó', 'No se pudo actualizar la Solicitud');
   }
 
   cancel(): void {

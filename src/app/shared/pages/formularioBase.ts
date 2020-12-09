@@ -549,4 +549,12 @@ export class FormularioBase {
   hideLoading(): void {
     Swal.close();
   }
+
+  showSuccessMessage(successMessage): void {
+    Swal.fire(`${successMessage} correctamente!`, '', 'success');
+  }
+
+  showErrorMessage(errorMessage): void {
+    Swal.fire('Error', `Ocurrió un error,´${errorMessage}. Comuníquese con TI`, 'error');
+  }
 }

@@ -54,7 +54,7 @@ export class ModalDialog implements OnInit {
       if (this.datos.mensaje.indexOf('RECHAZAR') > 0) {
         if (this.comentarios === '') {
           grabar = false;
-          Swal.fire('Alerta', 'Los Comentarios son obligatorios al Rechazar.','warning');
+          Swal.fire('Alerta', 'Los Comentarios son obligatorios al Rechazar.', 'warning');
         }
       }
 
