@@ -269,6 +269,7 @@ Desembolso = 0;
    this.getidParams();
    this.cargarListeners();
    this.creditForm.get('EstadoId').disable();
+   this.creditForm.controls.Plan_Ahorro.disable();
    this.setDisableControlsDesembolso();
   }
 
@@ -276,6 +277,7 @@ Desembolso = 0;
     this.route.params.subscribe(
       param => {
         if (param.id) {
+          this.showLoading();
           this.solicitudService.getItemById(param.id)
             .then(solicitudHipotecarioList => {
               console.log({solicitudHipotecarioList});
@@ -348,10 +350,11 @@ Desembolso = 0;
               }
               this.solicitudHipotecarioList.Enlace_Documentos && this.solicitudHipotecarioList.Enlace_Documentos !== null && (this.descripcionDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Description);
               this.enlaceDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Url;
+              this.hideLoading();
             })
-            .catch(error => console.error(error));
+            .catch(error => {this.hideLoading(); this.showErrorMessage('No se pudo Obtener la Información');});
         } else {
-
+          this.hideLoading();
         }
       }
       );
@@ -766,14 +769,10 @@ Desembolso = 0;
   listenerTipoGarantia(){
     this.creditForm.get('Tipo_GarantiaId').valueChanges.subscribe(id => {
       if (this.typeguarenteeList !== null && this.typeguarenteeList) {
-
         const garantias = this.typeguarenteeList.find(item => item.Id === id).Condiciones;
         const cadCondicionDesembolso = garantias.replace(this.expRegular, '');
         this.creditForm.controls.Condicion_Desembolso.setValue(cadCondicionDesembolso);
-      } else {
-        // this.creditForm.controls.Condicion_Desembolso.setValue('');
       }
-
     });
   }
   // addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
@@ -822,7 +821,6 @@ Desembolso = 0;
           this.showBuenPagador = true;
           this.showBuenAplicacion = false;
           this.showTipoGarantiaAbono = true;
-          this.creditForm.controls.Condicion_Desembolso.setValue('');
           break;
         case Variables.constantes.TipoProductoCompraDeudaId:
           this.showBotonesProducto = false;
@@ -834,7 +832,6 @@ Desembolso = 0;
           this.showBuenAplicacion = false;
           this.showTipoGarantiaAbono = true;
           this.setearMonedasEmpty();
-          this.creditForm.controls.Condicion_Desembolso.setValue('');
           break;
         case Variables.constantes.TipoProductoAmpliacionRemodelacionConstruccionId:
           this.creditForm.controls.Condicion_Desembolso.setValue( `    ${Variables.condicionesDesembolso.ContratoFirma}
@@ -859,7 +856,6 @@ Desembolso = 0;
           this.showCuotaInicial = true;
           this.showBuenPagador = false;
           this.showBuenAplicacion = false;
-          this.creditForm.controls.Condicion_Desembolso.setValue('');
           this.setearMonedasEmpty();
           break;
 
@@ -870,7 +866,6 @@ Desembolso = 0;
           this.showmessageVivienda = false;
           this.showBuenAplicacion = false;
           this.setearMonedasEmpty();
-          this.creditForm.controls.Condicion_Desembolso.setValue('');
           break;
       }
       this.generalListService.getByField(Variables.listas.AdmTipoSubProducto, Variables.listas.AdmTipoProductoId, selectedValue)
@@ -1016,6 +1011,7 @@ Desembolso = 0;
   PlanAhorro() {
     this.showSaving = true;
     this.showPlanAhorro = true;
+    this.creditForm.controls.Plan_Ahorro.disable();
   }
 
   getTypeCurrencySaving(){
