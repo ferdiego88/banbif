@@ -499,14 +499,14 @@ export class FormularioSolicitudComponent extends FormularioBase implements OnIn
       if ( this.maestroMaterial[prop] !== undefined && this.maestroMaterial[prop] !== null ) {
         if (prop === Variables.columns.IdCanalDistribucion) {
           const canalesDistribucion = this.maestroMaterial.IdCanalDistribucion.split(',').map(item => +item);
-          console.log({canalesDistribucion});
+           // console.log({canalesDistribucion});
           this.form.controls[prop].setValue(canalesDistribucion);
         } else {
           this.form.controls[prop].setValue(this.maestroMaterial[prop])
         }
       }
     }
-    console.log(this.form);
+    // console.log(this.form);
   }
 
   cargaFilters() {
@@ -607,7 +607,7 @@ export class FormularioSolicitudComponent extends FormularioBase implements OnIn
         (linea.EECC !== undefined && linea.EECC['EMail'] === currentUserEmail) || (linea.LAB !== undefined && linea.LAB['EMail'] === currentUserEmail) || (linea.RDM !== undefined && linea.RDM['EMail'] === currentUserEmail) || (linea.DT !== undefined && linea.DT['EMail'] === currentUserEmail)
     );
 
-    console.log(this.listaLinea);
+    // console.log(this.listaLinea);
     // this.listaLinea = this.datosMaestros.maestroLinea;
   }
 
@@ -823,7 +823,7 @@ export class FormularioSolicitudComponent extends FormularioBase implements OnIn
 
   llamarModal() {
 
-    if (!environment.production) console.log(this.form);
+    // if (!environment.production) { console.log(this.form); }
 
     if (this.form.invalid) {
 

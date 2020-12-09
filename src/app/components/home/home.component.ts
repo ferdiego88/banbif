@@ -115,7 +115,7 @@ export class HomeComponent extends FormularioBase implements OnInit {
 
   ngOnInit() {
     // this.cargarDatosPagina();
-    this.masterService.test().then(resp => console.log(resp));
+    // this.masterService.test().then(resp => console.log(resp));
   }
 
   cargarDatosPagina() {
@@ -131,7 +131,7 @@ export class HomeComponent extends FormularioBase implements OnInit {
 
         this.maestroMaterialService.getSolicitudMateriales(null, '', true, 100000, this.datosMaestros.currentUser).then(
           (data: PagedItemCollection<any[]>) => {
-            console.log(data);
+            // console.log(data);
             const maestroMaterial: MaestroMaterial[] = data.results.map(elemento => {
               return MaestroMaterial.parseJson(elemento);
             });
@@ -227,7 +227,7 @@ export class HomeComponent extends FormularioBase implements OnInit {
     // if (this.userAdministrator) {
 
       const AnnioActual = (new Date()).getFullYear();
-      console.log(AnnioActual);
+      // console.log(AnnioActual);
 
       this.barChartLabels = [];
       this.anniosSelect = [];
@@ -241,7 +241,7 @@ export class HomeComponent extends FormularioBase implements OnInit {
 
       this.maestroMaterialService.getSolicitudMateriales(null, '', true, 100000, this.datosMaestros.currentUser, this.userAdministrator).then(
         (data: PagedItemCollection<any[]>) => {
-          console.log({ data });
+          // console.log({ data });
           this.maestroMaterial = data.results.map(elemento => {
             const parse = MaestroMaterial.parseJson(elemento);
             const fecha = parse.Created.toString();
@@ -249,7 +249,7 @@ export class HomeComponent extends FormularioBase implements OnInit {
             return parse;
           });
 
-          console.log(this.maestroMaterial);
+          // console.log(this.maestroMaterial);
 
           // const solicitudesCreadasPorAnnio: ChartDataSets = {
           //   data: [],
@@ -298,8 +298,8 @@ export class HomeComponent extends FormularioBase implements OnInit {
           this.barChartData.push(...[/*solicitudesCreadasPorAnnio, */solicitudesEnProcesoPorAnnio, solicitudesAtendidasPorAnnio]);
 
           this.formControlAnnio.setValue(AnnioActual);
-          console.log(this.barChartLabels);
-          console.log(this.barChartData);
+          // console.log(this.barChartLabels);
+          // console.log(this.barChartData);
         },
         err => this.guardarLog(err)
       );
@@ -307,7 +307,7 @@ export class HomeComponent extends FormularioBase implements OnInit {
   }
 
   cargaEstadisticaPorMes(annio: number) {
-    console.log(this.pieChartLabel);
+    // console.log(this.pieChartLabel);
 
     this.pieChartData = [];
 
@@ -326,7 +326,7 @@ export class HomeComponent extends FormularioBase implements OnInit {
       `Cerradas ${maestroMaterialPorAnnioCerradas}`
     ];
 
-    console.log(this.pieChartData);
+    // console.log(this.pieChartData);
 
     this.barChartLabelsPorMes = [];
 
@@ -377,8 +377,8 @@ export class HomeComponent extends FormularioBase implements OnInit {
       solicitudesEnProcesoPorMes, solicitudesAtendidasPorMes
     ]);
 
-    console.log(this.barChartLabelsPorMes);
-    console.log(this.barChartDataPorMes);
+    // console.log(this.barChartLabelsPorMes);
+    // console.log(this.barChartDataPorMes);
 
   }
 

@@ -213,7 +213,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     Mon_VRI_Soles: [null, Validators.required],
     VRI_Soles: [null, Validators.required],
     /* Fin Garantias*/
-    
+
     Numero_Desemboslo: [null, Validators.required],
     Primer_desembolso: [null, Validators.required],
     Segundo_desembolso: [null, Validators.required],
@@ -234,7 +234,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     EstadoGestorId: [null, Validators.required],
     Fecha_Gestor_Hip: [new Date(), Validators.required],
     Comentario_Gestor_Hip: [null, Validators.required],
-    
+
     postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
     ],
@@ -245,7 +245,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   comentarios = [
   Variables.columnasSolicitud.Descripcion_Inmueble, Variables.columnasSolicitud.Plan_Ahorro, Variables.columnasSolicitud.Observaciones,
   Variables.columnasSolicitud.Condicion_Desembolso, Variables.columnasSolicitud.Comentario_Registro,
-  Variables.columnasSolicitud.Desembolso_Ampliacion, Variables.columnasSolicitud.Cometario_Evaluacion, 
+  Variables.columnasSolicitud.Desembolso_Ampliacion, Variables.columnasSolicitud.Cometario_Evaluacion,
   Variables.columnasSolicitud.Comentario_Gestor_Hip ];
 
 Desembolso = 0;
@@ -278,21 +278,22 @@ Desembolso = 0;
         if (param.id) {
           this.solicitudService.getItemById(param.id)
             .then(solicitudHipotecarioList => {
+              console.log({solicitudHipotecarioList});
               this.solicitudHipotecarioList = solicitudHipotecarioList[0];
 
               if (solicitudHipotecarioList[0].EjecutivoId) {
                   const ejecutivo = {
-                  Id: solicitudHipotecarioList[0].Ejecutivo.Id,
-                  Title: solicitudHipotecarioList[0].Ejecutivo.Title
-                };
+                    Id: solicitudHipotecarioList[0].Ejecutivo.Id,
+                    Title: solicitudHipotecarioList[0].Ejecutivo.Title
+                  };
                   this.creditForm.controls.ejecutivo.setValue([ejecutivo]);
                }
 
               if (solicitudHipotecarioList[0].Anlista_RiesgosId) {
                   const analista = {
-                  Id: solicitudHipotecarioList[0].Anlista_RiesgosId.Id,
-                  Title: solicitudHipotecarioList[0].Anlista_RiesgosId.Title
-                };
+                    Id: solicitudHipotecarioList[0].Anlista_Riesgos.Id,
+                    Title: solicitudHipotecarioList[0].Anlista_Riesgos.Title
+                  };
                   this.creditForm.controls.Analista_Riesgos.setValue([analista]);
                }
 
@@ -303,7 +304,7 @@ Desembolso = 0;
                   this.creditForm.controls[i].setValue(cadControlForm);
                 }
                }
-       
+
               for (const key in Variables.columnasHipo) {
                  if (Object.prototype.hasOwnProperty.call(Variables.columnasHipo, key)) {
                    const element = Variables.columnasHipo[key];
@@ -328,7 +329,7 @@ Desembolso = 0;
               const Fecha_Gestor_Hip = this.solicitudHipotecarioList.Fecha_Gestor_Hip;
               // debugger;
               this.creditForm.controls.Fecha_Tasacion_Remodelac.setValue(new Date(Fecha_Tasacion_Remodelac));
-              if (Fecha_Gestor_Hip) {  
+              if (Fecha_Gestor_Hip) {
                 this.creditForm.controls.Fecha_Gestor_Hip.setValue(new Date(Fecha_Gestor_Hip));
               } else {
                 this.creditForm.controls.Fecha_Gestor_Hip.setValue(new Date());
@@ -531,7 +532,7 @@ Desembolso = 0;
   }
   setDisableControlsTipoGarantiaAbono(){
     this.creditForm.get('Tipo_GarantiaId').disable();
-    this.creditForm.get('').disable();
+    this.creditForm.get('Tipo_AbonoId').disable();
   }
   setDisableControlsGarantias(){
     this.creditForm.get('Descripcion_Inmueble').disable();
@@ -753,12 +754,12 @@ Desembolso = 0;
 
     });
   }
-  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.events.push(`${type}: ${event.value}`);
-    for (const e of this.events) {
-      console.log(e);
-    }
-  }
+  // addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+  //   this.events.push(`${type}: ${event.value}`);
+  //   for (const e of this.events) {
+  //     console.log(e);
+  //   }
+  // }
 
   cargarListeners(){
     this.listenerTipoMoneda();
@@ -1105,7 +1106,7 @@ Desembolso = 0;
       Plan_Ahorro: this.creditForm.controls.Plan_Ahorro.value,
       Cta_Ahorro_BanBif: this.creditForm.controls.Cta_Ahorro_BanBif.value,
       Observacion_CPMId: this.creditForm.controls.Observacion_CPMId.value,
-      
+
       Precio_Venta: +this.creditForm.controls.Precio_Venta.value,
       Aporte_Efectivo: +this.creditForm.controls.Aporte_Efectivo.value,
        Aporte_RetiroAFP: +this.creditForm.controls.Aporte_RetiroAFP.value,
@@ -1117,7 +1118,6 @@ Desembolso = 0;
       PBP: +this.creditForm.controls.PBP.value,
       Grabamen: +this.creditForm.controls.Grabamen.value,
       Periodo_Gracia: +this.creditForm.controls.Periodo_Gracia.value,
-      EstadoId: Variables.constantes.EstadoCreaExpedienteId,
       TEA: ((+this.creditForm.controls.TEA.value) / 100),
       Financiamiento: ((+this.creditForm.controls.pFinanciamiento.value) / 100),
       Fecha_Tasacion_Remodelac,
@@ -1131,13 +1131,14 @@ Desembolso = 0;
   saveDraft(): void{
 
     const solicitudCreditoHipotecario = this.getObjectToSave();
+    solicitudCreditoHipotecario.EstadoId = Variables.constantes.EstadoCreaExpedienteId;
 
     this.route.params.subscribe(param => {
       if (param.id) {
 
         this.solicitudService.save(param.id, solicitudCreditoHipotecario)
           .then(resp => {
-            console.log(resp);
+            // console.log(resp);
             if (resp) {
               Swal.fire(
                 'Datos guardados correctamente!',
@@ -1151,7 +1152,7 @@ Desembolso = 0;
       } else {
         this.solicitudService.save(0, solicitudCreditoHipotecario)
           .then(resp => {
-            console.log(resp);
+            // console.log(resp);
             if (resp) {
               Swal.fire(
                 'Datos guardados correctamente!',
@@ -1260,7 +1261,7 @@ Desembolso = 0;
     const itemSave = {
       EstadoId: 32, // TODO, create constant
       Fecha_Estado: new Date(),
-      Fecha_Verific_Riesgos: new Date(),
+      Fecha_Desestimado: new Date(),
     };
 
     this.update(itemSave);
@@ -1270,7 +1271,7 @@ Desembolso = 0;
     const itemSave = {
       EstadoId: 5, // TODO, create constant
       Fecha_Estado: new Date(),
-      Fecha_Observ_Riesgos: new Date(),
+      FechaObs_Evaluacion: new Date(),
     };
 
     this.update(itemSave);
@@ -1288,7 +1289,7 @@ Desembolso = 0;
   rejected(): void {
     const itemSave = {
       EstadoId: 6, // TODO, create constant
-      Fecha_Rechaz_Riesgos: new Date()
+      Fecha_Rechazado_Evaluacion: new Date()
     };
 
     this.update(itemSave);
@@ -1309,6 +1310,11 @@ Desembolso = 0;
       }
     })
     .catch(error => console.log(error)); // TODO, define some message error
+  }
+
+  save(): void {
+    const itemSave = this.getObjectToSave();
+    this.update(itemSave);
   }
 
   cancel(): void {

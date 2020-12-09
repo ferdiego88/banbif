@@ -25,7 +25,7 @@ export class GeneralListService {
                 }
 
                 const items = query.top(4999).get();
-                // console.log({items});
+                // // console.log({items});
                 resolve(items);
             } else {
                 reject('Failed getting list data...');
@@ -43,7 +43,7 @@ export class GeneralListService {
                 }
 
                 const items = query.get();
-                console.log({items});
+                // console.log({items});
                 resolve(items);
             } else {
                 reject('Failed getting list data...');
@@ -55,7 +55,7 @@ export class GeneralListService {
         return new Promise((resolve, reject) => {
             if (sp !== null && sp !== undefined) {
                 const items = sp.web.lists.getByTitle(listName).items.getAll();
-                console.log({items});
+                // console.log({items});
                 resolve(items);
             } else {
                 reject('Failed getting list data...');
@@ -68,7 +68,7 @@ export class GeneralListService {
             if (sp !== null && sp !== undefined) {
                 const item =   sp.web.lists.getByTitle(listName).items.getById(itemId).get();
                 resolve(item);
-                console.log({item});
+                // console.log({item});
             } else {
                 reject('Failed getting list data...');
             }
@@ -92,8 +92,8 @@ export class GeneralListService {
             if (sp !== null && sp !== undefined) {
                 const list = sp.web.lists.getByTitle(listName);
                 list.items.getById(itemId).update(item).then((result: any) => {
-                    console.log('updated');
-                    console.log(result);
+                    // console.log('updated');
+                    // console.log(result);
                     resolve(result);
                 });
             } else {

@@ -63,7 +63,7 @@ export class BandejaSolicitudComponent  extends FormularioBase implements OnInit
     Variables.columns.Id,
    // Variables.columns.TextoBreveMaterial,
     Variables.columns.Creado,
-    Variables.columns.MaestroFLujoEtapa,   
+    Variables.columns.MaestroFLujoEtapa,
     Variables.columns.ResponsableLaboratorio,
     Variables.columns.EjecutivoComercial,
     Variables.columns.ResponsableDT,
@@ -88,7 +88,7 @@ export class BandejaSolicitudComponent  extends FormularioBase implements OnInit
     public route: ActivatedRoute,
     public router: Router,
     public masterService: MasterService,
-    public zone: NgZone,     
+    public zone: NgZone,
     public _spinner: SpinnerVisibilityService,
     public maestroMaterialService: MaestroMaterialService,
     public excelService: ExcelService
@@ -105,15 +105,15 @@ export class BandejaSolicitudComponent  extends FormularioBase implements OnInit
     this.obtenerMaestrosYDatos().then(
       () => {
         let order: string;
-  
+
         if (this.obtenerParametro("order")) {
           order = (this.obtenerParametro("desc") ? "-" : "") + this.obtenerParametro("order");
         } else {
           order = "-Modified";
         }
-  
+
         order = "Id";
-  
+
         this.tableQuery = {
           order: order,
           direction: "",
@@ -124,11 +124,11 @@ export class BandejaSolicitudComponent  extends FormularioBase implements OnInit
         };
        // debugger;
         if (this.tableQuery.filter) this.isOpenMenu = true;
-  
+
         this.setearFiltrosBusquedaPorOrigen();
-  
+
         this.getFiltrosSession();
-  
+
         // const groupUserAdministrator = this.datosMaestros.currentUser.Groups.filter(group => group.Title === Variables.Grupos.Administradores);
         // this.userAdministrator = (groupUserAdministrator && groupUserAdministrator.length > 0);
         this.validaUserAdministrator();
@@ -152,22 +152,22 @@ export class BandejaSolicitudComponent  extends FormularioBase implements OnInit
       estadosSeleccionados = this.datosMaestros.masterData.listStatusProject.filter((elementoEstado: Lookup) => {
         return elementoEstado.Id  > 0
       }).map((elementoEstado: Lookup) => elementoEstado.Id);
-  
+
       this.tableQuery.filter.Status = estadosSeleccionados;
-    }    
+    }
   }
   getFiltrosSession() {
     let title = window.sessionStorage.getItem("Title");
     if(title){
       this.tableQuery.filter.Title = title;
-    }   
+    }
 
     let etapa = window.sessionStorage.getItem("Etapa");
     if(etapa){
       this.tableQuery.filter.Etapa = etapa.split(',');
-    }   
+    }
 
-    // console.log(this.tableQuery.filter);  
+    // console.log(this.tableQuery.filter);
 }
   cargarDatosPagina() {
     this.mostrarProgreso();
@@ -215,7 +215,7 @@ export class BandejaSolicitudComponent  extends FormularioBase implements OnInit
     window.open(url, '_blank');
   }
 
-  
+
   reload() {
     this.getProjects()
   }
@@ -271,10 +271,10 @@ export class BandejaSolicitudComponent  extends FormularioBase implements OnInit
     window.sessionStorage.setItem("Etapa","");
     this.isFilterApplied = false;
   }
-  
+
   clearFiltrosSession() {
-    sessionStorage.removeItem("Title");  
-    sessionStorage.removeItem("Etapa"); 
+    sessionStorage.removeItem("Title");
+    sessionStorage.removeItem("Etapa");
     this.isFilterApplied = false;
   }
 
@@ -287,7 +287,7 @@ export class BandejaSolicitudComponent  extends FormularioBase implements OnInit
   }
 
   setFiltrosSession() {
-    window.sessionStorage.setItem("Title",this.tableQuery.filter.Title);   
+    window.sessionStorage.setItem("Title",this.tableQuery.filter.Title);
     window.sessionStorage.setItem("Etapa",this.tableQuery.filter.Etapa);
     this.isFilterApplied = true;
   }
@@ -324,8 +324,8 @@ export class BandejaSolicitudComponent  extends FormularioBase implements OnInit
           }
           if (this.materiales_paged.hasNext) {
             if(vResultsLengthTmp < vResultsLength){
-              this.resultsLength = this.resultsLength + 1;  
-            }       
+              this.resultsLength = this.resultsLength + 1;
+            }
           }
           this.ocultarProgreso();
           return data;
@@ -346,11 +346,11 @@ export class BandejaSolicitudComponent  extends FormularioBase implements OnInit
   async getProjectsPaged(): Promise<MaestroMaterial[]> {
     this.mostrarProgreso();
     let filter = this.tableQuery.filter;
-    console.log(this.sort);
-    console.log(this.sort.active);
+    // console.log(this.sort);
+    // console.log(this.sort.active);
     let order = this.sort.active;
     let desc = this.sort.direction;
-    
+
     let direction = true;
 
     if (desc == "asc") {
@@ -372,10 +372,10 @@ export class BandejaSolicitudComponent  extends FormularioBase implements OnInit
 
       // console.log(filter);
       this.materiales_paged = await this.maestroMaterialService.getSolicitudMateriales(filter, order, direction, this.paginator.pageSize, this.datosMaestros.currentUser, this.userAdministrator).then();
-      console.log(this.materiales_paged);
+      // console.log(this.materiales_paged);
       //debugger;
     } else {
-      
+
       if (this.materiales_paged_history[this.paginator.pageIndex]) {
         this.materiales_paged = await this.materiales_paged_history[this.paginator.pageIndex - 1].getNext();
       } else {
@@ -394,7 +394,7 @@ export class BandejaSolicitudComponent  extends FormularioBase implements OnInit
       this.materiales_paged_history[this.paginator.pageIndex] = this.materiales_paged;
     }
     this.ocultarProgreso();
-    
+
     return this.materiales_paged.results.map(elemento => {
       return  MaestroMaterial.parseJson(elemento);
     });
@@ -423,12 +423,12 @@ export class BandejaSolicitudComponent  extends FormularioBase implements OnInit
           return dataMap;
         });
 
-        console.log(details);
+        // console.log(details);
         this.excelService.excelListadoGeneral('Consulta Solicitudes', 'ConsultaSolicitudes', headers, details);
       },
       err => this.guardarLog(err)
     );
-    
+
   }
 
 }

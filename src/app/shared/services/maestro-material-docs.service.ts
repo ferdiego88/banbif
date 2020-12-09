@@ -13,30 +13,30 @@ import { Funciones } from '../funciones';
 export class MaestroMaterialDocsService {
 
   constructor() { }
-  
+
   async getMaestroMaterialDocs( maestroMaterialId: number ): Promise<MaestroMaterialDocs[]> {
-    
+
     const expandFields = MaestroMaterialDocs.getColumnasExpand();
     const selectFields = MaestroMaterialDocs.getColumnasSelectSingle();
-    
+
     const items = await sp.web.lists.getByTitle( Variables.lists.MaestroMaterialDocs ).items
     .expand(...expandFields).select(...selectFields).filter(`MaestroMaterialId eq ${ maestroMaterialId.toString() } and Oculto eq false`)
     .get();
-    
-    console.log({adjuntosService: items});
-  
+
+    // console.log({adjuntosService: items});
+
     const docs = MaestroMaterialDocs.parseArray( items );
 
     return docs;
   }
 
   async guardar(maestroMaterialId: number, maestroMaterialDocs: MaestroMaterialDocs[], grupos: any[], usuarios: any[]): Promise<void> {
-    
+
     maestroMaterialDocs.forEach(
       doc => {
-        
+
         const nameUnique = `${Funciones.generateRandomUniqueName()}.${Funciones.getExtensionOfFileName(doc.Nombre.name)}`;
-        
+
         if (doc.Id === 0) {
           this.agregar( maestroMaterialId, doc.Nombre, nameUnique, grupos, usuarios, doc );
         } else {
@@ -46,7 +46,7 @@ export class MaestroMaterialDocsService {
     );
 
   }
-  
+
   async agregar(
     maestroMaterialId: number, file: File, nameUnique: string, grupos: any[], usuarios: any[], doc: MaestroMaterialDocs
   ): Promise<void> {
@@ -81,7 +81,7 @@ export class MaestroMaterialDocsService {
         Oculto: doc.Oculto,
         IdTipoDocumentoAdjunto: doc.IdTipoDocumentoAdjunto
       }
-    );    
+    );
   }
 
 }

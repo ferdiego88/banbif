@@ -27,7 +27,7 @@ export class MasterBandejaService {
   private listaMaestroZona: IList;
 
   constructor(
-    public userService: UserService  
+    public userService: UserService
   ) {
     sp.setup({
       ie11: true,
@@ -52,16 +52,16 @@ export class MasterBandejaService {
     const subject = new BehaviorSubject<MasterBandejaLogic>(masterData);
     const listaPromesas: Promise<any>[] = [];
 
-    listaPromesas.push(this.userService.getCurrentUser());   
+    listaPromesas.push(this.userService.getCurrentUser());
     listaPromesas.push(this.getMaestroEstado());
-    listaPromesas.push(this.getMaestroTipoProducto());   
+    listaPromesas.push(this.getMaestroTipoProducto());
     listaPromesas.push(this.getMaestroOficina());
-    listaPromesas.push(this.getMaestroZona());  
+    listaPromesas.push(this.getMaestroZona());
 
     Promise.all(listaPromesas).then((results) => {
       let cont = 0;
       masterData.isDatos = true;
- 
+
       masterData.currentUser = results[cont++];
       masterData.maestroEstado = results[cont++];
       masterData.maestroTipoProducto = results[cont++];
@@ -76,12 +76,12 @@ export class MasterBandejaService {
       masterData.PertenceGrupo_U_Reasignador_Riesgos = masterData.currentUser.Groups.filter(x => x.Title === "U_Reasignador_Riesgos").length > 0;
       masterData.PertenceGrupo_U_Verificacion_Riesgos = masterData.currentUser.Groups.filter(x => x.Title === "U_Verificacion_Riesgos").length > 0;
 
-      console.log(masterData);
+      // console.log(masterData);
       subject.next(masterData);
     });
 
     return subject.asObservable();
-  }  
+  }
 
   async getMaestroEstado(): Promise<Lookup[]> {
     const selectFields = ["ID","Title"];
@@ -92,7 +92,7 @@ export class MasterBandejaService {
     const items: Lookup[] = result.map(elemento => {
       const item = new Lookup();
       item.Id = elemento.Id;
-      item.Title = elemento.Title;     
+      item.Title = elemento.Title;
       return item
     });
 
@@ -108,7 +108,7 @@ export class MasterBandejaService {
     const items: Lookup[] = result.map(elemento => {
       const item = new Lookup();
       item.Id = elemento.Id;
-      item.Title = elemento.Title;     
+      item.Title = elemento.Title;
       return item
     });
 
@@ -124,7 +124,7 @@ export class MasterBandejaService {
     const items: Lookup[] = result.map(elemento => {
       const item = new Lookup();
       item.Id = elemento.Id;
-      item.Title = elemento.Title;     
+      item.Title = elemento.Title;
       return item
     });
 
@@ -140,7 +140,7 @@ export class MasterBandejaService {
     const items: Lookup[] = result.map(elemento => {
       const item = new Lookup();
       item.Id = elemento.Id;
-      item.Title = elemento.Title;     
+      item.Title = elemento.Title;
       return item
     });
 

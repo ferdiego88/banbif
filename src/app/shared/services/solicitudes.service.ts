@@ -143,13 +143,13 @@ export class SolicitudesService {
         if (sp !== null && sp !== undefined) {
 
           const item = await this.listaSolicitudes.items
-                          .expand(...['Ejecutivo'])
-                          .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id'])
+                          .expand(...['Ejecutivo', 'Anlista_Riesgos'])
+                          .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id'])
                           // .getById(itemId)
                           .filter(`Id eq ${itemId}`)
                           .get();
           // resolve(item);
-          console.log({item});
+          // console.log({item});
           return item;
         // } else {
         //     reject('Failed getting list data...');
@@ -158,27 +158,27 @@ export class SolicitudesService {
   }
 
   async save(id: number, solicitudCreditoHipotecario: any): Promise<boolean> {
-    
+
     debugger;
 
     try {
       let iar: IItemAddResult;
-  
+
       if (id === 0){
         iar = await this.listaSolicitudes.items.add(
           solicitudCreditoHipotecario
         );
-      } else {    
+      } else {
         iar = await this.listaSolicitudes.items.getById( id ).update(
           solicitudCreditoHipotecario
         );
       }
-      
+
       return true;
 
     } catch (error) {
       throw error;
     }
   }
-  
+
 }

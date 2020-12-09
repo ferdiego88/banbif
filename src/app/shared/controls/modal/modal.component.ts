@@ -33,7 +33,7 @@ export class ModalDialog implements OnInit {
     public dialogRef: MatDialogRef<ModalDialog>,
     @Inject(MAT_DIALOG_DATA) public datos: IDialogData
   ) {
-    console.log(this.datos);
+    // console.log(this.datos);
     // this.controlComentarios = new FormControl('', Validators.required);
 
     // this.controlComentarios.valueChanges.subscribe(
@@ -62,12 +62,12 @@ export class ModalDialog implements OnInit {
         this.dialogRef.close( {close: true, comentarios: this.comentarios} );
       }
 
-      console.log(this.comentarios);
-      console.log(this.comentarios.indexOf('\n'));
+      // console.log(this.comentarios);
+      // console.log(this.comentarios.indexOf('\n'));
 
     } else {
       this.dialogRef.close( {close: true} );
     }
-    
+
   }
 }

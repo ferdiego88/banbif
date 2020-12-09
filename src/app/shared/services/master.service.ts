@@ -184,7 +184,7 @@ export class MasterService {
       item
     );
 
-    console.log(iar);
+    // console.log(iar);
 
     const itemMaestroMaterialFlujoLog = {
       Title: iar.data.Title,
@@ -200,7 +200,7 @@ export class MasterService {
       itemMaestroMaterialFlujoLog
     );
 
-    console.log(iarLog);
+    // console.log(iarLog);
     //Buscar responsables de la siguiente etapa / Grupo
 
 
@@ -227,8 +227,8 @@ export class MasterService {
 
       await this.getMaestroMaterial( id ).then(
         (data: any) => {
-          console.log(data.Modified);
-          console.log(modified);
+          // console.log(data.Modified);
+          // console.log(modified);
           if (modified !== data.Modified) { // Si no pasa la validación mostramos mensaje y ya no grabamos
             valid = false;
           }
@@ -244,7 +244,7 @@ export class MasterService {
 
     if (valid) {
 
-      console.log(iar);
+      // console.log(iar);
 
       const maestroMaterialIdSave = id === 0 ? iar.data.Id : id;
 
@@ -266,7 +266,7 @@ export class MasterService {
       );
 
       // console.log({iarMasterObjetosPermiso});
-      //Guarda MaestroMaterialDocs
+      // Guarda MaestroMaterialDocs
 
       if (maestroMaterialDocs) {
         await this.maestroMaterialDocsService.guardar(maestroMaterialIdSave, maestroMaterialDocs, grupos, usuarios);
@@ -286,7 +286,7 @@ export class MasterService {
         itemMaestroMaterialFlujoLog
       );
 
-      console.log(iarLog);
+      // console.log(iarLog);
 
       await sp.web.lists.getByTitle(Variables.lists.MasterObjetosPermiso).items.add(
         {
@@ -423,7 +423,7 @@ export class MasterService {
 
 
 
-      console.log(masterData);
+      // console.log(masterData);
       subject.next(masterData);
     });
 

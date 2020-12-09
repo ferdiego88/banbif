@@ -428,7 +428,7 @@ export class FormularioBase {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+      // console.log(result);
       if (result.close && callback) {
         callback(that, borrador, result.comentarios);
         // callback();
