@@ -349,7 +349,7 @@ Desembolso = 0;
               this.enlaceDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Url;
               this.hideLoading();
             })
-            .catch(error => {this.hideLoading(); this.showErrorMessage('No se pudo Obtener la Información');});
+            .catch(error => {this.hideLoading(); this.showErrorMessage('Los datos no se Obtuvieron Correctamente, Recargue la página');});
         } else {
           this.hideLoading();
         }
