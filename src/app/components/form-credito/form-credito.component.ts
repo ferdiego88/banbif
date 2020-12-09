@@ -290,7 +290,6 @@ Desembolso = 0;
                   };
                   this.creditForm.controls.ejecutivo.setValue([ejecutivo]);
                }
-
               if (solicitudHipotecarioList[0].Anlista_RiesgosId) {
                   const analista = {
                     Id: solicitudHipotecarioList[0].Anlista_Riesgos.Id,
@@ -298,7 +297,6 @@ Desembolso = 0;
                   };
                   this.creditForm.controls.Analista_Riesgos.setValue([analista]);
                }
-
               for (const i of this.comentarios) {
                 const controlForm = this.solicitudHipotecarioList[i];
                 if (controlForm !== null) {
@@ -306,7 +304,6 @@ Desembolso = 0;
                   this.creditForm.controls[i].setValue(cadControlForm);
                 }
                }
-
               for (const key in Variables.columnasHipo) {
                  if (Object.prototype.hasOwnProperty.call(Variables.columnasHipo, key)) {
                    const element = Variables.columnasHipo[key];
@@ -1227,7 +1224,6 @@ Desembolso = 0;
     const itemSave = this.getObjectToSave();
     itemSave.EstadoId = EstadoId;
     itemSave.Fecha_Estado = new Date();
-
     // Fecha_Registro_CPM && (itemSave.Fecha_Registro_CPM = Fecha_Registro_CPM);
     Swal.fire({
       title: '¿Esta seguro de Enviar la Solicitud?',
@@ -1236,6 +1232,7 @@ Desembolso = 0;
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
+        this.showLoading();
         this.update(itemSave, 'La Solicitud se envio', 'No se pudo enviar la Solicitud');
       } else if (result.isDismissed) {
         Swal.fire('No se Envio la Solicitud', '', 'info');
@@ -1256,6 +1253,7 @@ Desembolso = 0;
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
+        this.showLoading();
         this.update(itemSave, 'La Solicitud paso a revisión', 'No se pudo pasar la Solicitud para su revisión');
       } else if (result.isDismissed) {
         Swal.fire('No se Envio la Solicitud', '', 'info');
@@ -1277,6 +1275,7 @@ Desembolso = 0;
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
+        this.showLoading();
         this.update(itemSave, 'La Solicitud se Aprobó', 'No se pudo Aprobar la Solicitud');
       } else if (result.isDismissed) {
         Swal.fire('No se Envio la Solicitud', '', 'info');
@@ -1298,6 +1297,7 @@ Desembolso = 0;
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
+        this.showLoading();
         this.update(itemSave, 'La Solicitud se Aprobó sin Verificación', 'No se pudo aprobar la Solicitud sin Verificación');
       } else if (result.isDismissed) {
         Swal.fire('No se Envio la Solicitud', '', 'info');
@@ -1319,6 +1319,7 @@ Desembolso = 0;
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
+        this.showLoading();
         this.update(itemSave, 'La Solicitud pasó a verificación', 'No se pudo enviar la Solicitud para su verificación');
       } else if (result.isDismissed) {
         Swal.fire('No se Envio la Solicitud', '', 'info');
@@ -1340,6 +1341,7 @@ Desembolso = 0;
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
+        this.showLoading();
         this.update(itemSave, 'La Solicitud pasó a Observación de Oficina', 'No se pudo pasar la Solicitud a Observación de Oficina');
       } else if (result.isDismissed) {
         Swal.fire('No se Envio la Solicitud', '', 'info');
@@ -1359,6 +1361,7 @@ Desembolso = 0;
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
+        this.showLoading();
         this.update(itemSave, 'La Solicitud pasó a Observación CPM', 'No se pudo pasar la Solicitud a Observación CPM');
       } else if (result.isDismissed) {
         Swal.fire('No se Envio la Solicitud', '', 'info');
@@ -1369,7 +1372,6 @@ Desembolso = 0;
 
   rejected(): void {
     this.showLoading();
-
     const itemSave = {
       EstadoId: 6, // TODO, create constant
       Fecha_Rechazado_Evaluacion: new Date()
@@ -1384,6 +1386,7 @@ Desembolso = 0;
       confirmButtonText: 'Si, rechazar!'
     }).then((result) => {
       if (result.isConfirmed) {
+        this.showLoading();
         this.update(itemSave, 'Ha rechazado la solicitud', 'No se pudo rechazar la Solicitud');
       }
     });
@@ -1391,14 +1394,12 @@ Desembolso = 0;
   }
 
   update(itemSave: any, successMessage: string, errorMessage: string): void {
-
     this.solicitudService.save(this.solicitudHipotecarioList.Id, itemSave)
     .then(resp => {
       console.log(resp);
       if (resp) {
         this.hideLoading();
         this.showSuccessMessage(successMessage);
-
         this.router.navigate(['/bandejas/solicitudes']);
       } else {
         this.hideLoading();
