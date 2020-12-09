@@ -77,6 +77,7 @@ export class Variables {
     EstadoAsignacionRiesgos: 30,
     EstadoEvaluacionRiesgos: 4,
     EstadoObservadoRiesgos: 5,
+    EstadoRechazado: 6,
     EstadoVerificacionRiesgos: 32,
     EstadoRegularizacionCPM: 35,
     EstadoAprobadoSinVerificacion: 33,
@@ -145,7 +146,7 @@ export class Variables {
     AdmZona: 'Zona',
     AdmZonaId: 'ZonaId',
   };
-  
+
   static columnasHipo = {
     Tipo_ProductoId: 'Tipo_ProductoId',
     Sub_ProductoId: 'Sub_ProductoId',

@@ -43,7 +43,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTreeModule } from '@angular/material/tree';
 
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
@@ -174,6 +173,7 @@ const materialModules = [
     // BandejaEtapasComponent,
     // FormularioEtapasComponent,
   ],
+
   providers: [DatePipe],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
