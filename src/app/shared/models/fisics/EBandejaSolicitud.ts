@@ -23,6 +23,8 @@ export class EBandejaSolicitud {
     Fecha_Estado: Date;
     TiempoAtencion: string;
     Desembolso: string;
+    Agencia: string;
+    U_Responsable: string;
 
     constructor() {
         this.Id = 0;
@@ -45,6 +47,8 @@ export class EBandejaSolicitud {
         this.Fecha_Estado = new Date();
         this.TiempoAtencion = "";
         this.Desembolso = "";
+        this.Agencia = "";
+        this.U_Responsable= "";
     }
 
     public static getColumnasSelect(): string[] {
@@ -65,6 +69,8 @@ export class EBandejaSolicitud {
             Variables.columnasSolicitud.Zona + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.Oficina + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.SustentoIngreso + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.Agencia + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.UResponsable + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.FechaEstado,
             Variables.columnasSolicitud.Desembolso
         ];
@@ -82,6 +88,8 @@ export class EBandejaSolicitud {
             Variables.columnasSolicitud.Zona,
             Variables.columnasSolicitud.Oficina,
             Variables.columnasSolicitud.SustentoIngreso,
+            Variables.columnasSolicitud.Agencia,
+            Variables.columnasSolicitud.UResponsable
         ];
     }
 
@@ -103,10 +111,12 @@ export class EBandejaSolicitud {
         item.Financiamiento = SPParse.getString(elemento[Variables.columnasSolicitud.Financiamiento]).toUpperCase();
         item.Zona = Lookup.parseJson(elemento[Variables.columnasSolicitud.Zona]).Title.toUpperCase();
         item.Oficina = Lookup.parseJson(elemento[Variables.columnasSolicitud.Oficina]).Title.toUpperCase();
+        item.Agencia = Lookup.parseJson(elemento[Variables.columnasSolicitud.Agencia]).Title.toUpperCase();
         item.Sustento_Ingresos = Lookup.parseJson(elemento[Variables.columnasSolicitud.SustentoIngreso]).Title.toUpperCase();
         item.Fecha_Estado = SPParse.getDate(elemento[Variables.columnasSolicitud.FechaEstado]);
         item.Desembolso = SPParse.getString(elemento[Variables.columnasSolicitud.Desembolso]);
-        
+        item.U_Responsable = User.parseJsonListNombres(elemento[Variables.columnasSolicitud.UResponsable]).toUpperCase();
+
         if (item.Financiamiento !== "") {
             item.Financiamiento = Math.round(parseFloat(item.Financiamiento) * 100) + " %"
         }
@@ -122,7 +132,7 @@ export class EBandejaSolicitud {
     }
 
     public static parseJsonList(list: any): EBandejaSolicitud[] {
-
+       
         let items: EBandejaSolicitud[] = [];
         
         list.forEach(elemento => {

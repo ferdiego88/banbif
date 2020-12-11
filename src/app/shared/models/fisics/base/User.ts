@@ -30,9 +30,7 @@ export class User {
         if (user) {
           user.Id = element[Variables.columns.ID];
           user.Title = element[Variables.columns.Title];
-          user.Email = element[Variables.columns.EMail];
-      
-          
+          user.Email = element[Variables.columns.EMail];          
         }
 
         return user;
@@ -40,6 +38,34 @@ export class User {
     }
 
     return lista;
+  }
+
+  public static parseJsonListNombres(elements: any[]): string {
+    
+    let nombres = "";
+    let lista: User[] = [];
+
+    if (elements) {
+      lista = elements.map((element) => {
+        const user = new User();
+        if (user) {
+          user.Id = element[Variables.columns.ID];
+          user.Title = element[Variables.columns.Title];
+          user.Email = element[Variables.columns.EMail];          
+        }
+
+        return user;
+      });
+
+      for(const item of lista){
+        if(nombres.left){
+          nombres += " / ";
+        }
+        nombres += item.Title;
+      }
+    }
+
+    return nombres;
   }
 
   public static parseJson(element: any): User {

@@ -4,7 +4,8 @@
 <!-- <mat-toolbar color="warn" class=" position-fixed main-toolbar"> -->
 <mat-toolbar color="warn" class="position-fixed main-toolbar">
     <mat-toolbar-row>
-        <button class="mat-icon-white" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="sidenav.toggle()" color="primary">
+        <button class="mat-icon-white" type="button" aria-label="Toggle sidenav" mat-icon-button
+            (click)="sidenav.toggle()" color="primary">
             <mat-icon class="mat-icon-white" aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
 
@@ -71,6 +72,10 @@
                 <a mat-list-item routerLink='/bandejas/solicitudesfinalizadas' (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>search</mat-icon> Solicitudes Finalizadas
                 </a>
+                <a mat-list-item routerLink='/bandejas/solicitudespendientes' (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>search</mat-icon> Solicitudes Pendientes
+                </a>
+
             </mat-expansion-panel>
         </mat-nav-list>
 

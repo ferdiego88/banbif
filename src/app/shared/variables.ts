@@ -93,6 +93,7 @@ export class Variables {
     bandejaMisSolicitudesPendientes: 'bandejas/missolicitudespendientes',
     bandejaSolicitudes: 'bandejas/solicitudes',
     bandejaSolicitudesFinalizadas: 'bandejas/solicitudesfinalizadas',
+    bandejaSolicitudesPendientes: 'bandejas/solicitudespendientes',
   };
 
   static readonly lists = {
@@ -207,6 +208,7 @@ export class Variables {
     ID: 'ID',
     Title: 'Title',
     Author: 'Author',
+    Agencia: 'Agencia',
     Created: 'Created',
     Descripcion_Inmueble: 'Descripcion_Inmueble',
     Plan_Ahorro: 'Plan_Ahorro',
@@ -232,7 +234,8 @@ export class Variables {
     Oficina : 'Oficina',
     SustentoIngreso : 'Sustento_Ingresos',
     FechaEstado : 'Fecha_Estado',
-    Desembolso: 'Desembolso'
+    Desembolso: 'Desembolso',
+    UResponsable: 'U_Responsable'
   };
 
   static readonly columns = {

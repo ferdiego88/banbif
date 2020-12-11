@@ -119,6 +119,11 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
         return elementoEstado.Id === 1 || elementoEstado.Id === 3 || elementoEstado.Id === 5;
       });
 
+      if (this.datosMaestrosBandeja.maestroEstado.length === 0) {
+        const url = environment.getRutaBaseApp();
+        this.mostrarModalInformativoConAccion("Mensaje del Sistema", "Usted no tiene permiso a esta bandeja.", window.open(url, '_self'));
+      }
+
       let order: string;
 
       if (this.obtenerParametro("order")) {

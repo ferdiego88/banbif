@@ -15,6 +15,7 @@ import { MissolicitudespendientesComponent } from './components/bandejas/missoli
 import { SolicitudesComponent } from './components/bandejas/solicitudes/solicitudes.component';
 import { SolicitudesfinalizadasComponent } from './components/bandejas/solicitudesfinalizadas/solicitudesfinalizadas.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { SolicitudespendientesComponent } from './components/bandejas/solicitudespendientes/solicitudespendientes.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: Variables.path.bandejaMisSolicitudesPendientes, component: MissolicitudespendientesComponent },
   { path: Variables.path.bandejaSolicitudes, component: SolicitudesComponent },
   { path: Variables.path.bandejaSolicitudesFinalizadas, component: SolicitudesfinalizadasComponent },
+  { path: Variables.path.bandejaSolicitudesPendientes, component: SolicitudespendientesComponent },
 ];
 
 @NgModule({
