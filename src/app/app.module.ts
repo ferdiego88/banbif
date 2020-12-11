@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 
 import { HomeComponent } from './components/home/home.component';
-import { BandejaSolicitudComponent } from './components/bandeja-solicitud/bandeja-solicitud.component';
 
 //Angular Material Components
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -78,6 +77,7 @@ import { SolicitudesComponent } from './components/bandejas/solicitudes/solicitu
 import { GridLoaderComponent } from './shared/controls/grid-loader/grid-loader.component';
 import { SolicitudesfinalizadasComponent } from './components/bandejas/solicitudesfinalizadas/solicitudesfinalizadas.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { SolicitudespendientesComponent } from './components/bandejas/solicitudespendientes/solicitudespendientes.component';
 
 const materialModules = [
   MatSlideToggleModule,
@@ -120,8 +120,7 @@ const materialModules = [
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    BandejaSolicitudComponent,
+    HomeComponent,    
     // FormularioSolicitudComponent,
     // BandejaParametrosComponent,
     // FormularioParametrosComponent,
@@ -141,7 +140,8 @@ const materialModules = [
     SolicitudesComponent,
     GridLoaderComponent,
     SolicitudesfinalizadasComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    SolicitudespendientesComponent
   ],
   imports: [
     BrowserModule,
@@ -168,7 +168,6 @@ const materialModules = [
   exports: [
     ...materialModules,
     HomeComponent,
-    BandejaSolicitudComponent,
     // FormularioSolicitudComponent,
     // BandejaParametrosComponent,
     // FormularioParametrosComponent,

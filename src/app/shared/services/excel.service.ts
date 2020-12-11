@@ -14,7 +14,7 @@ export class ExcelService {
   constructor(
     private datePipe: DatePipe
   ) { }
-  
+
   excelListadoMisSolicitudesPendientes(nameSheet: string, nameFile: string, headers: string[], details: any[][]) {
     const workbook = new Workbook();
     const worksheet = workbook.addWorksheet(nameSheet);
@@ -26,36 +26,36 @@ export class ExcelService {
     let row = worksheet.addRow(headers);
 
     row.eachCell((cell, numberCell) => {
-        let width = 0;
+      let width = 0;
 
-        switch (numberCell) {
-          case 1: width = 20; break;
-          case 2: width = 30; break;
-          case 3: width = 20; break;
-          case 4: width = 40; break;
-          case 5: width = 20; break;
-          case 6: width = 20; break;
-          case 7: width = 20; break;
-          case 8: width = 20; break;
-          case 9: width = 20; break;
-          case 10: width = 20; break;
-          case 11: width = 20; break;
-          case 12: width = 20; break;
-        }
-
-        cell.worksheet.getColumn(numberCell).width = width;
-        
-        if (numberCell > 0) {
-          cell.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: {},
-          };
-
-          cell.border = Funciones.excelBorde();  
-          cell.alignment = { vertical: 'middle', horizontal: 'center' };
-        }
+      switch (numberCell) {
+        case 1: width = 20; break;
+        case 2: width = 30; break;
+        case 3: width = 20; break;
+        case 4: width = 40; break;
+        case 5: width = 20; break;
+        case 6: width = 20; break;
+        case 7: width = 20; break;
+        case 8: width = 20; break;
+        case 9: width = 20; break;
+        case 10: width = 20; break;
+        case 11: width = 20; break;
+        case 12: width = 20; break;
       }
+
+      cell.worksheet.getColumn(numberCell).width = width;
+
+      if (numberCell > 0) {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: {},
+        };
+
+        cell.border = Funciones.excelBorde();
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      }
+    }
     );
 
     details.forEach(item => {
@@ -64,12 +64,12 @@ export class ExcelService {
 
       row.eachCell(
         (cell, numberCell) => {
-        
+
           if (numberCell > 0) {
-            
+
             cell.border = Funciones.excelBorde();
-  
-            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };          
+
+            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
           }
         }
       );
@@ -95,39 +95,39 @@ export class ExcelService {
     let row = worksheet.addRow(headers);
 
     row.eachCell((cell, numberCell) => {
-        let width = 0;
+      let width = 0;
 
-        switch (numberCell) {
-          case 1: width = 20; break;
-          case 2: width = 30; break;
-          case 3: width = 20; break;
-          case 4: width = 40; break;
-          case 5: width = 20; break;
-          case 6: width = 20; break;
-          case 7: width = 20; break;
-          case 8: width = 20; break;
-          case 9: width = 20; break;
-          case 10: width = 20; break;
-          case 11: width = 20; break;
-          case 12: width = 20; break;
-          case 13: width = 20; break;
-          case 14: width = 20; break;
-          case 15: width = 20; break;
-        }
-
-        cell.worksheet.getColumn(numberCell).width = width;
-        
-        if (numberCell > 0) {
-          cell.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: {},
-          };
-
-          cell.border = Funciones.excelBorde();  
-          cell.alignment = { vertical: 'middle', horizontal: 'center' };
-        }
+      switch (numberCell) {
+        case 1: width = 20; break;
+        case 2: width = 30; break;
+        case 3: width = 20; break;
+        case 4: width = 40; break;
+        case 5: width = 20; break;
+        case 6: width = 20; break;
+        case 7: width = 20; break;
+        case 8: width = 20; break;
+        case 9: width = 20; break;
+        case 10: width = 20; break;
+        case 11: width = 20; break;
+        case 12: width = 20; break;
+        case 13: width = 20; break;
+        case 14: width = 20; break;
+        case 15: width = 20; break;
       }
+
+      cell.worksheet.getColumn(numberCell).width = width;
+
+      if (numberCell > 0) {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: {},
+        };
+
+        cell.border = Funciones.excelBorde();
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      }
+    }
     );
 
     details.forEach(item => {
@@ -136,12 +136,12 @@ export class ExcelService {
 
       row.eachCell(
         (cell, numberCell) => {
-        
+
           if (numberCell > 0) {
-            
+
             cell.border = Funciones.excelBorde();
-  
-            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };          
+
+            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
           }
         }
       );
@@ -167,36 +167,38 @@ export class ExcelService {
     let row = worksheet.addRow(headers);
 
     row.eachCell((cell, numberCell) => {
-        let width = 0;
+      let width = 0;
 
-        switch (numberCell) {
-          case 1: width = 20; break;
-          case 2: width = 30; break;
-          case 3: width = 20; break;
-          case 4: width = 40; break;
-          case 5: width = 20; break;
-          case 6: width = 20; break;
-          case 7: width = 20; break;
-          case 8: width = 20; break;
-          case 9: width = 20; break;
-          case 10: width = 20; break;
-          case 11: width = 20; break;
-          case 12: width = 20; break;
-        }
-
-        cell.worksheet.getColumn(numberCell).width = width;
-        
-        if (numberCell > 0) {
-          cell.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: {},
-          };
-
-          cell.border = Funciones.excelBorde();  
-          cell.alignment = { vertical: 'middle', horizontal: 'center' };
-        }
+      switch (numberCell) {
+        case 1: width = 20; break;
+        case 2: width = 30; break;
+        case 3: width = 20; break;
+        case 4: width = 40; break;
+        case 5: width = 20; break;
+        case 6: width = 20; break;
+        case 7: width = 20; break;
+        case 8: width = 20; break;
+        case 9: width = 20; break;
+        case 10: width = 20; break;
+        case 11: width = 20; break;
+        case 12: width = 20; break;
+        case 13: width = 20; break;
+        case 14: width = 20; break;
       }
+
+      cell.worksheet.getColumn(numberCell).width = width;
+
+      if (numberCell > 0) {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: {},
+        };
+
+        cell.border = Funciones.excelBorde();
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      }
+    }
     );
 
     details.forEach(item => {
@@ -205,12 +207,12 @@ export class ExcelService {
 
       row.eachCell(
         (cell, numberCell) => {
-        
+
           if (numberCell > 0) {
-            
+
             cell.border = Funciones.excelBorde();
-  
-            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };          
+
+            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
           }
         }
       );
@@ -236,36 +238,36 @@ export class ExcelService {
     let row = worksheet.addRow(headers);
 
     row.eachCell((cell, numberCell) => {
-        let width = 0;
+      let width = 0;
 
-        switch (numberCell) {
-          case 1: width = 20; break;
-          case 2: width = 30; break;
-          case 3: width = 20; break;
-          case 4: width = 40; break;
-          case 5: width = 20; break;
-          case 6: width = 20; break;
-          case 7: width = 20; break;
-          case 8: width = 20; break;
-          case 9: width = 20; break;
-          case 10: width = 20; break;
-          case 11: width = 20; break;
-          case 12: width = 20; break;
-        }
-
-        cell.worksheet.getColumn(numberCell).width = width;
-        
-        if (numberCell > 0) {
-          cell.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: {},
-          };
-
-          cell.border = Funciones.excelBorde();  
-          cell.alignment = { vertical: 'middle', horizontal: 'center' };
-        }
+      switch (numberCell) {
+        case 1: width = 20; break;
+        case 2: width = 30; break;
+        case 3: width = 20; break;
+        case 4: width = 40; break;
+        case 5: width = 20; break;
+        case 6: width = 20; break;
+        case 7: width = 20; break;
+        case 8: width = 20; break;
+        case 9: width = 20; break;
+        case 10: width = 20; break;
+        case 11: width = 20; break;
+        case 12: width = 20; break;
       }
+
+      cell.worksheet.getColumn(numberCell).width = width;
+
+      if (numberCell > 0) {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: {},
+        };
+
+        cell.border = Funciones.excelBorde();
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      }
+    }
     );
 
     details.forEach(item => {
@@ -274,12 +276,12 @@ export class ExcelService {
 
       row.eachCell(
         (cell, numberCell) => {
-        
+
           if (numberCell > 0) {
-            
+
             cell.border = Funciones.excelBorde();
-  
-            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };          
+
+            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
           }
         }
       );
@@ -294,15 +296,15 @@ export class ExcelService {
 
   }
 
-  excelSolicitud( headers: any, details: any, textosLargos: any, nombreArchivo: string ): void {
-    
+  excelSolicitud(headers: any, details: any, textosLargos: any, nombreArchivo: string): void {
+
     const workbook = new Workbook();
 
-    this.hojaFormularioInicial( workbook, headers, details, textosLargos );
-    this.hojaFormularioProveedores( workbook, headers, details, textosLargos );
-    this.hojaUnidadesMedida( workbook, headers, details, textosLargos );
-    this.hojaOtros( workbook, headers, details );
-    
+    this.hojaFormularioInicial(workbook, headers, details, textosLargos);
+    this.hojaFormularioProveedores(workbook, headers, details, textosLargos);
+    this.hojaUnidadesMedida(workbook, headers, details, textosLargos);
+    this.hojaOtros(workbook, headers, details);
+
     workbook.xlsx.writeBuffer().then(
       (data) => {
         const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -311,13 +313,13 @@ export class ExcelService {
     );
   }
 
-  hojaFormularioInicial( workbook: Workbook, headers: any, details: any, textosLargos: any ): void {
+  hojaFormularioInicial(workbook: Workbook, headers: any, details: any, textosLargos: any): void {
     const worksheet = workbook.addWorksheet('Formulario Inicial');
-    
+
     worksheet.addRow([]);
     let row = worksheet.addRow(['', 'Formulario Inicial Datos Maestros de Artículos']);
     const cell = row.getCell(2);
-    
+
     cell.fill = {
       type: 'pattern',
       pattern: 'solid',
@@ -325,16 +327,16 @@ export class ExcelService {
     };
 
     cell.alignment = { vertical: 'middle', horizontal: 'center' };
-    cell.font = {bold: true};
+    cell.font = { bold: true };
     cell.border = Funciones.excelBorde();
 
-    worksheet.mergeCells('B2:S2');    
-    
+    worksheet.mergeCells('B2:S2');
+
     row = worksheet.addRow(['', 'MATHEAD', 'MATHEAD', 'MATHEAD', 'MAKT', 'LFM1', 'MARA', '', 'MARC', 'MARC', 'MARC', 'MARA', 'MARA', 'MARA', 'MARA', 'MARA', 'AUSPRT', 'MLAN', '']);
-    
+
     row.eachCell(
       (cell, numberCell) => {
-      
+
         if (numberCell > 1) {
           // console.log({value: cell.worksheet.getColumn(numberCell).values});
           let width = 0;
@@ -356,11 +358,11 @@ export class ExcelService {
             case 16:
             case 17:
             case 18:
-            case 19: width = 16; break;            
+            case 19: width = 16; break;
           }
           cell.worksheet.getColumn(numberCell).width = width;
           let color = '';
-          
+
           if ((numberCell >= 2 && numberCell <= 8) || (numberCell >= 17 && numberCell <= 19)) {
             color = Variables.colores.Plomo;
           } else if (numberCell === 9 || numberCell === 10) {
@@ -386,10 +388,10 @@ export class ExcelService {
     );
 
     row = worksheet.addRow(['', 'MATL_TYPE', 'MATL_GROUP', 'MATL_CAT', 'MATL_DESC', 'ELIFN', 'DIVISION', '', 'CC_PH_INV', '', 'BATCH_MGMT', 'LABEL_TYPE', 'LABEL_FORM', 'MIMREMLIFE', 'PERIOD_IND_EXPIRATION_DATE', 'STOR_PCT', 'CHAR_VALUE', 'TAX_TYPE_1', '']);
-    
+
     row.eachCell(
       (cell, numberCell) => {
-      
+
         if (numberCell > 1) {
           let color = '';
 
@@ -419,7 +421,7 @@ export class ExcelService {
     row = worksheet.addRow(['', 'RMMW1-MTART', 'MARA-MATKL', 'RMMW1-ATTYP', 'MAKT-MAKTX', '', 'MARA-SPART', 'MBEW-BKLAS', 'MARC-ABCIN', 'MARC-EKGRP', 'MARC-XCHPF', 'MARA-ETIAR', 'MARA-ETIFO', 'MARA-MHDRZ', 'MARA-IPRKZ', 'MARA-MHDLP', 'DESCUENTOR', '', '']);
     row.eachCell(
       (cell, numberCell) => {
-      
+
         if (numberCell > 1) {
           let color = '';
 
@@ -438,7 +440,7 @@ export class ExcelService {
             pattern: 'solid',
             fgColor: { argb: color },
           };
-          
+
           cell.border = Funciones.excelBorde();
 
           cell.alignment = { vertical: 'middle', horizontal: 'center' };
@@ -449,7 +451,7 @@ export class ExcelService {
     row = worksheet.addRow(['', 'Identifica al artículo según su orígen', 'Línea Comercial', 'Indica la categoría del material', 'Descripción del artículo, incluyendo la presentación', 'Código de Proveedor SAP que suministrará el artículo', 'Sector comercial', 'Indica si el producto es consignado', 'Indicador de inventario para recuento ciclico', 'Clave de un comprador o grupo de compradores responsable(s) para determinadas actividades de compras.', 'Indica si el artículo está sujeto a lote.', 'Unidad de medida en que nos atiende el proveedor', 'Indica si el lote viene del proveedor o es un lote interno', 'Tiempo mínimo de duración desde el ingreso de la mercadería hasta su fecha de vencimiento', 'Indica en que tiempo está expresado el tiempo mínimo de duración', 'Porcentaje de tiempo que indica desde cuando el material se traslada a un almacen de próximo vencimiento', 'Indica si el descuento aplicado para la venta es o no recuperable con el proveedor', 'Indica si el artículo está o no afecto al IGV para la venta', 'Indicar si es Oncologico o Retroviral']);
     row.eachCell(
       (cell, numberCell) => {
-      
+
         if (numberCell > 1) {
           let color = '';
 
@@ -468,7 +470,7 @@ export class ExcelService {
             pattern: 'solid',
             fgColor: { argb: color },
           };
-          
+
           cell.border = Funciones.excelBorde();
 
           cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
@@ -476,22 +478,22 @@ export class ExcelService {
         }
       }
     );
-    
+
     const propiedades = [
-      'IdTipoMaterial', 'IdGrupoArticulo', 'IdCategoriaMaterial', 'TextoBreveMaterial', 'IdProveedorSAP', 'IdSector', 'IdConsignado', 'IdInventarioCiclico', 
+      'IdTipoMaterial', 'IdGrupoArticulo', 'IdCategoriaMaterial', 'TextoBreveMaterial', 'IdProveedorSAP', 'IdSector', 'IdConsignado', 'IdInventarioCiclico',
       'IdGrupoCompras', 'IdSujetoLote', 'IdClaseEtiqueta', 'IdFormaEtiqueta', 'TiempoHastaCaducidad', 'IdIndicadorPeriodoPFECaducidad', 'TiempoCaducidadEnAlmacen',
       'IdMarcaRecuperacionDctoR', 'IdIGV', 'IdClasificacionArticulo'
     ];
 
     const newRow: any[] = [''];
 
-    propiedades.forEach( item => newRow.push( headers[item] ) );
+    propiedades.forEach(item => newRow.push(headers[item]));
     // console.log({newRow});
 
     row = worksheet.addRow(newRow);
     row.eachCell(
       (cell, numberCell) => {
-      
+
         if (numberCell > 1) {
           let color = '';
 
@@ -510,7 +512,7 @@ export class ExcelService {
             pattern: 'solid',
             fgColor: { argb: color },
           };
-          
+
           cell.border = Funciones.excelBorde();
 
           cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
@@ -518,15 +520,15 @@ export class ExcelService {
         }
       }
     );
-    
-    newRow.splice( 1, newRow.length - 1);
+
+    newRow.splice(1, newRow.length - 1);
     const formats = [''];
 
     propiedades.forEach(
       item => {
-        if(details[item]) {
-          newRow.push( details[item].value );
-          formats.push( details[item].format );
+        if (details[item]) {
+          newRow.push(details[item].value);
+          formats.push(details[item].format);
         } else {
           console.log(item);
         }
@@ -536,9 +538,9 @@ export class ExcelService {
     row = worksheet.addRow(newRow);
     row.eachCell(
       (cell, numberCell) => {
-      
+
         if (numberCell > 1) {
-          
+
           cell.border = Funciones.excelBorde();
 
           cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
@@ -550,14 +552,14 @@ export class ExcelService {
       }
     );
   }
-  
-  hojaFormularioProveedores( workbook: Workbook, headers: any, details: any, textosLargos: any ): void {
+
+  hojaFormularioProveedores(workbook: Workbook, headers: any, details: any, textosLargos: any): void {
     const worksheet = workbook.addWorksheet('Formulario para Proveedores');
-    
+
     worksheet.addRow([]);
     let row = worksheet.addRow(['', '', 'Datos Maestros de Artículos para solicitar a Proveedores']);
     const cell = row.getCell(3);
-    
+
     cell.fill = {
       type: 'pattern',
       pattern: 'solid',
@@ -565,14 +567,14 @@ export class ExcelService {
     };
 
     cell.alignment = { vertical: 'middle', horizontal: 'center' };
-    cell.font = {bold: true};
+    cell.font = { bold: true };
     cell.border = Funciones.excelBorde();
 
-    worksheet.mergeCells('C2:AC2');    
-    
+    worksheet.mergeCells('C2:AC2');
+
     const newRows = [];
     newRows.push([
-      '', '', 'MAKT', 'MARA', 'MARA', 'MARA', 'MARA', 'MARA', 'MARA', 'MARA', 'MVKE', 'MARA', 'EINA', 'EINA', 'EINE', 'EINE', 'EINE', 
+      '', '', 'MAKT', 'MARA', 'MARA', 'MARA', 'MARA', 'MARA', 'MARA', 'MARA', 'MVKE', 'MARA', 'EINA', 'EINA', 'EINE', 'EINE', 'EINE',
       'EINE', '', '', '', '', '', 'MARC', 'EINA', '', '', '', ''
     ]);
 
@@ -582,21 +584,21 @@ export class ExcelService {
     ]);
 
     newRows.push([
-      '', '', 'MAKT-MAKTX', 'MARA-PRDHA', 'MARA-PRDHA', 'MARA-PRDHA', 'MARA-PLGTP', 'MARA-WRKST', 'MARA-MHDHB', 'MARA-RAUBE', 'MVKE-MVGR2', 'MARA-TEMPB', 
-      'EINA-IDNLF', 'MAW1-WHERL', 'EINE-APLFZ', 'EINE-NETPR', 'EINE-WAERS', 'EINE-INCO1', '', '', '', '', '', 'MARC-STAWN', 'EINA-URZTP', 
+      '', '', 'MAKT-MAKTX', 'MARA-PRDHA', 'MARA-PRDHA', 'MARA-PRDHA', 'MARA-PLGTP', 'MARA-WRKST', 'MARA-MHDHB', 'MARA-RAUBE', 'MVKE-MVGR2', 'MARA-TEMPB',
+      'EINA-IDNLF', 'MAW1-WHERL', 'EINE-APLFZ', 'EINE-NETPR', 'EINE-WAERS', 'EINE-INCO1', '', '', '', '', '', 'MARC-STAWN', 'EINA-URZTP',
       '', '', '', ''
     ]);
 
     newRows.forEach(
       item => {
         row = worksheet.addRow(item);
-    
+
         row.eachCell(
           (cell, numberCell) => {
-          
+
             if (numberCell > 1) {
               let width = 0;
-    
+
               if (numberCell === 2) {
                 width = 11;
               } else if (numberCell === 3) {
@@ -606,16 +608,16 @@ export class ExcelService {
               } else if (numberCell === 8) {
                 width = 32;
               }
-    
+
               cell.worksheet.getColumn(numberCell).width = width;
               let color = '';
-              
+
               if (numberCell === 1 || Funciones.BetWeen(numberCell, 7, 29)) {
                 color = Variables.colores.Plomo;
               } else if (Funciones.BetWeen(numberCell, 3, 5)) {
                 color = Variables.colores.Celeste;
               }
-              
+
               if (color !== '') {
                 cell.fill = {
                   type: 'pattern',
@@ -623,11 +625,11 @@ export class ExcelService {
                   fgColor: { argb: color },
                 };
               }
-              
+
               if (numberCell > 2) {
                 cell.border = Funciones.excelBorde();
               }
-    
+
               cell.alignment = { vertical: 'middle', horizontal: 'center' };
             } else {
               cell.worksheet.getColumn(numberCell).width = 6;
@@ -636,24 +638,24 @@ export class ExcelService {
         );
       }
     );
-    
+
     const propiedadesExport = [
-      'CodigoSAPQS', 'TextoBreveMaterial', 'IdJerarquiProducto1', 'IdJerarquiProducto2', 'IdJerarquiProducto3', 'IdMarcaRXOTC', 'NombreGenerico', 
-      'DuracionTotalConservacion', 'IdCondicionAlmacenaje', 'IdClasificacionMaterial', 'IdCondicionTemperatura', 'CodigoArticuloProveedor', 'IdPaisOrigen', 
-      'PlazoEntregaPrevisto', 'ValorCompraQS', 'IdMonedaCompraQs', 'IdIncoterm', 'ValorVentaQS', 'IdMonedaVenta', 'MargenTeorico', 'CodigoOp', 'CodigoSunat', 
+      'CodigoSAPQS', 'TextoBreveMaterial', 'IdJerarquiProducto1', 'IdJerarquiProducto2', 'IdJerarquiProducto3', 'IdMarcaRXOTC', 'NombreGenerico',
+      'DuracionTotalConservacion', 'IdCondicionAlmacenaje', 'IdClasificacionMaterial', 'IdCondicionTemperatura', 'CodigoArticuloProveedor', 'IdPaisOrigen',
+      'PlazoEntregaPrevisto', 'ValorCompraQS', 'IdMonedaCompraQs', 'IdIncoterm', 'ValorVentaQS', 'IdMonedaVenta', 'MargenTeorico', 'CodigoOp', 'CodigoSunat',
       'PartidaArancelaria', 'IdTipoCertificado', 'RegistroSanitario', 'FechaInicioRegistroSanitario', 'FechaVencimientoRegistroSanitari', 'IdRefrigerado'
     ];
 
-    const newRow: any[] = [''];    
+    const newRow: any[] = [''];
 
-    propiedadesExport.forEach( item => newRow.push( textosLargos[item] || '' ) );
-    
+    propiedadesExport.forEach(item => newRow.push(textosLargos[item] || ''));
+
     // console.log(newRow);
 
     row = worksheet.addRow(newRow);
     row.eachCell(
       (cell, numberCell) => {
-      
+
         if (numberCell > 2) {
           // let color = Variables.colores.Blanco;
           let color = '';
@@ -671,23 +673,23 @@ export class ExcelService {
               fgColor: { argb: color },
             };
           }
-          
+
           cell.border = Funciones.excelBorde();
 
           cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
         }
       }
     );
-    
-    newRow.splice( 1, newRow.length - 1);
 
-    propiedadesExport.forEach( item => newRow.push( headers[item] ) );
+    newRow.splice(1, newRow.length - 1);
+
+    propiedadesExport.forEach(item => newRow.push(headers[item]));
     // console.log({newRow});
 
     row = worksheet.addRow(newRow);
     row.eachCell(
       (cell, numberCell) => {
-      
+
         if (numberCell > 1) {
           let color = '';
 
@@ -704,7 +706,7 @@ export class ExcelService {
             pattern: 'solid',
             fgColor: { argb: color },
           };
-          
+
           cell.border = Funciones.excelBorde();
 
           cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
@@ -712,18 +714,18 @@ export class ExcelService {
         }
       }
     );
-    
-    newRow.splice( 1, newRow.length - 1);
+
+    newRow.splice(1, newRow.length - 1);
     const formats = [''];
 
     propiedadesExport.forEach(
       item => {
         if (['FechaInicioRegistroSanitario', 'FechaVencimientoRegistroSanitari'].includes(item)) {
-          newRow.push( Funciones.dateFormat( new Date( details[item].value ) ) );
+          newRow.push(Funciones.dateFormat(new Date(details[item].value)));
         } else {
-          newRow.push( details[item].value );
+          newRow.push(details[item].value);
         }
-        formats.push( details[item].format );
+        formats.push(details[item].format);
       }
     );
     // propiedadesExport.forEach( item => newRow.push( details[item].value ) );
@@ -731,9 +733,9 @@ export class ExcelService {
     row = worksheet.addRow(newRow);
     row.eachCell(
       (cell, numberCell) => {
-      
+
         if (numberCell > 1) {
-          
+
           cell.border = Funciones.excelBorde();
 
           cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
@@ -746,16 +748,16 @@ export class ExcelService {
     );
   }
 
-  hojaUnidadesMedida( workbook: Workbook, headers: any, details: any, textosLargos: any ): void {
+  hojaUnidadesMedida(workbook: Workbook, headers: any, details: any, textosLargos: any): void {
     const worksheet = workbook.addWorksheet('Unidades de Medida');
-    
+
     let row = worksheet.addRow([
       '', 'MATERIAL', 'DESCRIPCIÓN', 'EAN/UPC', 'UNIDAD DE VENTA', '', '', '', '', '', '', '', '', '', 'EAN 14', 'MASTER PACK', '', '', '', '', '', '', '', ''
     ]);
-  
+
     row.eachCell(
       (cell, numberCell) => {
-      
+
         if (numberCell > 1) {
           let width = 0;
 
@@ -763,7 +765,7 @@ export class ExcelService {
             width = 17;
           } else if (numberCell === 3) {
             width = 44;
-          } else if ([4, 15].includes( numberCell )) {
+          } else if ([4, 15].includes(numberCell)) {
             width = 20;
           } else if (Funciones.BetWeen(numberCell, 5, 13) || Funciones.BetWeen(numberCell, 16, 24)) {
             width = 13;
@@ -773,22 +775,22 @@ export class ExcelService {
 
           cell.worksheet.getColumn(numberCell).width = width;
           let color = '';
-          
+
           if (numberCell !== 14) {
             color = Variables.colores.Plomo;
           }
-          
+
           if (color !== '') {
             cell.fill = {
               type: 'pattern',
               pattern: 'solid',
               fgColor: { argb: color },
             };
-            
-            cell.font = {bold: true};
-            cell.border = Funciones.excelBorde();            
+
+            cell.font = { bold: true };
+            cell.border = Funciones.excelBorde();
           }
-          
+
 
           cell.alignment = { vertical: 'middle', horizontal: 'center' };
         } else {
@@ -798,31 +800,31 @@ export class ExcelService {
     );
 
     row = worksheet.addRow([
-      '', '', '', '', 'CANTIDAD', 'UMI', 'LARGO', 'ANCHO', 'ALTURA', 'DIM', 'PESO BRUTO', 'PESO NETO', 'UM PESO', '', '', 'CANTIDAD', 'UMI', 'LARGO', 'ANCHO', 'ALTURA', 
+      '', '', '', '', 'CANTIDAD', 'UMI', 'LARGO', 'ANCHO', 'ALTURA', 'DIM', 'PESO BRUTO', 'PESO NETO', 'UM PESO', '', '', 'CANTIDAD', 'UMI', 'LARGO', 'ANCHO', 'ALTURA',
       'DIM', 'PESO BRUTO', 'PESO NETO', 'UM PESO'
     ]);
-  
+
     row.eachCell(
       (cell, numberCell) => {
-      
+
         if (numberCell > 1) {
           let color = '';
-          
+
           if (numberCell !== 14) {
             color = Variables.colores.Plomo;
           }
-          
+
           if (color !== '') {
             cell.fill = {
               type: 'pattern',
               pattern: 'solid',
               fgColor: { argb: color },
             };
-            
+
             // cell.font = {bold: true};
-            cell.border = Funciones.excelBorde();            
+            cell.border = Funciones.excelBorde();
           }
-          
+
 
           cell.alignment = { vertical: 'middle', horizontal: 'center' };
         }
@@ -835,23 +837,23 @@ export class ExcelService {
     worksheet.mergeCells('E1:M1');
     worksheet.mergeCells('O1:O2');
     worksheet.mergeCells('P1:X1');
-    
+
     row = worksheet.addRow([
-      '', details.CodigoSAPQS.value, details.TextoBreveMaterial.value, details.UVEanUpc.value, details.UVCantidad.value, 
-      details.IdUVUmi.value, details.UVLargo.value, details.UVAncho.value, details.UVAltura.value, details.IdUVDIM.value, 
-      details.UVPesoBruto.value, details.UVPesoNeto.value, details.IdUVUmPeso.value, '', details.MPEAN14.value, 
-      details.MPCantidad.value, details.IdMPUmi.value, details.MPLargo.value, details.MPAncho.value, details.MPAltura.value, 
+      '', details.CodigoSAPQS.value, details.TextoBreveMaterial.value, details.UVEanUpc.value, details.UVCantidad.value,
+      details.IdUVUmi.value, details.UVLargo.value, details.UVAncho.value, details.UVAltura.value, details.IdUVDIM.value,
+      details.UVPesoBruto.value, details.UVPesoNeto.value, details.IdUVUmPeso.value, '', details.MPEAN14.value,
+      details.MPCantidad.value, details.IdMPUmi.value, details.MPLargo.value, details.MPAncho.value, details.MPAltura.value,
       details.IdMPDIM.value, details.MPPesoBruto.value, details.MPPesoNeto.value, details.IdMPUmPeso.value
     ]);
 
     row.eachCell(
       (cell, numberCell) => {
-      
+
         if (numberCell > 1) {
-          if ([6, 10, 13, 17, 21, 24].includes( numberCell )) {
+          if ([6, 10, 13, 17, 21, 24].includes(numberCell)) {
             cell.alignment = { vertical: 'middle', horizontal: 'center' };
           }
-          
+
           let campoName = '';
           switch (numberCell) {
             case 5:
@@ -877,7 +879,7 @@ export class ExcelService {
             case 12:
               campoName = 'UVPesoNeto';
               break;
-            
+
             case 16:
               campoName = 'MPCantidad';
               break;
@@ -902,7 +904,7 @@ export class ExcelService {
               campoName = 'MPPesoNeto';
               break;
           }
-          
+
           if (campoName !== '') {
             const format = details[campoName].format;
             if (format !== '') {
@@ -913,19 +915,19 @@ export class ExcelService {
         }
       }
     );
-        
+
   }
 
-  hojaOtros( workbook: Workbook, headers: any, details: any ): void {
+  hojaOtros(workbook: Workbook, headers: any, details: any): void {
     const worksheet = workbook.addWorksheet('Otros');
 
     worksheet.addRow(['']);
 
     const propiedades: string[] = [
-      'Marca', 'IdFormaFarmaceutica', 'ValorConcentracion', 'MedidaConcentracion', 'OrgCompra', 'IdJerarquiProducto1', 
-      'IdJerarquiProducto2', 'IdJerarquiProducto3', 'IdJerarquiProducto4', 'IdJerarquiProducto5', 'IdCT1', 'IdCT2', 'IdCT3', 'IdCT4', 
-      'IdGrupoImputacionMaterial', 'Sociedad', 'CentroBeneficio', 'IdReqEspeTecnica', 'IdPaisCreacion', 'IdGrupoTransporte', 
-      'IdGrupoTipoPosicionGeneral', 'IdSusceptibleBonEsp', 'MarcaListaPrecio', 'IdMarcaMostrarPalmWeb', 'IdMostrarStocks', 
+      'Marca', 'IdFormaFarmaceutica', 'ValorConcentracion', 'MedidaConcentracion', 'OrgCompra', 'IdJerarquiProducto1',
+      'IdJerarquiProducto2', 'IdJerarquiProducto3', 'IdJerarquiProducto4', 'IdJerarquiProducto5', 'IdCT1', 'IdCT2', 'IdCT3', 'IdCT4',
+      'IdGrupoImputacionMaterial', 'Sociedad', 'CentroBeneficio', 'IdReqEspeTecnica', 'IdPaisCreacion', 'IdGrupoTransporte',
+      'IdGrupoTipoPosicionGeneral', 'IdSusceptibleBonEsp', 'MarcaListaPrecio', 'IdMarcaMostrarPalmWeb', 'IdMostrarStocks',
       'IdMostrarClientes', 'IdVerificacionDisponibilidad', 'OrgVenta', 'IdCanalDistribucion', 'CentroSuministrador', 'IdSusceptibleBonificacion'
     ];
 
@@ -933,12 +935,12 @@ export class ExcelService {
       ''
     ];
 
-    propiedades.forEach( item => newRow.push( headers[item] ) );
+    propiedades.forEach(item => newRow.push(headers[item]));
 
     let row = worksheet.addRow(newRow);
     row.eachCell(
       (cell, numberCell) => {
-      
+
         if (numberCell > 1) {
 
           cell.worksheet.getColumn(numberCell).width = 35;
@@ -950,30 +952,30 @@ export class ExcelService {
             pattern: 'solid',
             fgColor: { argb: color },
           };
-          
+
           cell.border = Funciones.excelBorde();
 
           cell.alignment = { vertical: 'middle', horizontal: 'center' };
         }
       }
     );
-    
-    newRow.splice( 1, newRow.length - 1);
+
+    newRow.splice(1, newRow.length - 1);
     const formats = [''];
 
     propiedades.forEach(
       item => {
-        newRow.push( details[item].value );
-        formats.push( details[item].format );
+        newRow.push(details[item].value);
+        formats.push(details[item].format);
       }
     );
 
     row = worksheet.addRow(newRow);
     row.eachCell(
       (cell, numberCell) => {
-      
+
         if (numberCell > 1) {
-          
+
           cell.border = Funciones.excelBorde();
 
           cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };

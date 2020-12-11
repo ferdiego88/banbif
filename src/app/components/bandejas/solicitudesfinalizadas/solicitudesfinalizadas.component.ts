@@ -326,9 +326,9 @@ export class SolicitudesfinalizadasComponent extends FormularioBase implements O
       this.solicitudes_paged_history = [];
 
       this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante).then();
-     
+
     } else {
-    
+
       if (this.solicitudes_paged_history[this.paginator.pageIndex]) {
         this.solicitudes_paged = await this.solicitudes_paged_history[this.paginator.pageIndex - 1].getNext();
       } else {
@@ -392,7 +392,7 @@ export class SolicitudesfinalizadasComponent extends FormularioBase implements O
           return EBandejaSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Solicitante', 'Fec. Solicitud', 'Nombre Titular', 'Nro. Documento', 'Tipo Producto', 'Estado', 'Moneda', 'Precio Venta', 'Financiamiento', 'Oficina', 'Fecha Estado'];
+        const headers: string[] = ['N° Solicitud', 'Solicitante', 'Fec. Solicitud', 'Nombre Titular', 'Nro. Documento', 'Tipo Producto', 'Estado', 'Estado Gestor', 'Desembolso', 'Moneda', 'Modalidad Pago', 'Zona', 'Oficina', 'Fecha Estado'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
@@ -403,9 +403,11 @@ export class SolicitudesfinalizadasComponent extends FormularioBase implements O
           dataMap.push(item.N_Documento);
           dataMap.push(item.Tipo_Producto);
           dataMap.push(item.Estado);
-          dataMap.push(item.Moneda);
-          dataMap.push(item.Precio_Venta);
-          dataMap.push(item.Financiamiento);
+          dataMap.push(item.EstadoGestor);
+          dataMap.push(item.Desembolso);
+          dataMap.push(item.Moneda);         
+          dataMap.push(item.Modalidad_Pago);
+          dataMap.push(item.Zona);
           dataMap.push(item.Oficina);
           dataMap.push(item.Fecha_Estado);
 
