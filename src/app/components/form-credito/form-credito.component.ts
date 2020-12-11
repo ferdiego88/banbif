@@ -201,7 +201,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     Aporte_Efectivo: [null, Validators.required],
     Mon_Aport_AFPId: [null, Validators.required],
     Aporte_RetiroAFP: [null, Validators.required],
-    BBP_Adicional: [null, Validators.required],
+    BBP_AdicionalId: [null, Validators.required],
     PBP_Adiconal_Sostenible: [null, Validators.required],
     /* Fin Cuota Inicial*/
 
@@ -594,8 +594,8 @@ Desembolso = 0;
 
   listenerPBPAdicionalSostenible(){
     this.creditForm.get('Precio_Venta').valueChanges.subscribe(precio => {
-      this.creditForm.controls.BBP_Adicional.setValue(Variables.constantes.TipoBonoViviendaAdicionalSostenibleId);
-      this.creditForm.get('BBP_Adicional').valueChanges.subscribe(idPBP => {
+      this.creditForm.controls.BBP_AdicionalId.setValue(Variables.constantes.TipoBonoViviendaAdicionalSostenibleId);
+      this.creditForm.get('BBP_AdicionalId').valueChanges.subscribe(idPBP => {
       if (precio <= Variables.constantes.PrecioVenta8) {
           if (idPBP !== Variables.constantes.TipoBonoViviendaAdicionalSostenibleId && precio <= Variables.constantes.PrecioVenta8){
             this.creditForm.get('PBP_Adiconal_Sostenible').setValue(Variables.constantes.BonoAdicionalViviendaSostenible);

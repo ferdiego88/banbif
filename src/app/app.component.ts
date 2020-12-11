@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
   esMiembroGrupoAdministradores: boolean;
   title = 'aplicacion';
   history = [];
-  public spinkit = Spinkit; 
+  public spinkit = Spinkit;
 
   @ViewChild('sidenav') sidenav: MatSidenav;
   isExpanded = false;
@@ -46,11 +46,11 @@ export class AppComponent implements OnInit {
       this.isShowing = false;
     }
   }
-  
+
   constructor(private _location: Location, public router: Router) {
     this.esMiembroDocumentOwnersGroup = true;
     this.esMiembroGrupoAdministradores = true;
-  
+
   }
 
   ngOnInit(): void {

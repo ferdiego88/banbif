@@ -43,7 +43,7 @@
         </mat-nav-list>
         <mat-divider></mat-divider>
         <mat-nav-list>
-            <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel [expanded]="true">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Hipotecario
@@ -57,7 +57,7 @@
             </mat-expansion-panel>
         </mat-nav-list>
         <mat-nav-list>
-            <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel [expanded]="true">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Bandejas
@@ -78,6 +78,80 @@
 
             </mat-expansion-panel>
         </mat-nav-list>
+
+        <mat-nav-list>
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Mantenimiento
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-panel-title> Tablas Maestras </mat-panel-title>
+                <a mat-list-item href='https://bif1mssapp10/banmin/fdt/hipot/Lists/Producto/AllItems.aspx' target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Productos
+                </a>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Sub_Producto/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Sub - Productos
+                </a>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Modalidad/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Modalidad
+                </a>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Zona/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Zona
+                </a>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Oficina/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Oficina
+                </a>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/EStado/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Estado
+                </a>
+                <mat-panel-title>Plan de Ahorro</mat-panel-title>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Tipo_Moneda_Ahorro/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Tipo de Moneda de Ahorro
+                </a>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Situacion_Plan_Ahorro/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Situación de Plan de Ahorro
+                </a>
+
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Ulitmo_Abono_Validado/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Último Abono Validado(Mes/Año)
+                </a>
+                <mat-panel-title>Datos de la Operación</mat-panel-title>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Tipo_Documento/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                  <mat-icon mat-list-icon>language</mat-icon> Tipo Documentos
+              </a>
+              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Sustento_Ingresos/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                  <mat-icon mat-list-icon>language</mat-icon> Sustento Ingresos
+              </a>
+              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Proyecto/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                  <mat-icon mat-list-icon>language</mat-icon> Proyectos
+              </a>
+              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Numero_Vivienda/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                  <mat-icon mat-list-icon>language</mat-icon> Numero de Vivienda
+              </a>
+              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Modalidad_Pago/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                  <mat-icon mat-list-icon>language</mat-icon> Modalidad de Pago
+              </a>
+              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Lugar_Visita/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                  <mat-icon mat-list-icon>language</mat-icon> Lugar de Visita
+              </a>
+              <mat-panel-title>Garantías</mat-panel-title>
+              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Tipo_Garantia/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                  <mat-icon mat-list-icon>language</mat-icon> Tipo de Garantía
+              </a>
+              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Tipo_Abono/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                  <mat-icon mat-list-icon>language</mat-icon> Tipo de Abono
+              </a>
+              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Tipo_Abono/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                  <mat-icon mat-list-icon>language</mat-icon> Estado Gestor
+              </a>
+
+            </mat-expansion-panel>
+
+
+        </mat-nav-list>
+
+
 
 
     </mat-sidenav>
