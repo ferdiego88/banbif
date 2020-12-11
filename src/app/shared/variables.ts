@@ -185,6 +185,8 @@ export class Variables {
     BBP: 'BBP',
     Mon_PBB: 'Mon_PBB',
     PBP: 'PBP',
+    BBP_AdicionalId: 'BBP_AdicionalId',
+    PBP_Adiconal_Sostenible: 'PBP_Adiconal_Sostenible',
     Tipo_Moneda_AhorroId: 'Tipo_Moneda_AhorroId',
     Meses_Abono: 'Meses_Abono',
     Importe_Cuota_Ahorro: 'Importe_Cuota_Ahorro',

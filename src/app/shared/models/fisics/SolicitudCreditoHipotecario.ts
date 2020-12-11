@@ -79,6 +79,7 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public EstadoGestorId = '',
     public Fecha_Gestor_Hip = '',
     public Comentario_Gestor_Hip = '',
+    public BBP_AdicionalId = '',
     public Enlace_Documentos = {
       Description: '',
       Url: ''
