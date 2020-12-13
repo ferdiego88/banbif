@@ -412,7 +412,7 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
           return dataMap;
         });
 
-        this.excelService.excelListadoSolicitudes('Solicitudes', 'Solicitudes', headers, details);
+        this.excelService.excelListadoSolicitudes('Consultas', 'Consultas', headers, details);
         this.ocultarProgreso();
         this.isCargando = false;;
       },
