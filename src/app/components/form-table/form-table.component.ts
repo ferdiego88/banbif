@@ -19,12 +19,12 @@ export class FormTableComponent implements AfterViewInit, OnInit {
   displayedColumns = ['id', 'name'];
 
   ngOnInit() {
-    // this.dataSource = new FormTableDataSource();
+    this.dataSource = new FormTableDataSource();
   }
 
   ngAfterViewInit() {
-    // this.dataSource.sort = this.sort;
-    // this.dataSource.paginator = this.paginator;
-    // this.table.dataSource = this.dataSource;
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    this.table.dataSource = this.dataSource;
   }
 }

@@ -95,7 +95,8 @@ export class Variables {
     bandejaSolicitudesFinalizadas: 'bandejas/solicitudesfinalizadas',
     bandejaSolicitudesPendientes: 'bandejas/solicitudespendientes',
     bandejaSolicitudesEvaluacion: 'bandejas/solicitudesenevaluacion',
-    bandejaSeguimientoSolicitudes: 'bandejas/seguimientosolicitudes'
+    bandejaSeguimientoSolicitudes: 'bandejas/seguimientosolicitudes',
+    dashboardSolicitudesCreditoHipotecario: 'dashboard/solicitudesCredito'
   };
 
   static readonly lists = {

@@ -80,6 +80,7 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { SolicitudespendientesComponent } from './components/bandejas/solicitudespendientes/solicitudespendientes.component';
 import { SolicitudesenevaluacionComponent } from './components/bandejas/solicitudesenevaluacion/solicitudesenevaluacion.component';
 import { LogseguimientoComponent } from './components/bandejas/logseguimiento/logseguimiento.component';
+import { DashboardCreditoComponent } from './components/dashboard/dashboard-credito/dashboard-credito.component';
 
 const materialModules = [
   MatSlideToggleModule,
@@ -122,7 +123,7 @@ const materialModules = [
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,    
+    HomeComponent,
     // FormularioSolicitudComponent,
     // BandejaParametrosComponent,
     // FormularioParametrosComponent,
@@ -145,7 +146,8 @@ const materialModules = [
     WelcomeComponent,
     SolicitudespendientesComponent,
     SolicitudesenevaluacionComponent,
-    LogseguimientoComponent
+    LogseguimientoComponent,
+    DashboardCreditoComponent
   ],
   imports: [
     BrowserModule,
