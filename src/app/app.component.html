@@ -154,10 +154,24 @@
 
         </mat-nav-list>
 
+        <mat-nav-list>
+          <mat-expansion-panel [expanded]="false">
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      DashBoard
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <a mat-list-item routerLink='/dashboard/solicitudesCredito' (click)="sidenav.toggle()">
+                  <mat-icon mat-list-icon>search</mat-icon> Solicitudes de Crédito Hipotecario
+              </a>
+          </mat-expansion-panel>
+      </mat-nav-list>
+
 
 
 
     </mat-sidenav>
+
 
     <mat-sidenav-content class="padding-top">
         <!-- <main [@routeAnimations]="o && o.isActivated? o.activatedRoute : ''" class="contenedor-main main-custom paddingtop70"> -->
