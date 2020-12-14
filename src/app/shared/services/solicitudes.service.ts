@@ -37,7 +37,8 @@ export class SolicitudesService {
     ascending: boolean,
     pagesize: number,
     usuario: User,
-    solicitante: boolean
+    solicitante: boolean,
+    analistaRiesgo: boolean,
   ): Promise<PagedItemCollection<any[]>> {
 
     const selectFields = EBandejaSolicitud.getColumnasSelect();
@@ -48,6 +49,8 @@ export class SolicitudesService {
     let filterArr = [];
 
     if (solicitante) filterArr.push(`(${Variables.columnasSolicitud.Author}/Id  eq ${usuario.Id})`);
+
+    if (analistaRiesgo) filterArr.push(`(${Variables.columnasSolicitud.Anlista_Riesgos}/Id  eq ${usuario.Id})`);
 
     if (filter) {
 

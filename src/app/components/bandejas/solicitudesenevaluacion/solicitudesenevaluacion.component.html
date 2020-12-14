@@ -3,7 +3,7 @@
     <mat-toolbar class="row" color="warn">
         <div class="mat-toolbar-tools font-white row col-xs-12">
             <div class="inline-buttons pull-left" flex>
-                <h4>Solicitudes Finalizadas</h4>
+                <h4>Solicitudes en Evaluación</h4>
             </div>
             <div class="inline-buttons pull-right">
                 <button type="button" mat-button class="mat-icon-button inline-buttons" (click)="reload()">
@@ -46,7 +46,7 @@
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                             Solicitante</th>
                         <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Author}}</td>
-                    </ng-container>
+                    </ng-container>                   
                     <ng-container matColumnDef="Created">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fec.
                             Solicitud</th>
@@ -68,12 +68,6 @@
                             Producto</th>
                         <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Tipo_Producto }} </td>
                     </ng-container>
-                    <ng-container matColumnDef="EstadoGestor">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Estado
-                            Gestor
-                        </th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.EstadoGestor}} </td>
-                    </ng-container>
                     <ng-container matColumnDef="Estado">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Estado
                         </th>
@@ -84,33 +78,32 @@
                         </th>
                         <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Moneda }} </td>
                     </ng-container>-->
-                    <ng-container matColumnDef="Desembolso">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                            Desembolso</th>
+                    <ng-container matColumnDef="Precio_Venta">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Precio
+                            Venta</th>
                         <td class="filaTabla" mat-cell *matCellDef="let element">{{element.SimboloMoneda}}
-                            {{element.Desembolso | currency:'1'}} </td>
+                            {{element.Precio_Venta | currency:'1'}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="Modalidad_Pago">
+                    <ng-container matColumnDef="Financiamiento">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                            Modalidad Pago</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Modalidad_Pago }} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Zona">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Zona
-                        </th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Zona}} </td>
+                            Financiamiento</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Financiamiento }} </td>
                     </ng-container>
                     <ng-container matColumnDef="Oficina">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Oficina
                         </th>
                         <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Oficina }} </td>
                     </ng-container>
-                    <ng-container matColumnDef="Fecha_Estado">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fecha
-                            Estado</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element">
-                            {{element.Fecha_Estado  | date: "dd/MM/yyyy"}} </td>
-                    </ng-container>
+                    <ng-container matColumnDef="Agencia">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Agencia
+                        </th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Agencia }} </td>
+                    </ng-container>  
+                    <ng-container matColumnDef="U_Responsable">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef disableClear>U Responsable
+                        </th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.U_Responsable }} </td>
+                    </ng-container>                 
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumnsSolicitud"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumnsSolicitud;">
@@ -146,7 +139,7 @@
 
     <div name="searchForm">
 
-        <div class="form-group col-xs-12 col-lg-12" style="padding-top: 20px;">
+        <div class="form-group col-xs-12 col-lg-12" style="padding-top: 20px;" [hidden]="true">
             <mat-form-field>
                 <mat-label>Estado</mat-label>
                 <mat-select multiple [(ngModel)]="tableQuery.filter.Estado">
@@ -157,7 +150,7 @@
             </mat-form-field>
         </div>
 
-        <div class="form-group col-xs-12 col-lg-12">
+        <div class="form-group col-xs-12 col-lg-12" style="padding-top: 20px;">
             <mat-form-field>
                 <input autocomplete="off" matInput placeholder="Nro. Solicitud" class="form-control"
                     [(ngModel)]="tableQuery.filter.Id" maxlength="6">
@@ -193,17 +186,6 @@
                 <mat-label>Tipo Producto</mat-label>
                 <mat-select [(ngModel)]="tableQuery.filter.TipoProducto">
                     <mat-option *ngFor="let item of datosMaestrosBandeja.maestroTipoProducto" [value]="item.Id">
-                        {{item.Title}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-
-        <div class="form-group col-xs-12 col-lg-12">
-            <mat-form-field>
-                <mat-label>Zona</mat-label>
-                <mat-select [(ngModel)]="tableQuery.filter.Zona">
-                    <mat-option *ngFor="let item of datosMaestrosBandeja.maestroZona" [value]="item.Id">
                         {{item.Title}}
                     </mat-option>
                 </mat-select>

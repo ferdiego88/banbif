@@ -43,7 +43,7 @@
         </mat-nav-list>
         <mat-divider></mat-divider>
         <mat-nav-list>
-            <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel [expanded]="false">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Hipotecario
@@ -57,7 +57,7 @@
             </mat-expansion-panel>
         </mat-nav-list>
         <mat-nav-list>
-            <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel [expanded]="false">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Bandejas
@@ -75,12 +75,15 @@
                 <a mat-list-item routerLink='/bandejas/solicitudespendientes' (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>search</mat-icon> Solicitudes Pendientes
                 </a>
+                <!--<a mat-list-item routerLink='/bandejas/solicitudesenevaluacion' (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>search</mat-icon> Solicitudes en Evaluación
+                </a>-->
 
             </mat-expansion-panel>
         </mat-nav-list>
 
         <mat-nav-list>
-            <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel [expanded]="false">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Mantenimiento

@@ -24,6 +24,7 @@ export const Funciones = {
     },
     getFechaActualFormatoDDMMYYYY: (): string => Funciones.dateFormat( new Date() ),
     dateFormat: (date: Date): string => `${date.getDate()}/${(date.getMonth() + 1)}/${date.getFullYear()}`,
+    dateHoraFormat: (date: Date): string => `${date.getDate()}/${(date.getMonth() + 1)}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`,
     replaceAll: (cadena: string, search: string, replace: string): string => {
         while (cadena.indexOf(search) > -1) {
             cadena = cadena.replace( search, replace);

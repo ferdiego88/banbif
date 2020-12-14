@@ -1,0 +1,143 @@
+<app-grid-loader [isCargando]="isCargando"></app-grid-loader>
+<mat-card class="col-xs-12">
+    <mat-toolbar class="row" color="warn">
+        <div class="mat-toolbar-tools font-white row col-xs-12">
+            <div class="inline-buttons pull-left" flex>
+                <h4>Seguimiento de Solicitudes</h4>
+            </div>
+            <div class="inline-buttons pull-right">
+                <button type="button" mat-button class="mat-icon-button inline-buttons" (click)="reload()">
+                    <mat-icon>refresh</mat-icon>
+                </button>
+
+                <button type="button" mat-button class="mat-icon-button inline-buttons" (click)="openSidenavMenu()">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+
+                <!--<button type="button" mat-button class="mat-icon-button inline-buttons"
+                    (click)="irPaginaExterna('/hipotecario/solicitud', '', '')">
+                    <mat-icon>add</mat-icon>
+                </button>-->
+
+                <button type="button" mat-button class="mat-icon-button inline-buttons" (click)="exportarExcel()">
+                    <mat-icon>cloud_download</mat-icon>
+                </button>
+            </div>
+        </div>
+    </mat-toolbar>
+
+    <div>
+        <div class="example-container mat-elevation-z8">
+
+            <div class="example-table-container">
+                <table mat-table [dataSource]="dataSourceSeguimiento"
+                    class="mat-elevation-z8 table-custom tabla-projects" matSort matSortActive="SolicitudHipotecario"
+                    matSortDirection="desc">
+                    <ng-container matColumnDef="SolicitudHipotecario">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> N°
+                            Solicitud </th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element">
+                            <a class="text-ellipsis"
+                                routerLink='/hipotecario/solicitud/{{element.SolicitudHipotecario}}'>
+                                {{element.SolicitudHipotecario}}
+                            </a>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Author">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Usuario
+                        </th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Author}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Created">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fecha
+                            Registro</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element">
+                            {{element.Created | date: "dd/MM/yyyy HH:mm"}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Estado">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Estado
+                            Inicial</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Estado }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Responsable">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                            Responsable Atención</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Responsable}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="FechaAtencion">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fecha
+                            Atención</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element">
+                            {{element.FechaAtencion | date: "dd/MM/yyyy HH:mm"}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="EstadoFinal">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Estado
+                            Final</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.EstadoFinal}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsSeguimientoSolicitud"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsSeguimientoSolicitud;">
+                    </tr>
+                </table>
+
+                <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
+            </div>
+
+            <div class="msg-filter-applied text-center" style="color:orange;height:35px;" *ngIf="isFilterApplied">
+                <div class="mat-toolbar-tools row col-xs-12" style="height: auto; ">
+                    <button type="button" mat-button class="mat-icon-button inline-buttons" md-no-ink
+                        style="margin-top: -7px;">
+                        <mat-icon style="font-size:30px;">new_releases</mat-icon>
+                    </button>
+                    <div class="md-subhead inline-buttons" flex>
+                        &nbsp;<a target="_blank" (click)="openSidenavMenu()">La lista se encuentra filtrada.</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-card>
+
+<mat-sidenav #sidenavfiltros role="navigation" position="end" class="col-lg-3 col-xs-12 my-left-sidenav"
+    style="display:none;">
+    <mat-toolbar color="primary">
+        <h3 class="col-xs-6">Filtros</h3>
+        <span class="col-xs-6 text-right">
+            <mat-icon (click)="closeSidenavMenu()">close</mat-icon>
+        </span>
+    </mat-toolbar>
+
+    <div name="searchForm">
+
+        <div class="form-group col-xs-12 col-lg-12" style="padding-top: 20px;" [hidden]="true">
+            <mat-form-field>
+                <mat-label>Estado</mat-label>
+                <mat-select multiple [(ngModel)]="tableQuery.filter.Estado">
+                    <mat-option *ngFor="let item of datosMaestrosBandeja.maestroEstado" [value]="item.Id">
+                        {{item.Title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group col-xs-12 col-lg-12" style="padding-top: 20px;">
+            <mat-form-field>
+                <input autocomplete="off" matInput placeholder="Nro. Solicitud" class="form-control"
+                    [(ngModel)]="tableQuery.filter.SolicitudHipotecario" maxlength="6">
+            </mat-form-field>
+        </div>
+
+        <div class="text-center" style="padding-bottom: 15px">
+            <button type="button" (click)="getSolicitudes()" mat-raised-button color="primary" class="accent">
+                <mat-icon>search</mat-icon>
+                Buscar
+            </button>
+            <button type="button" mat-raised-button (click)="limpiar()" class="md-raised md-secondary">
+                <mat-icon>do_not_disturb</mat-icon>
+                Limpiar
+            </button>
+        </div>
+    </div>
+
+</mat-sidenav>

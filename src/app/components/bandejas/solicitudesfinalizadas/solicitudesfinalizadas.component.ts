@@ -163,7 +163,7 @@ export class SolicitudesfinalizadasComponent extends FormularioBase implements O
     this.mostrarProgreso();
     const d: Deferred<boolean> = new Deferred<boolean>();
 
-    this.masterbandejaService.getDatosMaestros().subscribe((masterBandejaLogic: MasterBandejaLogic) => {
+    this.masterbandejaService.getDatosMaestros().then((masterBandejaLogic: MasterBandejaLogic) => {
       if (masterBandejaLogic.isDatos) {
         this.datosMaestrosBandeja = masterBandejaLogic;
         this.ocultarProgreso();
@@ -325,7 +325,7 @@ export class SolicitudesfinalizadasComponent extends FormularioBase implements O
 
       this.solicitudes_paged_history = [];
 
-      this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante).then();
+      this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then();
 
     } else {
 
@@ -386,7 +386,7 @@ export class SolicitudesfinalizadasComponent extends FormularioBase implements O
       order = null;
     }
 
-    this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, 100000, this.datosMaestrosBandeja.currentUser, this.userSolicitante).then(
+    this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, 4999, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then(
       (data: PagedItemCollection<any[]>) => {
         const items: EBandejaSolicitud[] = data.results.map(elemento => {
           return EBandejaSolicitud.parseJson(elemento);
@@ -405,7 +405,7 @@ export class SolicitudesfinalizadasComponent extends FormularioBase implements O
           dataMap.push(item.Estado);
           dataMap.push(item.EstadoGestor);
           dataMap.push(item.Desembolso);
-          dataMap.push(item.Moneda);         
+          dataMap.push(item.Moneda);
           dataMap.push(item.Modalidad_Pago);
           dataMap.push(item.Zona);
           dataMap.push(item.Oficina);

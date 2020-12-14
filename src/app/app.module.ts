@@ -78,6 +78,8 @@ import { GridLoaderComponent } from './shared/controls/grid-loader/grid-loader.c
 import { SolicitudesfinalizadasComponent } from './components/bandejas/solicitudesfinalizadas/solicitudesfinalizadas.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { SolicitudespendientesComponent } from './components/bandejas/solicitudespendientes/solicitudespendientes.component';
+import { SolicitudesenevaluacionComponent } from './components/bandejas/solicitudesenevaluacion/solicitudesenevaluacion.component';
+import { LogseguimientoComponent } from './components/bandejas/logseguimiento/logseguimiento.component';
 
 const materialModules = [
   MatSlideToggleModule,
@@ -141,7 +143,9 @@ const materialModules = [
     GridLoaderComponent,
     SolicitudesfinalizadasComponent,
     WelcomeComponent,
-    SolicitudespendientesComponent
+    SolicitudespendientesComponent,
+    SolicitudesenevaluacionComponent,
+    LogseguimientoComponent
   ],
   imports: [
     BrowserModule,
@@ -167,12 +171,7 @@ const materialModules = [
   ],
   exports: [
     ...materialModules,
-    HomeComponent,
-    // FormularioSolicitudComponent,
-    // BandejaParametrosComponent,
-    // FormularioParametrosComponent,
-    // BandejaEtapasComponent,
-    // FormularioEtapasComponent,
+    HomeComponent
   ],
 
   providers: [DatePipe],

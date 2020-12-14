@@ -8,16 +8,16 @@ import { MatPaginator, } from '@angular/material/paginator';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatSidenav } from '@angular/material/sidenav';
-import { EFiltroBandejaSolicitud } from 'src/app/shared/models/fisics/EFiltroBandejaSolicitud';
+import { EFiltroSeguimientoSolicitud } from 'src/app/shared/models/fisics/EFiltroSeguimientoSolicitud';
 import { MasterBandejaService } from 'src/app/shared/services/masterbandeja.service';
 import { SpinnerVisibilityService } from 'ng-http-loader';
 import { ExcelService } from 'src/app/shared/services/excel.service';
-import { SolicitudesService } from 'src/app/shared/services/solicitudes.service';
+import { SeguimientoSolicitudesService } from 'src/app/shared/services/seguimientosolicitudes.service';
 import { Lookup } from 'src/app/shared/models/fisics/base/Lookup';
 import { PagedItemCollection } from '@pnp/sp/items';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { EBandejaSolicitud } from 'src/app/shared/models/fisics/EBandejaSolicitud';
+import { EBandejaSeguimientoSolicitud } from 'src/app/shared/models/fisics/EBandejaSeguimientoSolicitud';
 import { MasterLogic } from 'src/app/shared/models/logics/MasterLogic';
 import { Variables } from 'src/app/shared/variables';
 import { Funciones } from 'src/app/shared/funciones';
@@ -27,11 +27,11 @@ import { MasterBandejaLogic } from 'src/app/shared/models/logics/MasterBandejaLo
 declare var $: any;
 
 @Component({
-  selector: 'app-solicitudespendientes',
-  templateUrl: './solicitudespendientes.component.html',
-  styleUrls: ['./solicitudespendientes.component.scss']
+  selector: 'app-logseguimiento',
+  templateUrl: './logseguimiento.component.html',
+  styleUrls: ['./logseguimiento.component.scss']
 })
-export class SolicitudespendientesComponent extends FormularioBase implements OnInit {
+export class LogseguimientoComponent extends FormularioBase implements OnInit {
   currentUserName: string = '';
   userSolicitante: boolean = false;
   datosMaestrosBandeja: MasterBandejaLogic = new MasterBandejaLogic();
@@ -41,34 +41,29 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
     pagesize: 5,
     limit: this.obtenerParametro("limit") || 5,
     page: this.obtenerParametro("page") || 1,
-    filter: this.obtenerParametro("filter") || new EFiltroBandejaSolicitud()
+    filter: this.obtenerParametro("filter") || new EFiltroSeguimientoSolicitud()
   };
 
   isOpenMenu: boolean = false;
   promise: Promise<void>;
 
-  solicitudes: EBandejaSolicitud[] = [];
-  solicitudes_paged: PagedItemCollection<any[]>;
-  solicitudes_paged_history: PagedItemCollection<any[]>[];
+  seguimiento: EBandejaSeguimientoSolicitud[] = [];
+  seguimiento_paged: PagedItemCollection<any[]>;
+  seguimiento_paged_history: PagedItemCollection<any[]>[];
   page_last: number = -1;
   itemCount: number;
 
-  dataSourceSolicitudes: EBandejaSolicitud[] = [];
-  displayedColumnsSolicitud: string[] = [
-    Variables.columnasSolicitud.Id,
-    Variables.columnasSolicitud.Author,
-    Variables.columnasSolicitud.Created,
-    Variables.columnasSolicitud.NombreTitular,
-    Variables.columnasSolicitud.NumeroDocumento,
-    Variables.columnasSolicitud.TipoProducto,
-    Variables.columnasSolicitud.Estado,
-    //Variables.columnasSolicitud.Moneda,
-    Variables.columnasSolicitud.PrecioVenta,
-    Variables.columnasSolicitud.Financiamiento,
-    Variables.columnasSolicitud.Oficina,
-    Variables.columnasSolicitud.Agencia,
-    Variables.columnasSolicitud.UResponsable
+  dataSourceSeguimiento: EBandejaSeguimientoSolicitud[] = [];
+  displayedColumnsSeguimientoSolicitud: string[] = [
+    Variables.columnasSeguimiento.SolicitudHipotecario,
+    Variables.columnasSeguimiento.Author,
+    Variables.columnasSeguimiento.Created,
+    Variables.columnasSeguimiento.Estado,
+    Variables.columnasSeguimiento.Responsable,
+    Variables.columnasSeguimiento.FechaAtencion,
+    Variables.columnasSeguimiento.EstadoFinal
   ];
+
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
@@ -93,11 +88,11 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
     public masterbandejaService: MasterBandejaService,
     public zone: NgZone,
     public _spinner: SpinnerVisibilityService,
-    public solicitudesService: SolicitudesService,
+    public seguimientosolicitudesService: SeguimientoSolicitudesService,
     public excelService: ExcelService,
     public formBuilder: FormBuilder
   ) {
-    super('Mis Solicitudes Pendientes', applicationRef, dialog, route, router, masterService, zone, _spinner);
+    super('Seguimiento Solicitudes', applicationRef, dialog, route, router, masterService, zone, _spinner);
 
     this.form = this.formBuilder.group({
       filtroSolicitante: ['']
@@ -111,33 +106,6 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
 
       this.currentUserName = this.datosMaestrosBandeja.currentUser.Title;
       this.userSolicitante = false;
-
-      this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
-
-        if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 2) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 35) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 37) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Asignacion_Riesgos && elementoEstado.Id === 30) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Reasignador_Riesgos && elementoEstado.Id === 4) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Verificacion_Riesgos && elementoEstado.Id === 32) {
-          return true;
-        }
-      });
-
-      if (this.datosMaestrosBandeja.maestroEstado.length === 0) {
-        const url = environment.getRutaBaseApp();
-        this.mostrarModalInformativoConAccion("Mensaje del Sistema", "Usted no tiene permiso a esta bandeja.", window.open(url, '_self'));
-      }
 
       let order: string;
 
@@ -155,7 +123,7 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
         pagesize: 5,
         limit: this.obtenerParametro("limit") || 5,
         page: this.obtenerParametro("page") || 1,
-        filter: this.obtenerParametro("filter") || new EFiltroBandejaSolicitud()
+        filter: this.obtenerParametro("filter") || new EFiltroSeguimientoSolicitud()
       };
 
       if (this.tableQuery.filter) this.isOpenMenu = true;
@@ -251,7 +219,7 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
       order,
       limit: this.obtenerParametro("limit") || 10,
       page: this.obtenerParametro("page") || 1,
-      filter: this.obtenerParametro("filter") || new EFiltroBandejaSolicitud()
+      filter: this.obtenerParametro("filter") || new EFiltroSeguimientoSolicitud()
     };
 
     if (this.tableQuery.filter) this.isOpenMenu = true;
@@ -296,7 +264,7 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
             vResultsLength = this.resultsLength - (this.paginator.pageSize - data.length);
             this.resultsLength = vResultsLength;
           }
-          if (this.solicitudes_paged.hasNext) {
+          if (this.seguimiento_paged.hasNext) {
             if (vResultsLengthTmp < vResultsLength) {
               this.resultsLength = this.resultsLength + 1;
             }
@@ -312,11 +280,11 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
         })
       ).subscribe(data => {
         this.ocultarProgreso();
-        this.dataSourceSolicitudes = data;
+        this.dataSourceSeguimiento = data;
       });
   }
 
-  async getSolicitudesPaged(): Promise<EBandejaSolicitud[]> {
+  async getSolicitudesPaged(): Promise<EBandejaSeguimientoSolicitud[]> {
     this.mostrarProgreso();
 
     this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
@@ -345,17 +313,17 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
       this.tableQuery.direction = desc;
       this.tableQuery.pagesize = this.paginator.pageSize;
 
-      this.solicitudes_paged_history = [];
+      this.seguimiento_paged_history = [];
 
-      this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then();
+      this.seguimiento_paged = await this.seguimientosolicitudesService.getBandejaSeguimientoSolicitudes(filter, order, direction, this.paginator.pageSize).then();
 
     } else {
-      if (this.solicitudes_paged_history[this.paginator.pageIndex]) {
-        this.solicitudes_paged = await this.solicitudes_paged_history[this.paginator.pageIndex - 1].getNext();
+      if (this.seguimiento_paged_history[this.paginator.pageIndex]) {
+        this.seguimiento_paged = await this.seguimiento_paged_history[this.paginator.pageIndex - 1].getNext();
       } else {
         if (this.paginator.pageIndex > this.page_last) {
-          if (this.solicitudes_paged.hasNext) {
-            this.solicitudes_paged = await this.solicitudes_paged.getNext();
+          if (this.seguimiento_paged.hasNext) {
+            this.seguimiento_paged = await this.seguimiento_paged.getNext();
           }
         }
       }
@@ -363,12 +331,12 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
 
     this.page_last = this.paginator.pageIndex;
 
-    if (!this.solicitudes_paged_history[this.paginator.pageIndex]) {
-      this.solicitudes_paged_history[this.paginator.pageIndex] = this.solicitudes_paged;
+    if (!this.seguimiento_paged_history[this.paginator.pageIndex]) {
+      this.seguimiento_paged_history[this.paginator.pageIndex] = this.seguimiento_paged;
     }
 
-    const items: EBandejaSolicitud[] = this.solicitudes_paged.results.map(elemento => {
-      return EBandejaSolicitud.parseJson(elemento);
+    const items: EBandejaSeguimientoSolicitud[] = this.seguimiento_paged.results.map(elemento => {
+      return EBandejaSeguimientoSolicitud.parseJson(elemento);
     });
 
     this.ocultarProgreso();
@@ -407,34 +375,30 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
       order = null;
     }
 
-    this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, 100000, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then(
+    this.seguimientosolicitudesService.getBandejaSeguimientoSolicitudes(filter, order, direction, 4999).then(
       (data: PagedItemCollection<any[]>) => {
-        const items: EBandejaSolicitud[] = data.results.map(elemento => {
-          return EBandejaSolicitud.parseJson(elemento);
+        const items: EBandejaSeguimientoSolicitud[] = data.results.map(elemento => {
+          return EBandejaSeguimientoSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Solicitante', 'Fec. Solicitud', 'Nombre Titular', 'Nro. Documento', 'Tipo Producto', 'Estado', 'Moneda', 'Precio Venta', 'Financiamiento', 'Oficina', 'Agencia', 'U Responsable'];
+        const headers: string[] = ['N° Solicitud', 'Usuario', 'Fecha Registro', 'Estado Inicial', 'Responsable Atención', 'Fecha Atención', 'Estado Final'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
-          dataMap.push(item.Id);
+          dataMap.push(item.SolicitudHipotecario);
           dataMap.push(item.Author);
-          dataMap.push(Funciones.dateFormat(item.Created));
-          dataMap.push(item.Nombre_Titular);
-          dataMap.push(item.N_Documento);
-          dataMap.push(item.Tipo_Producto);
+          dataMap.push(Funciones.dateHoraFormat(item.Created));
           dataMap.push(item.Estado);
-          dataMap.push(item.Moneda);
-          dataMap.push(item.Precio_Venta);
-          dataMap.push(item.Financiamiento);
-          dataMap.push(item.Oficina);
-          dataMap.push(item.Agencia);
-          dataMap.push(item.U_Responsable);
-
+          dataMap.push(item.Responsable);
+          if (item.FechaAtencion !== null && item.FechaAtencion !== "") {
+            dataMap.push(Funciones.dateHoraFormat(item.FechaAtencion));
+          }
+          dataMap.push(item.EstadoFinal);
+          
           return dataMap;
         });
 
-        this.excelService.excelListadoSolicitudesPendientes('Solicitudes Pendientes', 'SolicitudesPendientes', headers, details);
+        this.excelService.excelListadoSeguimientoSolicitudes('Seguimiento de Solicitudes', 'SeguimientoSolicitudes', headers, details);
         this.ocultarProgreso();
         this.isCargando = false;
       },

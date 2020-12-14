@@ -27,11 +27,11 @@ import { MasterBandejaLogic } from 'src/app/shared/models/logics/MasterBandejaLo
 declare var $: any;
 
 @Component({
-  selector: 'app-solicitudespendientes',
-  templateUrl: './solicitudespendientes.component.html',
-  styleUrls: ['./solicitudespendientes.component.scss']
+  selector: 'app-solicitudesenevaluacion',
+  templateUrl: './solicitudesenevaluacion.component.html',
+  styleUrls: ['./solicitudesenevaluacion.component.scss']
 })
-export class SolicitudespendientesComponent extends FormularioBase implements OnInit {
+export class SolicitudesenevaluacionComponent extends FormularioBase implements OnInit {
   currentUserName: string = '';
   userSolicitante: boolean = false;
   datosMaestrosBandeja: MasterBandejaLogic = new MasterBandejaLogic();
@@ -112,27 +112,11 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
       this.currentUserName = this.datosMaestrosBandeja.currentUser.Title;
       this.userSolicitante = false;
 
-      this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
-
-        if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 2) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 35) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 37) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Asignacion_Riesgos && elementoEstado.Id === 30) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Reasignador_Riesgos && elementoEstado.Id === 4) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Verificacion_Riesgos && elementoEstado.Id === 32) {
-          return true;
-        }
-      });
+      if (this.datosMaestrosBandeja.PertenceGrupo_U_Evaluacion) {
+        this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
+          return elementoEstado.Id === 4;
+        });
+      }
 
       if (this.datosMaestrosBandeja.maestroEstado.length === 0) {
         const url = environment.getRutaBaseApp();
@@ -347,7 +331,7 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
 
       this.solicitudes_paged_history = [];
 
-      this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then();
+      this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante, true).then();
 
     } else {
       if (this.solicitudes_paged_history[this.paginator.pageIndex]) {
@@ -407,7 +391,7 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
       order = null;
     }
 
-    this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, 100000, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then(
+    this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, 4999, this.datosMaestrosBandeja.currentUser, this.userSolicitante, true).then(
       (data: PagedItemCollection<any[]>) => {
         const items: EBandejaSolicitud[] = data.results.map(elemento => {
           return EBandejaSolicitud.parseJson(elemento);
@@ -434,7 +418,7 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
           return dataMap;
         });
 
-        this.excelService.excelListadoSolicitudesPendientes('Solicitudes Pendientes', 'SolicitudesPendientes', headers, details);
+        this.excelService.excelListadoSolicitudesEvaluacion('Solicitudes en Evaluación', 'SolicitudesEvaluacion', headers, details);
         this.ocultarProgreso();
         this.isCargando = false;
       },

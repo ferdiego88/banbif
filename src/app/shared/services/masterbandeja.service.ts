@@ -12,8 +12,8 @@ import { UserService } from './user.service';
 import { MaestroMaterial } from '../models/fisics/MaestroMaterial';
 import { AbstractControl } from '@angular/forms';
 import { Lookup } from '../models/fisics/base/Lookup';
+import { Deferred } from 'ts-deferred';
 
-const cacheBuster$ = new Subject<void>();
 declare var $:any;
 
 @Injectable({
@@ -30,7 +30,6 @@ export class MasterBandejaService {
     public userService: UserService
   ) {
     sp.setup({
-      ie11: true,
       sp: {
 
         baseUrl: `${environment.proxyUrl}${environment.webRelativeUrl}`,
@@ -43,13 +42,11 @@ export class MasterBandejaService {
     this.listaMaestroZona = sp.web.lists.getByTitle(Variables.listas.AdmZona);
   }
 
-  @Cacheable({
-    cacheBusterObserver: cacheBuster$,
-  })
+  public async getDatosMaestros(): Promise<any> {
+   
+    const d: Deferred<any> = new Deferred<any>();
 
-  public getDatosMaestros(): Observable<MasterBandejaLogic> {
     let masterData = new MasterBandejaLogic();
-    const subject = new BehaviorSubject<MasterBandejaLogic>(masterData);
     const listaPromesas: Promise<any>[] = [];
 
     listaPromesas.push(this.userService.getCurrentUser());
@@ -76,11 +73,10 @@ export class MasterBandejaService {
       masterData.PertenceGrupo_U_Reasignador_Riesgos = masterData.currentUser.Groups.filter(x => x.Title === "U_Reasignador_Riesgos").length > 0;
       masterData.PertenceGrupo_U_Verificacion_Riesgos = masterData.currentUser.Groups.filter(x => x.Title === "U_Verificacion_Riesgos").length > 0;
 
-      // console.log(masterData);
-      subject.next(masterData);
+      d.resolve(masterData);
     });
 
-    return subject.asObservable();
+    return d.promise;
   }
 
   async getMaestroEstado(): Promise<Lookup[]> {

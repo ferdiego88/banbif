@@ -16,6 +16,8 @@ import { SolicitudesComponent } from './components/bandejas/solicitudes/solicitu
 import { SolicitudesfinalizadasComponent } from './components/bandejas/solicitudesfinalizadas/solicitudesfinalizadas.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { SolicitudespendientesComponent } from './components/bandejas/solicitudespendientes/solicitudespendientes.component';
+import { SolicitudesenevaluacionComponent } from './components/bandejas/solicitudesenevaluacion/solicitudesenevaluacion.component';
+import { LogseguimientoComponent } from './components/bandejas/logseguimiento/logseguimiento.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -31,6 +33,8 @@ const routes: Routes = [
   { path: Variables.path.bandejaSolicitudes, component: SolicitudesComponent },
   { path: Variables.path.bandejaSolicitudesFinalizadas, component: SolicitudesfinalizadasComponent },
   { path: Variables.path.bandejaSolicitudesPendientes, component: SolicitudespendientesComponent },
+  { path: Variables.path.bandejaSolicitudesEvaluacion, component: SolicitudesenevaluacionComponent },
+  { path: Variables.path.bandejaSeguimientoSolicitudes, component: LogseguimientoComponent },
 ];
 
 @NgModule({

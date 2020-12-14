@@ -28,7 +28,7 @@ export class Variables {
   };
 
   static readonly condicionesDesembolso = {
-  ContratoFirma : `- Contra firma de minuta y bloqueo registral  inscrito en primer rango a favor de BanBif.`,
+    ContratoFirma: `- Contra firma de minuta y bloqueo registral  inscrito en primer rango a favor de BanBif.`,
     PagoAdelantado: '- El cliente realice el pago por adelantado de las valorizaciones a realizarse para validar el uso de los fondos por cada desembolso parcial.',
     ChequeGerencia: '- Se emitirá cheque de gerencia a favor del cliente; la firma de la EEPP se realizará contra entrega del cheque de gerencia.'
   };
@@ -94,6 +94,8 @@ export class Variables {
     bandejaSolicitudes: 'bandejas/solicitudes',
     bandejaSolicitudesFinalizadas: 'bandejas/solicitudesfinalizadas',
     bandejaSolicitudesPendientes: 'bandejas/solicitudespendientes',
+    bandejaSolicitudesEvaluacion: 'bandejas/solicitudesenevaluacion',
+    bandejaSeguimientoSolicitudes: 'bandejas/seguimientosolicitudes'
   };
 
   static readonly lists = {
@@ -118,6 +120,7 @@ export class Variables {
 
   static readonly listas = {
     Solicitudes: 'Solicitud_Hipotecario',
+    FlujoSeguimientoEtapa: 'FlujoSeguimientoEtapa',
     AdmBBPAdicional: 'BBP_Adicional',
     AdmEstado: 'Estado',
     AdmEstadoGestor: 'Estado_Gestor',
@@ -210,6 +213,7 @@ export class Variables {
     ID: 'ID',
     Title: 'Title',
     Author: 'Author',
+    Anlista_Riesgos: 'Anlista_Riesgos',
     Agencia: 'Agencia',
     Created: 'Created',
     Descripcion_Inmueble: 'Descripcion_Inmueble',
@@ -222,23 +226,37 @@ export class Variables {
     Comentario_Gestor_Hip: 'Comentario_Gestor_Hip',
     Editor: 'Editor',
     Modified: 'Modified',
-    NombreTitular : 'Nombre_Titular',
+    NombreTitular: 'Nombre_Titular',
     TipoDocumento: 'Tipo_Documento',
-    NumeroDocumento : 'N_Documento',
-    TipoProducto : 'Tipo_Producto',
-    Estado : 'Estado',
+    NumeroDocumento: 'N_Documento',
+    TipoProducto: 'Tipo_Producto',
+    Estado: 'Estado',
     EstadoGestor: 'EstadoGestor',
-    Moneda : 'Moneda',
-    PrecioVenta : 'Precio_Venta',
-    ModalidadPago : 'Modalidad_Pago',
-    Financiamiento : 'Financiamiento',
-    Zona : 'Zona',
-    Oficina : 'Oficina',
-    SustentoIngreso : 'Sustento_Ingresos',
-    FechaEstado : 'Fecha_Estado',
+    Moneda: 'Moneda',
+    PrecioVenta: 'Precio_Venta',
+    ModalidadPago: 'Modalidad_Pago',
+    Financiamiento: 'Financiamiento',
+    Zona: 'Zona',
+    Oficina: 'Oficina',
+    SustentoIngreso: 'Sustento_Ingresos',
+    FechaEstado: 'Fecha_Estado',
     Desembolso: 'Desembolso',
-    UResponsable: 'U_Responsable'
+    UResponsable: 'U_Responsable',
+    SolicitudHipotecario: 'SolicitudHipotecario'
   };
+
+  static readonly columnasSeguimiento = {
+    Id: 'Id',
+    ID: 'ID',
+    Title: 'Title',
+    SolicitudHipotecario: 'SolicitudHipotecario',
+    Author: 'Author',
+    Created: 'Created',
+    Estado: 'Estado',
+    Responsable: 'Responsable',
+    FechaAtencion: 'FechaAtencion',
+    EstadoFinal: 'EstadoFinal'
+  }
 
   static readonly columns = {
     IdCanalDistribucion: 'IdCanalDistribucion',
