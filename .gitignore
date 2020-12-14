@@ -11,8 +11,8 @@ node_modules.rar
 /bazel-out
 
 # dependencies
-/node_modules
 node_modules.rar
+/node_modules
 
 # profiling files
 chrome-profiler-events*.json
