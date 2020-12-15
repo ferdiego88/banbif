@@ -137,6 +137,7 @@ export class Variables {
     AdmTipoSubProducto: 'Sub_Producto',
     AdmSustentoIngresos: 'Sustento_Ingresos',
     AdmSituacionPlanAhorro: 'Situacion_Plan_Ahorro',
+    AdmSolicitudCreditoHipotecario: 'Solicitud_Hipotecario',
     AdmModalidadProductoId: 'Tipo_ProductoId',
     AdmTipoMonedaPrecioVenta: 'Tipo_Moneda_PrecioVenta',
     AdmTEAAutorizada: 'TEA_Autorizada',

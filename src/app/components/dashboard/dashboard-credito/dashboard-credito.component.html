@@ -1,17 +1,30 @@
 <div>
+  <form [formGroup] ="dashboardForm">
     <img mat-card-image src="assets/img/bb.png" alt="BanBif Logo">
     <div class="row">
       <div class="col-md-2">
         <mat-form-field class="full-width">
-          <mat-select placeholder="Zona" formControlName="">
-              <mat-option  [value]="">Todas</mat-option>
-              <mat-option  [value]=""> Zona 1</mat-option>
+          <mat-select placeholder="Zona" formControlName="ZonaId">
+              <mat-option>Todas</mat-option>
+              <mat-option  *ngFor="let zona of zonaModelList" [value]="zona.Id">Zona
+                  {{zona.Title}}
+              </mat-option>
           </mat-select>
       </mat-form-field>
       </div>
       <div class="col-md-2">
           <mat-form-field class="full-width">
-            <mat-select placeholder="Oficina" formControlName="">
+            <mat-select placeholder="Oficina" formControlName="OficinaId">
+              <mat-option  [value]="">Todas</mat-option>
+              <mat-option *ngFor="let oficina of oficinaList"  [value]="oficina.Id">
+                {{oficina.Title}}
+              </mat-option>
+            </mat-select>
+      </mat-form-field>
+      </div>
+      <div class="col-md-2">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Vendedor" formControlName="Vendedor">
               <mat-option  [value]="">Todas</mat-option>
               <mat-option  [value]=""> Zona 1</mat-option>
             </mat-select>
@@ -19,7 +32,7 @@
       </div>
       <div class="col-md-2">
           <mat-form-field class="full-width">
-            <mat-select placeholder="Vendedor" formControlName="">
+            <mat-select placeholder="Canal" formControlName="Canal">
               <mat-option  [value]="">Todas</mat-option>
               <mat-option  [value]=""> Zona 1</mat-option>
             </mat-select>
@@ -27,15 +40,7 @@
       </div>
       <div class="col-md-2">
           <mat-form-field class="full-width">
-            <mat-select placeholder="Canal" formControlName="">
-              <mat-option  [value]="">Todas</mat-option>
-              <mat-option  [value]=""> Zona 1</mat-option>
-            </mat-select>
-      </mat-form-field>
-      </div>
-      <div class="col-md-2">
-          <mat-form-field class="full-width">
-            <mat-select placeholder="Origen" formControlName="">
+            <mat-select placeholder="Origen" formControlName="Origen">
               <mat-option  [value]="">Todas</mat-option>
               <mat-option  [value]=""> Zona 1</mat-option>
             </mat-select>
@@ -46,7 +51,7 @@
     <div class="row">
       <div class="col-md-2">
         <mat-form-field class="full-width">
-          <mat-select placeholder="Indicador" formControlName="">
+          <mat-select placeholder="Indicador" formControlName="Indicador">
               <mat-option  [value]="">Todas</mat-option>
               <mat-option  [value]=""> Zona 1</mat-option>
           </mat-select>
@@ -54,7 +59,7 @@
       </div>
       <div class="col-md-2">
           <mat-form-field class="full-width">
-            <mat-select placeholder="Responsable" formControlName="">
+            <mat-select placeholder="Responsable" formControlName="Responsable">
               <mat-option  [value]="">Todas</mat-option>
               <mat-option  [value]=""> Zona 1</mat-option>
             </mat-select>
@@ -62,7 +67,7 @@
       </div>
       <div class="col-md-2">
           <mat-form-field class="full-width">
-            <mat-select placeholder="Semáforo" formControlName="">
+            <mat-select placeholder="Semáforo" formControlName="Semaforo">
               <mat-option  [value]="">Todas</mat-option>
               <mat-option  [value]=""> Zona 1</mat-option>
             </mat-select>
@@ -70,7 +75,7 @@
       </div>
       <div class="col-md-2">
           <mat-form-field class="full-width">
-            <mat-select placeholder="Variación" formControlName="">
+            <mat-select placeholder="Variación" formControlName="Variacion">
               <mat-option  [value]="">Todas</mat-option>
               <mat-option  [value]=""> Zona 1</mat-option>
             </mat-select>
@@ -78,57 +83,56 @@
       </div>
       <div class="col-md-2">
           <mat-form-field class="full-width">
-            <mat-select placeholder="Tipo de Producto" formControlName="">
-              <mat-option  [value]="">Todas</mat-option>
-              <mat-option  [value]=""> Zona 1</mat-option>
+            <mat-select placeholder="Tipo de Producto" formControlName="Tipo_ProductoId">
+              <mat-option>Todas</mat-option>
+              <mat-option  *ngFor="let producto of tipoProductoList" [value]="producto.Id">
+                  {{producto.Title}}
+              </mat-option>
             </mat-select>
       </mat-form-field>
       </div>
     </div>
-</div>
-<div>
-  <table>
-    <thead>
-      <tr>
-        <th>--</th>
-        <th>Expedientes</th>
-        <th>Tiempo Promedio estación</th>
-        <th>Tiempo Promedio Total</th>
-        <th>Fuera de ANS</th>
-        <th>Monto S/.</th>
-        <th>Fuera de ANS Acumulado</th>
-      </tr>
-    </thead>
-    <tfoot>
-      <tr>
-        <td>Totales</td>
-        <td>Footer content 2</td>
-        <td>Footer content 2</td>
-        <td>Footer content 2</td>
-        <td>Footer content 2</td>
-        <td>Footer content 2</td>
-        <td>Footer content 2</td>
-      </tr>
-    </tfoot>
-    <tbody>
-      <tr>
-        <td>Crea Expediente</td>
-        <td>...</td>
-        <td>...</td>
-        <td>...</td>
-        <td>...</td>
-        <td>...</td>
-        <td>...</td>
-      </tr>
-      <tr>
-        <td>Registro CPM</td>
-        <td>...</td>
-        <td>...</td>
-        <td>...</td>
-        <td>...</td>
-        <td>...</td>
-        <td>...</td>
-      </tr>
-    </tbody>
-  </table>
+
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>--</th>
+          <th>Expedientes</th>
+          <th>Tiempo Promedio estación</th>
+          <th>Tiempo Promedio Total</th>
+          <th>Fuera de ANS</th>
+          <th>Monto S/.</th>
+          <th>Fuera de ANS Acumulado</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <td>Totales</td>
+          <td>Footer content 2</td>
+          <td>Footer content 2</td>
+          <td>Footer content 2</td>
+          <td>Footer content 2</td>
+          <td>Footer content 2</td>
+          <td>Footer content 2</td>
+        </tr>
+      </tfoot>
+      <tbody>
+        <tr>
+          <td> Crea Cpm</td>
+          <td> {{cuentaCreaCPM}}</td>
+        </tr>
+        <tr>
+          <td>Registro CPM</td>
+          <td>...</td>
+          <td>...</td>
+          <td>...</td>
+          <td>...</td>
+          <td>...</td>
+          <td>...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</form>
 </div>
