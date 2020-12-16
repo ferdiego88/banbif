@@ -48,7 +48,15 @@ export class SeguimientoSolicitudesService {
     if (filter) {
 
       if (filter.SolicitudHipotecario && filter.SolicitudHipotecario.length > 0) {
-        filterArr.push(`(${Variables.columnasSolicitud.SolicitudHipotecario}/Id  eq ${filter.SolicitudHipotecario})`);
+        filterArr.push(`(${Variables.columnasSeguimiento.SolicitudHipotecario}/Id eq ${filter.SolicitudHipotecario})`);
+      }
+
+      if (filter.NombreTitular && filter.NombreTitular.trim().length > 0) {
+        filterArr.push(`(substringof('${filter.NombreTitular.trim()}',${Variables.columnasSeguimiento.NombreTitular}))`);
+      }
+
+      if (filter.NumeroDocumento && filter.NumeroDocumento.trim().length > 0) {
+        filterArr.push(`(substringof('${filter.NumeroDocumento.trim()}',${Variables.columnasSeguimiento.NumeroDocumento}))`);
       }
     }
 

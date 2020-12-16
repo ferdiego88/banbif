@@ -56,6 +56,8 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
   dataSourceSeguimiento: EBandejaSeguimientoSolicitud[] = [];
   displayedColumnsSeguimientoSolicitud: string[] = [
     Variables.columnasSeguimiento.SolicitudHipotecario,
+    Variables.columnasSeguimiento.NumeroDocumento,
+    Variables.columnasSeguimiento.NombreTitular,
     Variables.columnasSeguimiento.Author,
     Variables.columnasSeguimiento.Created,
     Variables.columnasSeguimiento.Estado,
@@ -381,11 +383,13 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
           return EBandejaSeguimientoSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Usuario', 'Fecha Registro', 'Estado Inicial', 'Responsable Atención', 'Fecha Atención', 'Estado Final'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Usuario Registro', 'Fecha Registro', 'Estado Inicial', 'Responsable Atención', 'Fecha Atención', 'Estado Final'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
           dataMap.push(item.SolicitudHipotecario);
+          dataMap.push(item.NumeroDocumento);
+          dataMap.push(item.NombreTitular);
           dataMap.push(item.Author);
           dataMap.push(Funciones.dateHoraFormat(item.Created));
           dataMap.push(item.Estado);
@@ -394,7 +398,7 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
             dataMap.push(Funciones.dateHoraFormat(item.FechaAtencion));
           }
           dataMap.push(item.EstadoFinal);
-          
+
           return dataMap;
         });
 

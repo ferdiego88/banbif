@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { MatPaginator, } from '@angular/material/paginator';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatSidenav } from '@angular/material/sidenav';
 import { EFiltroBandejaSolicitud } from 'src/app/shared/models/fisics/EFiltroBandejaSolicitud';
@@ -18,7 +18,6 @@ import { PagedItemCollection } from '@pnp/sp/items';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { EBandejaSolicitud } from 'src/app/shared/models/fisics/EBandejaSolicitud';
-import { MasterLogic } from 'src/app/shared/models/logics/MasterLogic';
 import { Variables } from 'src/app/shared/variables';
 import { Funciones } from 'src/app/shared/funciones';
 import { MasterService } from 'src/app/shared/services/master.service';
@@ -56,17 +55,16 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
   dataSourceSolicitudes: EBandejaSolicitud[] = [];
   displayedColumnsSolicitud: string[] = [
     Variables.columnasSolicitud.Id,
+    Variables.columnasSolicitud.NumeroDocumento,
+    Variables.columnasSolicitud.NombreTitular,
     Variables.columnasSolicitud.Author,
     Variables.columnasSolicitud.Created,
-    Variables.columnasSolicitud.NombreTitular,
-    Variables.columnasSolicitud.NumeroDocumento,
-    Variables.columnasSolicitud.TipoProducto,
+    Variables.columnasSolicitud.FechaEstado,
     Variables.columnasSolicitud.Estado,
-    //Variables.columnasSolicitud.Moneda,
-    Variables.columnasSolicitud.PrecioVenta,
-    Variables.columnasSolicitud.Financiamiento,
+    Variables.columnasSolicitud.Zona,
     Variables.columnasSolicitud.Oficina,
-    Variables.columnasSolicitud.FechaEstado
+    Variables.columnasSolicitud.TipoProducto,
+    Variables.columnasSolicitud.Desembolso
   ];
   resultsLength = 0;
   isLoadingResults = true;
@@ -196,6 +194,13 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
       const url = environment.getRutaBaseApp() + nombrePagina;
       window.open(url, '_blank');
     }
+  }
+
+  public irPaginaSolicitud(
+    elemento: any
+  ) {
+      const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
+      window.open(url, '_blank');   
   }
 
   reload() {
@@ -402,22 +407,23 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
           return EBandejaSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Solicitante', 'Fec. Solicitud', 'Nombre Titular', 'Nro. Documento', 'Tipo Producto', 'Estado', 'Moneda', 'Precio Venta', 'Financiamiento', 'Oficina', 'Fecha Estado'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina',  'Tipo Producto', 'Moneda', 'Desembolso'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
           dataMap.push(item.Id);
-          dataMap.push(item.Author);
-          dataMap.push(Funciones.dateFormat(item.Created));
-          dataMap.push(item.Nombre_Titular);
           dataMap.push(item.N_Documento);
-          dataMap.push(item.Tipo_Producto);
-          dataMap.push(item.Estado);
-          dataMap.push(item.Moneda);
-          dataMap.push(item.Precio_Venta);
-          dataMap.push(item.Financiamiento);
-          dataMap.push(item.Oficina);
+          dataMap.push(item.Nombre_Titular);
+          dataMap.push(item.Author);
+          dataMap.push(item.Created);
+          //dataMap.push(Funciones.dateFormat(item.Created));
           dataMap.push(item.Fecha_Estado);
+          dataMap.push(item.Estado);
+          dataMap.push(item.Zona);
+          dataMap.push(item.Oficina);
+          dataMap.push(item.Tipo_Producto);
+          dataMap.push(item.Moneda);
+          dataMap.push(item.Desembolso);
 
           return dataMap;
         });

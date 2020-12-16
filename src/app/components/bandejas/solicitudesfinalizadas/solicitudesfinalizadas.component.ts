@@ -188,6 +188,13 @@ export class SolicitudesfinalizadasComponent extends FormularioBase implements O
     }
   }
 
+  public irPaginaSolicitud(
+    elemento: any
+  ) {
+      const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
+      window.open(url, '_blank');   
+  }
+
   reload() {
     this.getSolicitudes()
   }

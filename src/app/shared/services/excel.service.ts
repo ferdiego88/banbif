@@ -388,6 +388,8 @@ export class ExcelService {
         case 5: width = 20; break;
         case 6: width = 20; break;
         case 7: width = 20; break;
+        case 8: width = 20; break;
+        case 9: width = 20; break;
       }
 
       cell.worksheet.getColumn(numberCell).width = width;

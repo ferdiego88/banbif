@@ -4,7 +4,9 @@ import { Variables, SPParse } from '../../variables';
 
 export class EBandejaSeguimientoSolicitud {
     Id: number;
-    SolicitudHipotecario;
+    SolicitudHipotecario: string;
+    NombreTitular: string;
+    NumeroDocumento: string;
     Author: string;
     Created: Date;
     Estado: string;
@@ -27,6 +29,8 @@ export class EBandejaSeguimientoSolicitud {
         return [
             Variables.columnasSeguimiento.ID,
             Variables.columnasSeguimiento.SolicitudHipotecario + '/' + Variables.columnasSeguimiento.ID,
+            Variables.columnasSeguimiento.NombreTitular,
+            Variables.columnasSeguimiento.NumeroDocumento,
             Variables.columnasSeguimiento.Author + '/' + Variables.columnasSeguimiento.Title,
             Variables.columnasSeguimiento.Created,
             Variables.columnasSeguimiento.Estado + '/' + Variables.columnasSeguimiento.Title,
@@ -52,7 +56,9 @@ export class EBandejaSeguimientoSolicitud {
         item.Id = SPParse.getNumber(elemento[Variables.columnasSeguimiento.ID]);
         item.Author = User.parseJson(elemento[Variables.columnasSeguimiento.Author]).Title.toUpperCase();
         item.Created = SPParse.getDate(elemento[Variables.columnasSeguimiento.Created]);
-        item.SolicitudHipotecario = Lookup.parseJson(elemento[Variables.columnasSeguimiento.SolicitudHipotecario]).Id;
+        item.SolicitudHipotecario = Lookup.parseJson(elemento[Variables.columnasSeguimiento.SolicitudHipotecario]).Id.toString();
+        item.NombreTitular = SPParse.getString(elemento[Variables.columnasSeguimiento.NombreTitular]);
+        item.NumeroDocumento = SPParse.getString(elemento[Variables.columnasSeguimiento.NumeroDocumento]);
         item.Estado = Lookup.parseJson(elemento[Variables.columnasSeguimiento.Estado]).Title.toUpperCase();
         item.Responsable = Lookup.parseJson(elemento[Variables.columnasSeguimiento.Responsable]).Title.toUpperCase();
         item.FechaAtencion = SPParse.getDate(elemento[Variables.columnasSeguimiento.FechaAtencion]);

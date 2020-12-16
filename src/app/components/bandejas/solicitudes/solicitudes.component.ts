@@ -186,6 +186,13 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
     }
   }
 
+  public irPaginaSolicitud(
+    elemento: any
+  ) {
+      const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
+      window.open(url, '_blank');   
+  }
+
   reload() {
     this.getSolicitudes()
   }

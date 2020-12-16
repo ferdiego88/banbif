@@ -83,7 +83,7 @@ export class MasterBandejaService {
     const selectFields = ["ID","Title"];
     let result: Array<any>;
     let item = this.listaMaestroEstado.items;
-    result = await item.select(...selectFields).filter("Activo eq 1").top(4999).get();
+    result = await item.select(...selectFields).filter("Activo eq 1").orderBy("Title").top(4999).get();
 
     const items: Lookup[] = result.map(elemento => {
       const item = new Lookup();
@@ -99,7 +99,7 @@ export class MasterBandejaService {
     const selectFields = ["ID","Title"];
     let result: Array<any>;
     let item = this.listaMaestroTipoProducto.items;
-    result = await item.select(...selectFields).top(4999).get();
+    result = await item.select(...selectFields).orderBy("Title").top(4999).get();
 
     const items: Lookup[] = result.map(elemento => {
       const item = new Lookup();
@@ -115,7 +115,7 @@ export class MasterBandejaService {
     const selectFields = ["ID","Title"];
     let result: Array<any>;
     let item = this.listaMaestroOficina.items;
-    result = await item.select(...selectFields).top(4999).get();
+    result = await item.select(...selectFields).orderBy("Title").top(4999).get();
 
     const items: Lookup[] = result.map(elemento => {
       const item = new Lookup();
@@ -131,7 +131,7 @@ export class MasterBandejaService {
     const selectFields = ["ID","Title"];
     let result: Array<any>;
     let item = this.listaMaestroZona.items;
-    result = await item.select(...selectFields).top(4999).get();
+    result = await item.select(...selectFields).orderBy("Title").top(4999).get();
 
     const items: Lookup[] = result.map(elemento => {
       const item = new Lookup();

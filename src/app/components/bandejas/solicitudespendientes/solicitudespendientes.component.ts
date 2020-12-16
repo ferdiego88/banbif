@@ -434,7 +434,7 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
           return dataMap;
         });
 
-        this.excelService.excelListadoSolicitudesPendientes('Solicitudes Pendientes', 'SolicitudesPendientes', headers, details);
+        this.excelService.excelListadoSolicitudesPendientes('Bandeja de Trabajo', 'BandejaTrabajo', headers, details);
         this.ocultarProgreso();
         this.isCargando = false;
       },

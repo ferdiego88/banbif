@@ -112,15 +112,18 @@ export class SolicitudesService {
 
         const fechaHasta = moment(filter.Created).format('YYYY-MM-DDT') + '23:59:59.000Z';
         filterArr.push(`(datetime'${fechaHasta}' ge ${Variables.columnasSolicitud.Created})`);
+      }       
+      
+      if (filter.FechaEstadoDesde) {
+        debugger;
+        const fechaDesde = moment(filter.FechaEstadoDesde).format('YYYY-MM-DDT') + '00:00:00.000Z';
+        filterArr.push(`(datetime'${fechaDesde}' lt ${Variables.columnasSolicitud.FechaEstado})`);       
       }
-
-      if (filter.FechaEstado) {
-        const fechaDesde = moment(filter.FechaEstado).format('YYYY-MM-DDT') + '00:00:00.000Z';
-        filterArr.push(`(datetime'${fechaDesde}' lt ${Variables.columnasSolicitud.FechaEstado})`);
-
-        const fechaHasta = moment(filter.FechaEstado).format('YYYY-MM-DDT') + '23:59:59.000Z';
+      
+      if (filter.FechaEstadoHasta) {
+        const fechaHasta = moment(filter.FechaEstadoHasta).format('YYYY-MM-DDT') + '23:59:59.000Z';
         filterArr.push(`(datetime'${fechaHasta}' ge ${Variables.columnasSolicitud.FechaEstado})`);
-      }
+      }  
     }
 
     query = query.filter(filterArr.join(" and "));

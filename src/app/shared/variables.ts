@@ -257,7 +257,10 @@ export class Variables {
     Estado: 'Estado',
     Responsable: 'Responsable',
     FechaAtencion: 'FechaAtencion',
-    EstadoFinal: 'EstadoFinal'
+    EstadoFinal: 'EstadoFinal',
+    NombreTitular: 'NombreTitular',
+    TipoDocumento: 'TipoDocumento',
+    NumeroDocumento: 'NumeroDocumento'
   }
 
   static readonly columns = {

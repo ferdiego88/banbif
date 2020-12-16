@@ -194,6 +194,13 @@ export class SolicitudesenevaluacionComponent extends FormularioBase implements 
     }
   }
 
+  public irPaginaSolicitud(
+    elemento: any
+  ) {
+      const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
+      window.open(url, '_blank');   
+  }
+
   reload() {
     this.getSolicitudes()
   }
@@ -418,7 +425,7 @@ export class SolicitudesenevaluacionComponent extends FormularioBase implements 
           return dataMap;
         });
 
-        this.excelService.excelListadoSolicitudesEvaluacion('Solicitudes en Evaluación', 'SolicitudesEvaluacion', headers, details);
+        this.excelService.excelListadoSolicitudesEvaluacion('Bandeja de Trabajo Riesgos', 'BandejaTrabajoRiesgos', headers, details);
         this.ocultarProgreso();
         this.isCargando = false;
       },
