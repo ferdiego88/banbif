@@ -1321,6 +1321,10 @@ button.bg-dark:focus {
     width: 100%;
 }
 
+.mid-width {
+    width: 75%;
+}
+
 .bg-yellow {
     // background-color: #d39e00 !important;
     background-color: yellow !important;
@@ -1767,7 +1771,7 @@ a {
 }
 
 .title {
-    color:rgb(32, 163, 255) !important;
+    color: rgb(32, 163, 255) !important;
     display: block;
     text-align: center;
     font-size: 24px;

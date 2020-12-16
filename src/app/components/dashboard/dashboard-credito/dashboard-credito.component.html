@@ -1,138 +1,252 @@
 <div>
-  <form [formGroup] ="dashboardForm">
-    <img mat-card-image src="assets/img/bb.png" alt="BanBif Logo">
-    <div class="row">
-      <div class="col-md-2">
-        <mat-form-field class="full-width">
-          <mat-select placeholder="Zona" formControlName="ZonaId">
-              <mat-option>Todas</mat-option>
-              <mat-option  *ngFor="let zona of zonaModelList" [value]="zona.Id">Zona
-                  {{zona.Title}}
-              </mat-option>
-          </mat-select>
-      </mat-form-field>
-      </div>
-      <div class="col-md-2">
-          <mat-form-field class="full-width">
-            <mat-select placeholder="Oficina" formControlName="OficinaId">
-              <mat-option  [value]="">Todas</mat-option>
-              <mat-option *ngFor="let oficina of oficinaList"  [value]="oficina.Id">
-                {{oficina.Title}}
-              </mat-option>
-            </mat-select>
-      </mat-form-field>
-      </div>
-      <div class="col-md-2">
-          <mat-form-field class="full-width">
-            <mat-select placeholder="Vendedor" formControlName="Vendedor">
-              <mat-option  [value]="">Todas</mat-option>
-              <mat-option  [value]=""> Zona 1</mat-option>
-            </mat-select>
-      </mat-form-field>
-      </div>
-      <div class="col-md-2">
-          <mat-form-field class="full-width">
-            <mat-select placeholder="Canal" formControlName="Canal">
-              <mat-option  [value]="">Todas</mat-option>
-              <mat-option  [value]=""> Zona 1</mat-option>
-            </mat-select>
-      </mat-form-field>
-      </div>
-      <div class="col-md-2">
-          <mat-form-field class="full-width">
-            <mat-select placeholder="Origen" formControlName="Origen">
-              <mat-option  [value]="">Todas</mat-option>
-              <mat-option  [value]=""> Zona 1</mat-option>
-            </mat-select>
-      </mat-form-field>
-      </div>
-    </div>
+    <form [formGroup]="dashboardForm">
+        <img mat-card-image src="assets/img/bb.png" alt="BanBif Logo">
+        <hr>
+        <div class="row">
+            <h4>Fecha de Creación</h4>
+            <div class="col-md-2">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Desde</mat-label>
+                    <input matInput [matDatepicker]="dpfc" formControlName="Fecha_Creacion_Desde">
+                    <mat-datepicker-toggle matSuffix [for]="dpfc"></mat-datepicker-toggle>
+                    <mat-datepicker #dpfc></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Hasta</mat-label>
+                    <input matInput [matDatepicker]="dpfch" formControlName="Fecha_Creacion_Hasta">
+                    <mat-datepicker-toggle matSuffix [for]="dpfch"></mat-datepicker-toggle>
+                    <mat-datepicker #dpfch></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Zona" formControlName="ZonaId">
+                        <mat-option>Todas</mat-option>
+                        <mat-option *ngFor="let zona of zonaModelList" [value]="zona.Id">Zona {{zona.Title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Oficina" formControlName="OficinaId">
+                        <mat-option [value]="">Todas</mat-option>
+                        <mat-option *ngFor="let oficina of oficinaList" [value]="oficina.Id">
+                            {{oficina.Title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Vendedor" formControlName="Vendedor">
+                        <mat-option [value]="">Todas</mat-option>
+                        <mat-option [value]=""> Zona 1</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Canal" formControlName="Canal">
+                        <mat-option [value]="">Todas</mat-option>
+                        <mat-option [value]=""> Zona 1</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Origen" formControlName="Origen">
+                        <mat-option [value]="">Todas</mat-option>
+                        <mat-option [value]=""> Zona 1</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <hr>
+        <h4>Fecha Estado Activo</h4>
+        <div class="row">
+            <div class="col-md-2">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Desde</mat-label>
+                    <input matInput [matDatepicker]="dpfed" formControlName="Fecha_Creacion_Desde">
+                    <mat-datepicker-toggle matSuffix [for]="dpfed"></mat-datepicker-toggle>
+                    <mat-datepicker #dpfed></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Hasta</mat-label>
+                    <input matInput [matDatepicker]="dpfech" formControlName="Fecha_Creacion_Hasta">
+                    <mat-datepicker-toggle matSuffix [for]="dpfech"></mat-datepicker-toggle>
+                    <mat-datepicker #dpfech></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
 
-    <div class="row">
-      <div class="col-md-2">
-        <mat-form-field class="full-width">
-          <mat-select placeholder="Indicador" formControlName="Indicador">
-              <mat-option  [value]="">Todas</mat-option>
-              <mat-option  [value]=""> Zona 1</mat-option>
-          </mat-select>
-      </mat-form-field>
-      </div>
-      <div class="col-md-2">
-          <mat-form-field class="full-width">
-            <mat-select placeholder="Responsable" formControlName="Responsable">
-              <mat-option  [value]="">Todas</mat-option>
-              <mat-option  [value]=""> Zona 1</mat-option>
-            </mat-select>
-      </mat-form-field>
-      </div>
-      <div class="col-md-2">
-          <mat-form-field class="full-width">
-            <mat-select placeholder="Semáforo" formControlName="Semaforo">
-              <mat-option  [value]="">Todas</mat-option>
-              <mat-option  [value]=""> Zona 1</mat-option>
-            </mat-select>
-      </mat-form-field>
-      </div>
-      <div class="col-md-2">
-          <mat-form-field class="full-width">
-            <mat-select placeholder="Variación" formControlName="Variacion">
-              <mat-option  [value]="">Todas</mat-option>
-              <mat-option  [value]=""> Zona 1</mat-option>
-            </mat-select>
-      </mat-form-field>
-      </div>
-      <div class="col-md-2">
-          <mat-form-field class="full-width">
-            <mat-select placeholder="Tipo de Producto" formControlName="Tipo_ProductoId">
-              <mat-option>Todas</mat-option>
-              <mat-option  *ngFor="let producto of tipoProductoList" [value]="producto.Id">
-                  {{producto.Title}}
-              </mat-option>
-            </mat-select>
-      </mat-form-field>
-      </div>
-    </div>
+        <div class="row">
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Indicador" formControlName="Indicador">
+                        <mat-option [value]="">Todas</mat-option>
+                        <mat-option [value]=""> Zona 1</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Responsable" formControlName="Responsable">
+                        <mat-option [value]="">Todas</mat-option>
+                        <mat-option [value]=""> Zona 1</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Semáforo" formControlName="Semaforo">
+                        <mat-option [value]="">Todas</mat-option>
+                        <mat-option [value]=""> Zona 1</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Variación" formControlName="Variacion">
+                        <mat-option [value]="">Todas</mat-option>
+                        <mat-option [value]=""> Zona 1</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Tipo de Producto" formControlName="Tipo_ProductoId">
+                        <mat-option>Todas</mat-option>
+                        <mat-option *ngFor="let producto of tipoProductoList" [value]="producto.Id">
+                            {{producto.Title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
 
-  <div>
-    <table>
-      <thead>
-        <tr>
-          <th>--</th>
-          <th>Expedientes</th>
-          <th>Tiempo Promedio estación</th>
-          <th>Tiempo Promedio Total</th>
-          <th>Fuera de ANS</th>
-          <th>Monto S/.</th>
-          <th>Fuera de ANS Acumulado</th>
-        </tr>
-      </thead>
-      <tfoot>
-        <tr>
-          <td>Totales</td>
-          <td>Footer content 2</td>
-          <td>Footer content 2</td>
-          <td>Footer content 2</td>
-          <td>Footer content 2</td>
-          <td>Footer content 2</td>
-          <td>Footer content 2</td>
-        </tr>
-      </tfoot>
-      <tbody>
-        <tr>
-          <td> Crea Cpm</td>
-          <td> {{cuentaCreaCPM}}</td>
-        </tr>
-        <tr>
-          <td>Registro CPM</td>
-          <td>...</td>
-          <td>...</td>
-          <td>...</td>
-          <td>...</td>
-          <td>...</td>
-          <td>...</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</form>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Estados</th>
+                        <th>Expedientes</th>
+                        <th>Tiempo Promedio estación</th>
+                        <th>Tiempo Promedio Total</th>
+                        <th>Fuera de ANS</th>
+                        <th>Monto S/.</th>
+                        <th>Fuera de ANS Acumulado</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <td>Totales</td>
+                        <td>{{totalSolicitudes}}</td>
+                        <td>Footer content 2</td>
+                        <td>Footer content 2</td>
+                        <td>Footer content 2</td>
+                        <td>Footer content 2</td>
+                        <td>Footer content 2</td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td> Crea Expediente</td>
+                        <td> {{cuentaCreaExpediente}}</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                    </tr>
+                    <tr>
+                        <td>Registro CPM</td>
+                        <td>{{cuentaRegistroCPM}}</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                    </tr>
+                    <tr>
+                        <td>Observado CPM</td>
+                        <td>{{cuentaObservadoCPM}}</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+
+                    </tr>
+                    <tr>
+                        <td>Evaluación Riesgos</td>
+                        <td>{{cuentaEvaluacionRiesgos}}</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+
+                    </tr>
+                    <tr>
+                        <td>Observado Riesgos</td>
+                        <td>{{cuentaObservadoRiesgos}}</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+
+                    </tr>
+                    <tr>
+                        <td>Verificación Riesgos</td>
+                        <td>{{cuentaVerificacionRiesgos}}</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+
+                    </tr>
+                    <tr>
+                        <td>Desestimado</td>
+                        <td>{{cuentaDesestimado}}</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+
+                    </tr>
+                    <tr>
+                        <td>Rechazado</td>
+                        <td>{{cuentaRechazado}}</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+
+                    </tr>
+                    <tr>
+                        <td>Aprobado</td>
+                        <td>{{cuentaAprobado}}</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
 </div>
