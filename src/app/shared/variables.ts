@@ -78,9 +78,11 @@ export class Variables {
     EstadoEvaluacionRiesgos: 4,
     EstadoObservadoRiesgos: 5,
     EstadoRechazado: 6,
+    EstadoDesestimado: 8,
     EstadoVerificacionRiesgos: 32,
     EstadoRegularizacionCPM: 35,
     EstadoAprobadoSinVerificacion: 33,
+    EstadoAprobadoConVerificacion: 34,
   };
 
   static readonly path = {
