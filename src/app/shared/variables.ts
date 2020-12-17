@@ -246,7 +246,9 @@ export class Variables {
     FechaEstado: 'Fecha_Estado',
     Desembolso: 'Desembolso',
     UResponsable: 'U_Responsable',
-    SolicitudHipotecario: 'SolicitudHipotecario'
+    SolicitudHipotecario: 'SolicitudHipotecario',
+    Oferta: 'Oferta',
+    TipoRenta: 'Tipo_Renta'
   };
 
   static readonly columnasSeguimiento = {

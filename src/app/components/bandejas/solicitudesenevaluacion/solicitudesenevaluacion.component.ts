@@ -23,6 +23,7 @@ import { Variables } from 'src/app/shared/variables';
 import { Funciones } from 'src/app/shared/funciones';
 import { MasterService } from 'src/app/shared/services/master.service';
 import { MasterBandejaLogic } from 'src/app/shared/models/logics/MasterBandejaLogic';
+import { variable } from '@angular/compiler/src/output/output_ast';
 
 declare var $: any;
 
@@ -65,7 +66,10 @@ export class SolicitudesenevaluacionComponent extends FormularioBase implements 
     Variables.columnasSolicitud.Zona,
     Variables.columnasSolicitud.Oficina,
     Variables.columnasSolicitud.TipoProducto,
-    Variables.columnasSolicitud.Desembolso
+    Variables.columnasSolicitud.Desembolso,
+    Variables.columnasSolicitud.Oferta,
+    Variables.columnasSolicitud.TipoRenta,
+    Variables.columnasSolicitud.SustentoIngreso
   ];
   resultsLength = 0;
   isLoadingResults = true;
@@ -402,7 +406,7 @@ export class SolicitudesenevaluacionComponent extends FormularioBase implements 
           return EBandejaSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina',  'Tipo Producto', 'Moneda', 'Desembolso'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina',  'Tipo Producto', 'Moneda', 'Desembolso', 'Oferta', 'Tipo Renta', 'Sustento Ingresos'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
@@ -418,6 +422,9 @@ export class SolicitudesenevaluacionComponent extends FormularioBase implements 
           dataMap.push(item.Tipo_Producto);
           dataMap.push(item.Moneda);
           dataMap.push(item.Desembolso);
+          dataMap.push(item.Oferta);
+          dataMap.push(item.Tipo_Renta);
+          dataMap.push(item.Sustento_Ingresos);
 
           return dataMap;
         });

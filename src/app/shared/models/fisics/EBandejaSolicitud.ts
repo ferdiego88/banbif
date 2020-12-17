@@ -26,6 +26,8 @@ export class EBandejaSolicitud {
     Agencia: string;
     //U_Responsable: string;
     Anlista_Riesgos: string;
+    Oferta: string;
+    Tipo_Renta: string;
 
     constructor() {
         this.Id = 0;
@@ -36,7 +38,7 @@ export class EBandejaSolicitud {
         this.N_Documento = "";
         this.Tipo_Producto = "";
         this.Estado = "";
-        this.EstadoGestor = "";
+        //this.EstadoGestor = "";
         this.Moneda = "";
         this.SimboloMoneda = "";
         this.Precio_Venta = "";
@@ -48,9 +50,11 @@ export class EBandejaSolicitud {
         this.Fecha_Estado = new Date();
         this.TiempoAtencion = "";
         this.Desembolso = "";
-        this.Agencia = "";
+        //this.Agencia = "";
         //this.U_Responsable = "";
         this.Anlista_Riesgos = "";
+        this.Oferta = "";
+        this.Tipo_Renta = "";
     }
 
     public static getColumnasSelect(): string[] {
@@ -63,7 +67,7 @@ export class EBandejaSolicitud {
             Variables.columnasSolicitud.NumeroDocumento,
             Variables.columnasSolicitud.TipoProducto + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.Estado + '/' + Variables.columnasSolicitud.Title,
-            Variables.columnasSolicitud.EstadoGestor + '/' + Variables.columnasSolicitud.Title,
+            //Variables.columnasSolicitud.EstadoGestor + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.Moneda + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.PrecioVenta,
             Variables.columnasSolicitud.ModalidadPago + '/' + Variables.columnasSolicitud.Title,
@@ -71,11 +75,13 @@ export class EBandejaSolicitud {
             Variables.columnasSolicitud.Zona + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.Oficina + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.SustentoIngreso + '/' + Variables.columnasSolicitud.Title,
-            Variables.columnasSolicitud.Agencia + '/' + Variables.columnasSolicitud.Title,
+            //Variables.columnasSolicitud.Agencia + '/' + Variables.columnasSolicitud.Title,
             //Variables.columnasSolicitud.UResponsable + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.FechaEstado,
             Variables.columnasSolicitud.Desembolso,
             Variables.columnasSolicitud.Anlista_Riesgos + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.Oferta,
+            Variables.columnasSolicitud.TipoRenta + '/' + Variables.columnasSolicitud.Title 
         ];
     }
 
@@ -85,15 +91,16 @@ export class EBandejaSolicitud {
             Variables.columnasSolicitud.TipoDocumento,
             Variables.columnasSolicitud.TipoProducto,
             Variables.columnasSolicitud.Estado,
-            Variables.columnasSolicitud.EstadoGestor,
+            //Variables.columnasSolicitud.EstadoGestor,
             Variables.columnasSolicitud.Moneda,
             Variables.columnasSolicitud.ModalidadPago,
             Variables.columnasSolicitud.Zona,
             Variables.columnasSolicitud.Oficina,
             Variables.columnasSolicitud.SustentoIngreso,
-            Variables.columnasSolicitud.Agencia,
+            //Variables.columnasSolicitud.Agencia,
             //Variables.columnasSolicitud.UResponsable,
-            Variables.columnasSolicitud.Anlista_Riesgos
+            Variables.columnasSolicitud.Anlista_Riesgos,
+            Variables.columnasSolicitud.TipoRenta
         ];
     }
 
@@ -120,11 +127,13 @@ export class EBandejaSolicitud {
         item.Fecha_Estado = SPParse.getDate(elemento[Variables.columnasSolicitud.FechaEstado]);
         item.Desembolso = SPParse.getString(elemento[Variables.columnasSolicitud.Desembolso]);
         //item.U_Responsable = User.parseJsonListNombres(elemento[Variables.columnasSolicitud.UResponsable]).toUpperCase();
-        item.Anlista_Riesgos = User.parseJsonNombre(elemento[Variables.columnasSolicitud.Anlista_Riesgos]).toUpperCase();
-
-        if (item.Financiamiento !== "") {
+        item.Anlista_Riesgos = User.parseJson(elemento[Variables.columnasSolicitud.Anlista_Riesgos]).Title.toUpperCase();
+        item.Oferta = elemento[Variables.columnasSolicitud.Oferta] === true ? "SI" : "NO";
+        item.Tipo_Renta = Lookup.parseJsonListNombres(elemento[Variables.columnasSolicitud.TipoRenta]).toUpperCase();
+              
+        /*if (item.Financiamiento !== "") {
             item.Financiamiento = Math.round(parseFloat(item.Financiamiento) * 100) + " %"
-        }
+        }*/
 
         if (item.Moneda === "SOLES") {
             item.SimboloMoneda = "S/";

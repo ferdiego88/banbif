@@ -87,6 +87,21 @@
                         <td class="filaTabla" mat-cell *matCellDef="let element">{{element.SimboloMoneda}}
                             {{element.Desembolso | currency:' '}} </td>
                     </ng-container>
+                    <ng-container matColumnDef="Oferta">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Oferta
+                        </th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Oferta }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Tipo_Renta">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef disableClear>Tipo Renta
+                        </th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Tipo_Renta }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Sustento_Ingresos">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Sustento Ingresos
+                        </th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Sustento_Ingresos }} </td>
+                    </ng-container> 
                     <tr mat-header-row *matHeaderRowDef="displayedColumnsSolicitud"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumnsSolicitud;">
                     </tr>

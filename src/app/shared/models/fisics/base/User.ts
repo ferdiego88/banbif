@@ -58,7 +58,7 @@ export class User {
       });
 
       for(const item of lista){
-        if(nombres.left){
+        if(nombres.length > 0){
           nombres += " / ";
         }
         nombres += item.Title;
@@ -70,23 +70,13 @@ export class User {
 
   public static parseJson(element: any): User {
     const user = new User();
-    if (element) {
+    if (element && element.Title !== undefined && element.Title !== null) {
       user.Id = element[Variables.columns.ID];
       user.Title = element[Variables.columns.Title];
       user.Email = element[Variables.columns.EMail];
     }
 
     return user;
-  }
-
-  public static parseJsonNombre(element: any): string {
-    debugger;
-    let nombre = "";
-    if (element != undefined && element !== null && element[Variables.columns.Title] !== null) {     
-      nombre = element[Variables.columns.Title];
-    }
-
-    return nombre;
   }
 
   public static getJsonList(usuarios: User[]): any {
