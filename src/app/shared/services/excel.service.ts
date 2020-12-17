@@ -110,9 +110,6 @@ export class ExcelService {
         case 10: width = 20; break;
         case 11: width = 20; break;
         case 12: width = 20; break;
-        case 13: width = 20; break;
-        case 14: width = 20; break;
-        case 15: width = 20; break;
       }
 
       cell.worksheet.getColumn(numberCell).width = width;
@@ -182,8 +179,6 @@ export class ExcelService {
         case 10: width = 20; break;
         case 11: width = 20; break;
         case 12: width = 20; break;
-        case 13: width = 20; break;
-        case 14: width = 20; break;
       }
 
       cell.worksheet.getColumn(numberCell).width = width;
@@ -323,7 +318,6 @@ export class ExcelService {
         case 10: width = 20; break;
         case 11: width = 20; break;
         case 12: width = 20; break;
-        case 13: width = 20; break;     
       }
 
       cell.worksheet.getColumn(numberCell).width = width;

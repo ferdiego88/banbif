@@ -24,7 +24,8 @@ export class EBandejaSolicitud {
     TiempoAtencion: string;
     Desembolso: string;
     Agencia: string;
-    U_Responsable: string;
+    //U_Responsable: string;
+    Anlista_Riesgos: string;
 
     constructor() {
         this.Id = 0;
@@ -48,7 +49,8 @@ export class EBandejaSolicitud {
         this.TiempoAtencion = "";
         this.Desembolso = "";
         this.Agencia = "";
-        this.U_Responsable= "";
+        //this.U_Responsable = "";
+        this.Anlista_Riesgos = "";
     }
 
     public static getColumnasSelect(): string[] {
@@ -70,9 +72,10 @@ export class EBandejaSolicitud {
             Variables.columnasSolicitud.Oficina + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.SustentoIngreso + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.Agencia + '/' + Variables.columnasSolicitud.Title,
-            Variables.columnasSolicitud.UResponsable + '/' + Variables.columnasSolicitud.Title,
+            //Variables.columnasSolicitud.UResponsable + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.FechaEstado,
-            Variables.columnasSolicitud.Desembolso
+            Variables.columnasSolicitud.Desembolso,
+            Variables.columnasSolicitud.Anlista_Riesgos + '/' + Variables.columnasSolicitud.Title,
         ];
     }
 
@@ -89,13 +92,14 @@ export class EBandejaSolicitud {
             Variables.columnasSolicitud.Oficina,
             Variables.columnasSolicitud.SustentoIngreso,
             Variables.columnasSolicitud.Agencia,
-            Variables.columnasSolicitud.UResponsable
+            //Variables.columnasSolicitud.UResponsable,
+            Variables.columnasSolicitud.Anlista_Riesgos
         ];
     }
 
     public static parseJson(elemento: any): EBandejaSolicitud {
         const item = new EBandejaSolicitud();
-        
+
         item.Id = SPParse.getNumber(elemento[Variables.columnasSolicitud.ID]);
         item.Author = User.parseJson(elemento[Variables.columnasSolicitud.Author]).Title.toUpperCase();
         item.Created = SPParse.getDate(elemento[Variables.columnasSolicitud.Created]);
@@ -115,26 +119,27 @@ export class EBandejaSolicitud {
         item.Sustento_Ingresos = Lookup.parseJson(elemento[Variables.columnasSolicitud.SustentoIngreso]).Title.toUpperCase();
         item.Fecha_Estado = SPParse.getDate(elemento[Variables.columnasSolicitud.FechaEstado]);
         item.Desembolso = SPParse.getString(elemento[Variables.columnasSolicitud.Desembolso]);
-        item.U_Responsable = User.parseJsonListNombres(elemento[Variables.columnasSolicitud.UResponsable]).toUpperCase();
+        //item.U_Responsable = User.parseJsonListNombres(elemento[Variables.columnasSolicitud.UResponsable]).toUpperCase();
+        item.Anlista_Riesgos = User.parseJsonNombre(elemento[Variables.columnasSolicitud.Anlista_Riesgos]).toUpperCase();
 
         if (item.Financiamiento !== "") {
             item.Financiamiento = Math.round(parseFloat(item.Financiamiento) * 100) + " %"
         }
 
-        if(item.Moneda === "SOLES") {
+        if (item.Moneda === "SOLES") {
             item.SimboloMoneda = "S/";
         }
         else if (item.Moneda === "DOLARES" || item.Moneda === "DÓLARES") {
             item.SimboloMoneda = "$";
         }
-      
+
         return item;
     }
 
     public static parseJsonList(list: any): EBandejaSolicitud[] {
-       
+
         let items: EBandejaSolicitud[] = [];
-        
+
         list.forEach(elemento => {
             const item = EBandejaSolicitud.parseJson(elemento);
             items.push(item);

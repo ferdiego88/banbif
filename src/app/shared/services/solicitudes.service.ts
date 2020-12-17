@@ -58,7 +58,7 @@ export class SolicitudesService {
         filterArr.push(`(${filter.Estado.map(x => `(${Variables.columnasSolicitud.Estado}/Id eq '${x}')`).join(" or ")})`);
       }
 
-      if (filter.Id && filter.Id.length > 0 ) {
+      if (filter.Id && filter.Id.length > 0) {
         filterArr.push(`(${Variables.columnasSolicitud.Id}  eq ${filter.Id})`);
       }
 
@@ -112,18 +112,21 @@ export class SolicitudesService {
 
         const fechaHasta = moment(filter.Created).format('YYYY-MM-DDT') + '23:59:59.000Z';
         filterArr.push(`(datetime'${fechaHasta}' ge ${Variables.columnasSolicitud.Created})`);
-      }       
-      
-      if (filter.FechaEstadoDesde) {
-        debugger;
-        const fechaDesde = moment(filter.FechaEstadoDesde).format('YYYY-MM-DDT') + '00:00:00.000Z';
-        filterArr.push(`(datetime'${fechaDesde}' lt ${Variables.columnasSolicitud.FechaEstado})`);       
       }
-      
+
+      if (filter.FechaEstadoDesde) {
+        const fechaDesde = moment(filter.FechaEstadoDesde).format('YYYY-MM-DDT') + '00:00:00.000Z';
+        filterArr.push(`(datetime'${fechaDesde}' lt ${Variables.columnasSolicitud.FechaEstado})`);
+      }
+
       if (filter.FechaEstadoHasta) {
         const fechaHasta = moment(filter.FechaEstadoHasta).format('YYYY-MM-DDT') + '23:59:59.000Z';
         filterArr.push(`(datetime'${fechaHasta}' ge ${Variables.columnasSolicitud.FechaEstado})`);
-      }  
+      }
+
+      if (filter.AnalistaRiesgos && filter.AnalistaRiesgos > 0) {
+        filterArr.push(`(${Variables.columnasSolicitud.Anlista_Riesgos}/Id  eq ${filter.AnalistaRiesgos})`);
+      }
     }
 
     query = query.filter(filterArr.join(" and "));
@@ -146,20 +149,20 @@ export class SolicitudesService {
 
   public async getItemById(itemId: any): Promise<any> {
     // return new Promise((resolve, reject) => {
-        if (sp !== null && sp !== undefined) {
+    if (sp !== null && sp !== undefined) {
 
-          const item = await this.listaSolicitudes.items
-                          .expand(...['Ejecutivo', 'Anlista_Riesgos'])
-                          .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id'])
-                          // .getById(itemId)
-                          .filter(`Id eq ${itemId}`)
-                          .get();
-          // resolve(item);
-          // console.log({item});
-          return item;
-        // } else {
-        //     reject('Failed getting list data...');
-        }
+      const item = await this.listaSolicitudes.items
+        .expand(...['Ejecutivo', 'Anlista_Riesgos'])
+        .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id'])
+        // .getById(itemId)
+        .filter(`Id eq ${itemId}`)
+        .get();
+      // resolve(item);
+      // console.log({item});
+      return item;
+      // } else {
+      //     reject('Failed getting list data...');
+    }
     // });
   }
 
@@ -170,12 +173,12 @@ export class SolicitudesService {
     try {
       let iar: IItemAddResult;
 
-      if (id === 0){
+      if (id === 0) {
         iar = await this.listaSolicitudes.items.add(
           solicitudCreditoHipotecario
         );
       } else {
-        iar = await this.listaSolicitudes.items.getById( id ).update(
+        iar = await this.listaSolicitudes.items.getById(id).update(
           solicitudCreditoHipotecario
         );
       }

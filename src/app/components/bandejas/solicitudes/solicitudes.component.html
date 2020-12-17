@@ -9,16 +9,9 @@
                 <button type="button" mat-button class="mat-icon-button inline-buttons" (click)="reload()">
                     <mat-icon>refresh</mat-icon>
                 </button>
-
                 <button type="button" mat-button class="mat-icon-button inline-buttons" (click)="openSidenavMenu()">
                     <mat-icon>filter_list</mat-icon>
                 </button>
-
-                <!--<button type="button" mat-button class="mat-icon-button inline-buttons"
-                    (click)="irPaginaExterna('/hipotecario/solicitud', '', '')">
-                    <mat-icon>add</mat-icon>
-                </button>-->
-
                 <button type="button" mat-button class="mat-icon-button inline-buttons" (click)="exportarExcel()">
                     <mat-icon>cloud_download</mat-icon>
                 </button>
@@ -37,10 +30,20 @@
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> N°
                             Solicitud </th>
                         <td class="filaTabla" mat-cell *matCellDef="let element">
-                            <a class="text-ellipsis" routerLink='/hipotecario/solicitud/{{element.Id}}'>
+                            <a class="text-ellipsis celdaEnlace" (click)="irPaginaSolicitud(element)">
                                 {{element.Id}}
                             </a>
                         </td>
+                    </ng-container>
+                    <ng-container matColumnDef="N_Documento">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nro.
+                            Documento</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.N_Documento}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Nombre_Titular">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nombre
+                            Titular</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Nombre_Titular }}</td>
                     </ng-container>
                     <ng-container matColumnDef="Author">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
@@ -48,53 +51,21 @@
                         <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Author}}</td>
                     </ng-container>
                     <ng-container matColumnDef="Created">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fec.
-                            Solicitud</th>
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fec. Creación</th>
                         <td class="filaTabla" mat-cell *matCellDef="let element">
                             {{element.Created | date: "dd/MM/yyyy"}}</td>
                     </ng-container>
-                    <ng-container matColumnDef="Nombre_Titular">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nombre
-                            Titular</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Nombre_Titular}}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="N_Documento">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nro.
-                            Documento</th>
+                    <ng-container matColumnDef="Fecha_Estado">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fecha
+                            Estado</th>
                         <td class="filaTabla" mat-cell *matCellDef="let element">
-                            {{element.N_Documento|| "(SIN VALOR)"}}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="Tipo_Producto">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Tipo
-                            Producto</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Tipo_Producto}} </td>
+                            {{element.Fecha_Estado  | date: "dd/MM/yyyy"}} </td>
                     </ng-container>
                     <ng-container matColumnDef="Estado">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Estado
                         </th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Estado}} </td>
-                    </ng-container>
-                    <!--<ng-container matColumnDef="Moneda">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Moneda
-                        </th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Moneda}} </td>
-                    </ng-container>-->
-                    <ng-container matColumnDef="Precio_Venta">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Precio
-                            Venta</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element">
-                           {{element.SimboloMoneda}} {{element.Precio_Venta | currency:'1'}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Modalidad_Pago">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                            Modalidad Pago</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Modalidad_Pago}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Financiamiento">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                            Financiamiento</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Financiamiento}} </td>
-                    </ng-container>
+                        <td class="filaTabla celdaEstado" mat-cell *matCellDef="let element"> {{element.Estado}} </td>
+                    </ng-container>   
                     <ng-container matColumnDef="Zona">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Zona
                         </th>
@@ -103,28 +74,28 @@
                     <ng-container matColumnDef="Oficina">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Oficina
                         </th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Oficina}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Sustento_Ingresos">
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Oficina }} </td>
+                    </ng-container> 
+                    <ng-container matColumnDef="Tipo_Producto">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Tipo
+                            Producto</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Tipo_Producto }} </td>
+                    </ng-container>                                   
+                    <ng-container matColumnDef="Desembolso">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-                            Sustento Ingresos</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element"> {{element.Sustento_Ingresos}} </td>
+                            Desembolso</th>
+                        <td class="filaTabla" mat-cell *matCellDef="let element">{{element.SimboloMoneda}}
+                            {{element.Desembolso | currency:' '}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="Fecha_Estado">
-                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fecha
-                            Estado</th>
-                        <td class="filaTabla" mat-cell *matCellDef="let element">
-                            {{element.Fecha_Estado  | date: "dd/MM/yyyy"}} </td>
-                    </ng-container>
-
                     <tr mat-header-row *matHeaderRowDef="displayedColumnsSolicitud"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumnsSolicitud;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsSolicitud;">
+                    </tr>
                 </table>
 
                 <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
             </div>
 
-            <div class="msg-filter-applied text-center" style="color:orange; height:35px;" *ngIf="isFilterApplied">
+            <div class="msg-filter-applied text-center" style="color:orange;height:35px;" *ngIf="isFilterApplied">
                 <div class="mat-toolbar-tools row col-xs-12" style="height: auto; ">
                     <button type="button" mat-button class="mat-icon-button inline-buttons" md-no-ink
                         style="margin-top: -7px;">
@@ -149,34 +120,18 @@
     </mat-toolbar>
 
     <div name="searchForm">
-
-        <div class="form-group col-xs-12 col-lg-12" style="padding-top: 20px;">
-            <mat-form-field>
-                <mat-label>Estado</mat-label>
-                <mat-select multiple [(ngModel)]="tableQuery.filter.Estado">
-                    <mat-option *ngFor="let item of datosMaestrosBandeja.maestroEstado" [value]="item.Id">
-                        {{item.Title}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-
-        <div class="form-group col-xs-12 col-lg-12">
+        <div class="form-group col-xs-12 col-lg-12"  style="padding-top: 20px;">
             <mat-form-field>
                 <input autocomplete="off" matInput placeholder="Nro. Solicitud" class="form-control"
                     [(ngModel)]="tableQuery.filter.Id" maxlength="6">
             </mat-form-field>
         </div>
-
-        <div class="form-group col-xs-12 col-lg-12" [formGroup]="form" *ngIf="!userSolicitante">
+        <div class="form-group col-xs-12 col-lg-12">
             <mat-form-field>
-                <mat-label class="people-chip-list-label label-peoplepicker">Solicitante</mat-label>
-                <people-picker-input [formControlName]="nombreControles.filtroSolicitante"
-                    (onRemove)="removePeople('solicitante')" placeholder="Escribe un nombre..." [multiple]="false">
-                </people-picker-input>
+                <input autocomplete="off" matInput placeholder="Nro. Documento" class="form-control"
+                    [(ngModel)]="tableQuery.filter.NumeroDocumento" maxlength="20">
             </mat-form-field>
         </div>
-
         <div class="form-group col-xs-12 col-lg-12">
             <mat-form-field>
                 <input autocomplete="off" matInput placeholder="Nombre Titular" class="form-control"
@@ -184,25 +139,6 @@
                     (keydown)="onKeydownNombreTitular($event)">
             </mat-form-field>
         </div>
-
-        <div class="form-group col-xs-12 col-lg-12">
-            <mat-form-field>
-                <input autocomplete="off" matInput placeholder="Nro. Documento" class="form-control"
-                    [(ngModel)]="tableQuery.filter.NumeroDocumento" maxlength="20">
-            </mat-form-field>
-        </div>
-
-        <div class="form-group col-xs-12 col-lg-12">
-            <mat-form-field>
-                <mat-label>Tipo Producto</mat-label>
-                <mat-select [(ngModel)]="tableQuery.filter.TipoProducto">
-                    <mat-option *ngFor="let item of datosMaestrosBandeja.maestroTipoProducto" [value]="item.Id">
-                        {{item.Title}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-
         <div class="form-group col-xs-12 col-lg-12">
             <mat-form-field>
                 <mat-label>Zona</mat-label>
@@ -213,16 +149,58 @@
                 </mat-select>
             </mat-form-field>
         </div>
-
         <div class="form-group col-xs-12 col-lg-12">
             <mat-form-field>
-                <mat-label>Oficina</mat-label>
+                <mat-label>Oficina</mat-label>                
                 <mat-select [(ngModel)]="tableQuery.filter.Oficina">
                     <mat-option *ngFor="let item of datosMaestrosBandeja.maestroOficina" [value]="item.Id">
+                        {{item.Title}}
+                      </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form-group col-xs-12 col-lg-12" [formGroup]="form" *ngIf="!userSolicitante">
+            <mat-form-field>
+                <mat-label class="people-chip-list-label label-peoplepicker">Solicitante</mat-label>
+                <people-picker-input [formControlName]="nombreControles.filtroSolicitante"
+                    (onRemove)="removePeople('solicitante')" placeholder="Escribe un nombre..." [multiple]="false">
+                </people-picker-input>
+            </mat-form-field>
+        </div>
+        <div class="form-group col-xs-12 col-lg-12">
+            <mat-form-field>
+                <mat-label>Estado</mat-label>
+                <mat-select multiple [(ngModel)]="tableQuery.filter.Estado">
+                    <mat-option *ngFor="let item of datosMaestrosBandeja.maestroEstado" [value]="item.Id">
                         {{item.Title}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
+        </div>
+        <div class="form-group col-xs-12 col-lg-12">
+            <mat-form-field>
+                <mat-label>Tipo Producto</mat-label>
+                <mat-select [(ngModel)]="tableQuery.filter.TipoProducto">                    
+                    <mat-option *ngFor="let item of datosMaestrosBandeja.maestroTipoProducto" [value]="item.Id">
+                        {{item.Title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form-group col-xs-12 col-lg-12">            
+            <mat-form-field >              
+                <input autocomplete="off" placeholder="Fec. Estado (Desde)" [(ngModel)]="tableQuery.filter.FechaEstadoDesde" matInput [matDatepicker]="dpFecEstadoDesde">
+                <mat-datepicker-toggle matSuffix [for]="dpFecEstadoDesde"></mat-datepicker-toggle>
+                <mat-datepicker #dpFecEstadoDesde></mat-datepicker>
+            </mat-form-field>           
+        </div>
+
+        <div class="form-group col-xs-12 col-lg-12">            
+            <mat-form-field >              
+                <input autocomplete="off" placeholder="Fec. Estado (Hasta)" [(ngModel)]="tableQuery.filter.FechaEstadoHasta" matInput [matDatepicker]="dpFecEstadoHasta">
+                <mat-datepicker-toggle matSuffix [for]="dpFecEstadoHasta"></mat-datepicker-toggle>
+                <mat-datepicker #dpFecEstadoHasta></mat-datepicker>
+            </mat-form-field>           
         </div>
 
         <div class="text-center" style="padding-bottom: 15px">

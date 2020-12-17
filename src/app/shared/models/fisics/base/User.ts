@@ -79,6 +79,16 @@ export class User {
     return user;
   }
 
+  public static parseJsonNombre(element: any): string {
+    debugger;
+    let nombre = "";
+    if (element != undefined && element !== null && element[Variables.columns.Title] !== null) {     
+      nombre = element[Variables.columns.Title];
+    }
+
+    return nombre;
+  }
+
   public static getJsonList(usuarios: User[]): any {
     if (!usuarios) {
       return [];

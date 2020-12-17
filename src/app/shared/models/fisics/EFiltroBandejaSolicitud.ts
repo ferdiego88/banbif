@@ -15,9 +15,10 @@ export class EFiltroBandejaSolicitud {
   Financiamiento: string;
   Zona: number;
   Oficina: number;
-  SustentoIngreso: number;  
+  SustentoIngreso: number;
   FechaEstadoDesde: Date;
   FechaEstadoHasta: Date;
+  AnalistaRiesgos: number;
 
   constructor() {
     this.Id = "";
@@ -28,14 +29,15 @@ export class EFiltroBandejaSolicitud {
     this.TipoDocumento = 0;
     this.NumeroDocumento = "";
     this.TipoProducto = 0;
-    this.Estado = [];  
+    this.Estado = [];
     this.Moneda = 0;
     this.ModalidadPago = 0;
     this.Financiamiento = "";
     this.Zona = 0;
     this.Oficina = 0;
-    this.SustentoIngreso = 0;    
+    this.SustentoIngreso = 0;
     this.FechaEstadoDesde = null;
     this.FechaEstadoHasta = null;
+    this.AnalistaRiesgos = 0;
   }
 }

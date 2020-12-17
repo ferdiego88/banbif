@@ -56,19 +56,16 @@ export class SolicitudesfinalizadasComponent extends FormularioBase implements O
   dataSourceSolicitudes: EBandejaSolicitud[] = [];
   displayedColumnsSolicitud: string[] = [
     Variables.columnasSolicitud.Id,
+    Variables.columnasSolicitud.NumeroDocumento,
+    Variables.columnasSolicitud.NombreTitular,
     Variables.columnasSolicitud.Author,
     Variables.columnasSolicitud.Created,
-    Variables.columnasSolicitud.NombreTitular,
-    Variables.columnasSolicitud.NumeroDocumento,
-    Variables.columnasSolicitud.TipoProducto,
+    Variables.columnasSolicitud.FechaEstado,
     Variables.columnasSolicitud.Estado,
-    Variables.columnasSolicitud.EstadoGestor,
-    //Variables.columnasSolicitud.Moneda,
-    Variables.columnasSolicitud.Desembolso,
-    Variables.columnasSolicitud.ModalidadPago,
     Variables.columnasSolicitud.Zona,
     Variables.columnasSolicitud.Oficina,
-    Variables.columnasSolicitud.FechaEstado
+    Variables.columnasSolicitud.TipoProducto,
+    Variables.columnasSolicitud.Desembolso
   ];
   resultsLength = 0;
   isLoadingResults = true;
@@ -399,24 +396,22 @@ export class SolicitudesfinalizadasComponent extends FormularioBase implements O
           return EBandejaSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Solicitante', 'Fec. Solicitud', 'Nombre Titular', 'Nro. Documento', 'Tipo Producto', 'Estado', 'Estado Gestor', 'Desembolso', 'Moneda', 'Modalidad Pago', 'Zona', 'Oficina', 'Fecha Estado'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina',  'Tipo Producto', 'Moneda', 'Desembolso'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
           dataMap.push(item.Id);
-          dataMap.push(item.Author);
-          dataMap.push(Funciones.dateFormat(item.Created));
-          dataMap.push(item.Nombre_Titular);
           dataMap.push(item.N_Documento);
-          dataMap.push(item.Tipo_Producto);
+          dataMap.push(item.Nombre_Titular);
+          dataMap.push(item.Author);
+          dataMap.push(item.Created);
+          dataMap.push(item.Fecha_Estado);
           dataMap.push(item.Estado);
-          dataMap.push(item.EstadoGestor);
-          dataMap.push(item.Desembolso);
-          dataMap.push(item.Moneda);
-          dataMap.push(item.Modalidad_Pago);
           dataMap.push(item.Zona);
           dataMap.push(item.Oficina);
-          dataMap.push(item.Fecha_Estado);
+          dataMap.push(item.Tipo_Producto);
+          dataMap.push(item.Moneda);
+          dataMap.push(item.Desembolso);
 
           return dataMap;
         });

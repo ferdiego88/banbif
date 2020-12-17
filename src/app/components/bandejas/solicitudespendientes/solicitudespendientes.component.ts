@@ -56,18 +56,17 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
   dataSourceSolicitudes: EBandejaSolicitud[] = [];
   displayedColumnsSolicitud: string[] = [
     Variables.columnasSolicitud.Id,
+    Variables.columnasSolicitud.NumeroDocumento,
+    Variables.columnasSolicitud.NombreTitular,
     Variables.columnasSolicitud.Author,
     Variables.columnasSolicitud.Created,
-    Variables.columnasSolicitud.NombreTitular,
-    Variables.columnasSolicitud.NumeroDocumento,
-    Variables.columnasSolicitud.TipoProducto,
+    Variables.columnasSolicitud.FechaEstado,
     Variables.columnasSolicitud.Estado,
-    //Variables.columnasSolicitud.Moneda,
-    Variables.columnasSolicitud.PrecioVenta,
-    Variables.columnasSolicitud.Financiamiento,
+    Variables.columnasSolicitud.Zona,
     Variables.columnasSolicitud.Oficina,
-    Variables.columnasSolicitud.Agencia,
-    Variables.columnasSolicitud.UResponsable
+    Variables.columnasSolicitud.TipoProducto,
+    Variables.columnasSolicitud.Desembolso,
+    Variables.columnasSolicitud.Anlista_Riesgos
   ];
   resultsLength = 0;
   isLoadingResults = true;
@@ -77,7 +76,8 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
   isCargando = true;
 
   nombreControles = {
-    filtroSolicitante: 'filtroSolicitante'
+    filtroSolicitante: 'filtroSolicitante',
+    filtroAnalistaRiesgos: 'filtroAnalistaRiesgos'
   }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -100,7 +100,8 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
     super('Mis Solicitudes Pendientes', applicationRef, dialog, route, router, masterService, zone, _spinner);
 
     this.form = this.formBuilder.group({
-      filtroSolicitante: ['']
+      filtroSolicitante: [''],
+      filtroAnalistaRiesgos: ['']
     });
   }
 
@@ -210,6 +211,13 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
     }
   }
 
+  public irPaginaSolicitud(
+    elemento: any
+  ) {
+      const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
+      window.open(url, '_blank');   
+  }
+
   reload() {
     this.getSolicitudes()
   }
@@ -257,6 +265,7 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
     if (this.tableQuery.filter) this.isOpenMenu = true;
 
     this.removePeople("solicitante");
+    this.removePeople("analistaRiesgos");
     this.setearFiltrosBusquedaPorEstado();
 
     this.getSolicitudes();
@@ -320,6 +329,7 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
     this.mostrarProgreso();
 
     this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
+    this.tableQuery.filter.AnalistaRiesgos = this.getValorControlPeoplePicker(this.nombreControles.filtroAnalistaRiesgos);
 
     if (this.tableQuery.filter.Estado.length === 0) {
       this.setearFiltrosBusquedaPorEstado();
@@ -381,6 +391,10 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
       this.form.get(this.nombreControles.filtroSolicitante).setValue([]);
       this.form.controls[this.nombreControles.filtroSolicitante].updateValueAndValidity();
     }
+    else if (tipoControl === 'analistaRiesgos') {
+      this.form.get(this.nombreControles.filtroAnalistaRiesgos).setValue([]);
+      this.form.controls[this.nombreControles.filtroAnalistaRiesgos].updateValueAndValidity();
+    }
   }
 
   exportarExcel() {
@@ -388,6 +402,7 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
     this.mostrarProgreso();
 
     this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
+    this.tableQuery.filter.AnalistaRiesgos = this.getValorControlPeoplePicker(this.nombreControles.filtroAnalistaRiesgos);
 
     if (this.tableQuery.filter.Estado.length === 0) {
       this.setearFiltrosBusquedaPorEstado();
@@ -413,23 +428,23 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
           return EBandejaSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Solicitante', 'Fec. Solicitud', 'Nombre Titular', 'Nro. Documento', 'Tipo Producto', 'Estado', 'Moneda', 'Precio Venta', 'Financiamiento', 'Oficina', 'Agencia', 'U Responsable'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina',  'Tipo Producto', 'Moneda', 'Desembolso', 'Analista Riesgos'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
           dataMap.push(item.Id);
-          dataMap.push(item.Author);
-          dataMap.push(Funciones.dateFormat(item.Created));
-          dataMap.push(item.Nombre_Titular);
           dataMap.push(item.N_Documento);
-          dataMap.push(item.Tipo_Producto);
+          dataMap.push(item.Nombre_Titular);
+          dataMap.push(item.Author);
+          dataMap.push(item.Created);
+          dataMap.push(item.Fecha_Estado);
           dataMap.push(item.Estado);
-          dataMap.push(item.Moneda);
-          dataMap.push(item.Precio_Venta);
-          dataMap.push(item.Financiamiento);
+          dataMap.push(item.Zona);
           dataMap.push(item.Oficina);
-          dataMap.push(item.Agencia);
-          dataMap.push(item.U_Responsable);
+          dataMap.push(item.Tipo_Producto);
+          dataMap.push(item.Moneda);
+          dataMap.push(item.Desembolso);
+          dataMap.push(item.Anlista_Riesgos);
 
           return dataMap;
         });
