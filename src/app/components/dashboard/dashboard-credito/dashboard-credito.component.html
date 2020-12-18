@@ -145,10 +145,19 @@
                         <th>Fuera de ANS Acumulado</th>
                     </tr>
                 </thead>
+                <tbody>
+                    <tr *ngFor="let item of dashboard">
+                        <td>{{item.Title}}</td>
+                        <td>{{item.Cantidad}}</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>{{item.Monto}}</td>
+                    </tr>
+                </tbody>
                 <tfoot>
                     <tr>
                         <td>Totales</td>
-                        <td>{{totalSolicitudes}}</td>
                         <td>Footer content 2</td>
                         <td>Footer content 2</td>
                         <td>Footer content 2</td>
@@ -156,96 +165,6 @@
                         <td>Footer content 2</td>
                     </tr>
                 </tfoot>
-                <tbody>
-                    <tr>
-                        <td> Crea Expediente</td>
-                        <td> {{cuentaCreaExpediente}}</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                    </tr>
-                    <tr>
-                        <td>Registro CPM</td>
-                        <td>{{cuentaRegistroCPM}}</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                    </tr>
-                    <tr>
-                        <td>Observado CPM</td>
-                        <td>{{cuentaObservadoCPM}}</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-
-                    </tr>
-                    <tr>
-                        <td>Evaluación Riesgos</td>
-                        <td>{{cuentaEvaluacionRiesgos}}</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-
-                    </tr>
-                    <tr>
-                        <td>Observado Riesgos</td>
-                        <td>{{cuentaObservadoRiesgos}}</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-
-                    </tr>
-                    <tr>
-                        <td>Verificación Riesgos</td>
-                        <td>{{cuentaVerificacionRiesgos}}</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-
-                    </tr>
-                    <tr>
-                        <td>Desestimado</td>
-                        <td>{{cuentaDesestimado}}</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-
-                    </tr>
-                    <tr>
-                        <td>Rechazado</td>
-                        <td>{{cuentaRechazado}}</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-
-                    </tr>
-                    <tr>
-                        <td>Aprobado</td>
-                        <td>{{cuentaAprobado}}</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-
-                    </tr>
-                </tbody>
             </table>
         </div>
     </form>

@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpinnerVisibilityService } from 'ng-http-loader';
-import { SolicitudCreditoHipotecario, TipoProductoModel, ZonaModel } from 'src/app/shared/models/fisics';
+import { SolicitudCreditoHipotecario, TipoProductoModel, ZonaModel, EstadoModel, DashboardModel } from 'src/app/shared/models/fisics';
 import { FormularioBase } from 'src/app/shared/pages/formularioBase';
 import { GeneralListService } from 'src/app/shared/services/general-list.service';
 import { MasterService } from 'src/app/shared/services/master.service';
@@ -46,29 +46,12 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
 
   zonaModelList: ZonaModel [];
   oficinaList: TipoProductoModel [];
-  estadoList: TipoProductoModel [];
+  estadoList: EstadoModel [];
+  dashboard: DashboardModel [];
   tipoProductoList: TipoProductoModel [];
-  estadoCreaExpedienteList: TipoProductoModel [];
-  estadoRegistraCPMList: TipoProductoModel [];
-  estadoObservadoCPMList: TipoProductoModel [];
-  estadoEvaluacionRiesgosList: TipoProductoModel [];
-  estadoObservadoRiesgosList: TipoProductoModel [];
-  estadoVerificacionRiesgosList: TipoProductoModel [];
-  estadoDesestimadoList: TipoProductoModel [];
-  estadoRechazadoList: TipoProductoModel [];
-  estadoAprobadoList: TipoProductoModel [];
-  estadoAsignacionRiesgosList: TipoProductoModel [];
+  estadoCreaExpedienteList: SolicitudCreditoHipotecario [];
   solicitudHipotecarioList: SolicitudCreditoHipotecario [];
   cuentaCreaExpediente = 0;
-  cuentaRegistroCPM = 0;
-  cuentaObservadoCPM = 0;
-  cuentaEvaluacionRiesgos = 0;
-  cuentaObservadoRiesgos = 0;
-  cuentaVerificacionRiesgos = 0;
-  cuentaDesestimado = 0;
-  cuentaRechazado = 0;
-  cuentaAprobado = 0;
-  totalSolicitudes = 0;
   dashboardForm = this.fb.group({
     ZonaId : [null],
     OficinaId : [null],
@@ -102,6 +85,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
    }
 
   ngOnInit(){
+    this.getSolicitudes();
     this.cargarCombos();
   }
 
@@ -110,7 +94,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     this.getEstado();
     this.valueOficina();
     this.getTipoProducto();
-    this.cargarCantidadExpedientes();
+    this.listenerSolicitud();
   }
 
   getZona(){
@@ -132,55 +116,48 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     .catch(error => console.error(error));
   }
 
-  getSolicitudesCredito(){
-    this.generalListService.get(Variables.listas.AdmSolicitudCreditoHipotecario)
+  async getSolicitudes(){
+    const data = await this.generalListService.get(Variables.listas.AdmSolicitudCreditoHipotecario)
     .then(solicitudHipotecarioList => this.solicitudHipotecarioList = solicitudHipotecarioList)
     .catch(error => console.error(error));
-    return this.solicitudHipotecarioList;
+    return data;
+  }
+   async listenerSolicitud(){
+    const estados = await this.getEstado();
+    this.solicitudHipotecarioList = await this.getSolicitudes();
+    this.dashboard = [];
+    for await (const iterator of estados) {
+       const solicitudes = await this.filtraSolicitudes(iterator.Id);
+       let suma = 0;
+       for (const item of solicitudes) {
+         if (item !== null && item !== 0 ){
+           suma += item;
+         }
+       }
+       const dashBoardElement = {
+        Id : iterator.Id,
+        Title : iterator.Title,
+        Cantidad: solicitudes.length,
+        Monto: suma,
+      };
+       this.dashboard.push(dashBoardElement);
+    }
+  }
+ 
+
+  async filtraSolicitudes(estado: number) {
+    const solicitudes = this.solicitudHipotecarioList.filter(item => item.EstadoId === estado)
+      .map(id => id.Precio_Venta);
+    return solicitudes;
   }
 
-  async getcuentaSolicitudesCredito(listaSolicitud: TipoProductoModel[], estado: number){
-    const total = await this.generalListService.getByField(Variables.listas.AdmSolicitudCreditoHipotecario,
-      Variables.listas.AdmEstado, estado)
-      .then((lista) => 
-      {listaSolicitud = lista;
-       const cantidad = listaSolicitud.length; return cantidad; })
-        .catch(error => {console.error(error); return 0; });
-    return total;
-  }
-
-  async obtenerCantidad(){
-    this.cuentaCreaExpediente = await
-    this.getcuentaSolicitudesCredito(this.estadoCreaExpedienteList, Variables.constantes.EstadoCreaExpedienteId);
-    this.cuentaRegistroCPM = await
-    this.getcuentaSolicitudesCredito(this.estadoRegistraCPMList, Variables.constantes.EstadoRegistroCPM);
-    this.cuentaObservadoCPM = await
-    this.getcuentaSolicitudesCredito(this.estadoObservadoCPMList, Variables.constantes.EstadoObservadoCPM);
-    this.cuentaEvaluacionRiesgos = await
-    this.getcuentaSolicitudesCredito(this.estadoObservadoCPMList, Variables.constantes.EstadoEvaluacionRiesgos);
-    this.cuentaObservadoRiesgos = await
-    this.getcuentaSolicitudesCredito(this.estadoObservadoCPMList, Variables.constantes.EstadoObservadoRiesgos);
-    this.cuentaVerificacionRiesgos = await
-    this.getcuentaSolicitudesCredito(this.estadoObservadoCPMList, Variables.constantes.EstadoVerificacionRiesgos);
-    this.cuentaDesestimado = await
-    this.getcuentaSolicitudesCredito(this.estadoObservadoCPMList, Variables.constantes.EstadoDesestimado);
-    this.cuentaRechazado = await
-    this.getcuentaSolicitudesCredito(this.estadoObservadoCPMList, Variables.constantes.EstadoRechazado);
-    this.cuentaAprobado = await
-    this.getcuentaSolicitudesCredito(this.estadoObservadoCPMList, Variables.constantes.EstadoAprobadoSinVerificacion);
-    this.totalSolicitudes = this.cuentaCreaExpediente + this.cuentaRegistroCPM + this.cuentaObservadoCPM + this.cuentaEvaluacionRiesgos
-    + this.cuentaObservadoRiesgos + this.cuentaVerificacionRiesgos + this.cuentaDesestimado + this.cuentaRechazado + this.cuentaAprobado;
-  }
-
-  cargarCantidadExpedientes(){
-    this.obtenerCantidad();
-  }
-
-
-  getEstado(){
-    this.generalListService.get(Variables.listas.AdmEstado)
-    .then(estadoList => this.estadoList = estadoList)
+  async getEstado(){
+    let estados: EstadoModel[];
+    estados = await this.generalListService.get(Variables.listas.AdmEstado)
+    .then(estadoList => estadoList)
     .catch(error => console.error(error));
+    const estadosActivos = estados.filter(item => item.Activo === true);
+    return estadosActivos;
   }
 
 }
