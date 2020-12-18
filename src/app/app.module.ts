@@ -81,6 +81,7 @@ import { SolicitudespendientesComponent } from './components/bandejas/solicitude
 import { SolicitudesenevaluacionComponent } from './components/bandejas/solicitudesenevaluacion/solicitudesenevaluacion.component';
 import { LogseguimientoComponent } from './components/bandejas/logseguimiento/logseguimiento.component';
 import { DashboardCreditoComponent } from './components/dashboard/dashboard-credito/dashboard-credito.component';
+import { PipemilesPipe } from './shared/pipes/pipemiles.pipe';
 
 const materialModules = [
   MatSlideToggleModule,
@@ -147,7 +148,8 @@ const materialModules = [
     SolicitudespendientesComponent,
     SolicitudesenevaluacionComponent,
     LogseguimientoComponent,
-    DashboardCreditoComponent
+    DashboardCreditoComponent,
+    PipemilesPipe
   ],
   imports: [
     BrowserModule,

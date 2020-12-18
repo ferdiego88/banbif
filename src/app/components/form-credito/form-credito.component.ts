@@ -259,9 +259,10 @@ Desembolso = 0;
     public applicationRef: ApplicationRef,
     public dialog: MatDialog,
     public zone: NgZone,
-    public spinner: SpinnerVisibilityService
+    public spinner: SpinnerVisibilityService,
   ) {
     super('Solicitud de Crédito Hipotecario', applicationRef, dialog, route, router, masterService, zone, spinner);
+
   }
 
   ngOnInit() {
@@ -272,6 +273,8 @@ Desembolso = 0;
    this.creditForm.controls.Plan_Ahorro.disable();
    this.setDisableControlsDesembolso();
   }
+
+
 
   getidParams(){
     this.route.params.subscribe(
@@ -356,6 +359,7 @@ Desembolso = 0;
       }
       );
   }
+
   cargarCombos(){
     this.getTypeProducts();
     this.valueSubProducto();
@@ -752,17 +756,7 @@ Desembolso = 0;
         }
     });
   }
-  // listenerObservaciones(){
-  //   this.creditForm.get('EstadoId').valueChanges.subscribe(estado => {
-  //     if (estado !== Variables.constantes.EstadoObservadoCPM) {
-  //       this.showObservacionCPM = false;
-  //     }
-  //     else{
-  //       this.showObservacionCPM = true;
-  //     }
 
-  // });
-  // }
   listenerTipoGarantia(){
     this.creditForm.get('Tipo_GarantiaId').valueChanges.subscribe(id => {
       if (this.typeguarenteeList !== null && this.typeguarenteeList) {
@@ -772,12 +766,6 @@ Desembolso = 0;
       }
     });
   }
-  // addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-  //   this.events.push(`${type}: ${event.value}`);
-  //   for (const e of this.events) {
-  //     console.log(e);
-  //   }
-  // }
 
   cargarListeners(){
     this.listenerTipoMoneda();
@@ -984,13 +972,6 @@ Desembolso = 0;
     });
   }
 
-  // getGarantiasAll(){
-  //   this.generalListService.get(Variables.listas.AdmTipoGarantia)
-  //   .then(garantiasList => this.garantiasList = garantiasList)
-  //   .catch(error => console.error(error));
-  // }
-
-
 
   getPaymentType(){
     this.generalListService.get(Variables.listas.AdmTipoAbono)
@@ -1039,6 +1020,20 @@ Desembolso = 0;
     this.generalListService.get(Variables.listas.AdmEstado)
     .then(estadoList =>  this.estadoList = estadoList)
     .catch(error => console.error(error));
+  }
+
+   format(input: any)
+  {
+  let num = input.value.replace(/\./g,'');
+  if (!isNaN(num)){
+  num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+  num = num.split('').reverse().join('').replace(/^[\.]/,'');
+  input.value = num;
+  }
+  else{ alert('Solo se permiten numeros');
+        input.value = input.value.replace(/[^\d\.]*/g,'');
+  }
+
   }
 
   getObjectToSave(): any {

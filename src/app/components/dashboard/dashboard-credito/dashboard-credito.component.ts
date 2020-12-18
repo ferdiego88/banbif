@@ -89,6 +89,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     this.cargarCombos();
   }
 
+
   cargarCombos(){
     this.getZona();
     this.getEstado();
@@ -143,7 +144,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
        this.dashboard.push(dashBoardElement);
     }
   }
- 
+
 
   async filtraSolicitudes(estado: number) {
     const solicitudes = this.solicitudHipotecarioList.filter(item => item.EstadoId === estado)

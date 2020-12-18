@@ -50,7 +50,7 @@ export class Variables {
     PrecioVenta9: 316801,
     PrecioVenta10: 427600,
     BonoBuenPagador1: 24000,
-    BonoBuenPagador2: 2000,
+    BonoBuenPagador2: 20000,
     BonoBuenPagador3: 18300,
     BonoBuenPagador4: 6800,
     BonoBuenPagador5: 0,
