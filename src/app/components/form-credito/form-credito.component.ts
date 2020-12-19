@@ -5,7 +5,7 @@ import { GeneralListService } from '../../shared/services/general-list.service';
 import { MasterService } from '../../shared/services/master.service';
 import { TipoProductoModel, TipoSubProductoModel, ZonaModel, SolicitudCreditoHipotecario } from '../../shared/models/fisics';
 import { Variables } from 'src/app/shared/variables';
-import {formatCurrency, getCurrencySymbol} from '@angular/common';
+import {formatCurrency, getCurrencySymbol, CurrencyPipe} from '@angular/common';
 
 // import {default as _rollupMoment} from 'moment';
 import * as _moment from 'moment';
@@ -45,7 +45,7 @@ export const MY_FORMATS = {
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
 
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS}, CurrencyPipe
   ],
 
 })
@@ -260,9 +260,10 @@ Desembolso = 0;
     public dialog: MatDialog,
     public zone: NgZone,
     public spinner: SpinnerVisibilityService,
+    private currencyPipe: CurrencyPipe
   ) {
     super('Solicitud de Crédito Hipotecario', applicationRef, dialog, route, router, masterService, zone, spinner);
-
+  
   }
 
   ngOnInit() {
@@ -272,10 +273,19 @@ Desembolso = 0;
    this.creditForm.get('EstadoId').disable();
    this.creditForm.controls.Plan_Ahorro.disable();
    this.setDisableControlsDesembolso();
+   this.setformatoMoneda();
   }
 
 
-
+  setformatoMoneda(){
+    this.creditForm.valueChanges.subscribe(form => {
+      if (form.Riesgo_Maximo) {
+         this.creditForm.patchValue({
+           Riesgo_Maximo: this.currencyPipe.transform(form.Riesgo_Maximo.replace(/[a-zA-Z]|\$|\,/g, '').replace(/^0+/, ''), 'USD', 'symbol', '1.0-2')
+         }, {emitEvent: false} );
+      }
+    });
+   }
   getidParams(){
     this.route.params.subscribe(
       param => {
@@ -1022,19 +1032,7 @@ Desembolso = 0;
     .catch(error => console.error(error));
   }
 
-   format(input: any)
-  {
-  let num = input.value.replace(/\./g,'');
-  if (!isNaN(num)){
-  num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-  num = num.split('').reverse().join('').replace(/^[\.]/,'');
-  input.value = num;
-  }
-  else{ alert('Solo se permiten numeros');
-        input.value = input.value.replace(/[^\d\.]*/g,'');
-  }
-
-  }
+  
 
   getObjectToSave(): any {
     if (this.creditForm.controls.Meses_Abono.value !== null ||

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule ,NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import { NgModule , NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -66,7 +66,7 @@ import { DateFormatPipe } from './shared/pipes/date-format.pipe';
 import { BotoneraComponent } from './components/formulario-solicitud/botonera/botonera.component';
 import { FileUploadComponent } from './shared/controls/file-upload/file-upload.component';
 import { PeoplePickerInputComponent } from './shared/controls/people-picker/people-picker-input';
-import { DatePipe } from '@angular/common';
+import { DatePipe, CurrencyPipe } from '@angular/common';
 
 import { ChartsModule } from 'ng2-charts';
 import { FormCreditoComponent } from './components/form-credito/form-credito.component';
@@ -178,7 +178,7 @@ const materialModules = [
     HomeComponent
   ],
 
-  providers: [DatePipe],
+  providers: [DatePipe, CurrencyPipe ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })

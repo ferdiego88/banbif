@@ -164,7 +164,7 @@
                     </div>
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input type="text" id="separadorMiles" matInput placeholder="Riesgo Máximo (Monto en USD)" formControlName="Riesgo_Maximo">
+                            <input type="text" matInput placeholder="Riesgo Máximo (Monto en USD)" formControlName="Riesgo_Maximo">
                             <!-- <input type="text" class="form-control" id="separadorMiles" placeholder="Separador de miles"> -->
                             <mat-error *ngIf="creditForm.controls['Riesgo_Maximo'].hasError('required')">
                                 Riesgo Máximo (Monto en USD) <strong>requerido</strong>
@@ -1235,4 +1235,3 @@
 
     </form>
 </div>
-
