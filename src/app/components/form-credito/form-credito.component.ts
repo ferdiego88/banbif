@@ -1036,19 +1036,6 @@ Desembolso = 0;
     .catch(error => console.error(error));
   }
 
-   format(input: any)
-  {
-  let num = input.value.replace(/\./g,'');
-  if (!isNaN(num)){
-  num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-  num = num.split('').reverse().join('').replace(/^[\.]/,'');
-  input.value = num;
-  }
-  else{ alert('Solo se permiten numeros');
-        input.value = input.value.replace(/[^\d\.]*/g,'');
-  }
-
-  }
 
   getObjectToSave(): any {
     if (this.creditForm.controls.Meses_Abono.value !== null ||
@@ -1076,6 +1063,12 @@ Desembolso = 0;
 
     const Fecha_Tasacion_Remodelac = this.creditForm.controls.Fecha_Tasacion_Remodelac.value;
     const Fecha_Gestor_Hip = this.creditForm.controls.Fecha_Gestor_Hip.value;
+
+    //        var strEx = "1.000,33";
+// //primer paso: fuera puntos
+// strEx = strEx.replace(".","");
+// //cambiamos la coma por un punto
+// strEx = strEx.replace(",",".");
 
     const solicitudCreditoHipotecario = {
       Tipo_ProductoId: this.creditForm.controls.Tipo_ProductoId.value,
@@ -1133,9 +1126,12 @@ Desembolso = 0;
       Precio_Venta: +this.creditForm.controls.Precio_Venta.value,
       Aporte_Efectivo: +this.creditForm.controls.Aporte_Efectivo.value,
        Aporte_RetiroAFP: +this.creditForm.controls.Aporte_RetiroAFP.value,
+
+
       Riesgo_Maximo: +this.creditForm.controls.Riesgo_Maximo.value,
       Tipo_RentaConyugueId: {results: rentaConyugue},
       Anlista_RiesgosId: analistaRiesgo,
+
       N_Documento: `${this.creditForm.controls.N_Documento.value}`,
       Tipo_RentaId: {results: rentaTitular},
       PBP: +this.creditForm.controls.PBP.value,
