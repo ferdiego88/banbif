@@ -164,7 +164,7 @@
                     </div>
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input type="text" matInput placeholder="Riesgo Máximo (Monto en USD)" formControlName="Riesgo_Maximo">
+                            <input onkeyup="MASK(this,this.value,'-$##,###,##0.00',1)" onblur="MASK(this,this.value,'-$##,###,##0.00',1)" onchange="MASK(this,this.value,'-$##,###,##0.00',1)" matInput placeholder="Riesgo Máximo (Monto en USD)" formControlName="Riesgo_Maximo">
                             <!-- <input type="text" class="form-control" id="separadorMiles" placeholder="Separador de miles"> -->
                             <mat-error *ngIf="creditForm.controls['Riesgo_Maximo'].hasError('required')">
                                 Riesgo Máximo (Monto en USD) <strong>requerido</strong>
@@ -1232,6 +1232,5 @@
 
         </div>
         <br>
-
     </form>
 </div>

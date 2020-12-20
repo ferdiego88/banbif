@@ -51,6 +51,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   tipoProductoList: TipoProductoModel [];
   estadoCreaExpedienteList: SolicitudCreditoHipotecario [];
   solicitudHipotecarioList: SolicitudCreditoHipotecario [];
+  flujoSeguimientoList: SolicitudCreditoHipotecario [];
   cuentaCreaExpediente = 0;
   dashboardForm = this.fb.group({
     ZonaId : [null],
@@ -85,7 +86,6 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
    }
 
   ngOnInit(){
-    this.getSolicitudes();
     this.cargarCombos();
   }
 
@@ -123,14 +123,49 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     .catch(error => console.error(error));
     return data;
   }
+  async filtraSolicitudes(estado: number) {
+    const solicitudes = this.solicitudHipotecarioList.filter(item => item.EstadoId === estado)
+      .map(id => { const solicitud = {Precio_Venta: id.Precio_Venta, Fecha_Estado: id.Fecha_Estado, Creado: id.Created};
+                   return solicitud; });
+    return solicitudes;
+  }
+
+
+  async filtraEstadoSolicitudes(estado: number) {
+    const fecha = this.solicitudHipotecarioList.filter(item => item.EstadoId === estado)
+      .map(id => id.Fecha_Estado);
+    return fecha;
+  }
+
+ 
    async listenerSolicitud(){
     const estados = await this.getEstado();
     this.solicitudHipotecarioList = await this.getSolicitudes();
+    console.log(this.solicitudHipotecarioList);
     this.dashboard = [];
     for await (const iterator of estados) {
        const solicitudes = await this.filtraSolicitudes(iterator.Id);
-       let suma = 0;
-       for (const item of solicitudes) {
+       let suma = 0; let tiempo = 0; let tiempoT = 0;
+       let tiempoPromedio = 0; let tiempoPromedioTotal = 0;
+       const FechaEstado = solicitudes.
+          map(id => id.Fecha_Estado);
+       const fecha2 = moment();
+       for (const item of FechaEstado){
+        const fecha1 = moment(item);
+        tiempo += fecha2.diff(fecha1, 'days');
+        tiempoPromedio = tiempo / FechaEstado.length;
+      }
+       const FechaCreado = solicitudes.
+          map(id => id.Creado);
+       for (const item of FechaCreado){
+        const fecha1 = moment(item);
+        tiempoT += fecha2.diff(fecha1, 'days');
+        tiempoPromedioTotal = tiempoT / FechaEstado.length;
+      }
+        
+       const Monto = solicitudes.
+          map(id => id.Precio_Venta);
+       for (const item of Monto) {
          if (item !== null && item !== 0 ){
            suma += item;
          }
@@ -139,6 +174,8 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
         Id : iterator.Id,
         Title : iterator.Title,
         Cantidad: solicitudes.length,
+        TiempoPromedio: tiempoPromedio,
+        TiempoPromedioTotal: tiempoPromedioTotal,
         Monto: suma,
       };
        this.dashboard.push(dashBoardElement);
@@ -146,11 +183,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   }
 
 
-  async filtraSolicitudes(estado: number) {
-    const solicitudes = this.solicitudHipotecarioList.filter(item => item.EstadoId === estado)
-      .map(id => id.Precio_Venta);
-    return solicitudes;
-  }
+ 
 
   async getEstado(){
     let estados: EstadoModel[];
