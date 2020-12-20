@@ -53,6 +53,10 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   solicitudHipotecarioList: SolicitudCreditoHipotecario [];
   flujoSeguimientoList: SolicitudCreditoHipotecario [];
   cuentaCreaExpediente = 0;
+  totalExpedientes = 0;
+  totalTiempoPromedioEstacion = 0;
+  totalTiempoPromedioTotal = 0;
+  totalMonto = 0;
   dashboardForm = this.fb.group({
     ZonaId : [null],
     OficinaId : [null],
@@ -141,7 +145,6 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
    async listenerSolicitud(){
     const estados = await this.getEstado();
     this.solicitudHipotecarioList = await this.getSolicitudes();
-    console.log(this.solicitudHipotecarioList);
     this.dashboard = [];
     for await (const iterator of estados) {
        const solicitudes = await this.filtraSolicitudes(iterator.Id);
@@ -151,16 +154,20 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
           map(id => id.Fecha_Estado);
        const fecha2 = moment();
        for (const item of FechaEstado){
-        const fecha1 = moment(item);
-        tiempo += fecha2.diff(fecha1, 'days');
-        tiempoPromedio = tiempo / FechaEstado.length;
+         if (item !== null){
+           const fecha1 = moment(item);
+           tiempo += fecha2.diff(fecha1, 'days');
+           tiempoPromedio = tiempo / FechaEstado.length;
+         }
       }
        const FechaCreado = solicitudes.
           map(id => id.Creado);
        for (const item of FechaCreado){
-        const fecha1 = moment(item);
-        tiempoT += fecha2.diff(fecha1, 'days');
-        tiempoPromedioTotal = tiempoT / FechaEstado.length;
+         if (item !== null){
+           const fecha1 = moment(item);
+           tiempoT += fecha2.diff(fecha1, 'days');
+           tiempoPromedioTotal = tiempoT / FechaEstado.length; 
+         }
       }
         
        const Monto = solicitudes.
@@ -179,6 +186,13 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
         Monto: suma,
       };
        this.dashboard.push(dashBoardElement);
+    }
+    
+    for (const iterator of this.dashboard) {
+       this.totalExpedientes += iterator.Cantidad;
+       this.totalTiempoPromedioEstacion += iterator.TiempoPromedio;
+       this.totalTiempoPromedioTotal += iterator.TiempoPromedioTotal;
+       this.totalMonto += iterator.Monto;
     }
   }
 

@@ -153,16 +153,18 @@
                         <td>{{item.TiempoPromedioTotal | number: '.0-2' }}</td>
                         <td>--</td>
                         <td>{{item.Monto | currency:'S/. ':'symbol':'.0-0' }}</td>
+                        <td>--</td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
                         <td>Totales</td>
-                        <td>Footer content 2</td>
-                        <td>Footer content 2</td>
-                        <td>Footer content 2</td>
-                        <td>Footer content 2</td>
-                        <td>Footer content 2</td>
+                        <td>{{totalExpedientes}}</td>
+                        <td>{{totalTiempoPromedioEstacion | number: '.0-2' }}</td>
+                        <td>{{totalTiempoPromedioTotal | number: '.0-2' }}</td>
+                        <td>--</td>
+                        <td>{{totalMonto | currency:'S/. ':'symbol':'.0-0' }}</td>
+                        <td>ANS</td>
                     </tr>
                 </tfoot>
             </table>
