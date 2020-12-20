@@ -172,6 +172,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     });
   }
    async listenerSolicitud(idOficina: number= 0, idTipoProducto: number = 0){
+    this.showLoading();
     const estados = await this.getEstado();
     this.solicitudHipotecarioList = await this.getSolicitudes();
     if (idOficina !== 0) {
@@ -227,6 +228,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
         };
           this.dashboard.push(dashBoardElement);
         }
+        this.hideLoading();
     }
     
     for (const iterator of this.dashboard) {
