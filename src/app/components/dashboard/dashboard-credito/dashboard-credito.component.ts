@@ -51,7 +51,11 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   tipoProductoList: TipoProductoModel [];
   estadoCreaExpedienteList: SolicitudCreditoHipotecario [];
   solicitudHipotecarioList: SolicitudCreditoHipotecario [];
-  cuentaCreaExpediente = 0;
+  flujoSeguimientoList: SolicitudCreditoHipotecario [];
+  totalExpedientes = 0;
+  totalTiempoPromedioEstacion = 0;
+  totalTiempoPromedioTotal = 0;
+  totalMonto = 0;
   dashboardForm = this.fb.group({
     ZonaId : [null],
     OficinaId : [null],
@@ -85,8 +89,8 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
    }
 
   ngOnInit(){
-    this.getSolicitudes();
     this.cargarCombos();
+    this.cargarListeneters();
   }
 
 
@@ -95,9 +99,14 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     this.getEstado();
     this.valueOficina();
     this.getTipoProducto();
-    this.listenerSolicitud();
   }
-
+  
+  
+  cargarListeneters(){
+    this.listenerSolicitud();
+    this.listenerOficina();
+    this.listenerTipoProducto();
+  }
   getZona(){
     this.generalListService.get(Variables.listas.AdmZona)
       .then(zonaModelList => this.zonaModelList = zonaModelList)
@@ -117,40 +126,121 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     .catch(error => console.error(error));
   }
 
-  async getSolicitudes(){
-    const data = await this.generalListService.get(Variables.listas.AdmSolicitudCreditoHipotecario)
+  async getSolicitudes(idOficina: number = 0, idTipoProducto: number = 0){
+    let data: SolicitudCreditoHipotecario[];
+    data = await this.generalListService.get(Variables.listas.AdmSolicitudCreditoHipotecario)
     .then(solicitudHipotecarioList => this.solicitudHipotecarioList = solicitudHipotecarioList)
     .catch(error => console.error(error));
+    if (idOficina !== 0) {
+      data = data.filter(id => id.OficinaId === idOficina);
+    }
+    if (idTipoProducto !== 0) {
+      data = data.filter(id => id.Tipo_ProductoId === idTipoProducto);
+    }
     return data;
   }
-   async listenerSolicitud(){
+  async filtraSolicitudes(estado: number) {
+    const solicitudes = this.solicitudHipotecarioList.filter(item => item.EstadoId === estado)
+      .map(id => { const solicitud = {Precio_Venta: id.Precio_Venta, Fecha_Estado: id.Fecha_Estado, Creado: id.Created};
+                   return solicitud; });
+    return solicitudes;
+  }
+
+
+  async filtraEstadoSolicitudes(estado: number) {
+    const fecha = this.solicitudHipotecarioList.filter(item => item.EstadoId === estado)
+      .map(id => id.Fecha_Estado);
+    return fecha;
+  }
+
+  listenerOficina(){
+    this.dashboardForm.controls.OficinaId.valueChanges.subscribe(value => {
+      if (value !== undefined) {
+          this.listenerSolicitud(value, 0);
+      }else{
+         this.listenerSolicitud();
+      }
+    });
+  }
+  listenerTipoProducto(){
+    this.dashboardForm.controls.Tipo_ProductoId.valueChanges.subscribe(value => {
+      if (value !== undefined) {
+          this.listenerSolicitud(0, value);
+      }else{
+         this.listenerSolicitud();
+      }
+    });
+  }
+   async listenerSolicitud(idOficina: number= 0, idTipoProducto: number = 0){
+    this.showLoading();
     const estados = await this.getEstado();
     this.solicitudHipotecarioList = await this.getSolicitudes();
+    if (idOficina !== 0) {
+      this.solicitudHipotecarioList = await this.getSolicitudes(idOficina, 0);
+    }
+    if (idTipoProducto !== 0) {
+      this.solicitudHipotecarioList = await this.getSolicitudes(0, idTipoProducto);
+    }
     this.dashboard = [];
+    this.totalExpedientes = 0;
+    this.totalTiempoPromedioEstacion = 0;
+    this.totalTiempoPromedioTotal = 0;
+    this.totalMonto = 0;
     for await (const iterator of estados) {
-       const solicitudes = await this.filtraSolicitudes(iterator.Id);
-       let suma = 0;
-       for (const item of solicitudes) {
-         if (item !== null && item !== 0 ){
-           suma += item;
+        const solicitudes = await this.filtraSolicitudes(iterator.Id);
+        if ( solicitudes.length !== 0){
+          let suma = 0; let tiempo = 0; let tiempoT = 0;
+          let tiempoPromedio = 0; let tiempoPromedioTotal = 0;
+          const FechaEstado = solicitudes.
+            map(id => id.Fecha_Estado);
+          const fecha2 = moment();
+          for (const item of FechaEstado){
+           if (item !== null){
+             const fecha1 = moment(item);
+             tiempo += fecha2.diff(fecha1, 'days');
+             tiempoPromedio = tiempo / FechaEstado.length;
+           }
+        }
+          const FechaCreado = solicitudes.
+            map(id => id.Creado);
+          for (const item of FechaCreado){
+           if (item !== null){
+             const fecha1 = moment(item);
+             tiempoT += fecha2.diff(fecha1, 'days');
+             tiempoPromedioTotal = tiempoT / FechaEstado.length; 
+           }
+        }
+          
+          const Monto = solicitudes.
+            map(id => id.Precio_Venta);
+          for (const item of Monto) {
+           if (item !== null && item !== 0 ){
+             suma += item;
+           }
          }
-       }
-       const dashBoardElement = {
-        Id : iterator.Id,
-        Title : iterator.Title,
-        Cantidad: solicitudes.length,
-        Monto: suma,
-      };
-       this.dashboard.push(dashBoardElement);
+          const dashBoardElement = {
+          Id : iterator.Id,
+          Title : iterator.Title,
+          Cantidad: solicitudes.length,
+          TiempoPromedio: tiempoPromedio,
+          TiempoPromedioTotal: tiempoPromedioTotal,
+          Monto: suma,
+        };
+          this.dashboard.push(dashBoardElement);
+        }
+        this.hideLoading();
+    }
+    
+    for (const iterator of this.dashboard) {
+       this.totalExpedientes += iterator.Cantidad;
+       this.totalTiempoPromedioEstacion += iterator.TiempoPromedio;
+       this.totalTiempoPromedioTotal += iterator.TiempoPromedioTotal;
+       this.totalMonto += iterator.Monto;
     }
   }
 
 
-  async filtraSolicitudes(estado: number) {
-    const solicitudes = this.solicitudHipotecarioList.filter(item => item.EstadoId === estado)
-      .map(id => id.Precio_Venta);
-    return solicitudes;
-  }
+ 
 
   async getEstado(){
     let estados: EstadoModel[];
