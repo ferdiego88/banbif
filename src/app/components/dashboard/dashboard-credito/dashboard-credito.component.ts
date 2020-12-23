@@ -101,7 +101,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   }
   
   cargarListeneters(){
-    this.listenerSolicitud();
+    this.listarSolicitudesEstado();
     this.listenerOficina();
     this.listenerTipoProducto();
   }
@@ -182,22 +182,22 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   listenerOficina(){
     this.dashboardForm.controls.OficinaId.valueChanges.subscribe(value => {
       if (value !== undefined) {
-          this.listenerSolicitud(value, 0);
+          this.listarSolicitudesEstado(value, 0);
       }else{
-         this.listenerSolicitud();
+         this.listarSolicitudesEstado();
       }
     });
   }
   listenerTipoProducto(){
     this.dashboardForm.controls.Tipo_ProductoId.valueChanges.subscribe(value => {
       if (value !== undefined) {
-          this.listenerSolicitud(0, value);
+          this.listarSolicitudesEstado(0, value);
       }else{
-         this.listenerSolicitud();
+         this.listarSolicitudesEstado();
       }
     });
   }
-   async listenerSolicitud(idOficina: number= 0, idTipoProducto: number = 0){
+   async listarSolicitudesEstado(idOficina: number= 0, idTipoProducto: number = 0){
     this.showLoading();
     const estados = await this.getEstado();
     
