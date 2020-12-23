@@ -148,7 +148,9 @@
                 <tbody>
                     <tr *ngFor="let item of dashboard">
                         <td>{{item.Title}}</td>
-                        <td>{{item.Cantidad}}</td>
+                        <td>
+                            <a (click)="getSolicitudesPorEstado(item.Id)">{{item.Cantidad}}</a>
+                        </td>
                         <td>{{item.TiempoPromedio | number: '.0-2' }}</td>
                         <td>{{item.TiempoPromedioTotal | number: '.0-2' }}</td>
                         <td>--</td>

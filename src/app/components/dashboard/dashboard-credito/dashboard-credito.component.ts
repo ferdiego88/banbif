@@ -93,14 +93,12 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     this.cargarListeneters();
   }
 
-
   cargarCombos(){
     this.getZona();
     this.getEstado();
     this.valueOficina();
     this.getTipoProducto();
   }
-  
   
   cargarListeneters(){
     this.listenerSolicitud();
@@ -126,23 +124,51 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     .catch(error => console.error(error));
   }
 
-  async getSolicitudes(idOficina: number = 0, idTipoProducto: number = 0){
+  async getSolicitudes(idOficina = 0, idTipoProducto = 0, idEstado = 0){
     let data: SolicitudCreditoHipotecario[];
-    data = await this.generalListService.get(Variables.listas.AdmSolicitudCreditoHipotecario)
-    .then(solicitudHipotecarioList => this.solicitudHipotecarioList = solicitudHipotecarioList)
-    .catch(error => console.error(error));
+
+    const fieldsFilter: string[] = [];
+    const valuesFilter: any[] = [];
+
     if (idOficina !== 0) {
-      data = data.filter(id => id.OficinaId === idOficina);
+      fieldsFilter.push('OficinaId');
+      valuesFilter.push(idOficina);
     }
+
     if (idTipoProducto !== 0) {
-      data = data.filter(id => id.Tipo_ProductoId === idTipoProducto);
+      fieldsFilter.push('Tipo_ProductoId');
+      valuesFilter.push(idTipoProducto);
     }
+
+    if (idEstado !== 0) {
+      fieldsFilter.push('EstadoId');
+      valuesFilter.push(idEstado);
+    }
+
+    if (fieldsFilter.length === 0) {
+      data = await this.generalListService.get(Variables.listas.AdmSolicitudCreditoHipotecario)
+        .then(solicitudHipotecarioList => this.solicitudHipotecarioList = solicitudHipotecarioList)
+        .catch(error => console.error(error));
+    } else {
+      data = await this.generalListService.getByFields(Variables.listas.AdmSolicitudCreditoHipotecario, fieldsFilter, valuesFilter)
+        .then(solicitudHipotecarioList => this.solicitudHipotecarioList = solicitudHipotecarioList)
+        .catch(error => console.error(error));
+    }    
+    
     return data;
   }
-  async filtraSolicitudes(estado: number) {
-    const solicitudes = this.solicitudHipotecarioList.filter(item => item.EstadoId === estado)
-      .map(id => { const solicitud = {Precio_Venta: id.Precio_Venta, Fecha_Estado: id.Fecha_Estado, Creado: id.Created};
-                   return solicitud; });
+  filtraSolicitudes(estado: number) {
+    const solicitudes = this.solicitudHipotecarioList
+      .filter(item => item.EstadoId === estado);
+    //   .map(solicitudHipotecario => (
+    //     {
+    //       Precio_Venta: solicitudHipotecario.Precio_Venta, 
+    //       Fecha_Estado: solicitudHipotecario.Fecha_Estado, 
+    //       Creado: solicitudHipotecario.Created
+    //     }
+    //   )
+    // );
+
     return solicitudes;
   }
 
@@ -174,62 +200,103 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
    async listenerSolicitud(idOficina: number= 0, idTipoProducto: number = 0){
     this.showLoading();
     const estados = await this.getEstado();
-    this.solicitudHipotecarioList = await this.getSolicitudes();
-    if (idOficina !== 0) {
-      this.solicitudHipotecarioList = await this.getSolicitudes(idOficina, 0);
-    }
-    if (idTipoProducto !== 0) {
-      this.solicitudHipotecarioList = await this.getSolicitudes(0, idTipoProducto);
-    }
+    
+    this.solicitudHipotecarioList = await this.getSolicitudes(idOficina, idTipoProducto);
+
     this.dashboard = [];
     this.totalExpedientes = 0;
     this.totalTiempoPromedioEstacion = 0;
     this.totalTiempoPromedioTotal = 0;
     this.totalMonto = 0;
-    for await (const iterator of estados) {
-        const solicitudes = await this.filtraSolicitudes(iterator.Id);
-        if ( solicitudes.length !== 0){
-          let suma = 0; let tiempo = 0; let tiempoT = 0;
-          let tiempoPromedio = 0; let tiempoPromedioTotal = 0;
-          const FechaEstado = solicitudes.
-            map(id => id.Fecha_Estado);
-          const fecha2 = moment();
-          for (const item of FechaEstado){
-           if (item !== null){
-             const fecha1 = moment(item);
-             tiempo += fecha2.diff(fecha1, 'days');
-             tiempoPromedio = tiempo / FechaEstado.length;
-           }
-        }
-          const FechaCreado = solicitudes.
-            map(id => id.Creado);
-          for (const item of FechaCreado){
-           if (item !== null){
-             const fecha1 = moment(item);
-             tiempoT += fecha2.diff(fecha1, 'days');
-             tiempoPromedioTotal = tiempoT / FechaEstado.length; 
-           }
-        }
-          
-          const Monto = solicitudes.
-            map(id => id.Precio_Venta);
-          for (const item of Monto) {
-           if (item !== null && item !== 0 ){
-             suma += item;
-           }
-         }
+
+    await estados.forEach(
+      async estado => {
+        // const solicitudes = await this.getSolicitudes(idOficina, idTipoProducto, estado.Id);
+        const solicitudes = this.filtraSolicitudes(estado.Id);
+        
+        if (solicitudes.length !== 0){
+          let suma = 0, tiempo = 0, tiempoT = 0, tiempoPromedio = 0, tiempoPromedioTotal = 0;
+
+          const fechaActual = moment();
+
+          solicitudes.forEach(solicitud => {
+            if (solicitud.Fecha_Estado !== null) {
+              const fechaEstado = moment(solicitud.Fecha_Estado);
+              tiempo += fechaActual.diff(fechaEstado, 'days');
+              tiempoPromedio = tiempo / solicitudes.length;
+            }
+
+            if (solicitud.Created !== null) {
+              const fechaCreacion = moment(solicitud.Created);
+              tiempoT += fechaActual.diff(fechaCreacion, 'days');
+              tiempoPromedioTotal = tiempoT / solicitudes.length;
+            }
+
+            solicitud.Precio_Venta && solicitud.Precio_Venta !== 0 && (suma += solicitud.Precio_Venta);
+          });          
+
           const dashBoardElement = {
-          Id : iterator.Id,
-          Title : iterator.Title,
-          Cantidad: solicitudes.length,
-          TiempoPromedio: tiempoPromedio,
-          TiempoPromedioTotal: tiempoPromedioTotal,
-          Monto: suma,
-        };
-          this.dashboard.push(dashBoardElement);
+            Id : estado.Id,
+            Title : estado.Title,
+            Cantidad: solicitudes.length,
+            TiempoPromedio: tiempoPromedio,
+            TiempoPromedioTotal: tiempoPromedioTotal,
+            Monto: suma,
+          };
+  
+          this.dashboard.push(dashBoardElement);   
         }
-        this.hideLoading();
-    }
+      }
+    );
+
+    // for await (const estado of estados) {
+    //   const solicitudes = await this.filtraSolicitudes(estado.Id);
+        
+    //   if ( solicitudes.length !== 0){
+    //     let suma = 0; let tiempo = 0; let tiempoT = 0;
+    //     let tiempoPromedio = 0; let tiempoPromedioTotal = 0;
+        
+    //     const FechaEstado = solicitudes.map(id => id.Fecha_Estado);
+    //     const fechaActual = moment();
+        
+    //     for (const item of FechaEstado){
+    //       if (item !== null){
+    //         const fecha1 = moment(item);
+    //         tiempo += fechaActual.diff(fecha1, 'days');
+    //         tiempoPromedio = tiempo / FechaEstado.length;
+    //       }
+    //     }
+          
+    //     const FechaCreado = solicitudes.map(id => id.Created);
+        
+    //     for (const item of FechaCreado){
+    //       if (item !== null){
+    //         const fecha1 = moment(item);
+    //         tiempoT += fechaActual.diff(fecha1, 'days');
+    //         tiempoPromedioTotal = tiempoT / FechaEstado.length; 
+    //       }
+    //     }
+            
+    //     const Monto = solicitudes.map(id => id.Precio_Venta);
+        
+    //     for (const item of Monto) {
+    //       if (item !== null && item !== 0 ){
+    //         suma += item;
+    //       }
+    //     }
+        
+    //     const dashBoardElement = {
+    //       Id : estado.Id,
+    //       Title : estado.Title,
+    //       Cantidad: solicitudes.length,
+    //       TiempoPromedio: tiempoPromedio,
+    //       TiempoPromedioTotal: tiempoPromedioTotal,
+    //       Monto: suma,
+    //     };
+
+    //     this.dashboard.push(dashBoardElement);        
+    //   }      
+    // }
     
     for (const iterator of this.dashboard) {
        this.totalExpedientes += iterator.Cantidad;
@@ -237,10 +304,9 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
        this.totalTiempoPromedioTotal += iterator.TiempoPromedioTotal;
        this.totalMonto += iterator.Monto;
     }
+
+    this.hideLoading();
   }
-
-
- 
 
   async getEstado(){
     let estados: EstadoModel[];
@@ -251,4 +317,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     return estadosActivos;
   }
 
+  getSolicitudesPorEstado(estadoId: number) {
+    alert('hola soy el click ' + estadoId);
+  }
 }

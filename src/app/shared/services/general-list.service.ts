@@ -51,6 +51,26 @@ export class GeneralListService {
         });
     }
 
+    public async getByFields(listName: string, fieldsFilter: string[], valuesFilter: any[], orderField = '', orderAscending = true): Promise<any> {
+        return new Promise((resolve, reject) => {
+            if (sp !== null && sp !== undefined) {
+                const queryFilter = fieldsFilter.map((fieldFilter, index) => `${fieldFilter} eq ${valuesFilter[index]}`).join(' and ');
+
+                let query = sp.web.lists.getByTitle(listName).items.filter(queryFilter);
+
+                if (orderField !== '') {
+                    query = query.orderBy(orderField, orderAscending);
+                }
+
+                const items = query.top(4999).get();
+                // console.log({items});
+                resolve(items);
+            } else {
+                reject('Failed getting list data...');
+            }
+        });
+    }
+
     public getSub(listName: string): Promise<any> {
         return new Promise((resolve, reject) => {
             if (sp !== null && sp !== undefined) {
