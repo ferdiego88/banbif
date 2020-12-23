@@ -263,7 +263,7 @@ Desembolso = 0;
     private currencyPipe: CurrencyPipe
   ) {
     super('Solicitud de Crédito Hipotecario', applicationRef, dialog, route, router, masterService, zone, spinner);
-  
+
   }
 
   ngOnInit() {
@@ -273,6 +273,19 @@ Desembolso = 0;
    this.creditForm.get('EstadoId').disable();
    this.creditForm.controls.Plan_Ahorro.disable();
    this.setDisableControlsDesembolso();
+   this.setformatoMoneda();
+
+  }
+
+  setformatoMoneda(){
+  // Use the pipe to display currency
+   this.creditForm.valueChanges.subscribe(form => {
+    if (form.Riesgo_Maximo) {
+       this.creditForm.patchValue({
+         Riesgo_Maximo: this.currencyPipe.transform(form.Riesgo_Maximo.replace(/\D/g, '').replace(/^0+/, ''), 'USD', 'symbol', '1.0-0')
+       }, {emitEvent: false} );
+    }
+  });
   }
 
 
@@ -1022,7 +1035,7 @@ getEstado(){
     .catch(error => console.error(error));
   }
 
-  
+
 
 getObjectToSave(): any {
     if (this.creditForm.controls.Meses_Abono.value !== null ||
@@ -1050,6 +1063,12 @@ getObjectToSave(): any {
 
     const Fecha_Tasacion_Remodelac = this.creditForm.controls.Fecha_Tasacion_Remodelac.value;
     const Fecha_Gestor_Hip = this.creditForm.controls.Fecha_Gestor_Hip.value;
+
+    //        var strEx = "1.000,33";
+// //primer paso: fuera puntos
+// strEx = strEx.replace(".","");
+// //cambiamos la coma por un punto
+// strEx = strEx.replace(",",".");
 
     const solicitudCreditoHipotecario = {
       Tipo_ProductoId: this.creditForm.controls.Tipo_ProductoId.value,
@@ -1107,9 +1126,12 @@ getObjectToSave(): any {
       Precio_Venta: +this.creditForm.controls.Precio_Venta.value,
       Aporte_Efectivo: +this.creditForm.controls.Aporte_Efectivo.value,
        Aporte_RetiroAFP: +this.creditForm.controls.Aporte_RetiroAFP.value,
+
+
       Riesgo_Maximo: +this.creditForm.controls.Riesgo_Maximo.value,
       Tipo_RentaConyugueId: {results: rentaConyugue},
       Anlista_RiesgosId: analistaRiesgo,
+
       N_Documento: `${this.creditForm.controls.N_Documento.value}`,
       Tipo_RentaId: {results: rentaTitular},
       PBP: +this.creditForm.controls.PBP.value,
