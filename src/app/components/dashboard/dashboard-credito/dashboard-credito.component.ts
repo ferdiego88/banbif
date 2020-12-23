@@ -52,10 +52,12 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   estadoCreaExpedienteList: SolicitudCreditoHipotecario [];
   solicitudHipotecarioList: SolicitudCreditoHipotecario [];
   flujoSeguimientoList: SolicitudCreditoHipotecario [];
+  solicitudesEstadoList: SolicitudCreditoHipotecario [];
   totalExpedientes = 0;
   totalTiempoPromedioEstacion = 0;
   totalTiempoPromedioTotal = 0;
   totalMonto = 0;
+  showSolicitudes = false;
   dashboardForm = this.fb.group({
     ZonaId : [null],
     OficinaId : [null],
@@ -99,7 +101,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     this.valueOficina();
     this.getTipoProducto();
   }
-  
+
   cargarListeneters(){
     this.listarSolicitudesEstado();
     this.listenerOficina();
@@ -153,8 +155,8 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
       data = await this.generalListService.getByFields(Variables.listas.AdmSolicitudCreditoHipotecario, fieldsFilter, valuesFilter)
         .then(solicitudHipotecarioList => this.solicitudHipotecarioList = solicitudHipotecarioList)
         .catch(error => console.error(error));
-    }    
-    
+    }
+
     return data;
   }
   filtraSolicitudes(estado: number) {
@@ -162,8 +164,8 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
       .filter(item => item.EstadoId === estado);
     //   .map(solicitudHipotecario => (
     //     {
-    //       Precio_Venta: solicitudHipotecario.Precio_Venta, 
-    //       Fecha_Estado: solicitudHipotecario.Fecha_Estado, 
+    //       Precio_Venta: solicitudHipotecario.Precio_Venta,
+    //       Fecha_Estado: solicitudHipotecario.Fecha_Estado,
     //       Creado: solicitudHipotecario.Created
     //     }
     //   )
@@ -200,7 +202,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
    async listarSolicitudesEstado(idOficina: number= 0, idTipoProducto: number = 0){
     this.showLoading();
     const estados = await this.getEstado();
-    
+
     this.solicitudHipotecarioList = await this.getSolicitudes(idOficina, idTipoProducto);
 
     this.dashboard = [];
@@ -213,10 +215,8 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
       async estado => {
         // const solicitudes = await this.getSolicitudes(idOficina, idTipoProducto, estado.Id);
         const solicitudes = this.filtraSolicitudes(estado.Id);
-        
         if (solicitudes.length !== 0){
           let suma = 0, tiempo = 0, tiempoT = 0, tiempoPromedio = 0, tiempoPromedioTotal = 0;
-
           const fechaActual = moment();
 
           solicitudes.forEach(solicitud => {
@@ -233,7 +233,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
             }
 
             solicitud.Precio_Venta && solicitud.Precio_Venta !== 0 && (suma += solicitud.Precio_Venta);
-          });          
+          });
 
           const dashBoardElement = {
             Id : estado.Id,
@@ -243,22 +243,22 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
             TiempoPromedioTotal: tiempoPromedioTotal,
             Monto: suma,
           };
-  
-          this.dashboard.push(dashBoardElement);   
+
+          this.dashboard.push(dashBoardElement);
         }
       }
     );
 
     // for await (const estado of estados) {
     //   const solicitudes = await this.filtraSolicitudes(estado.Id);
-        
+
     //   if ( solicitudes.length !== 0){
     //     let suma = 0; let tiempo = 0; let tiempoT = 0;
     //     let tiempoPromedio = 0; let tiempoPromedioTotal = 0;
-        
+
     //     const FechaEstado = solicitudes.map(id => id.Fecha_Estado);
     //     const fechaActual = moment();
-        
+
     //     for (const item of FechaEstado){
     //       if (item !== null){
     //         const fecha1 = moment(item);
@@ -266,25 +266,25 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     //         tiempoPromedio = tiempo / FechaEstado.length;
     //       }
     //     }
-          
+
     //     const FechaCreado = solicitudes.map(id => id.Created);
-        
+
     //     for (const item of FechaCreado){
     //       if (item !== null){
     //         const fecha1 = moment(item);
     //         tiempoT += fechaActual.diff(fecha1, 'days');
-    //         tiempoPromedioTotal = tiempoT / FechaEstado.length; 
+    //         tiempoPromedioTotal = tiempoT / FechaEstado.length;
     //       }
     //     }
-            
+
     //     const Monto = solicitudes.map(id => id.Precio_Venta);
-        
+
     //     for (const item of Monto) {
     //       if (item !== null && item !== 0 ){
     //         suma += item;
     //       }
     //     }
-        
+
     //     const dashBoardElement = {
     //       Id : estado.Id,
     //       Title : estado.Title,
@@ -294,10 +294,10 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     //       Monto: suma,
     //     };
 
-    //     this.dashboard.push(dashBoardElement);        
-    //   }      
+    //     this.dashboard.push(dashBoardElement);
+    //   }
     // }
-    
+
     for (const iterator of this.dashboard) {
        this.totalExpedientes += iterator.Cantidad;
        this.totalTiempoPromedioEstacion += iterator.TiempoPromedio;
@@ -318,6 +318,9 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   }
 
   getSolicitudesPorEstado(estadoId: number) {
-    alert('hola soy el click ' + estadoId);
+    // alert('hola soy el click ' + estadoId);
+    const solicitudes = this.filtraSolicitudes(estadoId);
+    this.solicitudesEstadoList = solicitudes;
+    this.showSolicitudes = true;
   }
 }
