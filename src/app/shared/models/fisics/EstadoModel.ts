@@ -5,6 +5,8 @@ export class EstadoModel{
         public Activo = false,
         public Cantidad = 0,
         public Monto = 0,
+        // tslint:disable-next-line: variable-name
+        public Valor_ANS = 0, 
     ) {
     }
 }

@@ -5,7 +5,9 @@ export class DashboardModel{
         public Cantidad?: number,
         public TiempoPromedio?: number,
         public TiempoPromedioTotal?: number,
-        public Monto?: number
+        public FueraANS?: number,
+        public Monto?: number,
+        public FueraANSAcumulado?: number
     ) {
     }
     

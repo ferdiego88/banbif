@@ -49,7 +49,8 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   estadoList: EstadoModel [];
   dashboard: DashboardModel [];
   tipoProductoList: TipoProductoModel [];
-  estadoCreaExpedienteList: SolicitudCreditoHipotecario [];
+  solicitudANSList: SolicitudCreditoHipotecario [];
+  solicitudANSPorEstadoList: SolicitudCreditoHipotecario [];
   solicitudHipotecarioList: SolicitudCreditoHipotecario [];
   flujoSeguimientoList: SolicitudCreditoHipotecario [];
   solicitudesEstadoList: SolicitudCreditoHipotecario [];
@@ -57,6 +58,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   totalTiempoPromedioEstacion = 0;
   totalTiempoPromedioTotal = 0;
   totalMonto = 0;
+  totalFueraANS = 0;
   showSolicitudes = false;
   dashboardForm = this.fb.group({
     ZonaId : [null],
@@ -184,6 +186,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   listenerOficina(){
     this.dashboardForm.controls.OficinaId.valueChanges.subscribe(value => {
       if (value !== undefined) {
+          this.showSolicitudes = false;
           this.listarSolicitudesEstado(value, 0);
       }else{
          this.listarSolicitudesEstado();
@@ -210,7 +213,8 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     this.totalTiempoPromedioEstacion = 0;
     this.totalTiempoPromedioTotal = 0;
     this.totalMonto = 0;
-
+    this.totalFueraANS = 0;
+    this.solicitudANSList = [];
     await estados.forEach(
       async estado => {
         // const solicitudes = await this.getSolicitudes(idOficina, idTipoProducto, estado.Id);
@@ -218,17 +222,26 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
         if (solicitudes.length !== 0){
           let suma = 0, tiempo = 0, tiempoT = 0, tiempoPromedio = 0, tiempoPromedioTotal = 0;
           const fechaActual = moment();
-
+          let fueraANS = 0;
+          let contador = 0;
+        
           solicitudes.forEach(solicitud => {
             if (solicitud.Fecha_Estado !== null) {
               const fechaEstado = moment(solicitud.Fecha_Estado);
-              tiempo += fechaActual.diff(fechaEstado, 'days');
+              const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado, fechaActual);
+              if (tiempoPromedioEstacion >= estado.Valor_ANS) {
+                fueraANS++;
+                this.solicitudANSList.push(solicitudes[contador]);
+              }
+              tiempo += tiempoPromedioEstacion;
               tiempoPromedio = tiempo / solicitudes.length;
             }
-
+            contador++;
             if (solicitud.Created !== null) {
               const fechaCreacion = moment(solicitud.Created);
-              tiempoT += fechaActual.diff(fechaCreacion, 'days');
+              const tiempoPromedioT = this.calcBusinessDays(fechaCreacion, fechaActual);
+              // tiempoT += fechaActual.diff(fechaCreacion, 'days');
+              tiempoT += tiempoPromedioT;
               tiempoPromedioTotal = tiempoT / solicitudes.length;
             }
 
@@ -241,6 +254,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
             Cantidad: solicitudes.length,
             TiempoPromedio: tiempoPromedio,
             TiempoPromedioTotal: tiempoPromedioTotal,
+            FueraANS: fueraANS,
             Monto: suma,
           };
 
@@ -298,11 +312,12 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     //   }
     // }
 
-    for (const iterator of this.dashboard) {
-       this.totalExpedientes += iterator.Cantidad;
-       this.totalTiempoPromedioEstacion += iterator.TiempoPromedio;
-       this.totalTiempoPromedioTotal += iterator.TiempoPromedioTotal;
-       this.totalMonto += iterator.Monto;
+    for (const totales of this.dashboard) {
+       this.totalExpedientes += totales.Cantidad;
+       this.totalTiempoPromedioEstacion += totales.TiempoPromedio;
+       this.totalTiempoPromedioTotal += totales.TiempoPromedioTotal;
+       this.totalMonto += totales.Monto;
+       this.totalFueraANS += totales.FueraANS;
     }
 
     this.hideLoading();
@@ -323,4 +338,39 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     this.solicitudesEstadoList = solicitudes;
     this.showSolicitudes = true;
   }
+  getSolicitudesANS(estadoId: number) {
+    const solicitudes = this.solicitudANSList
+      .filter(item => item.EstadoId === estadoId);
+    this.solicitudesEstadoList = solicitudes;
+    this.showSolicitudes = true;
+  }
+
+   calcBusinessDays(startDate, endDate) {
+    // This makes no effort to account for holidays
+    // Counts end day, does not count start day
+
+    // make copies we can normalize without changing passed in objects    
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    // initial total
+    let totalBusinessDays = 0;
+
+    // normalize both start and end to beginning of the day
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+
+    const current = new Date(start);
+    current.setDate(current.getDate() + 1);
+    let day;
+    // loop through each day, checking
+    while (current <= end) {
+        day = current.getDay();
+        if (day >= 1 && day <= 5) {
+            ++totalBusinessDays;
+        }
+        current.setDate(current.getDate() + 1);
+    }
+    return totalBusinessDays;
+}
 }

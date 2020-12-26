@@ -4,18 +4,18 @@
         <hr>
         <div class="row">
             <div class="row">
-              <div class="col-md-12">
-                <span class="sub-title">Fecha de Creación</span>
-              </div>
+                <div class="col-md-12">
+                    <span class="sub-title">Fecha de Creación</span>
+                </div>
             </div>
-        <div class="col-md-2">
-          <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Desde</mat-label>
-              <input matInput [matDatepicker]="dpfc" formControlName="Fecha_Creacion_Desde">
-              <mat-datepicker-toggle matSuffix [for]="dpfc"></mat-datepicker-toggle>
-              <mat-datepicker #dpfc></mat-datepicker>
-          </mat-form-field>
-        </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Desde</mat-label>
+                    <input matInput [matDatepicker]="dpfc" formControlName="Fecha_Creacion_Desde">
+                    <mat-datepicker-toggle matSuffix [for]="dpfc"></mat-datepicker-toggle>
+                    <mat-datepicker #dpfc></mat-datepicker>
+                </mat-form-field>
+            </div>
             <div class="col-md-2">
                 <mat-form-field class="full-width" appearance="fill">
                     <mat-label>Hasta</mat-label>
@@ -33,38 +33,38 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-              <div class="col-md-2">
-                  <mat-form-field class="full-width">
-                      <mat-select placeholder="Oficina" formControlName="OficinaId">
-                          <mat-option [value]="">Todas</mat-option>
-                          <mat-option *ngFor="let oficina of oficinaList" [value]="oficina.Id">
-                              {{oficina.Title}}
-                          </mat-option>
-                      </mat-select>
-                  </mat-form-field>
-              </div>
-              <div class="col-md-2">
-                  <mat-form-field class="full-width">
-                      <mat-select placeholder="Vendedor" formControlName="Vendedor">
-                          <mat-option [value]="">Todas</mat-option>
-                          <mat-option [value]=""> Zona 1</mat-option>
-                      </mat-select>
-                  </mat-form-field>
-              </div>
-              <div class="col-md-2">
-                  <mat-form-field class="full-width">
-                      <mat-select placeholder="Canal" formControlName="Canal">
-                          <mat-option [value]="">Todas</mat-option>
-                          <mat-option [value]=""> Zona 1</mat-option>
-                      </mat-select>
-                  </mat-form-field>
-              </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Oficina" formControlName="OficinaId">
+                        <mat-option [value]="">Todas</mat-option>
+                        <mat-option *ngFor="let oficina of oficinaList" [value]="oficina.Id">
+                            {{oficina.Title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Vendedor" formControlName="Vendedor">
+                        <mat-option [value]="">Todas</mat-option>
+                        <mat-option [value]=""> Zona 1</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Canal" formControlName="Canal">
+                        <mat-option [value]="">Todas</mat-option>
+                        <mat-option [value]=""> Zona 1</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
         </div>
         <hr>
         <div class="row">
-          <div class="col-md-12">
-            <span class="sub-title">Fecha Estado Activo</span>
-          </div>
+            <div class="col-md-12">
+                <span class="sub-title">Fecha Estado Activo</span>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-2">
@@ -114,7 +114,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Estados</th>
+                        <th class="td-center">Estados</th>
                         <th>Expedientes</th>
                         <th>Tiempo Promedio estación</th>
                         <th>Tiempo Promedio Total</th>
@@ -125,13 +125,14 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of dashboard">
-                        <td>{{item.Title}}</td>
+                        <td class="td-center">{{item.Title}}</td>
                         <td>
                             <a (click)="getSolicitudesPorEstado(item.Id)">{{item.Cantidad}}</a>
                         </td>
                         <td>{{item.TiempoPromedio | number: '.0-2' }}</td>
                         <td>{{item.TiempoPromedioTotal | number: '.0-2' }}</td>
-                        <td>--</td>
+                        <td>
+                            <a (click)="getSolicitudesANS(item.Id)">{{item.FueraANS}}</a> </td>
                         <td>{{item.Monto | currency:'S/. ':'symbol':'.0-0' }}</td>
                         <td>--</td>
                     </tr>
@@ -142,7 +143,7 @@
                         <td>{{totalExpedientes}}</td>
                         <td>{{totalTiempoPromedioEstacion | number: '.0-2' }}</td>
                         <td>{{totalTiempoPromedioTotal | number: '.0-2' }}</td>
-                        <td>--</td>
+                        <td> {{totalFueraANS}}</td>
                         <td>{{totalMonto | currency:'S/. ':'symbol':'.0-0' }}</td>
                         <td>ANS</td>
                     </tr>
@@ -153,32 +154,34 @@
           'd-none': !showSolicitudes,
           'col-md-12': showSolicitudes
       }">
-          <br>
-          <table>
-            <thead>
-                <tr>
-                    <th>Nº Solicitud</th>
-                    <th>NroDocumento</th>
-                    <th>Nombre Ejecutivo</th>
-                    <th>Zona</th>
-                    <th>Oficina</th>
-                    <th>Origen</th>
-                    <th>Canal Venta</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let solicitud of solicitudesEstadoList">
-                    <td>{{solicitud.Id}}</td>
-                    <td>{{solicitud.N_Documento}}</td>
-                    <td>{{solicitud.Nombre_Titular}}</td>
-                    <td>{{solicitud.ZonaId }}</td>
-                    <td>{{solicitud.OficinaId }}</td>
-                    <td>{{solicitud.Precio_Venta }}</td>
-                    <td>--</td>
-                </tr>
-            </tbody>
+            <br>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nº Solicitud</th>
+                        <th>NroDocumento</th>
+                        <th>Fecha Solicitud</th>
+                        <th>Nombre Ejecutivo</th>
+                        <th>Zona</th>
+                        <th>Oficina</th>
+                        <th>Origen</th>
+                        <th>Precio de Venta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let solicitud of solicitudesEstadoList">
+                        <td>{{solicitud.Id}}</td>
+                        <td>{{solicitud.N_Documento}}</td>
+                        <td>{{solicitud.Fecha_Estado | date:'dd/MM/yy hh:mm a'}}</td>
+                        <td>{{solicitud.Nombre_Titular}}</td>
+                        <td>{{solicitud.ZonaId }}</td>
+                        <td>{{solicitud.OficinaId }}</td>
+                        <td>{{solicitud.OficinaId }}</td>
+                        <td>{{solicitud.Precio_Venta }}</td>
+                    </tr>
+                </tbody>
 
-        </table>
+            </table>
         </div>
     </form>
 </div>
