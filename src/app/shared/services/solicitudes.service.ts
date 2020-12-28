@@ -222,8 +222,9 @@ export class SolicitudesService {
 
             let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario)
               .items
-              .expand(...['Ejecutivo', 'Anlista_Riesgos'])
-              .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id'  ])
+              .expand(...['Ejecutivo', 'Anlista_Riesgos', 'Estado', 'Oficina'])
+              .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id',
+              'Estado/Title', 'Estado/Id', 'Oficina/Title', 'Oficina/Id'])
               .filter(queryFilter);
 
             if (orderField !== '') {
