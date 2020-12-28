@@ -24,6 +24,15 @@ export const MY_FORMATS = {
   }
 };
 
+export interface Canal {
+  name: string;
+  id: number;
+}
+const CANAL_DATA: Canal[] = [
+  {id: 1, name: 'FFVV'},
+  {id: 2, name: 'Red de Oficinas'},
+
+];
 
 @Component({
   selector: 'app-dashboard-credito',
@@ -43,7 +52,7 @@ export const MY_FORMATS = {
   ],
 })
 export class DashboardCreditoComponent extends FormularioBase implements OnInit {
-
+  data: Canal[] = CANAL_DATA;
   zonaModelList: ZonaModel [];
   oficinaList: TipoProductoModel [];
   estadoList: EstadoModel [];
@@ -54,6 +63,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   solicitudHipotecarioList: SolicitudCreditoHipotecario [];
   flujoSeguimientoList: SolicitudCreditoHipotecario [];
   solicitudesEstadoList: SolicitudCreditoHipotecario [];
+
   totalExpedientes = 0;
   totalTiempoPromedioEstacion = 0;
   totalTiempoPromedioTotal = 0;
@@ -109,7 +119,9 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     this.listarSolicitudesEstado();
     this.listenerOficina();
     this.listenerTipoProducto();
+    this.listenerZona();
   }
+
   getZona(){
     this.generalListService.get(Variables.listas.AdmZona)
       .then(zonaModelList => this.zonaModelList = zonaModelList)
@@ -129,12 +141,16 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     .catch(error => console.error(error));
   }
 
-  async getSolicitudes(idOficina = 0, idTipoProducto = 0, idEstado = 0){
+  async getSolicitudes(idZona = 0, idOficina = 0, idTipoProducto = 0, idEstado = 0){
     let data: SolicitudCreditoHipotecario[];
 
     const fieldsFilter: string[] = [];
     const valuesFilter: any[] = [];
 
+    if (idZona !== 0) {
+      fieldsFilter.push('ZonaId');
+      valuesFilter.push(idZona);
+    }
     if (idOficina !== 0) {
       fieldsFilter.push('OficinaId');
       valuesFilter.push(idOficina);
@@ -177,37 +193,59 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     return solicitudes;
   }
 
-
-  async filtraEstadoSolicitudes(estado: number) {
-    const fecha = this.solicitudHipotecarioList.filter(item => item.EstadoId === estado)
-      .map(id => id.Fecha_Estado);
-    return fecha;
-  }
-
   listenerOficina(){
     this.dashboardForm.controls.OficinaId.valueChanges.subscribe(value => {
       if (value !== undefined) {
           this.showSolicitudes = false;
-          this.listarSolicitudesEstado(value, 0);
+          this.fueraANSAcumulado = 0;
+          this.listarSolicitudesEstado(0, value, 0);
       }else{
+         this.showSolicitudes = false;
+         this.fueraANSAcumulado = 0;
          this.listarSolicitudesEstado();
       }
     });
   }
+
+  listenerZona(){
+    this.dashboardForm.controls.ZonaId.valueChanges.subscribe(value => {
+      console.log(value);
+      if (value !== Variables.constantes.ZonaIDFFVV) {
+        this.dashboardForm.controls.Canal.setValue(2);
+      } else {
+        this.dashboardForm.controls.Canal.setValue(1);
+      }
+      if (value !== undefined) {
+        this.showSolicitudes = false;
+        this.fueraANSAcumulado = 0;
+        this.listarSolicitudesEstado(value, 0, 0);
+    }else{
+       this.dashboardForm.controls.Canal.setValue('Todas');
+       this.showSolicitudes = false;
+       this.fueraANSAcumulado = 0;
+       this.listarSolicitudesEstado();
+    }
+    });
+  }
+
   listenerTipoProducto(){
     this.dashboardForm.controls.Tipo_ProductoId.valueChanges.subscribe(value => {
       if (value !== undefined) {
-          this.listarSolicitudesEstado(0, value);
+          this.showSolicitudes = false;
+          this.fueraANSAcumulado = 0;
+          this.listarSolicitudesEstado(0, 0, value);
       }else{
+         this.showSolicitudes = false;
+         this.fueraANSAcumulado = 0;
          this.listarSolicitudesEstado();
       }
     });
   }
-   async listarSolicitudesEstado(idOficina: number= 0, idTipoProducto: number = 0){
+   async listarSolicitudesEstado(idZona: number = 0, idOficina: number= 0, idTipoProducto: number = 0){
     this.showLoading();
     const estados = await this.getEstado();
 
-    this.solicitudHipotecarioList = await this.getSolicitudes(idOficina, idTipoProducto);
+    this.solicitudHipotecarioList = await this.getSolicitudes(idZona, idOficina, idTipoProducto);
 
     this.dashboard = [];
     this.totalExpedientes = 0;
@@ -225,7 +263,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
           const fechaActual = moment();
           let fueraANS = 0;
           let contador = 0;
-        
+          console.log(solicitudes);
           solicitudes.forEach(solicitud => {
             if (solicitud.Fecha_Estado !== null) {
               const fechaEstado = moment(solicitud.Fecha_Estado);
@@ -358,7 +396,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     // This makes no effort to account for holidays
     // Counts end day, does not count start day
 
-    // make copies we can normalize without changing passed in objects    
+    // make copies we can normalize without changing passed in objects
     const start = new Date(startDate);
     const end = new Date(endDate);
 

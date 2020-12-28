@@ -83,6 +83,7 @@ import { LogseguimientoComponent } from './components/bandejas/logseguimiento/lo
 import { DashboardCreditoComponent } from './components/dashboard/dashboard-credito/dashboard-credito.component';
 import { PipemilesPipe } from './shared/pipes/pipemiles.pipe';
 import { OficinaPipe } from './shared/pipes/oficina.pipe';
+import { EstacionPipe } from './shared/pipes/estacion.pipe';
 
 const materialModules = [/*  */
   MatSlideToggleModule,
@@ -151,7 +152,8 @@ const materialModules = [/*  */
     LogseguimientoComponent,
     DashboardCreditoComponent,
     PipemilesPipe,
-    OficinaPipe
+    OficinaPipe,
+    EstacionPipe
   ],
   imports: [
     BrowserModule,

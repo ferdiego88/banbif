@@ -55,7 +55,9 @@
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Canal" formControlName="Canal">
                         <mat-option [value]="">Todas</mat-option>
-                        <mat-option [value]=""> Zona 1</mat-option>
+                        <mat-option *ngFor="let item of data" [value]="item.id">
+                          {{item.name}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -159,28 +161,32 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Nº</th>
                         <th>Nº Solicitud</th>
                         <th>NroDocumento</th>
                         <th>Fecha Solicitud</th>
+                        <th>Nombre Cliente</th>
                         <th>Nombre Ejecutivo</th>
                         <th>Zona</th>
                         <th>Oficina</th>
                         <th>Origen</th>
+                        <th>Canal de Venta</th>
+                        <th>Estación</th>
                         <th>Precio de Venta</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let solicitud of solicitudesEstadoList">
-                        <td>{{solicitud.ProyectoId}}</td>
                         <td>{{solicitud.Id}}</td>
                         <td>{{solicitud.N_Documento}}</td>
                         <td>{{solicitud.Fecha_Estado | date:'dd/MM/yy hh:mm a'}}</td>
                         <td>{{solicitud.Nombre_Titular}}</td>
+                        <td>{{solicitud.Nombre_Titular}}</td>
                         <td>{{solicitud.ZonaId }}</td>
                         <td>{{solicitud.OficinaId | oficina | async }}</td>
-                        <td>{{solicitud.OficinaId }}</td>
-                        <td>{{solicitud.Precio_Venta }}</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>{{solicitud.EstadoId | estacion | async }}</td>
+                        <td>{{solicitud.Precio_Venta | currency:'S/. ':'symbol':'.0-0' }}</td>
                     </tr>
                 </tbody>
 

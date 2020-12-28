@@ -83,6 +83,7 @@ export class Variables {
     EstadoRegularizacionCPM: 35,
     EstadoAprobadoSinVerificacion: 33,
     EstadoAprobadoConVerificacion: 34,
+    ZonaIDFFVV: 8,
   };
 
   static readonly path = {
