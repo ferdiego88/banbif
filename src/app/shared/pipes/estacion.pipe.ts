@@ -23,8 +23,8 @@ export class EstacionPipe implements PipeTransform {
   async getEstacion(idEstacion: number){
     let estacion = '';
     estacion = await this.generalListService.getItemById(Variables.listas.AdmEstado, idEstacion)
-     .then((estacionList: any) => estacionList.Title)
-     .catch(error => console.error(error));
+    .then((estacionList: any) => estacionList.Title)
+    .catch(error => console.error(error));
     return estacion;
   }
 
