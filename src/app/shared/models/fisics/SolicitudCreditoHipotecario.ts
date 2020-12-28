@@ -84,6 +84,18 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public Enlace_Documentos = {
       Description: '',
       Url: ''
+    },
+    public Oficina = {
+      Id: '',
+      Title: ''
+    },
+    public Estado = {
+      Id: '',
+      Title: ''
+    },
+    public Ejecutivo = {
+      Id: '',
+      Title: ''
     }
     ,
   ){

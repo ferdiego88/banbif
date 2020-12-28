@@ -167,15 +167,16 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     }
 
     if (fieldsFilter.length === 0) {
-      data = await this.generalListService.get(Variables.listas.AdmSolicitudCreditoHipotecario)
+      data = await this.solicitudService.get()
         .then(solicitudHipotecarioList => this.solicitudHipotecarioList = solicitudHipotecarioList)
         .catch(error => console.error(error));
     } else {
-      data = await this.generalListService.getByFields(Variables.listas.AdmSolicitudCreditoHipotecario, fieldsFilter, valuesFilter)
+      data = await this.solicitudService.getByFields(fieldsFilter, valuesFilter)
         .then(solicitudHipotecarioList => this.solicitudHipotecarioList = solicitudHipotecarioList)
         .catch(error => console.error(error));
     }
 
+    console.log({data});
     return data;
   }
   filtraSolicitudes(estado: number) {

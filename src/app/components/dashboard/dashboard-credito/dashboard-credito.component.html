@@ -168,8 +168,6 @@
                         <th>Nombre Ejecutivo</th>
                         <th>Zona</th>
                         <th>Oficina</th>
-                        <th>Origen</th>
-                        <th>Canal de Venta</th>
                         <th>Estación</th>
                         <th>Precio de Venta</th>
                     </tr>
@@ -180,12 +178,10 @@
                         <td>{{solicitud.N_Documento}}</td>
                         <td>{{solicitud.Fecha_Estado | date:'dd/MM/yy hh:mm a'}}</td>
                         <td>{{solicitud.Nombre_Titular}}</td>
-                        <td>{{solicitud.Nombre_Titular}}</td>
+                        <td>{{solicitud.Ejecutivo ? solicitud.Ejecutivo.Title: "----" }}</td>
                         <td>{{solicitud.ZonaId }}</td>
-                        <td>{{solicitud.OficinaId | oficina | async }}</td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td>{{solicitud.EstadoId | estacion | async }}</td>
+                        <td>{{solicitud.Oficina ? solicitud.Oficina.Title: "SIN OFICINA"}}</td>
+                        <td>{{solicitud.Estado.Title }}</td>
                         <td>{{solicitud.Precio_Venta | currency:'S/. ':'symbol':'.0-0' }}</td>
                     </tr>
                 </tbody>

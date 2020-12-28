@@ -190,4 +190,52 @@ export class SolicitudesService {
     }
   }
 
+  public get(orderField = '', orderAscending = true): Promise<any> {
+    return new Promise((resolve, reject) => {
+        if (sp !== null && sp !== undefined) {
+            // const listExpand = this.variables.ListExpands[listName];
+            // if (listExpand) {
+
+            // }
+            let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario).items
+            .expand(...['Ejecutivo', 'Anlista_Riesgos', 'Estado', 'Oficina'])
+            .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id',
+            'Estado/Title', 'Estado/Id', 'Oficina/Title', 'Oficina/Id']);
+
+            if (orderField !== '') {
+                query = query.orderBy(orderField, orderAscending);
+            }
+
+            const items = query.top(4999).get();
+            // // console.log({items});
+            resolve(items);
+        } else {
+            reject('Failed getting list data...');
+        }
+    });
+}
+
+  public async getByFields(fieldsFilter: string[], valuesFilter: any[], orderField = '', orderAscending = true): Promise<any> {
+    return new Promise((resolve, reject) => {
+        if (sp !== null && sp !== undefined) {
+            const queryFilter = fieldsFilter.map((fieldFilter, index) => `${fieldFilter} eq ${valuesFilter[index]}`).join(' and ');
+
+            let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario)
+              .items
+              .expand(...['Ejecutivo', 'Anlista_Riesgos'])
+              .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id'  ])
+              .filter(queryFilter);
+
+            if (orderField !== '') {
+                query = query.orderBy(orderField, orderAscending);
+            }
+
+            const items = query.top(4999).get();
+            // console.log({items});
+            resolve(items);
+        } else {
+            reject('Failed getting list data...');
+        }
+    });
+}
 }
