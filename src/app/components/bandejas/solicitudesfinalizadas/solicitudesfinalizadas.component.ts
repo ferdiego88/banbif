@@ -347,6 +347,11 @@ export class SolicitudesfinalizadasComponent extends FormularioBase implements O
     this.page_last = this.paginator.pageIndex;
 
     if (!this.solicitudes_paged_history[this.paginator.pageIndex]) {
+
+      if(this.solicitudes_paged["nextUrl"] !== undefined){
+        this.solicitudes_paged["nextUrl"] = this.solicitudes_paged["nextUrl"].replace("https","http");
+      }
+
       this.solicitudes_paged_history[this.paginator.pageIndex] = this.solicitudes_paged;
     }
 
