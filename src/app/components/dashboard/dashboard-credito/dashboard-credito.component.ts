@@ -59,6 +59,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   totalTiempoPromedioTotal = 0;
   totalMonto = 0;
   totalFueraANS = 0;
+  fueraANSAcumulado = 0;
   showSolicitudes = false;
   dashboardForm = this.fb.group({
     ZonaId : [null],
@@ -231,6 +232,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
               const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado, fechaActual);
               if (tiempoPromedioEstacion >= estado.Valor_ANS) {
                 fueraANS++;
+                this.fueraANSAcumulado ++;
                 this.solicitudANSList.push(solicitudes[contador]);
               }
               tiempo += tiempoPromedioEstacion;
@@ -256,6 +258,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
             TiempoPromedioTotal: tiempoPromedioTotal,
             FueraANS: fueraANS,
             Monto: suma,
+            FueraANSAcumulado: this.fueraANSAcumulado,
           };
 
           this.dashboard.push(dashBoardElement);
@@ -333,14 +336,20 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   }
 
   getSolicitudesPorEstado(estadoId: number) {
-    // alert('hola soy el click ' + estadoId);
+    this.showLoading();
     const solicitudes = this.filtraSolicitudes(estadoId);
     this.solicitudesEstadoList = solicitudes;
+    this.hideLoading();
     this.showSolicitudes = true;
   }
-  getSolicitudesANS(estadoId: number) {
-    const solicitudes = this.solicitudANSList
-      .filter(item => item.EstadoId === estadoId);
+  getSolicitudesANS(cantidadSolicitudesANS: number, estadoId?: number) {
+    let solicitudes;
+    if (estadoId) {
+      solicitudes = this.solicitudANSList
+        .filter(item => item.EstadoId === estadoId);
+    } else {
+      solicitudes = this.solicitudANSList.slice(0, cantidadSolicitudesANS);
+    }
     this.solicitudesEstadoList = solicitudes;
     this.showSolicitudes = true;
   }

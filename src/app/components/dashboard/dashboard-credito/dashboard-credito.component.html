@@ -132,9 +132,10 @@
                         <td>{{item.TiempoPromedio | number: '.0-2' }}</td>
                         <td>{{item.TiempoPromedioTotal | number: '.0-2' }}</td>
                         <td>
-                            <a (click)="getSolicitudesANS(item.Id)">{{item.FueraANS}}</a> </td>
+                            <a (click)="getSolicitudesANS(0,item.Id)">{{item.FueraANS}}</a> </td>
                         <td>{{item.Monto | currency:'S/. ':'symbol':'.0-0' }}</td>
-                        <td>--</td>
+                        <td>
+                            <a (click)="getSolicitudesANS(item.FueraANSAcumulado)">{{item.FueraANSAcumulado}}</a></td>
                     </tr>
                 </tbody>
                 <tfoot>
@@ -145,7 +146,7 @@
                         <td>{{totalTiempoPromedioTotal | number: '.0-2' }}</td>
                         <td> {{totalFueraANS}}</td>
                         <td>{{totalMonto | currency:'S/. ':'symbol':'.0-0' }}</td>
-                        <td>ANS</td>
+                        <td> {{totalFueraANS}}</td>
                     </tr>
                 </tfoot>
             </table>
@@ -158,6 +159,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th>Nº</th>
                         <th>Nº Solicitud</th>
                         <th>NroDocumento</th>
                         <th>Fecha Solicitud</th>
@@ -170,12 +172,13 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let solicitud of solicitudesEstadoList">
+                        <td>{{solicitud.ProyectoId}}</td>
                         <td>{{solicitud.Id}}</td>
                         <td>{{solicitud.N_Documento}}</td>
                         <td>{{solicitud.Fecha_Estado | date:'dd/MM/yy hh:mm a'}}</td>
                         <td>{{solicitud.Nombre_Titular}}</td>
                         <td>{{solicitud.ZonaId }}</td>
-                        <td>{{solicitud.OficinaId }}</td>
+                        <td>{{solicitud.OficinaId | oficina | async }}</td>
                         <td>{{solicitud.OficinaId }}</td>
                         <td>{{solicitud.Precio_Venta }}</td>
                     </tr>
