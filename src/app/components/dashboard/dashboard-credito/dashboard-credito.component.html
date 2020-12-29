@@ -115,7 +115,7 @@
                         <th>Tiempo Promedio estación</th>
                         <th>Tiempo Promedio Total</th>
                         <th>Fuera de ANS</th>
-                        <th>Monto S/.</th>
+                        <th>Total Desembolso S/.</th>
                         <th>Fuera de ANS Acumulado</th>
                     </tr>
                 </thead>
@@ -131,7 +131,7 @@
                             <a (click)="getSolicitudesANS(0,item.Id)">{{item.FueraANS}}</a> </td>
                         <td>{{item.Monto | currency:'S/. ':'symbol':'.0-0' }}</td>
                         <td>
-                            <a (click)="getSolicitudesANS(item.FueraANSAcumulado)">{{item.FueraANSAcumulado}}</a></td>
+                            <a (click)="getSolicitudesANSAcumulado(0,item.Id)">{{item.FueraANSAcumulado}}</a></td>
                     </tr>
                 </tbody>
                 <tfoot>
@@ -142,51 +142,98 @@
                         <td>{{totalTiempoPromedioTotal | number: '.0-2' }}</td>
                         <td> {{totalFueraANS}}</td>
                         <td>{{totalMonto | currency:'S/. ':'symbol':'.0-0' }}</td>
-                        <td> {{totalFueraANS}}</td>
+                        <td> {{totalfueraANSAcumulado}}</td>
                     </tr>
                 </tfoot>
             </table>
         </div>
     </form>
-    <div [ngClass]="{
+</div>
+<br>
+<div [ngClass]="{
         'd-none': !showSolicitudes,
         'col-md-12': showSolicitudes
     }">
-        <br>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nº de Solicitud</th>
-                    <th>Nombre del Cliente</th>
-                    <th>Nro. de Documento</th>
-                    <th>Nombre del Ejecutivo</th>
-                    <th>Tipo de Producto</th>
-                    <th>Estación</th>
-                    <th>Fecha de la Solicitud</th>
-                    <th>Zona</th>
-                    <th>Oficina</th>
-                    <th>Moneda</th>
-                    <th>Desembolso</th>
-                    <th>Fecha de Creación</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let solicitud of solicitudesEstadoList">
-                    <td>{{solicitud.Id}}</td>
-                    <td>{{solicitud.Nombre_Titular}}</td>
-                    <td>{{solicitud.N_Documento}}</td>
-                    <td>{{solicitud.Author ? solicitud.Author.Title: "-------" }}</td>
-                    <td>{{solicitud.Tipo_ProductoId}}</td>
-                    <td>{{solicitud.Estado.Title }}</td>
-                    <td>{{solicitud.Fecha_Estado | date:'dd/MM/yy hh:mm a'}}</td>
-                    <td>{{solicitud.ZonaId ? solicitud.ZonaId: "-------" }}</td>
-                    <td>{{solicitud.Oficina ? solicitud.Oficina.Title: "SIN OFICINA"}}</td>
-                    <td>{{solicitud.Mon_Desembolso}}</td>
-                    <td>{{solicitud.Desembolso | number:'.0-0' }}</td>
-                    <td>{{solicitud.Created | date:'dd/MM/yy hh:mm a'}}</td>
-                </tr>
-            </tbody>
+    <mat-form-field>
+        <mat-label>Buscar:</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ingrese valor a Buscar" #input>
+    </mat-form-field>
 
+    <div class="mat-elevation-z8">
+        <table mat-table matSort [dataSource]="dataSource">
+
+            <!-- Id Column -->
+            <ng-container matColumnDef="Id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> N° Solicitud </th>
+
+                <td mat-cell *matCellDef="let element">
+                    <a (click)="irPaginaSolicitud(element)"> {{element.Id}}  </a>
+                </td>
+
+
+
+            </ng-container>
+
+            <!-- Fecha_Creacion Column -->
+            <ng-container matColumnDef="Created">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de Solicitud </th>
+                <td class="td-right" mat-cell *matCellDef="let element"> {{element.Created | date:'dd/MM/yy'}} </td>
+            </ng-container>
+
+            <!-- Nombre Titular Column -->
+            <ng-container matColumnDef="Nombre_Titular">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Cliente </th>
+                <td mat-cell *matCellDef="let element"> {{element.Nombre_Titular}} </td>
+            </ng-container>
+
+            <!-- N_Documento  Column -->
+            <ng-container matColumnDef="N_Documento">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> N° de Documento </th>
+                <td mat-cell *matCellDef="let element"> {{element.N_Documento}} </td>
+            </ng-container>
+
+            <!-- Author  Column -->
+            <ng-container matColumnDef="Author">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Ejecutivo </th>
+                <td mat-cell *matCellDef="let element"> {{element.Author ? element.Author.Title: "-------" }} </td>
+            </ng-container>
+            <!-- Tipo_ProductoId  Column -->
+            <ng-container matColumnDef="Tipo_ProductoId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Producto </th>
+                <td mat-cell *matCellDef="let element"> {{element.Tipo_ProductoId}} </td>
+            </ng-container>
+            <!-- Estado  Column -->
+            <ng-container matColumnDef="Estado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Estación </th>
+                <td mat-cell *matCellDef="let element"> {{element.Estado.Title}} </td>
+            </ng-container>
+            <!-- ZonaId  Column -->
+            <ng-container matColumnDef="ZonaId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Zona </th>
+                <td mat-cell *matCellDef="let element"> {{element.ZonaId ? element.ZonaId: "-------"}} </td>
+            </ng-container>
+
+            <!-- Oficina  Column -->
+            <ng-container matColumnDef="Oficina">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Oficina </th>
+                <td mat-cell *matCellDef="let element"> {{element.Oficina ? element.Oficina.Title: "SIN OFICINA"}} </td>
+            </ng-container>
+
+            <!-- Mon_Desembolso  Column -->
+            <ng-container matColumnDef="Mon_Desembolso">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de Moneda </th>
+                <td mat-cell *matCellDef="let element"> {{element.Mon_Desembolso}} </td>
+            </ng-container>
+            <!-- Desembolso  Column -->
+            <ng-container matColumnDef="Desembolso">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Desembolso </th>
+                <td mat-cell *matCellDef="let element"> {{element.Desembolso | number: '.0-2'}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+
+        <mat-paginator [pageSizeOptions]="[9, 18, 36]" showFirstLastButtons></mat-paginator>
     </div>
 </div>

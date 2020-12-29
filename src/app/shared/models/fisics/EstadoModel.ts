@@ -7,6 +7,8 @@ export class EstadoModel{
         public Monto = 0,
         // tslint:disable-next-line: variable-name
         public Valor_ANS = 0, 
+        // tslint:disable-next-line: variable-name
+        public ValorANS_Acumulado = 0, 
     ) {
     }
 }

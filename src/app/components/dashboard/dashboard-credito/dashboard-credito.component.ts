@@ -1,37 +1,67 @@
-import { ApplicationRef, Component, NgZone, OnInit } from '@angular/core';
+import { ApplicationRef, Component, NgZone, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpinnerVisibilityService } from 'ng-http-loader';
-import { SolicitudCreditoHipotecario, TipoProductoModel, ZonaModel, EstadoModel, DashboardModel } from 'src/app/shared/models/fisics';
+import { environment } from 'src/environments/environment';
+import {
+  SolicitudCreditoHipotecario,
+  TipoProductoModel,
+  ZonaModel,
+  EstadoModel,
+  DashboardModel,
+} from 'src/app/shared/models/fisics';
 import { FormularioBase } from 'src/app/shared/pages/formularioBase';
 import { GeneralListService } from 'src/app/shared/services/general-list.service';
 import { MasterService } from 'src/app/shared/services/master.service';
 import { SolicitudesService } from 'src/app/shared/services/solicitudes.service';
 import { Variables } from 'src/app/shared/variables';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatSort} from '@angular/material/sort';
 // import {default as _rollupMoment} from 'moment';
 import * as _moment from 'moment';
 const moment = _moment;
-import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'DD/MM/YYYY'
+    dateInput: 'DD/MM/YYYY',
   },
   display: {
-    dateInput: 'DD/MM/YYYY'
-  }
+    dateInput: 'DD/MM/YYYY',
+  },
 };
 
 export interface Canal {
   name: string;
   id: number;
 }
-const CANAL_DATA: Canal[] = [
-  {id: 1, name: 'FFVV'},
-  {id: 2, name: 'Red de Oficinas'},
+// export interface DetalleSolicitud {
+//   Id: number;
+//   Created: Date;
+//   Nombre_Titular: string;
+//   N_Documento: string;
+//   Author: string;
+//   Tipo_ProductoId: string;
+//   Title: string;
+//   ZonaId: string;
+//   Oficina: string;
+//   Mon_Desembolso: string;
+//   Desembolso: string;
+// }
 
+const CANAL_DATA: Canal[] = [
+  { id: 1, name: 'FFVV' },
+  { id: 2, name: 'Red de Oficinas' },
 ];
 
 @Component({
@@ -45,50 +75,62 @@ const CANAL_DATA: Canal[] = [
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
 
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class DashboardCreditoComponent extends FormularioBase implements OnInit {
+export class DashboardCreditoComponent
+  extends FormularioBase
+  implements OnInit  {
+  displayedColumns: string[] = ['Id', 'Created', 'Nombre_Titular', 
+  'N_Documento', 'Author', 'Tipo_ProductoId', 'Estado', 'ZonaId', 'Oficina',
+  'Mon_Desembolso', 'Desembolso' ];
+  dataSource: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   data: Canal[] = CANAL_DATA;
-  zonaModelList: ZonaModel [];
-  oficinaList: TipoProductoModel [];
-  estadoList: EstadoModel [];
-  dashboard: DashboardModel [];
-  tipoProductoList: TipoProductoModel [];
-  tipoSubProductoList: TipoProductoModel [];
-  solicitudANSList: SolicitudCreditoHipotecario [];
-  solicitudANSPorEstadoList: SolicitudCreditoHipotecario [];
-  solicitudHipotecarioList: SolicitudCreditoHipotecario [];
-  flujoSeguimientoList: SolicitudCreditoHipotecario [];
-  solicitudesEstadoList: SolicitudCreditoHipotecario [];
-
+  zonaModelList: ZonaModel[];
+  oficinaList: TipoProductoModel[];
+  estadoList: EstadoModel[];
+  dashboard: DashboardModel[];
+  tipoProductoList: TipoProductoModel[];
+  tipoSubProductoList: TipoProductoModel[];
+  solicitudANSList: SolicitudCreditoHipotecario[];
+  solicitudANSAcumuladoList: SolicitudCreditoHipotecario[];
+  solicitudANSPorEstadoList: SolicitudCreditoHipotecario[];
+  solicitudHipotecarioList: SolicitudCreditoHipotecario[];
+  flujoSeguimientoList: SolicitudCreditoHipotecario[];
+  solicitudesEstadoList: SolicitudCreditoHipotecario[];
+  
   totalExpedientes = 0;
   totalTiempoPromedioEstacion = 0;
   totalTiempoPromedioTotal = 0;
   totalMonto = 0;
   totalFueraANS = 0;
-  fueraANSAcumulado = 0;
+  totalfueraANSAcumulado = 0;
   showSolicitudes = false;
   dashboardForm = this.fb.group({
-    ZonaId : [null],
-    OficinaId : [null],
-    Fecha_Creacion_Desde : [null],
-    Fecha_Creacion_Hasta : [null],
-    Vendedor : [null],
-    Canal : [null],
-    Origen : [null],
-    Indicador : [null],
-    Responsable : [null],
-    Semaforo : [null],
-    Variacion : [null],
-    Tipo_ProductoId : [null],
-    Sub_ProductoId : [null],
-    EstadoId : [null]
+    ZonaId: [null],
+    OficinaId: [null],
+    Fecha_Creacion_Desde: [null],
+    Fecha_Creacion_Hasta: [null],
+    Vendedor: [null],
+    Canal: [null],
+    Origen: [null],
+    Indicador: [null],
+    Responsable: [null],
+    Semaforo: [null],
+    Variacion: [null],
+    Tipo_ProductoId: [null],
+    Sub_ProductoId: [null],
+    EstadoId: [null],
   });
-
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
   constructor(
     private fb: FormBuilder,
     private generalListService: GeneralListService,
@@ -100,17 +142,25 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     public dialog: MatDialog,
     public zone: NgZone,
     public spinner: SpinnerVisibilityService
-
   ) {
-    super('Dashboard de Solicitudes de Credito', applicationRef, dialog, route, router, masterService, zone, spinner);
-   }
+    super(
+      'Dashboard de Solicitudes de Credito',
+      applicationRef,
+      dialog,
+      route,
+      router,
+      masterService,
+      zone,
+      spinner
+    );
+  }
 
-  ngOnInit(){
+  ngOnInit() {
     this.cargarCombos();
     this.cargarListeneters();
   }
 
-  cargarCombos(){
+  cargarCombos() {
     this.getZona();
     this.getEstado();
     this.getOficina();
@@ -118,7 +168,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     this.getTipoSubProducto();
   }
 
-  cargarListeneters(){
+  cargarListeneters() {
     this.listarSolicitudesEstado();
     this.listenerOficina();
     this.listenerTipoProducto();
@@ -126,28 +176,41 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     this.listenerTipoSubProducto();
   }
 
-  getZona(){
-    this.generalListService.get(Variables.listas.AdmZona)
-      .then(zonaModelList => this.zonaModelList = zonaModelList)
-      .catch(error => console.error(error));
+  getZona() {
+    this.generalListService
+      .get(Variables.listas.AdmZona)
+      .then((zonaModelList) => (this.zonaModelList = zonaModelList))
+      .catch((error) => console.error(error));
   }
-  getOficina(): any{
-      this.generalListService.get(Variables.listas.AdmOficina, 'Title')
-        .then((oficinaList: any) => this.oficinaList = oficinaList)
-        .catch(error => console.error(error));
+  getOficina(): any {
+    this.generalListService
+      .get(Variables.listas.AdmOficina, 'Title')
+      .then((oficinaList: any) => (this.oficinaList = oficinaList))
+      .catch((error) => console.error(error));
   }
-  getTipoProducto(){
-    this.generalListService.get(Variables.listas.AdmTipoProducto, 'Title')
-    .then(tipoProductoList => this.tipoProductoList = tipoProductoList)
-    .catch(error => console.error(error));
+  getTipoProducto() {
+    this.generalListService
+      .get(Variables.listas.AdmTipoProducto, 'Title')
+      .then((tipoProductoList) => (this.tipoProductoList = tipoProductoList))
+      .catch((error) => console.error(error));
   }
-  getTipoSubProducto(){
-    this.generalListService.get(Variables.listas.AdmTipoSubProducto, 'Title')
-    .then(tipoSubProductoList => this.tipoSubProductoList = tipoSubProductoList)
-    .catch(error => console.error(error));
+  getTipoSubProducto() {
+    this.generalListService
+      .get(Variables.listas.AdmTipoSubProducto, 'Title')
+      .then(
+        (tipoSubProductoList) =>
+          (this.tipoSubProductoList = tipoSubProductoList)
+      )
+      .catch((error) => console.error(error));
   }
 
-  async getSolicitudes(idZona = 0, idOficina = 0, idTipoProducto = 0, idTipoSubProducto = 0, idEstado = 0){
+  async getSolicitudes(
+    idZona = 0,
+    idOficina = 0,
+    idTipoProducto = 0,
+    idTipoSubProducto = 0,
+    idEstado = 0
+  ) {
     let data: SolicitudCreditoHipotecario[];
 
     const fieldsFilter: string[] = [];
@@ -177,41 +240,43 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     }
 
     if (fieldsFilter.length === 0) {
-      data = await this.solicitudService.get()
-        .then(solicitudHipotecarioList => this.solicitudHipotecarioList = solicitudHipotecarioList)
-        .catch(error => console.error(error));
+      data = await this.solicitudService
+        .get()
+        .then(
+          (solicitudHipotecarioList) =>
+            (this.solicitudHipotecarioList = solicitudHipotecarioList)
+        )
+        .catch((error) => console.error(error));
     } else {
-      data = await this.solicitudService.getByFields(fieldsFilter, valuesFilter)
-        .then(solicitudHipotecarioList => this.solicitudHipotecarioList = solicitudHipotecarioList)
-        .catch(error => console.error(error));
+      data = await this.solicitudService
+        .getByFields(fieldsFilter, valuesFilter)
+        .then(
+          (solicitudHipotecarioList) =>
+            (this.solicitudHipotecarioList = solicitudHipotecarioList)
+        )
+        .catch((error) => console.error(error));
     }
-
-    console.log({data});
     return data;
   }
   filtraSolicitudes(estado: number) {
-    const solicitudes = this.solicitudHipotecarioList
-      .filter(item => item.EstadoId === estado);
-    //   .map(solicitudHipotecario => (
-    //     {
-    //       Precio_Venta: solicitudHipotecario.Precio_Venta,
-    //       Fecha_Estado: solicitudHipotecario.Fecha_Estado,
-    //       Creado: solicitudHipotecario.Created
-    //     }
-    //   )
-    // );
-
+    const solicitudes = this.solicitudHipotecarioList.filter(
+      (item) => item.EstadoId === estado
+    );
     return solicitudes;
   }
 
-  listenerCombosUnselected(control1: string, control2: string, control3: string){
+  listenerCombosUnselected(
+    control1: string,
+    control2: string,
+    control3: string
+  ) {
     this.dashboardForm.get(`${control1}`).setValue(null);
     this.dashboardForm.get(`${control2}`).setValue(null);
     this.dashboardForm.get(`${control3}`).setValue(null);
   }
 
-  listenerZona(){
-    this.dashboardForm.controls.ZonaId.valueChanges.subscribe(value => {
+  listenerZona() {
+    this.dashboardForm.controls.ZonaId.valueChanges.subscribe((value) => {
       if (value !== Variables.constantes.ZonaIDFFVV) {
         this.dashboardForm.controls.Canal.setValue(2);
       } else {
@@ -219,63 +284,69 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
       }
       if (value) {
         this.showSolicitudes = false;
-        this.fueraANSAcumulado = 0;
         this.listarSolicitudesEstado(value, 0, 0, 0);
-    }else if (value !== null){
-       this.showSolicitudes = false;
-       this.fueraANSAcumulado = 0;
-       this.listarSolicitudesEstado();
-    }
+      } else if (value !== null) {
+        this.showSolicitudes = false;
+        this.listarSolicitudesEstado();
+      }
     });
   }
 
-  listenerOficina(){
-    this.dashboardForm.controls.OficinaId.valueChanges.subscribe(value => {
+  listenerOficina() {
+    this.dashboardForm.controls.OficinaId.valueChanges.subscribe((value) => {
       console.log(value);
       if (value) {
-          this.showSolicitudes = false;
-          this.fueraANSAcumulado = 0;
-          this.listarSolicitudesEstado(0, value, 0, 0 );
-      }else if (value !== null){
-         this.showSolicitudes = false;
-         this.fueraANSAcumulado = 0;
-         this.listarSolicitudesEstado();
-         this.dashboardForm.controls.Canal.setValue('Todas');
+        this.showSolicitudes = false;
+        this.listarSolicitudesEstado(0, value, 0, 0);
+      } else if (value !== null) {
+        this.showSolicitudes = false;
+        this.listarSolicitudesEstado();
+        this.dashboardForm.controls.Canal.setValue('Todas');
       }
     });
   }
 
-  listenerTipoProducto(){
-    this.dashboardForm.controls.Tipo_ProductoId.valueChanges.subscribe(value => {
-      if (value) {
+  listenerTipoProducto() {
+    this.dashboardForm.controls.Tipo_ProductoId.valueChanges.subscribe(
+      (value) => {
+        if (value) {
           this.showSolicitudes = false;
-          this.fueraANSAcumulado = 0;
           this.listarSolicitudesEstado(0, 0, value, 0);
-      }else if (value !== null){
-         this.showSolicitudes = false;
-         this.fueraANSAcumulado = 0;
-         this.listarSolicitudesEstado();
-      }
-    });
-  }
-  listenerTipoSubProducto(){
-    this.dashboardForm.controls.Sub_ProductoId.valueChanges.subscribe(value => {
-      if (value) {
+        } else if (value !== null) {
           this.showSolicitudes = false;
-          this.fueraANSAcumulado = 0;
-          this.listarSolicitudesEstado(0, 0, 0 , value);
-      }else if (value !== null){
-         this.showSolicitudes = false;
-         this.fueraANSAcumulado = 0;
-         this.listarSolicitudesEstado();
+          this.listarSolicitudesEstado();
+        }
       }
-    });
+    );
   }
-   async listarSolicitudesEstado(idZona = 0, idOficina = 0, idTipoProducto = 0, idTipoSubProducto = 0){
+  listenerTipoSubProducto() {
+    this.dashboardForm.controls.Sub_ProductoId.valueChanges.subscribe(
+      (value) => {
+        if (value) {
+          this.showSolicitudes = false;
+          this.listarSolicitudesEstado(0, 0, 0, value);
+        } else if (value !== null) {
+          this.showSolicitudes = false;
+          this.listarSolicitudesEstado();
+        }
+      }
+    );
+  }
+  async listarSolicitudesEstado(
+    idZona = 0,
+    idOficina = 0,
+    idTipoProducto = 0,
+    idTipoSubProducto = 0
+  ) {
     this.showLoading();
     const estados = await this.getEstado();
 
-    this.solicitudHipotecarioList = await this.getSolicitudes(idZona, idOficina, idTipoProducto, idTipoSubProducto);
+    this.solicitudHipotecarioList = await this.getSolicitudes(
+      idZona,
+      idOficina,
+      idTipoProducto,
+      idTipoSubProducto
+    );
 
     this.dashboard = [];
     this.totalExpedientes = 0;
@@ -284,144 +355,147 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     this.totalMonto = 0;
     this.totalFueraANS = 0;
     this.solicitudANSList = [];
-    await estados.forEach(
-      async estado => {
-        // const solicitudes = await this.getSolicitudes(idOficina, idTipoProducto, estado.Id);
-        const solicitudes = this.filtraSolicitudes(estado.Id);
-        if (solicitudes.length !== 0){
-          let suma = 0, tiempo = 0, tiempoT = 0, tiempoPromedio = 0, tiempoPromedioTotal = 0;
-          const fechaActual = moment();
-          let fueraANS = 0;
-          let contador = 0;
-          solicitudes.forEach(solicitud => {
-            if (solicitud.Fecha_Estado !== null) {
-              const fechaEstado = moment(solicitud.Fecha_Estado);
-              const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado, fechaActual);
-              if (tiempoPromedioEstacion >= estado.Valor_ANS) {
-                fueraANS++;
-                this.fueraANSAcumulado ++;
-                this.solicitudANSList.push(solicitudes[contador]);
-              }
-              tiempo += tiempoPromedioEstacion;
-              tiempoPromedio = tiempo / solicitudes.length;
+    this.solicitudANSAcumuladoList = [];
+    await estados.forEach(async (estado) => {
+      // const solicitudes = await this.getSolicitudes(idOficina, idTipoProducto, estado.Id);
+      const solicitudes = this.filtraSolicitudes(estado.Id);
+      if (solicitudes.length !== 0) {
+        let suma = 0,
+          tiempo = 0,
+          tiempoT = 0,
+          tiempoPromedio = 0,
+          tiempoPromedioTotal = 0;
+        const fechaActual = moment();
+        let fueraANS = 0;
+        let fueraANSAcumulado = 0;
+        let contador = 0;
+        solicitudes.forEach((solicitud) => {
+          if (solicitud.Fecha_Estado !== null) {
+            const fechaEstado = moment(solicitud.Fecha_Estado);
+            const tiempoPromedioEstacion = this.calcBusinessDays(
+              fechaEstado,
+              fechaActual
+            );
+            if (tiempoPromedioEstacion >= estado.Valor_ANS) {
+              fueraANS++;
+              this.solicitudANSList.push(solicitudes[contador]);
             }
-            contador++;
-            if (solicitud.Created !== null) {
-              const fechaCreacion = moment(solicitud.Created);
-              const tiempoPromedioT = this.calcBusinessDays(fechaCreacion, fechaActual);
-              // tiempoT += fechaActual.diff(fechaCreacion, 'days');
-              tiempoT += tiempoPromedioT;
-              tiempoPromedioTotal = tiempoT / solicitudes.length;
+            tiempo += tiempoPromedioEstacion;
+            tiempoPromedio = tiempo / solicitudes.length;
+          }
+          if (solicitud.Created !== null) {
+            const fechaCreacion = moment(solicitud.Created);
+            const tiempoPromedioT = this.calcBusinessDays(
+              fechaCreacion,
+              fechaActual
+            );
+            // tiempoT += fechaActual.diff(fechaCreacion, 'days');
+            if (tiempoPromedioT >= estado.ValorANS_Acumulado) {
+              fueraANSAcumulado++;
+              this.solicitudANSAcumuladoList.push(solicitudes[contador]);
             }
+            tiempoT += tiempoPromedioT;
+            tiempoPromedioTotal = tiempoT / solicitudes.length;
+          }
+          contador++;
+          solicitud.Precio_Venta &&
+            solicitud.Precio_Venta !== 0 &&
+            (suma += solicitud.Precio_Venta);
+        });
 
-            solicitud.Precio_Venta && solicitud.Precio_Venta !== 0 && (suma += solicitud.Precio_Venta);
-          });
+        const dashBoardElement = {
+          Id: estado.Id,
+          Title: estado.Title,
+          Cantidad: solicitudes.length,
+          TiempoPromedio: tiempoPromedio,
+          TiempoPromedioTotal: tiempoPromedioTotal,
+          FueraANS: fueraANS,
+          Monto: suma,
+          FueraANSAcumulado: fueraANSAcumulado,
+        };
 
-          const dashBoardElement = {
-            Id : estado.Id,
-            Title : estado.Title,
-            Cantidad: solicitudes.length,
-            TiempoPromedio: tiempoPromedio,
-            TiempoPromedioTotal: tiempoPromedioTotal,
-            FueraANS: fueraANS,
-            Monto: suma,
-            FueraANSAcumulado: this.fueraANSAcumulado,
-          };
-
-          this.dashboard.push(dashBoardElement);
-        }
+        this.dashboard.push(dashBoardElement);
       }
-    );
-
-    // for await (const estado of estados) {
-    //   const solicitudes = await this.filtraSolicitudes(estado.Id);
-
-    //   if ( solicitudes.length !== 0){
-    //     let suma = 0; let tiempo = 0; let tiempoT = 0;
-    //     let tiempoPromedio = 0; let tiempoPromedioTotal = 0;
-
-    //     const FechaEstado = solicitudes.map(id => id.Fecha_Estado);
-    //     const fechaActual = moment();
-
-    //     for (const item of FechaEstado){
-    //       if (item !== null){
-    //         const fecha1 = moment(item);
-    //         tiempo += fechaActual.diff(fecha1, 'days');
-    //         tiempoPromedio = tiempo / FechaEstado.length;
-    //       }
-    //     }
-
-    //     const FechaCreado = solicitudes.map(id => id.Created);
-
-    //     for (const item of FechaCreado){
-    //       if (item !== null){
-    //         const fecha1 = moment(item);
-    //         tiempoT += fechaActual.diff(fecha1, 'days');
-    //         tiempoPromedioTotal = tiempoT / FechaEstado.length;
-    //       }
-    //     }
-
-    //     const Monto = solicitudes.map(id => id.Precio_Venta);
-
-    //     for (const item of Monto) {
-    //       if (item !== null && item !== 0 ){
-    //         suma += item;
-    //       }
-    //     }
-
-    //     const dashBoardElement = {
-    //       Id : estado.Id,
-    //       Title : estado.Title,
-    //       Cantidad: solicitudes.length,
-    //       TiempoPromedio: tiempoPromedio,
-    //       TiempoPromedioTotal: tiempoPromedioTotal,
-    //       Monto: suma,
-    //     };
-
-    //     this.dashboard.push(dashBoardElement);
-    //   }
-    // }
+    });
 
     for (const totales of this.dashboard) {
-       this.totalExpedientes += totales.Cantidad;
-       this.totalTiempoPromedioEstacion += totales.TiempoPromedio;
-       this.totalTiempoPromedioTotal += totales.TiempoPromedioTotal;
-       this.totalMonto += totales.Monto;
-       this.totalFueraANS += totales.FueraANS;
+      this.totalExpedientes += totales.Cantidad;
+      this.totalTiempoPromedioEstacion += totales.TiempoPromedio;
+      this.totalTiempoPromedioTotal += totales.TiempoPromedioTotal;
+      this.totalMonto += totales.Monto;
+      this.totalFueraANS += totales.FueraANS;
+      this.totalfueraANSAcumulado += totales.FueraANSAcumulado;
     }
 
     this.hideLoading();
   }
 
-  async getEstado(){
+  async getEstado() {
     let estados: EstadoModel[];
-    estados = await this.generalListService.get(Variables.listas.AdmEstado)
-    .then(estadoList => estadoList)
-    .catch(error => console.error(error));
-    const estadosActivos = estados.filter(item => item.Activo === true);
+    estados = await this.generalListService
+      .get(Variables.listas.AdmEstado)
+      .then((estadoList) => estadoList)
+      .catch((error) => console.error(error));
+    const estadosActivos = estados.filter((item) => item.Activo === true);
     return estadosActivos;
   }
 
   getSolicitudesPorEstado(estadoId: number) {
     this.showLoading();
+
     const solicitudes = this.filtraSolicitudes(estadoId);
     this.solicitudesEstadoList = solicitudes;
     this.hideLoading();
+    this.dataSource = new MatTableDataSource<any>(this.solicitudesEstadoList);
     this.showSolicitudes = true;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
+
   getSolicitudesANS(cantidadSolicitudesANS: number, estadoId?: number) {
     let solicitudes;
     if (estadoId) {
-      solicitudes = this.solicitudANSList
-        .filter(item => item.EstadoId === estadoId);
+      solicitudes = this.solicitudANSList.filter(
+        (item) => item.EstadoId === estadoId
+      );
     } else {
       solicitudes = this.solicitudANSList.slice(0, cantidadSolicitudesANS);
     }
     this.solicitudesEstadoList = solicitudes;
+    this.dataSource = new MatTableDataSource<any>(this.solicitudesEstadoList);
+    this.dataSource.paginator = this.paginator;
     this.showSolicitudes = true;
   }
 
-   calcBusinessDays(startDate, endDate) {
+  getSolicitudesANSAcumulado(
+    cantidadSolicitudesANS: number,
+    estadoId?: number
+  ) {
+    let solicitudes;
+    if (estadoId) {
+      solicitudes = this.solicitudANSAcumuladoList.filter(
+        (item) => item.EstadoId === estadoId
+      );
+    } else {
+      solicitudes = this.solicitudANSAcumuladoList.slice(
+        0,
+        cantidadSolicitudesANS
+      );
+    }
+    this.solicitudesEstadoList = solicitudes;
+    this.dataSource = new MatTableDataSource<any>(this.solicitudesEstadoList);
+    this.dataSource.paginator = this.paginator;
+    this.showSolicitudes = true;
+  }
+
+  public irPaginaSolicitud(
+    elemento: any
+  ) {
+      const url = environment.getRutaBaseApp() + '/hipotecario/solicitud/' + elemento.Id;
+      window.open(url, '_blank');   
+  }
+
+  calcBusinessDays(startDate, endDate) {
     // This makes no effort to account for holidays
     // Counts end day, does not count start day
 
@@ -441,12 +515,12 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     let day;
     // loop through each day, checking
     while (current <= end) {
-        day = current.getDay();
-        if (day >= 1 && day <= 5) {
-            ++totalBusinessDays;
-        }
-        current.setDate(current.getDate() + 1);
+      day = current.getDay();
+      if (day >= 1 && day <= 5) {
+        ++totalBusinessDays;
+      }
+      current.setDate(current.getDate() + 1);
     }
     return totalBusinessDays;
-}
+  }
 }
