@@ -58,6 +58,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   estadoList: EstadoModel [];
   dashboard: DashboardModel [];
   tipoProductoList: TipoProductoModel [];
+  tipoSubProductoList: TipoProductoModel [];
   solicitudANSList: SolicitudCreditoHipotecario [];
   solicitudANSPorEstadoList: SolicitudCreditoHipotecario [];
   solicitudHipotecarioList: SolicitudCreditoHipotecario [];
@@ -84,6 +85,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     Semaforo : [null],
     Variacion : [null],
     Tipo_ProductoId : [null],
+    Sub_ProductoId : [null],
     EstadoId : [null]
   });
 
@@ -111,8 +113,9 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
   cargarCombos(){
     this.getZona();
     this.getEstado();
-    this.valueOficina();
+    this.getOficina();
     this.getTipoProducto();
+    this.getTipoSubProducto();
   }
 
   cargarListeneters(){
@@ -120,6 +123,7 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     this.listenerOficina();
     this.listenerTipoProducto();
     this.listenerZona();
+    this.listenerTipoSubProducto();
   }
 
   getZona(){
@@ -127,21 +131,23 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
       .then(zonaModelList => this.zonaModelList = zonaModelList)
       .catch(error => console.error(error));
   }
-  valueOficina(): any{
-    this.dashboardForm.get('ZonaId').valueChanges.subscribe(selectedValue => {
-      this.oficinaList = [];
-      this.generalListService.getByField(Variables.listas.AdmOficina, Variables.listas.AdmZonaId, selectedValue)
+  getOficina(): any{
+      this.generalListService.get(Variables.listas.AdmOficina, 'Title')
         .then((oficinaList: any) => this.oficinaList = oficinaList)
         .catch(error => console.error(error));
-    });
   }
   getTipoProducto(){
     this.generalListService.get(Variables.listas.AdmTipoProducto, 'Title')
     .then(tipoProductoList => this.tipoProductoList = tipoProductoList)
     .catch(error => console.error(error));
   }
+  getTipoSubProducto(){
+    this.generalListService.get(Variables.listas.AdmTipoSubProducto, 'Title')
+    .then(tipoSubProductoList => this.tipoSubProductoList = tipoSubProductoList)
+    .catch(error => console.error(error));
+  }
 
-  async getSolicitudes(idZona = 0, idOficina = 0, idTipoProducto = 0, idEstado = 0){
+  async getSolicitudes(idZona = 0, idOficina = 0, idTipoProducto = 0, idTipoSubProducto = 0, idEstado = 0){
     let data: SolicitudCreditoHipotecario[];
 
     const fieldsFilter: string[] = [];
@@ -159,6 +165,10 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     if (idTipoProducto !== 0) {
       fieldsFilter.push('Tipo_ProductoId');
       valuesFilter.push(idTipoProducto);
+    }
+    if (idTipoSubProducto !== 0) {
+      fieldsFilter.push('Sub_ProductoId');
+      valuesFilter.push(idTipoSubProducto);
     }
 
     if (idEstado !== 0) {
@@ -194,34 +204,24 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     return solicitudes;
   }
 
-  listenerOficina(){
-    this.dashboardForm.controls.OficinaId.valueChanges.subscribe(value => {
-      if (value !== undefined) {
-          this.showSolicitudes = false;
-          this.fueraANSAcumulado = 0;
-          this.listarSolicitudesEstado(0, value, 0);
-      }else{
-         this.showSolicitudes = false;
-         this.fueraANSAcumulado = 0;
-         this.listarSolicitudesEstado();
-      }
-    });
+  listenerCombosUnselected(control1: string, control2: string, control3: string){
+    this.dashboardForm.get(`${control1}`).setValue(null);
+    this.dashboardForm.get(`${control2}`).setValue(null);
+    this.dashboardForm.get(`${control3}`).setValue(null);
   }
 
   listenerZona(){
     this.dashboardForm.controls.ZonaId.valueChanges.subscribe(value => {
-      console.log(value);
       if (value !== Variables.constantes.ZonaIDFFVV) {
         this.dashboardForm.controls.Canal.setValue(2);
       } else {
         this.dashboardForm.controls.Canal.setValue(1);
       }
-      if (value !== undefined) {
+      if (value) {
         this.showSolicitudes = false;
         this.fueraANSAcumulado = 0;
-        this.listarSolicitudesEstado(value, 0, 0);
-    }else{
-       this.dashboardForm.controls.Canal.setValue('Todas');
+        this.listarSolicitudesEstado(value, 0, 0, 0);
+    }else if (value !== null){
        this.showSolicitudes = false;
        this.fueraANSAcumulado = 0;
        this.listarSolicitudesEstado();
@@ -229,24 +229,53 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
     });
   }
 
-  listenerTipoProducto(){
-    this.dashboardForm.controls.Tipo_ProductoId.valueChanges.subscribe(value => {
-      if (value !== undefined) {
+  listenerOficina(){
+    this.dashboardForm.controls.OficinaId.valueChanges.subscribe(value => {
+      console.log(value);
+      if (value) {
           this.showSolicitudes = false;
           this.fueraANSAcumulado = 0;
-          this.listarSolicitudesEstado(0, 0, value);
-      }else{
+          this.listarSolicitudesEstado(0, value, 0, 0 );
+      }else if (value !== null){
+         this.showSolicitudes = false;
+         this.fueraANSAcumulado = 0;
+         this.listarSolicitudesEstado();
+         this.dashboardForm.controls.Canal.setValue('Todas');
+      }
+    });
+  }
+
+  listenerTipoProducto(){
+    this.dashboardForm.controls.Tipo_ProductoId.valueChanges.subscribe(value => {
+      if (value) {
+          this.showSolicitudes = false;
+          this.fueraANSAcumulado = 0;
+          this.listarSolicitudesEstado(0, 0, value, 0);
+      }else if (value !== null){
          this.showSolicitudes = false;
          this.fueraANSAcumulado = 0;
          this.listarSolicitudesEstado();
       }
     });
   }
-   async listarSolicitudesEstado(idZona: number = 0, idOficina: number= 0, idTipoProducto: number = 0){
+  listenerTipoSubProducto(){
+    this.dashboardForm.controls.Sub_ProductoId.valueChanges.subscribe(value => {
+      if (value) {
+          this.showSolicitudes = false;
+          this.fueraANSAcumulado = 0;
+          this.listarSolicitudesEstado(0, 0, 0 , value);
+      }else if (value !== null){
+         this.showSolicitudes = false;
+         this.fueraANSAcumulado = 0;
+         this.listarSolicitudesEstado();
+      }
+    });
+  }
+   async listarSolicitudesEstado(idZona = 0, idOficina = 0, idTipoProducto = 0, idTipoSubProducto = 0){
     this.showLoading();
     const estados = await this.getEstado();
 
-    this.solicitudHipotecarioList = await this.getSolicitudes(idZona, idOficina, idTipoProducto);
+    this.solicitudHipotecarioList = await this.getSolicitudes(idZona, idOficina, idTipoProducto, idTipoSubProducto);
 
     this.dashboard = [];
     this.totalExpedientes = 0;
