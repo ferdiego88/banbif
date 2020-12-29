@@ -122,27 +122,27 @@
                 <tbody>
                     <tr *ngFor="let item of dashboard">
                         <td class="td-center">{{item.Title}}</td>
-                        <td>
+                        <td class="td-center">
                             <a (click)="getSolicitudesPorEstado(item.Id)">{{item.Cantidad}}</a>
                         </td>
-                        <td>{{item.TiempoPromedio | number: '.0-2' }}</td>
-                        <td>{{item.TiempoPromedioTotal | number: '.0-2' }}</td>
-                        <td>
+                        <td class="td-center">{{item.TiempoPromedio | number: '.0-2' }}</td>
+                        <td class="td-center">{{item.TiempoPromedioTotal | number: '.0-2' }}</td>
+                        <td class="td-center">
                             <a (click)="getSolicitudesANS(0,item.Id)">{{item.FueraANS}}</a> </td>
                         <td>{{item.Monto | currency:'S/. ':'symbol':'.0-0' }}</td>
-                        <td>
+                        <td class="td-center">
                             <a (click)="getSolicitudesANSAcumulado(0,item.Id)">{{item.FueraANSAcumulado}}</a></td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
                         <td>Totales</td>
-                        <td>{{totalExpedientes}}</td>
-                        <td>{{totalTiempoPromedioEstacion | number: '.0-2' }}</td>
-                        <td>{{totalTiempoPromedioTotal | number: '.0-2' }}</td>
-                        <td> {{totalFueraANS}}</td>
+                        <td class="td-center">{{totalExpedientes}}</td>
+                        <td class="td-center">{{totalTiempoPromedioEstacion | number: '.0-2' }}</td>
+                        <td class="td-center">{{totalTiempoPromedioTotal | number: '.0-2' }}</td>
+                        <td class="td-center"> {{totalFueraANS}}</td>
                         <td>{{totalMonto | currency:'S/. ':'symbol':'.0-0' }}</td>
-                        <td> {{totalfueraANSAcumulado}}</td>
+                        <td class="td-center"> {{totalfueraANSAcumulado}}</td>
                     </tr>
                 </tfoot>
             </table>

@@ -376,7 +376,7 @@ export class DashboardCreditoComponent
               fechaEstado,
               fechaActual
             );
-            if (tiempoPromedioEstacion >= estado.Valor_ANS) {
+            if (tiempoPromedioEstacion > estado.Valor_ANS) {
               fueraANS++;
               this.solicitudANSList.push(solicitudes[contador]);
             }
@@ -390,7 +390,7 @@ export class DashboardCreditoComponent
               fechaActual
             );
             // tiempoT += fechaActual.diff(fechaCreacion, 'days');
-            if (tiempoPromedioT >= estado.ValorANS_Acumulado) {
+            if (tiempoPromedioT > estado.ValorANS_Acumulado) {
               fueraANSAcumulado++;
               this.solicitudANSAcumuladoList.push(solicitudes[contador]);
             }
