@@ -264,7 +264,6 @@ export class DashboardCreditoComponent extends FormularioBase implements OnInit 
           const fechaActual = moment();
           let fueraANS = 0;
           let contador = 0;
-          console.log(solicitudes);
           solicitudes.forEach(solicitud => {
             if (solicitud.Fecha_Estado !== null) {
               const fechaEstado = moment(solicitud.Fecha_Estado);

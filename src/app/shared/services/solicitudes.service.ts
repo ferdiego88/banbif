@@ -198,8 +198,8 @@ export class SolicitudesService {
 
             // }
             let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario).items
-            .expand(...['Ejecutivo', 'Anlista_Riesgos', 'Estado', 'Oficina'])
-            .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id',
+            .expand(...['Ejecutivo', 'Anlista_Riesgos', 'Author', 'Estado', 'Oficina'])
+            .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id', 'Author/Title', 'Author/Id',
             'Estado/Title', 'Estado/Id', 'Oficina/Title', 'Oficina/Id']);
 
             if (orderField !== '') {
@@ -221,11 +221,11 @@ export class SolicitudesService {
             const queryFilter = fieldsFilter.map((fieldFilter, index) => `${fieldFilter} eq ${valuesFilter[index]}`).join(' and ');
 
             let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario)
-              .items
-              .expand(...['Ejecutivo', 'Anlista_Riesgos', 'Estado', 'Oficina'])
-              .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id',
-              'Estado/Title', 'Estado/Id', 'Oficina/Title', 'Oficina/Id'])
-              .filter(queryFilter);
+            .items
+            .expand(...['Ejecutivo', 'Anlista_Riesgos', 'Author', 'Estado', 'Oficina'])
+            .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id', 'Author/Title', 'Author/Id',
+            'Estado/Title', 'Estado/Id', 'Oficina/Title', 'Oficina/Id'])
+            .filter(queryFilter);
 
             if (orderField !== '') {
                 query = query.orderBy(orderField, orderAscending);

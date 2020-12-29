@@ -85,7 +85,7 @@
                     <mat-datepicker #dpfech></mat-datepicker>
                 </mat-form-field>
             </div>
-            <div class="col-md-2">
+            <!-- <div class="col-md-2">
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Responsable" formControlName="Responsable">
                         <mat-option [value]="">Todas</mat-option>
@@ -100,7 +100,7 @@
                         <mat-option [value]=""> Zona 1</mat-option>
                     </mat-select>
                 </mat-form-field>
-            </div>
+            </div> -->
             <div class="col-md-2">
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Tipo de Producto" formControlName="Tipo_ProductoId">
@@ -153,40 +153,46 @@
                 </tfoot>
             </table>
         </div>
-        <div [ngClass]="{
-          'd-none': !showSolicitudes,
-          'col-md-12': showSolicitudes
-      }">
-            <br>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nº Solicitud</th>
-                        <th>NroDocumento</th>
-                        <th>Fecha Solicitud</th>
-                        <th>Nombre Cliente</th>
-                        <th>Nombre Ejecutivo</th>
-                        <th>Zona</th>
-                        <th>Oficina</th>
-                        <th>Estación</th>
-                        <th>Precio de Venta</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let solicitud of solicitudesEstadoList">
-                        <td>{{solicitud.Id}}</td>
-                        <td>{{solicitud.N_Documento}}</td>
-                        <td>{{solicitud.Fecha_Estado | date:'dd/MM/yy hh:mm a'}}</td>
-                        <td>{{solicitud.Nombre_Titular}}</td>
-                        <td>{{solicitud.Ejecutivo ? solicitud.Ejecutivo.Title: "-------" }}</td>
-                        <td>{{solicitud.ZonaId ? solicitud.ZonaId: "-------" }}</td>
-                        <td>{{solicitud.Oficina ? solicitud.Oficina.Title: "SIN OFICINA"}}</td>
-                        <td>{{solicitud.Estado.Title }}</td>
-                        <td>{{solicitud.Precio_Venta | currency:'S/. ':'symbol':'.0-0' }}</td>
-                    </tr>
-                </tbody>
+      </form>
+      <div [ngClass]="{
+        'd-none': !showSolicitudes,
+        'col-md-12': showSolicitudes
+    }">
+          <br>
+          <table>
+              <thead>
+                  <tr>
+                      <th>Nº de Solicitud</th>
+                      <th>Nombre del Cliente</th>
+                      <th>Nro. de Documento</th>
+                      <th>Nombre del Ejecutivo</th>
+                      <th>Tipo de Producto</th>
+                      <th>Estación</th>
+                      <th>Fecha de la Solicitud</th>
+                      <th>Zona</th>
+                      <th>Oficina</th>
+                      <th>Moneda</th>
+                      <th>Desembolso</th>
+                      <th>Fecha de Creación</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let solicitud of solicitudesEstadoList">
+                      <td>{{solicitud.Id}}</td>
+                      <td>{{solicitud.Nombre_Titular}}</td>
+                      <td>{{solicitud.N_Documento}}</td>
+                      <td>{{solicitud.Author ? solicitud.Author.Title: "-------" }}</td>
+                      <td>{{solicitud.Tipo_ProductoId}}</td>
+                      <td>{{solicitud.Estado.Title }}</td>
+                      <td>{{solicitud.Fecha_Estado | date:'dd/MM/yy hh:mm a'}}</td>
+                      <td>{{solicitud.ZonaId ? solicitud.ZonaId: "-------" }}</td>
+                      <td>{{solicitud.Oficina ? solicitud.Oficina.Title: "SIN OFICINA"}}</td>
+                      <td>{{solicitud.Mon_Desembolso}}</td>
+                      <td>{{solicitud.Desembolso | number:'.0-0' }}</td>
+                      <td>{{solicitud.Created | date:'dd/MM/yy hh:mm a'}}</td>
+                  </tr>
+              </tbody>
 
-            </table>
-        </div>
-    </form>
+          </table>
+      </div>
 </div>
