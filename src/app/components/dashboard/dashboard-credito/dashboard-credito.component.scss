@@ -3,12 +3,16 @@ img {
     height: 10%;
 }
 
-table {
-    font-family: arial, sans-serif !important;
-    border-collapse: collapse !important;
-    width: 100% !important;
+.cabeceraTabla {
+    font-size: 12px !important;
+    color: rgb(32, 163, 255) !important;
 }
 
+// table {
+//     font-family: arial, sans-serif !important;
+//     border-collapse: collapse !important;
+//     width: 100% !important;
+// }
 thead {
     color: white !important;
     background: rgb(32, 163, 255) !important;
@@ -35,6 +39,6 @@ th {
     text-align: right !important;
 }
 
-tr:nth-child(even) {
-    background-color: #dddddd !important;
-}
+// tr:nth-child(even) {
+//     background-color: #dddddd !important;
+// }

@@ -198,9 +198,9 @@ export class SolicitudesService {
 
             // }
             let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario).items
-            .expand(...['Ejecutivo', 'Anlista_Riesgos', 'Author', 'Estado', 'Oficina'])
+            .expand(...['Ejecutivo', 'Anlista_Riesgos', 'Author', 'Estado', 'Oficina', 'Tipo_Producto'])
             .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id', 'Author/Title', 'Author/Id',
-            'Estado/Title', 'Estado/Id', 'Oficina/Title', 'Oficina/Id']);
+            'Estado/Title', 'Estado/Id', 'Oficina/Title', 'Oficina/Id', 'Tipo_Producto/Id', 'Tipo_Producto/Title']);
 
             if (orderField !== '') {
                 query = query.orderBy(orderField, orderAscending);
@@ -222,9 +222,9 @@ export class SolicitudesService {
 
             let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario)
             .items
-            .expand(...['Ejecutivo', 'Anlista_Riesgos', 'Author', 'Estado', 'Oficina'])
+            .expand(...['Ejecutivo', 'Anlista_Riesgos', 'Author', 'Estado', 'Oficina', 'Tipo_Producto'])
             .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id', 'Author/Title', 'Author/Id',
-            'Estado/Title', 'Estado/Id', 'Oficina/Title', 'Oficina/Id'])
+            'Estado/Title', 'Estado/Id', 'Oficina/Title', 'Oficina/Id', 'Tipo_Producto/Id', 'Tipo_Producto/Title'])
             .filter(queryFilter);
 
             if (orderField !== '') {

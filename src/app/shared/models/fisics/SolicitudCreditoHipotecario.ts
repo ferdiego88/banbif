@@ -85,6 +85,10 @@ export class SolicitudCreditoHipotecario extends ListItem{
       Description: '',
       Url: ''
     },
+    public Tipo_Producto = {
+      Id: '',
+      Title: ''
+    },
     public Oficina = {
       Id: '',
       Title: ''

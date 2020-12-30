@@ -21,6 +21,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 // import {default as _rollupMoment} from 'moment';
 import * as _moment from 'moment';
+import { element } from 'protractor';
 const moment = _moment;
 import {
   MomentDateAdapter,
@@ -85,7 +86,7 @@ export class DashboardCreditoComponent
   extends FormularioBase
   implements OnInit  {
   displayedColumns: string[] = ['Id', 'Created', 'Nombre_Titular', 
-  'N_Documento', 'Author', 'Tipo_ProductoId', 'Estado', 'ZonaId', 'Oficina',
+  'N_Documento', 'Author', 'Tipo_Producto', 'Estado', 'ZonaId', 'Oficina',
   'Mon_Desembolso', 'Desembolso' ];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -166,6 +167,8 @@ export class DashboardCreditoComponent
     this.getOficina();
     this.getTipoProducto();
     this.getTipoSubProducto();
+    // this.getEjecutivo();
+    this.dashboardForm.controls.Vendedor.disable();
   }
 
   cargarListeneters() {
@@ -180,6 +183,14 @@ export class DashboardCreditoComponent
     this.generalListService
       .get(Variables.listas.AdmZona)
       .then((zonaModelList) => (this.zonaModelList = zonaModelList))
+      .catch((error) => console.error(error));
+  }
+
+  //falta cargar los ejecutivos
+  getEjecutivo() {
+    this.generalListService
+      .get(Variables.columnasSolicitud.Author)
+      .then((autor) => (console.log(autor)))
       .catch((error) => console.error(error));
   }
   getOficina(): any {
@@ -256,6 +267,7 @@ export class DashboardCreditoComponent
         )
         .catch((error) => console.error(error));
     }
+    // console.log(data);
     return data;
   }
   filtraSolicitudes(estado: number) {
@@ -341,13 +353,7 @@ export class DashboardCreditoComponent
     this.showLoading();
     const estados = await this.getEstado();
 
-    this.solicitudHipotecarioList = await this.getSolicitudes(
-      idZona,
-      idOficina,
-      idTipoProducto,
-      idTipoSubProducto
-    );
-
+    this.solicitudHipotecarioList = await this.getSolicitudes(idZona, idOficina, idTipoProducto, idTipoSubProducto);
     this.dashboard = [];
     this.totalExpedientes = 0;
     this.totalTiempoPromedioEstacion = 0;
@@ -370,37 +376,79 @@ export class DashboardCreditoComponent
         let fueraANSAcumulado = 0;
         let contador = 0;
         solicitudes.forEach((solicitud) => {
-          if (solicitud.Fecha_Estado !== null) {
-            const fechaEstado = moment(solicitud.Fecha_Estado);
-            const tiempoPromedioEstacion = this.calcBusinessDays(
-              fechaEstado,
-              fechaActual
-            );
-            if (tiempoPromedioEstacion > estado.Valor_ANS) {
-              fueraANS++;
-              this.solicitudANSList.push(solicitudes[contador]);
+        let ansRenta = 0; 
+          if (solicitud.EstadoId === Variables.constantes.EstadoEvaluacionRiesgos) {
+            solicitud.Tipo_RentaId.forEach((tipoRenta) =>{
+                switch (tipoRenta) {
+                  case Variables.constantes.TipoRenta1eraCategoria:
+                    ansRenta += estado.ANS_Renta_1;
+                    break;
+                  case Variables.constantes.TipoRenta2daCategoria:
+                    ansRenta += estado.ANS_Renta_2;
+                    break;
+                  case Variables.constantes.TipoRenta3eraCategoria:
+                    ansRenta += estado.ANS_Renta_3;
+                    break;
+                  case Variables.constantes.TipoRenta4taCategoria:
+                    ansRenta += estado.ANS_Renta_4;
+                    break;
+                  case Variables.constantes.TipoRenta5taCategoria:
+                    ansRenta += estado.ANS_Renta_5;
+                    break;
+                  default:
+                    break;
+                }
+            });
+            if (solicitud.Fecha_Estado !== null) {
+              const AnsRenta = ansRenta + estado.Valor_ANS;
+              const fechaEstado = moment(solicitud.Fecha_Estado);
+              const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado,fechaActual);
+              if (tiempoPromedioEstacion > AnsRenta) {
+                fueraANS++;
+                this.solicitudANSList.push(solicitudes[contador]);
+              }
+              tiempo += tiempoPromedioEstacion;
+              tiempoPromedio = tiempo / solicitudes.length;
             }
-            tiempo += tiempoPromedioEstacion;
-            tiempoPromedio = tiempo / solicitudes.length;
-          }
-          if (solicitud.Created !== null) {
-            const fechaCreacion = moment(solicitud.Created);
-            const tiempoPromedioT = this.calcBusinessDays(
-              fechaCreacion,
-              fechaActual
-            );
-            // tiempoT += fechaActual.diff(fechaCreacion, 'days');
-            if (tiempoPromedioT > estado.ValorANS_Acumulado) {
-              fueraANSAcumulado++;
-              this.solicitudANSAcumuladoList.push(solicitudes[contador]);
+            if (solicitud.Created !== null) {
+              const AnsRentaAcum = ansRenta + estado.ValorANS_Acumulado;
+              const fechaCreacion = moment(solicitud.Created);
+              const tiempoPromedioT = this.calcBusinessDays(fechaCreacion,fechaActual);
+              // tiempoT += fechaActual.diff(fechaCreacion, 'days');
+              if (tiempoPromedioT > AnsRentaAcum) {
+                fueraANSAcumulado++;
+                this.solicitudANSAcumuladoList.push(solicitudes[contador]);
+              }
+              tiempoT += tiempoPromedioT;
+              tiempoPromedioTotal = tiempoT / solicitudes.length;
             }
-            tiempoT += tiempoPromedioT;
-            tiempoPromedioTotal = tiempoT / solicitudes.length;
+
+          }else{
+            if (solicitud.Fecha_Estado !== null) {
+              const fechaEstado = moment(solicitud.Fecha_Estado);
+              const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado,fechaActual);
+              if (tiempoPromedioEstacion > estado.Valor_ANS) {
+                fueraANS++;
+                this.solicitudANSList.push(solicitudes[contador]);
+              }
+              tiempo += tiempoPromedioEstacion;
+              tiempoPromedio = tiempo / solicitudes.length;
+            }
+
+            if (solicitud.Created !== null) {
+              const fechaCreacion = moment(solicitud.Created);
+              const tiempoPromedioT = this.calcBusinessDays(fechaCreacion,fechaActual);
+              // tiempoT += fechaActual.diff(fechaCreacion, 'days');
+              if (tiempoPromedioT > estado.ValorANS_Acumulado) {
+                fueraANSAcumulado++;
+                this.solicitudANSAcumuladoList.push(solicitudes[contador]);
+              }
+              tiempoT += tiempoPromedioT;
+              tiempoPromedioTotal = tiempoT / solicitudes.length;
+            }
           }
           contador++;
-          solicitud.Precio_Venta &&
-            solicitud.Precio_Venta !== 0 &&
-            (suma += solicitud.Precio_Venta);
+          solicitud.Precio_Venta && solicitud.Precio_Venta !== 0 && (suma += solicitud.Precio_Venta);
         });
 
         const dashBoardElement = {
@@ -440,19 +488,19 @@ export class DashboardCreditoComponent
     return estadosActivos;
   }
 
-  getSolicitudesPorEstado(estadoId: number) {
-    this.showLoading();
-
+  getSolicitudesPorEstado(estadoId: number, element:HTMLElement) {
     const solicitudes = this.filtraSolicitudes(estadoId);
     this.solicitudesEstadoList = solicitudes;
-    this.hideLoading();
     this.dataSource = new MatTableDataSource<any>(this.solicitudesEstadoList);
     this.showSolicitudes = true;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    setTimeout(() =>{
+      this.scroll(element);
+    },1000);
   }
 
-  getSolicitudesANS(cantidadSolicitudesANS: number, estadoId?: number) {
+  getSolicitudesANS(cantidadSolicitudesANS: number, estadoId?: number, element?:HTMLElement) {
     let solicitudes;
     if (estadoId) {
       solicitudes = this.solicitudANSList.filter(
@@ -464,12 +512,16 @@ export class DashboardCreditoComponent
     this.solicitudesEstadoList = solicitudes;
     this.dataSource = new MatTableDataSource<any>(this.solicitudesEstadoList);
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
     this.showSolicitudes = true;
+    setTimeout(() =>{
+      this.scroll(element);
+    },1000);
   }
 
   getSolicitudesANSAcumulado(
     cantidadSolicitudesANS: number,
-    estadoId?: number
+    estadoId?: number, element?: HTMLElement
   ) {
     let solicitudes;
     if (estadoId) {
@@ -486,6 +538,11 @@ export class DashboardCreditoComponent
     this.dataSource = new MatTableDataSource<any>(this.solicitudesEstadoList);
     this.dataSource.paginator = this.paginator;
     this.showSolicitudes = true;
+    this.dataSource.sort = this.sort;
+    setTimeout(() =>{
+      this.scroll(element);
+    },1000);
+    
   }
 
   public irPaginaSolicitud(
@@ -522,5 +579,8 @@ export class DashboardCreditoComponent
       current.setDate(current.getDate() + 1);
     }
     return totalBusinessDays;
+  }
+  scroll(el:HTMLElement){
+    el.scrollIntoView()
   }
 }

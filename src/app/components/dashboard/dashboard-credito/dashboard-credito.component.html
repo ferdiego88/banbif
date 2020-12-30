@@ -106,8 +106,8 @@
                 </mat-form-field>
             </div>
         </div>
-        <div>
-            <table>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th class="td-center">Estados</th>
@@ -123,15 +123,15 @@
                     <tr *ngFor="let item of dashboard">
                         <td class="td-center">{{item.Title}}</td>
                         <td class="td-center">
-                            <a (click)="getSolicitudesPorEstado(item.Id)">{{item.Cantidad}}</a>
+                            <a (click)='getSolicitudesPorEstado(item.Id,elemento)'>{{item.Cantidad}}</a>
                         </td>
                         <td class="td-center">{{item.TiempoPromedio | number: '.0-2' }}</td>
                         <td class="td-center">{{item.TiempoPromedioTotal | number: '.0-2' }}</td>
                         <td class="td-center">
-                            <a (click)="getSolicitudesANS(0,item.Id)">{{item.FueraANS}}</a> </td>
+                            <a (click)="getSolicitudesANS(0,item.Id,elemento)">{{item.FueraANS}}</a> </td>
                         <td>{{item.Monto | currency:'S/. ':'symbol':'.0-0' }}</td>
                         <td class="td-center">
-                            <a (click)="getSolicitudesANSAcumulado(0,item.Id)">{{item.FueraANSAcumulado}}</a></td>
+                            <a (click)="getSolicitudesANSAcumulado(0,item.Id,elemento)">{{item.FueraANSAcumulado}}</a></td>
                     </tr>
                 </tbody>
                 <tfoot>
@@ -151,82 +151,84 @@
 </div>
 <br>
 <div [ngClass]="{
-        'd-none': !showSolicitudes,
-        'col-md-12': showSolicitudes
-    }">
+    'd-none': !showSolicitudes,
+    'col-md-12': showSolicitudes
+}">
+
+    <div #elemento class="row">
+        <span class="sub-title">Detalle de las Solicitudes</span>
+    </div>
+
+    <mat-label>Buscar:</mat-label>
     <mat-form-field>
-        <mat-label>Buscar:</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ingrese valor a Buscar" #input>
     </mat-form-field>
 
     <div class="mat-elevation-z8">
-        <table mat-table matSort [dataSource]="dataSource">
+        <table class="table table-bordered table-hover" mat-table matSort [dataSource]="dataSource">
 
             <!-- Id Column -->
             <ng-container matColumnDef="Id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> N° Solicitud </th>
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> N° Solicitud </th>
 
-                <td mat-cell *matCellDef="let element">
+                <td class="td-center" mat-cell *matCellDef="let element">
                     <a (click)="irPaginaSolicitud(element)"> {{element.Id}}  </a>
                 </td>
-
-
-
             </ng-container>
 
             <!-- Fecha_Creacion Column -->
             <ng-container matColumnDef="Created">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de Solicitud </th>
-                <td class="td-right" mat-cell *matCellDef="let element"> {{element.Created | date:'dd/MM/yy'}} </td>
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de Solicitud </th>
+                <td class="td-center" mat-cell *matCellDef="let element"> {{element.Created | date:'dd/MM/yy'}} </td>
             </ng-container>
 
             <!-- Nombre Titular Column -->
             <ng-container matColumnDef="Nombre_Titular">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Cliente </th>
-                <td mat-cell *matCellDef="let element"> {{element.Nombre_Titular}} </td>
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Cliente </th>
+                <td class="td-center" mat-cell *matCellDef="let element"> {{element.Nombre_Titular}} </td>
             </ng-container>
 
             <!-- N_Documento  Column -->
             <ng-container matColumnDef="N_Documento">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> N° de Documento </th>
-                <td mat-cell *matCellDef="let element"> {{element.N_Documento}} </td>
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> N° de Documento </th>
+                <td class="td-center" mat-cell *matCellDef="let element"> {{element.N_Documento}} </td>
             </ng-container>
 
             <!-- Author  Column -->
             <ng-container matColumnDef="Author">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Ejecutivo </th>
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Ejecutivo </th>
                 <td mat-cell *matCellDef="let element"> {{element.Author ? element.Author.Title: "-------" }} </td>
             </ng-container>
             <!-- Tipo_ProductoId  Column -->
-            <ng-container matColumnDef="Tipo_ProductoId">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Producto </th>
-                <td mat-cell *matCellDef="let element"> {{element.Tipo_ProductoId}} </td>
+            <ng-container matColumnDef="Tipo_Producto">
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Producto </th>
+                <td mat-cell *matCellDef="let element"> {{element.Tipo_Producto ? element.Tipo_Producto.Title: "-------"}} </td>
             </ng-container>
             <!-- Estado  Column -->
             <ng-container matColumnDef="Estado">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Estación </th>
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Estación </th>
                 <td mat-cell *matCellDef="let element"> {{element.Estado.Title}} </td>
             </ng-container>
             <!-- ZonaId  Column -->
             <ng-container matColumnDef="ZonaId">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Zona </th>
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Zona </th>
                 <td mat-cell *matCellDef="let element"> {{element.ZonaId ? element.ZonaId: "-------"}} </td>
             </ng-container>
 
             <!-- Oficina  Column -->
             <ng-container matColumnDef="Oficina">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Oficina </th>
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Oficina </th>
                 <td mat-cell *matCellDef="let element"> {{element.Oficina ? element.Oficina.Title: "SIN OFICINA"}} </td>
             </ng-container>
 
             <!-- Mon_Desembolso  Column -->
             <ng-container matColumnDef="Mon_Desembolso">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de Moneda </th>
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de Moneda </th>
                 <td mat-cell *matCellDef="let element"> {{element.Mon_Desembolso}} </td>
             </ng-container>
             <!-- Desembolso  Column -->
             <ng-container matColumnDef="Desembolso">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Desembolso </th>
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Desembolso </th>
                 <td mat-cell *matCellDef="let element"> {{element.Desembolso | number: '.0-2'}} </td>
             </ng-container>
 
@@ -234,6 +236,6 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
 
-        <mat-paginator [pageSizeOptions]="[9, 18, 36]" showFirstLastButtons></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[7, 14, 28]" showFirstLastButtons></mat-paginator>
     </div>
 </div>
