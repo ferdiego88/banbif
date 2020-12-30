@@ -21,7 +21,6 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 // import {default as _rollupMoment} from 'moment';
 import * as _moment from 'moment';
-import { element } from 'protractor';
 const moment = _moment;
 import {
   MomentDateAdapter,
@@ -377,7 +376,7 @@ export class DashboardCreditoComponent
         let contador = 0;
         solicitudes.forEach((solicitud) => {
         let ansRenta = 0; 
-          if (solicitud.EstadoId === Variables.constantes.EstadoEvaluacionRiesgos) {
+        if (solicitud.EstadoId === Variables.constantes.EstadoEvaluacionRiesgos) {
             solicitud.Tipo_RentaId.forEach((tipoRenta) =>{
                 switch (tipoRenta) {
                   case Variables.constantes.TipoRenta1eraCategoria:
@@ -447,8 +446,8 @@ export class DashboardCreditoComponent
               tiempoPromedioTotal = tiempoT / solicitudes.length;
             }
           }
-          contador++;
-          solicitud.Precio_Venta && solicitud.Precio_Venta !== 0 && (suma += solicitud.Precio_Venta);
+        contador++;
+        solicitud.Precio_Venta && solicitud.Precio_Venta !== 0 && (suma += solicitud.Precio_Venta);
         });
 
         const dashBoardElement = {
@@ -488,7 +487,7 @@ export class DashboardCreditoComponent
     return estadosActivos;
   }
 
-  getSolicitudesPorEstado(estadoId: number, element:HTMLElement) {
+  getSolicitudesPorEstado(estadoId: number, element: HTMLElement) {
     const solicitudes = this.filtraSolicitudes(estadoId);
     this.solicitudesEstadoList = solicitudes;
     this.dataSource = new MatTableDataSource<any>(this.solicitudesEstadoList);
@@ -500,7 +499,7 @@ export class DashboardCreditoComponent
     },1000);
   }
 
-  getSolicitudesANS(cantidadSolicitudesANS: number, estadoId?: number, element?:HTMLElement) {
+  getSolicitudesANS(cantidadSolicitudesANS: number, estadoId?: number, element?: HTMLElement) {
     let solicitudes;
     if (estadoId) {
       solicitudes = this.solicitudANSList.filter(
@@ -516,7 +515,7 @@ export class DashboardCreditoComponent
     this.showSolicitudes = true;
     setTimeout(() =>{
       this.scroll(element);
-    },1000);
+    }, 1000);
   }
 
   getSolicitudesANSAcumulado(
@@ -541,7 +540,7 @@ export class DashboardCreditoComponent
     this.dataSource.sort = this.sort;
     setTimeout(() =>{
       this.scroll(element);
-    },1000);
+    }, 1000);
     
   }
 
@@ -580,7 +579,7 @@ export class DashboardCreditoComponent
     }
     return totalBusinessDays;
   }
-  scroll(el:HTMLElement){
-    el.scrollIntoView()
+  scroll(el: HTMLElement){
+    el.scrollIntoView();
   }
 }
