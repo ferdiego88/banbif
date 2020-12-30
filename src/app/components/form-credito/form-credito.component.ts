@@ -569,43 +569,63 @@ showInputObservacion(){
   }
 
 listenerBonoBuenPagador(){
-    this.creditForm.get('Precio_Venta').valueChanges.subscribe(selectedValue => {
-        switch (true) {
-          case ( selectedValue >= Variables.constantes.PrecioVenta9 && selectedValue <= Variables.constantes.PrecioVenta10):
-            this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador5);
-            break;
-        case ( selectedValue >= Variables.constantes.PrecioVenta9):
-            this.creditForm.get('PBP').setValue(Variables.constantes.BonoBuenPagador5);
-            break;
-        case ( selectedValue >= Variables.constantes.PrecioVenta7 && selectedValue <= Variables.constantes.PrecioVenta8):
-            this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador4);
-            this.creditForm.get('PBP').setValue(Variables.constantes.BonoBuenPagador6);
-            break;
-        case ( selectedValue >= Variables.constantes.PrecioVenta5 && selectedValue <= Variables.constantes.PrecioVenta6):
-            this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador3);
-            break;
-        case ( selectedValue >= Variables.constantes.PrecioVenta3 && selectedValue <= Variables.constantes.PrecioVenta4):
-            this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador2);
-            break;
-        case ( selectedValue >= Variables.constantes.PrecioVenta1 && selectedValue <= Variables.constantes.PrecioVenta2):
-            this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador1);
-            break;
-        case (selectedValue <= Variables.constantes.PrecioVenta6):
-            this.creditForm.get('PBP').setValue(Variables.constantes.BonoBuenPagador5);
-            this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador5);
-            break;
-        default:
-            this.creditForm.get('BBP').setValue('');
-            this.creditForm.get('PBP').setValue('');
-            break;
-        }
-        if (selectedValue >= Variables.constantes.PrecioVenta1 && selectedValue <= Variables.constantes.PrecioVenta10) {
-          this.showmessageVivienda = false;
-        } else {
-          this.showmessageVivienda = true;
-        }
+  this.creditForm.get('Precio_Venta').valueChanges.subscribe(selectedValue => {
+      if (this.creditForm.controls.Tipo_ProductoId.value === Variables.constantes.TipoProductoMiViviendaId) {
 
-    });
+        if (selectedValue >= Variables.constantes.PrecioVenta9 && selectedValue <= Variables.constantes.PrecioVenta10) {
+          this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador5);
+        } else if (selectedValue >= Variables.constantes.PrecioVenta7 && selectedValue <= Variables.constantes.PrecioVenta8 ) {
+          this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador4);
+          this.creditForm.get('PBP').setValue(Variables.constantes.BonoBuenPagador6);
+        } else if (selectedValue >= Variables.constantes.PrecioVenta5 && selectedValue <= Variables.constantes.PrecioVenta6){
+          this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador3);
+        } else if (selectedValue >= Variables.constantes.PrecioVenta3 && selectedValue <= Variables.constantes.PrecioVenta4){
+          this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador2);
+        } else if (selectedValue >= Variables.constantes.PrecioVenta1 && selectedValue <= Variables.constantes.PrecioVenta2){
+          this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador1);
+        } else {
+          this.creditForm.get('BBP').setValue(0);
+          this.creditForm.get('PBP').setValue(0);
+        }
+        // switch (selectedValue) {
+        //   case ( selectedValue >= Variables.constantes.PrecioVenta9 && selectedValue <= Variables.constantes.PrecioVenta10):
+        //     this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador5);
+        //     break;
+        // case ( selectedValue >= Variables.constantes.PrecioVenta9):
+        //     this.creditForm.get('PBP').setValue(Variables.constantes.BonoBuenPagador5);
+        //     break;
+        // case ( selectedValue >= Variables.constantes.PrecioVenta7 && selectedValue <= Variables.constantes.PrecioVenta8):
+        //     this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador4);
+        //     this.creditForm.get('PBP').setValue(Variables.constantes.BonoBuenPagador6);
+        //     break;
+        // case ( selectedValue >= Variables.constantes.PrecioVenta5 && selectedValue <= Variables.constantes.PrecioVenta6):
+        //     this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador3);
+        //     break;
+        // case ( selectedValue >= Variables.constantes.PrecioVenta3 && selectedValue <= Variables.constantes.PrecioVenta4):
+        //     this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador2);
+        //     break;
+        // case ( selectedValue >= Variables.constantes.PrecioVenta1 && selectedValue <= Variables.constantes.PrecioVenta2):
+        //     this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador1);
+        //     break;
+        // case (selectedValue <= Variables.constantes.PrecioVenta6):
+        //     this.creditForm.get('PBP').setValue(Variables.constantes.BonoBuenPagador5);
+        //     this.creditForm.get('BBP').setValue(Variables.constantes.BonoBuenPagador5);
+        //     break;
+        // default:
+        //     this.creditForm.get('BBP').setValue(0);
+        //     this.creditForm.get('PBP').setValue(0);
+        //     break;
+        // }
+
+        if (selectedValue >= Variables.constantes.PrecioVenta1 && selectedValue <= Variables.constantes.PrecioVenta10) {
+            this.showmessageVivienda = false;
+          } else {
+            this.showmessageVivienda = true;
+          }
+
+        }
+        });
+
 
   }
 
