@@ -84,7 +84,7 @@ const CANAL_DATA: Canal[] = [
 export class DashboardCreditoComponent
   extends FormularioBase
   implements OnInit  {
-  displayedColumns: string[] = ['Id', 'Created', 'Nombre_Titular', 
+  displayedColumns: string[] = ['Id', 'Created', 'Nombre_Titular',
   'N_Documento', 'Author', 'Tipo_Producto', 'Estado', 'ZonaId', 'Oficina',
   'Mon_Desembolso', 'Desembolso' ];
   dataSource: MatTableDataSource<any>;
@@ -103,7 +103,7 @@ export class DashboardCreditoComponent
   solicitudHipotecarioList: SolicitudCreditoHipotecario[];
   flujoSeguimientoList: SolicitudCreditoHipotecario[];
   solicitudesEstadoList: SolicitudCreditoHipotecario[];
-  
+
   totalExpedientes = 0;
   totalTiempoPromedioEstacion = 0;
   totalTiempoPromedioTotal = 0;
@@ -375,9 +375,27 @@ export class DashboardCreditoComponent
         let fueraANSAcumulado = 0;
         let contador = 0;
         solicitudes.forEach((solicitud) => {
-        let ansRenta = 0; 
+        let ansRenta = 0;
+        let ansRentaMixta = 0;
+        let esRentaMixta = false;
+
         if (solicitud.EstadoId === Variables.constantes.EstadoEvaluacionRiesgos) {
-            solicitud.Tipo_RentaId.forEach((tipoRenta) =>{
+            // console.log(solicitud.Tipo_RentaId.length);
+            if (solicitud.Tipo_RentaId.length > 2) {
+             esRentaMixta = true;
+            } else {
+              esRentaMixta = false;
+            }
+            if (esRentaMixta){
+              if (solicitud.Tipo_RentaId.find(val => val === 3)){
+                // console.log(solicitud.Id);
+                ansRentaMixta = estado.ANS_Mixta_3;
+              }else{
+                ansRentaMixta = estado.ANS_Mixta;
+              }
+            }
+            // console.log(solicitud.Tipo_RentaId.find(val => val));
+            solicitud.Tipo_RentaId.forEach((tipoRenta) => {
                 switch (tipoRenta) {
                   case Variables.constantes.TipoRenta1eraCategoria:
                     ansRenta += estado.ANS_Renta_1;
@@ -399,7 +417,8 @@ export class DashboardCreditoComponent
                 }
             });
             if (solicitud.Fecha_Estado !== null) {
-              const AnsRenta = ansRenta + estado.Valor_ANS;
+              // console.log(ansRentaMixta);
+              const AnsRenta = ansRenta + ansRentaMixta + estado.Valor_ANS;
               const fechaEstado = moment(solicitud.Fecha_Estado);
               const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado,fechaActual);
               if (tiempoPromedioEstacion > AnsRenta) {
@@ -410,9 +429,9 @@ export class DashboardCreditoComponent
               tiempoPromedio = tiempo / solicitudes.length;
             }
             if (solicitud.Created !== null) {
-              const AnsRentaAcum = ansRenta + estado.ValorANS_Acumulado;
+              const AnsRentaAcum = ansRenta + ansRentaMixta + estado.ValorANS_Acumulado;
               const fechaCreacion = moment(solicitud.Created);
-              const tiempoPromedioT = this.calcBusinessDays(fechaCreacion,fechaActual);
+              const tiempoPromedioT = this.calcBusinessDays(fechaCreacion, fechaActual);
               // tiempoT += fechaActual.diff(fechaCreacion, 'days');
               if (tiempoPromedioT > AnsRentaAcum) {
                 fueraANSAcumulado++;
@@ -541,14 +560,14 @@ export class DashboardCreditoComponent
     setTimeout(() =>{
       this.scroll(element);
     }, 1000);
-    
+
   }
 
   public irPaginaSolicitud(
     elemento: any
   ) {
       const url = environment.getRutaBaseApp() + '/hipotecario/solicitud/' + elemento.Id;
-      window.open(url, '_blank');   
+      window.open(url, '_blank');
   }
 
   calcBusinessDays(startDate, endDate) {
