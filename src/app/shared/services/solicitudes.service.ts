@@ -239,4 +239,15 @@ export class SolicitudesService {
         }
     });
 }
+// public getMeetings() {
+//   let today = new Date();
+//   let futureDate = new Date();
+//   let offsetDays = 21;
+//   futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
+//   var filterString = `StartDate ge datetime'${today.toISOString()}' and StartDate le datetime'${futureDate.toISOString()}'`;
+//   sp.web.lists.getByTitle("Meetings").items.filter(filterString).get().then((items: any[]) => {
+//       let returnedPMeetings: IDropdownOption[] = items.map((item) => ({ key: item.StartDate, text: item.StartDate }));
+//       this.setState({ MeetingsList: returnedPMeetings });
+//   });
+// }
 }

@@ -47,7 +47,9 @@
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Vendedor" formControlName="Vendedor">
                         <mat-option [value]="">Todas</mat-option>
-                        <mat-option [value]=""> Zona 1</mat-option>
+                        <mat-option *ngFor="let user of usersList" [value]="user.Id">
+                            {{user.Title}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>

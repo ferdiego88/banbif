@@ -21,6 +21,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 // import {default as _rollupMoment} from 'moment';
 import * as _moment from 'moment';
+import { UserService } from '../../../shared/services/user.service';
 const moment = _moment;
 import {
   MomentDateAdapter,
@@ -31,6 +32,7 @@ import {
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
+import { User } from 'src/app/shared/models/fisics/base/User';
 
 export const MY_FORMATS = {
   parse: {
@@ -92,6 +94,7 @@ export class DashboardCreditoComponent
   @ViewChild(MatSort) sort: MatSort;
   data: Canal[] = CANAL_DATA;
   zonaModelList: ZonaModel[];
+  usersList: User[];
   oficinaList: TipoProductoModel[];
   estadoList: EstadoModel[];
   dashboard: DashboardModel[];
@@ -138,6 +141,7 @@ export class DashboardCreditoComponent
     public route: ActivatedRoute,
     public router: Router,
     private solicitudService: SolicitudesService,
+    private userService: UserService,
     public applicationRef: ApplicationRef,
     public dialog: MatDialog,
     public zone: NgZone,
@@ -158,6 +162,7 @@ export class DashboardCreditoComponent
   ngOnInit() {
     this.cargarCombos();
     this.cargarListeneters();
+    this.getEjecutivo();
   }
 
   cargarCombos() {
@@ -166,8 +171,7 @@ export class DashboardCreditoComponent
     this.getOficina();
     this.getTipoProducto();
     this.getTipoSubProducto();
-    // this.getEjecutivo();
-    this.dashboardForm.controls.Vendedor.disable();
+    // this.dashboardForm.controls.Vendedor.disable();
   }
 
   cargarListeneters() {
@@ -176,6 +180,8 @@ export class DashboardCreditoComponent
     this.listenerTipoProducto();
     this.listenerZona();
     this.listenerTipoSubProducto();
+    this.listenerEjecutivo();
+    this.listenerFecha();
   }
 
   getZona() {
@@ -185,12 +191,11 @@ export class DashboardCreditoComponent
       .catch((error) => console.error(error));
   }
 
-  //falta cargar los ejecutivos
-  getEjecutivo() {
-    this.generalListService
-      .get(Variables.columnasSolicitud.Author)
-      .then((autor) => (console.log(autor)))
-      .catch((error) => console.error(error));
+  async getEjecutivo() {
+    this.usersList = [];
+    this.usersList = await this.userService.getUsuariosPorGrupo(Variables.listas.AdmEjecutivos)
+     .then((user) => user);
+    // console.log(this.usersList);
   }
   getOficina(): any {
     this.generalListService
@@ -214,13 +219,7 @@ export class DashboardCreditoComponent
       .catch((error) => console.error(error));
   }
 
-  async getSolicitudes(
-    idZona = 0,
-    idOficina = 0,
-    idTipoProducto = 0,
-    idTipoSubProducto = 0,
-    idEstado = 0
-  ) {
+  async getSolicitudes(idZona = 0, idOficina = 0, idTipoProducto = 0, idTipoSubProducto = 0, idEstado = 0, idAuthor = 0) {
     let data: SolicitudCreditoHipotecario[];
 
     const fieldsFilter: string[] = [];
@@ -249,6 +248,11 @@ export class DashboardCreditoComponent
       valuesFilter.push(idEstado);
     }
 
+    if (idAuthor !== 0) {
+      fieldsFilter.push('AuthorId');
+      valuesFilter.push(idAuthor);
+    }
+
     if (fieldsFilter.length === 0) {
       data = await this.solicitudService
         .get()
@@ -270,9 +274,7 @@ export class DashboardCreditoComponent
     return data;
   }
   filtraSolicitudes(estado: number) {
-    const solicitudes = this.solicitudHipotecarioList.filter(
-      (item) => item.EstadoId === estado
-    );
+    const solicitudes = this.solicitudHipotecarioList.filter( (item) => item.EstadoId === estado);
     return solicitudes;
   }
 
@@ -295,7 +297,7 @@ export class DashboardCreditoComponent
       }
       if (value) {
         this.showSolicitudes = false;
-        this.listarSolicitudesEstado(value, 0, 0, 0);
+        this.listarSolicitudesEstado(value, 0, 0, 0, 0, 0);
       } else if (value !== null) {
         this.showSolicitudes = false;
         this.listarSolicitudesEstado();
@@ -303,12 +305,38 @@ export class DashboardCreditoComponent
     });
   }
 
-  listenerOficina() {
-    this.dashboardForm.controls.OficinaId.valueChanges.subscribe((value) => {
-      console.log(value);
+  listenerEjecutivo() {
+    this.dashboardForm.controls.Vendedor.valueChanges.subscribe((value) => {
+      // console.log(value);
       if (value) {
         this.showSolicitudes = false;
-        this.listarSolicitudesEstado(0, value, 0, 0);
+        this.listarSolicitudesEstado(0, 0, 0, 0, 0, value);
+      } else if (value !== null) {
+        this.showSolicitudes = false;
+        this.listarSolicitudesEstado();
+      }
+    });
+  }
+  listenerFecha() {
+    this.dashboardForm.controls.Fecha_Creacion_Desde.valueChanges.subscribe((value) => {
+      // let date = new Date();
+      console.log(value);
+      // if (value) {
+      //   this.showSolicitudes = false;
+      //   this.listarSolicitudesEstado(0, 0, 0, 0, 0, value);
+      // } else if (value !== null) {
+      //   this.showSolicitudes = false;
+      //   this.listarSolicitudesEstado();
+      // }
+    });
+  }
+
+  listenerOficina() {
+    this.dashboardForm.controls.OficinaId.valueChanges.subscribe((value) => {
+      // console.log(value);
+      if (value) {
+        this.showSolicitudes = false;
+        this.listarSolicitudesEstado(0, value, 0, 0, 0, 0);
       } else if (value !== null) {
         this.showSolicitudes = false;
         this.listarSolicitudesEstado();
@@ -322,7 +350,7 @@ export class DashboardCreditoComponent
       (value) => {
         if (value) {
           this.showSolicitudes = false;
-          this.listarSolicitudesEstado(0, 0, value, 0);
+          this.listarSolicitudesEstado(0, 0, value, 0, 0, 0);
         } else if (value !== null) {
           this.showSolicitudes = false;
           this.listarSolicitudesEstado();
@@ -335,7 +363,7 @@ export class DashboardCreditoComponent
       (value) => {
         if (value) {
           this.showSolicitudes = false;
-          this.listarSolicitudesEstado(0, 0, 0, value);
+          this.listarSolicitudesEstado(0, 0, 0, value, 0, 0);
         } else if (value !== null) {
           this.showSolicitudes = false;
           this.listarSolicitudesEstado();
@@ -343,16 +371,12 @@ export class DashboardCreditoComponent
       }
     );
   }
-  async listarSolicitudesEstado(
-    idZona = 0,
-    idOficina = 0,
-    idTipoProducto = 0,
-    idTipoSubProducto = 0
-  ) {
+  async listarSolicitudesEstado(idZona = 0, idOficina = 0, idTipoProducto = 0, idTipoSubProducto = 0, idEstado = 0 , idAuthor = 0) {
     this.showLoading();
     const estados = await this.getEstado();
 
-    this.solicitudHipotecarioList = await this.getSolicitudes(idZona, idOficina, idTipoProducto, idTipoSubProducto);
+    this.solicitudHipotecarioList = await this.getSolicitudes(idZona, idOficina, idTipoProducto, idTipoSubProducto, idEstado, idAuthor);
+    // console.log(this.solicitudHipotecarioList);
     this.dashboard = [];
     this.totalExpedientes = 0;
     this.totalTiempoPromedioEstacion = 0;

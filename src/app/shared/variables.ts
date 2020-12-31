@@ -133,6 +133,7 @@ export class Variables {
     AdmBBPAdicional: 'BBP_Adicional',
     AdmEstado: 'Estado',
     AdmEstadoGestor: 'Estado_Gestor',
+    AdmEjecutivos: 'Integrantes de la hipotecario',
     AdmLugarVisita: 'Lugar_Visita',
     AdmModalidad: 'Modalidad',
     AdmModalidadPago: 'Modalidad_Pago',
