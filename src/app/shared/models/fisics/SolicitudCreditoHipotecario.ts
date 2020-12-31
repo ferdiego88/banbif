@@ -23,7 +23,6 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public N_ViviendaId = 0,
     public MonedaId = 0,
     public TEA = 0,
-
     public Descripcion_Inmueble = '',
     public Fecha_Tasacion_Remodelac = '',
     public Mon_Valor_ComTas_Soles = '',
@@ -35,7 +34,6 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public Segundo_desembolso = 0,
     public Tercer_desembolso = 0,
     public Aporte_Cliente = 0,
-
     public TEA_AutorizadoId = 0,
     public Mon_PrecioVentaId = 0,
     public Precio_Venta = 0,
@@ -84,6 +82,10 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public Enlace_Documentos = {
       Description: '',
       Url: ''
+    },
+    public Sub_Producto = {
+      Id: '',
+      Title: ''
     },
     public Tipo_Producto = {
       Id: '',

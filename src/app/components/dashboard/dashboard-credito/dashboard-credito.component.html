@@ -187,7 +187,7 @@
             <!-- Nombre Titular Column -->
             <ng-container matColumnDef="Nombre_Titular">
                 <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Cliente </th>
-                <td class="td-center" mat-cell *matCellDef="let element"> {{element.Nombre_Titular}} </td>
+                <td class="td-left" mat-cell *matCellDef="let element"> {{element.Nombre_Titular}} </td>
             </ng-container>
 
             <!-- N_Documento  Column -->
@@ -199,29 +199,37 @@
             <!-- Author  Column -->
             <ng-container matColumnDef="Author">
                 <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Ejecutivo </th>
-                <td mat-cell *matCellDef="let element"> {{element.Author ? element.Author.Title: "-------" }} </td>
+                <td mat-cell class="td-left" *matCellDef="let element"> {{element.Author ? element.Author.Title: "-------" }} </td>
             </ng-container>
+            <ng-container matColumnDef="Estado">
+              <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Estación </th>
+              <td mat-cell *matCellDef="let element"> {{element.Estado.Title}} </td>
+            </ng-container>
+            <!-- ZonaId  Column -->
+            <ng-container matColumnDef="ZonaId">
+              <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Zona </th>
+              <td mat-cell *matCellDef="let element"> {{element.ZonaId ? element.ZonaId: "-------"}} </td>
+            </ng-container>
+
+            <!-- Oficina  Column -->
+            <ng-container matColumnDef="Oficina">
+              <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Oficina </th>
+              <td mat-cell class="td-center" *matCellDef="let element"> {{element.Oficina ? element.Oficina.Title: "SIN OFICINA"}} </td>
+            </ng-container>
+
             <!-- Tipo_ProductoId  Column -->
             <ng-container matColumnDef="Tipo_Producto">
                 <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Producto </th>
                 <td mat-cell *matCellDef="let element"> {{element.Tipo_Producto ? element.Tipo_Producto.Title: "-------"}} </td>
             </ng-container>
             <!-- Estado  Column -->
-            <ng-container matColumnDef="Estado">
-                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Estación </th>
-                <td mat-cell *matCellDef="let element"> {{element.Estado.Title}} </td>
-            </ng-container>
-            <!-- ZonaId  Column -->
-            <ng-container matColumnDef="ZonaId">
-                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Zona </th>
-                <td mat-cell *matCellDef="let element"> {{element.ZonaId ? element.ZonaId: "-------"}} </td>
-            </ng-container>
 
-            <!-- Oficina  Column -->
-            <ng-container matColumnDef="Oficina">
-                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Oficina </th>
-                <td mat-cell *matCellDef="let element"> {{element.Oficina ? element.Oficina.Title: "SIN OFICINA"}} </td>
+            <!-- Sub_ProductoId  Column -->
+            <ng-container matColumnDef="Sub_ProductoId">
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Sub Producto </th>
+                <td mat-cell class="td-left" *matCellDef="let element"> {{element.Sub_Producto ? element.Sub_Producto.Title: "-------"}} </td>
             </ng-container>
+            <!-- Estado  Column -->
 
             <!-- Mon_Desembolso  Column -->
             <ng-container matColumnDef="Mon_Desembolso">

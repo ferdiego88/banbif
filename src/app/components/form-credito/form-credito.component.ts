@@ -633,6 +633,7 @@ listenerPBPAdicionalSostenible(){
     this.creditForm.get('Precio_Venta').valueChanges.subscribe(precio => {
       this.creditForm.controls.BBP_AdicionalId.setValue(Variables.constantes.TipoBonoViviendaAdicionalSostenibleId);
       this.creditForm.get('BBP_AdicionalId').valueChanges.subscribe(idPBP => {
+      // console.log(precio);
       if (precio <= Variables.constantes.PrecioVenta8) {
           if (idPBP !== Variables.constantes.TipoBonoViviendaAdicionalSostenibleId && precio <= Variables.constantes.PrecioVenta8){
             this.creditForm.get('PBP_Adiconal_Sostenible').setValue(Variables.constantes.BonoAdicionalViviendaSostenible);

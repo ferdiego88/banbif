@@ -33,7 +33,7 @@ import {
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
 import { User } from 'src/app/shared/models/fisics/base/User';
-
+// import { Lookup } from '../../../shared/models/fisics/base/Lookup';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'DD/MM/YYYY',
@@ -87,7 +87,7 @@ export class DashboardCreditoComponent
   extends FormularioBase
   implements OnInit  {
   displayedColumns: string[] = ['Id', 'Created', 'Nombre_Titular',
-  'N_Documento', 'Author', 'Tipo_Producto', 'Estado', 'ZonaId', 'Oficina',
+  'N_Documento', 'Author', 'Estado', 'ZonaId', 'Oficina', 'Tipo_Producto','Sub_ProductoId',
   'Mon_Desembolso', 'Desembolso' ];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -171,6 +171,8 @@ export class DashboardCreditoComponent
     this.getOficina();
     this.getTipoProducto();
     this.getTipoSubProducto();
+    this.valueOficina();
+    this.valueSubProducto();
     // this.dashboardForm.controls.Vendedor.disable();
   }
 
@@ -181,6 +183,7 @@ export class DashboardCreditoComponent
     this.listenerZona();
     this.listenerTipoSubProducto();
     this.listenerEjecutivo();
+    // this.listenerAll();
     this.listenerFecha();
   }
 
@@ -190,6 +193,28 @@ export class DashboardCreditoComponent
       .then((zonaModelList) => (this.zonaModelList = zonaModelList))
       .catch((error) => console.error(error));
   }
+
+  valueOficina(): any{
+    this.dashboardForm.get('ZonaId').valueChanges.subscribe(selectedValue => {
+      if (selectedValue) {
+        this.generalListService.getByField(Variables.listas.AdmOficina, Variables.listas.AdmZonaId, selectedValue)
+          .then((oficinaList: any) => this.oficinaList = oficinaList)
+          .catch(error => console.error(error));
+      }
+    });
+  }
+
+
+valueSubProducto(): any{
+  this.dashboardForm.get('Tipo_ProductoId').valueChanges.subscribe(selectedValue => {
+    if (selectedValue) {
+      this.generalListService.getByField(Variables.listas.AdmTipoSubProducto, Variables.listas.AdmTipoProductoId, selectedValue)
+        .then((tipoSubProductoList: any) => this.tipoSubProductoList = tipoSubProductoList)
+        .catch(error => console.error(error));
+    }
+  });
+}
+
 
   async getEjecutivo() {
     this.usersList = [];
@@ -289,18 +314,25 @@ export class DashboardCreditoComponent
   }
 
   listenerZona() {
-    this.dashboardForm.controls.ZonaId.valueChanges.subscribe((value) => {
-      if (value !== Variables.constantes.ZonaIDFFVV) {
+    this.dashboardForm.controls.ZonaId.valueChanges.subscribe((zona) => {
+      if (zona !== Variables.constantes.ZonaIDFFVV) {
         this.dashboardForm.controls.Canal.setValue(2);
       } else {
         this.dashboardForm.controls.Canal.setValue(1);
       }
-      if (value) {
+      const producto = this.dashboardForm.controls.Tipo_ProductoId.value;
+      console.log(producto);
+      if (producto !== null) {
         this.showSolicitudes = false;
-        this.listarSolicitudesEstado(value, 0, 0, 0, 0, 0);
-      } else if (value !== null) {
-        this.showSolicitudes = false;
-        this.listarSolicitudesEstado();
+        this.listarSolicitudesEstado(zona, 0, producto, 0, 0, 0);
+      } else {
+        if (zona) {
+          this.showSolicitudes = false;
+          this.listarSolicitudesEstado(zona, 0, 0, 0, 0, 0);
+        } else if (zona !== null) {
+          this.showSolicitudes = false;
+          this.listarSolicitudesEstado();
+        }
       }
     });
   }
@@ -348,12 +380,26 @@ export class DashboardCreditoComponent
   listenerTipoProducto() {
     this.dashboardForm.controls.Tipo_ProductoId.valueChanges.subscribe(
       (value) => {
-        if (value) {
+        const zona = this.dashboardForm.controls.ZonaId.value;
+        const oficina = this.dashboardForm.controls.OficinaId.value;
+        console.log(zona);
+        if (zona !== null && oficina !== null) {
           this.showSolicitudes = false;
-          this.listarSolicitudesEstado(0, 0, value, 0, 0, 0);
-        } else if (value !== null) {
+          this.listarSolicitudesEstado(zona, oficina, value, 0, 0, 0);
+        }else if (zona !== null) {
           this.showSolicitudes = false;
-          this.listarSolicitudesEstado();
+          this.listarSolicitudesEstado(zona, 0, value, 0, 0, 0);
+        }else if (oficina !== null) {
+          this.showSolicitudes = false;
+          this.listarSolicitudesEstado(0, oficina, value, 0, 0, 0);
+        } else {
+          if (value) {
+            this.showSolicitudes = false;
+            this.listarSolicitudesEstado(0, 0, value, 0, 0, 0);
+          } else if (value !== null) {
+            this.showSolicitudes = false;
+            this.listarSolicitudesEstado();
+          }
         }
       }
     );
@@ -371,10 +417,38 @@ export class DashboardCreditoComponent
       }
     );
   }
+  listenerAll(){
+    this.dashboardForm.get('Tipo_ProductoId').valueChanges.subscribe(producto => {
+      this.dashboardForm.controls.Sub_ProductoId.valueChanges.subscribe(subproducto => {
+        this.dashboardForm.controls.ZonaId.valueChanges.subscribe(zona => {
+          this.dashboardForm.controls.OficinaId.valueChanges.subscribe(oficina => {
+            this.dashboardForm.controls.Vendedor.valueChanges.subscribe(ejecutivo => {
+
+                  console.log(producto);
+                  // console.log(value);
+                  if (zona !== Variables.constantes.ZonaIDFFVV) {
+                    this.dashboardForm.controls.Canal.setValue(2);
+                  } else {
+                    this.dashboardForm.controls.Canal.setValue(1);
+                  }
+
+                  if (producto) {
+                    this.showSolicitudes = false;
+                    // this.listarSolicitudesEstado(zona, oficina, producto, subproducto, 0, ejecutivo);
+                    this.listarSolicitudesEstado(0, 0, producto, 0, 0, 0);
+                  } else if (producto !== null) {
+                    this.showSolicitudes = false;
+                    this.listarSolicitudesEstado();
+                  }
+                });
+              });
+            });
+            });
+        });
+  }
   async listarSolicitudesEstado(idZona = 0, idOficina = 0, idTipoProducto = 0, idTipoSubProducto = 0, idEstado = 0 , idAuthor = 0) {
     this.showLoading();
     const estados = await this.getEstado();
-
     this.solicitudHipotecarioList = await this.getSolicitudes(idZona, idOficina, idTipoProducto, idTipoSubProducto, idEstado, idAuthor);
     // console.log(this.solicitudHipotecarioList);
     this.dashboard = [];
