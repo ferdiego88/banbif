@@ -321,7 +321,7 @@ valueSubProducto(): any{
         this.dashboardForm.controls.Canal.setValue(1);
       }
       const producto = this.dashboardForm.controls.Tipo_ProductoId.value;
-      console.log(producto);
+      // console.log(producto);
       if (producto !== null) {
         this.showSolicitudes = false;
         this.listarSolicitudesEstado(zona, 0, producto, 0, 0, 0);
@@ -366,13 +366,31 @@ valueSubProducto(): any{
   listenerOficina() {
     this.dashboardForm.controls.OficinaId.valueChanges.subscribe((value) => {
       // console.log(value);
-      if (value) {
+      const zona = this.dashboardForm.controls.ZonaId.value;
+      const producto = this.dashboardForm.controls.Tipo_ProductoId.value;
+      const subproducto = this.dashboardForm.controls.Sub_ProductoId.value;
+      // console.log(zona);
+      if (zona !== null && producto !== null && subproducto !== null) {
         this.showSolicitudes = false;
-        this.listarSolicitudesEstado(0, value, 0, 0, 0, 0);
-      } else if (value !== null) {
+        this.listarSolicitudesEstado(zona, value, producto, subproducto, 0, 0);
+      }else if (zona !== null) {
         this.showSolicitudes = false;
-        this.listarSolicitudesEstado();
-        this.dashboardForm.controls.Canal.setValue('Todas');
+        this.listarSolicitudesEstado(zona, value, 0, 0, 0, 0);
+      }else if (producto !== null) {
+        this.showSolicitudes = false;
+        this.listarSolicitudesEstado(0, value, producto, 0, 0, 0);
+      }else if (subproducto !== null) {
+        this.showSolicitudes = false;
+        this.listarSolicitudesEstado(0, value, 0, subproducto, 0, 0);
+      }else {
+        if (value) {
+          this.showSolicitudes = false;
+          this.listarSolicitudesEstado(0, value, 0, 0, 0, 0);
+        } else if (value !== null) {
+          this.showSolicitudes = false;
+          this.listarSolicitudesEstado();
+          this.dashboardForm.controls.Canal.setValue('Todas');
+        }
       }
     });
   }
@@ -382,7 +400,7 @@ valueSubProducto(): any{
       (value) => {
         const zona = this.dashboardForm.controls.ZonaId.value;
         const oficina = this.dashboardForm.controls.OficinaId.value;
-        console.log(zona);
+        // console.log(zona);
         if (zona !== null && oficina !== null) {
           this.showSolicitudes = false;
           this.listarSolicitudesEstado(zona, oficina, value, 0, 0, 0);
@@ -407,45 +425,64 @@ valueSubProducto(): any{
   listenerTipoSubProducto() {
     this.dashboardForm.controls.Sub_ProductoId.valueChanges.subscribe(
       (value) => {
-        if (value) {
+        const zona = this.dashboardForm.controls.ZonaId.value;
+        const oficina = this.dashboardForm.controls.OficinaId.value;
+        const producto = this.dashboardForm.controls.Tipo_ProductoId.value;
+        // console.log(zona);
+        if (zona !== null && oficina !== null && producto !== null) {
           this.showSolicitudes = false;
-          this.listarSolicitudesEstado(0, 0, 0, value, 0, 0);
-        } else if (value !== null) {
+          this.listarSolicitudesEstado(zona, oficina, producto, value, 0, 0);
+        }else if (zona !== null) {
           this.showSolicitudes = false;
-          this.listarSolicitudesEstado();
+          this.listarSolicitudesEstado(zona, 0, 0, value, 0, 0);
+        }else if (oficina !== null) {
+          this.showSolicitudes = false;
+          this.listarSolicitudesEstado(0, oficina, 0, value, 0, 0);
+        }else if (producto !== null) {
+          this.showSolicitudes = false;
+          this.listarSolicitudesEstado(0, 0, producto, value, 0, 0);
+        }else{
+          if (value) {
+            this.showSolicitudes = false;
+            this.listarSolicitudesEstado(0, 0, 0, value, 0, 0);
+
+          } else if (value !== null) {
+            this.showSolicitudes = false;
+            this.listarSolicitudesEstado();
+          }
         }
       }
     );
   }
-  listenerAll(){
-    this.dashboardForm.get('Tipo_ProductoId').valueChanges.subscribe(producto => {
-      this.dashboardForm.controls.Sub_ProductoId.valueChanges.subscribe(subproducto => {
-        this.dashboardForm.controls.ZonaId.valueChanges.subscribe(zona => {
-          this.dashboardForm.controls.OficinaId.valueChanges.subscribe(oficina => {
-            this.dashboardForm.controls.Vendedor.valueChanges.subscribe(ejecutivo => {
+  // listenerAll(){
+  //   this.dashboardForm.get('Tipo_ProductoId').valueChanges.subscribe(producto => {
+  //     this.dashboardForm.controls.Sub_ProductoId.valueChanges.subscribe(subproducto => {
+  //       this.dashboardForm.controls.ZonaId.valueChanges.subscribe(zona => {
+  //         this.dashboardForm.controls.OficinaId.valueChanges.subscribe(oficina => {
+  //           this.dashboardForm.controls.Vendedor.valueChanges.subscribe(ejecutivo => {
 
-                  console.log(producto);
-                  // console.log(value);
-                  if (zona !== Variables.constantes.ZonaIDFFVV) {
-                    this.dashboardForm.controls.Canal.setValue(2);
-                  } else {
-                    this.dashboardForm.controls.Canal.setValue(1);
-                  }
+  //                 console.log(producto);
+  //                 // console.log(value);
+  //                 if (zona !== Variables.constantes.ZonaIDFFVV) {
+  //                   this.dashboardForm.controls.Canal.setValue(2);
+  //                 } else {
+  //                   this.dashboardForm.controls.Canal.setValue(1);
+  //                 }
 
-                  if (producto) {
-                    this.showSolicitudes = false;
-                    // this.listarSolicitudesEstado(zona, oficina, producto, subproducto, 0, ejecutivo);
-                    this.listarSolicitudesEstado(0, 0, producto, 0, 0, 0);
-                  } else if (producto !== null) {
-                    this.showSolicitudes = false;
-                    this.listarSolicitudesEstado();
-                  }
-                });
-              });
-            });
-            });
-        });
-  }
+  //                 if (producto) {
+  //                   this.showSolicitudes = false;
+  //                   // this.listarSolicitudesEstado(zona, oficina, producto, subproducto, 0, ejecutivo);
+  //                   this.listarSolicitudesEstado(0, 0, producto, 0, 0, 0);
+  //                 } else if (producto !== null) {
+  //                   this.showSolicitudes = false;
+  //                   this.listarSolicitudesEstado();
+  //                 }
+  //               });
+  //             });
+  //           });
+  //           });
+  //       });
+  // }
   async listarSolicitudesEstado(idZona = 0, idOficina = 0, idTipoProducto = 0, idTipoSubProducto = 0, idEstado = 0 , idAuthor = 0) {
     this.showLoading();
     const estados = await this.getEstado();
