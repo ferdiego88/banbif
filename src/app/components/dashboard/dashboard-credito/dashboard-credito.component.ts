@@ -86,8 +86,8 @@ const CANAL_DATA: Canal[] = [
 export class DashboardCreditoComponent
   extends FormularioBase
   implements OnInit  {
-  displayedColumns: string[] = ['Id', 'Created', 'Nombre_Titular',
-  'N_Documento', 'Author', 'Estado', 'ZonaId', 'Oficina', 'Tipo_Producto','Sub_ProductoId',
+  displayedColumns: string[] = ['Id', 'Created', 'Fecha_Estado', 'Nombre_Titular',
+  'N_Documento', 'Author', 'Estado', 'ZonaId', 'Oficina', 'Tipo_Producto', 'Sub_ProductoId',
   'Mon_Desembolso', 'Desembolso' ];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -303,6 +303,17 @@ valueSubProducto(): any{
     return solicitudes;
   }
 
+  filtraSolicitudesFecha() {
+    const solicitudes = this.solicitudHipotecarioList.filter( (item) => 
+      item.Fecha_Estado > '01/12/2020' && item.Fecha_Estado < '31/12/2020');
+    console.log(solicitudes);
+    this.solicitudesEstadoList = solicitudes;
+    this.dataSource = new MatTableDataSource<any>(this.solicitudesEstadoList);
+    this.showSolicitudes = true;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
   listenerCombosUnselected(
     control1: string,
     control2: string,
@@ -350,17 +361,32 @@ valueSubProducto(): any{
     });
   }
   listenerFecha() {
-    this.dashboardForm.controls.Fecha_Creacion_Desde.valueChanges.subscribe((value) => {
-      // let date = new Date();
-      console.log(value);
-      // if (value) {
-      //   this.showSolicitudes = false;
-      //   this.listarSolicitudesEstado(0, 0, 0, 0, 0, value);
-      // } else if (value !== null) {
-      //   this.showSolicitudes = false;
-      //   this.listarSolicitudesEstado();
-      // }
-    });
+    this.dashboardForm.controls.Fecha_Creacion_Hasta.valueChanges.subscribe((fecHasta) => {
+      const fecha1 = moment(this.dashboardForm.controls.Fecha_Creacion_Desde.value).format('DD/MM/YYYY');
+      const fechaDesde = moment(fecha1, 'DD-MM-YYYY').toDate();
+      const fecha2 = moment(fecHasta).format('DD/MM/YYYY');
+      const fechaHasta = moment(fecha2, 'DD-MM-YYYY').toDate();
+      const solicitudes = this.solicitudHipotecarioList;
+      let solicitudPorFecha;
+      this.solicitudesEstadoList = [];
+      solicitudes.forEach(solicitud => {
+        const fecha = moment(solicitud.Created).format('DD/MM/YYYY');
+        const fechaEstado = moment(fecha, 'DD-MM-YYYY').toDate();
+        if (fechaEstado >= fechaDesde && fechaEstado <= fechaHasta) {
+           solicitudPorFecha = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
+           this.solicitudesEstadoList.push(solicitudPorFecha);
+           setTimeout(() => {
+            const elmnt = document.getElementById('elemento');
+            elmnt.scrollIntoView();
+             }, 1000);
+            } 
+          });
+      // console.log(this.solicitudesEstadoList);
+      this.dataSource = new MatTableDataSource<any>(this.solicitudesEstadoList);
+      this.showSolicitudes = true;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+        });
   }
 
   listenerOficina() {
@@ -454,35 +480,7 @@ valueSubProducto(): any{
       }
     );
   }
-  // listenerAll(){
-  //   this.dashboardForm.get('Tipo_ProductoId').valueChanges.subscribe(producto => {
-  //     this.dashboardForm.controls.Sub_ProductoId.valueChanges.subscribe(subproducto => {
-  //       this.dashboardForm.controls.ZonaId.valueChanges.subscribe(zona => {
-  //         this.dashboardForm.controls.OficinaId.valueChanges.subscribe(oficina => {
-  //           this.dashboardForm.controls.Vendedor.valueChanges.subscribe(ejecutivo => {
 
-  //                 console.log(producto);
-  //                 // console.log(value);
-  //                 if (zona !== Variables.constantes.ZonaIDFFVV) {
-  //                   this.dashboardForm.controls.Canal.setValue(2);
-  //                 } else {
-  //                   this.dashboardForm.controls.Canal.setValue(1);
-  //                 }
-
-  //                 if (producto) {
-  //                   this.showSolicitudes = false;
-  //                   // this.listarSolicitudesEstado(zona, oficina, producto, subproducto, 0, ejecutivo);
-  //                   this.listarSolicitudesEstado(0, 0, producto, 0, 0, 0);
-  //                 } else if (producto !== null) {
-  //                   this.showSolicitudes = false;
-  //                   this.listarSolicitudesEstado();
-  //                 }
-  //               });
-  //             });
-  //           });
-  //           });
-  //       });
-  // }
   async listarSolicitudesEstado(idZona = 0, idOficina = 0, idTipoProducto = 0, idTipoSubProducto = 0, idEstado = 0 , idAuthor = 0) {
     this.showLoading();
     const estados = await this.getEstado();
@@ -555,7 +553,7 @@ valueSubProducto(): any{
               // console.log(ansRentaMixta);
               const AnsRenta = ansRenta + ansRentaMixta + estado.Valor_ANS;
               const fechaEstado = moment(solicitud.Fecha_Estado);
-              const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado,fechaActual);
+              const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado, fechaActual); 
               if (tiempoPromedioEstacion > AnsRenta) {
                 fueraANS++;
                 this.solicitudANSList.push(solicitudes[contador]);
@@ -579,7 +577,7 @@ valueSubProducto(): any{
           }else{
             if (solicitud.Fecha_Estado !== null) {
               const fechaEstado = moment(solicitud.Fecha_Estado);
-              const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado,fechaActual);
+              const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado, fechaActual);
               if (tiempoPromedioEstacion > estado.Valor_ANS) {
                 fueraANS++;
                 this.solicitudANSList.push(solicitudes[contador]);
@@ -590,7 +588,7 @@ valueSubProducto(): any{
 
             if (solicitud.Created !== null) {
               const fechaCreacion = moment(solicitud.Created);
-              const tiempoPromedioT = this.calcBusinessDays(fechaCreacion,fechaActual);
+              const tiempoPromedioT = this.calcBusinessDays(fechaCreacion, fechaActual);
               // tiempoT += fechaActual.diff(fechaCreacion, 'days');
               if (tiempoPromedioT > estado.ValorANS_Acumulado) {
                 fueraANSAcumulado++;
@@ -648,17 +646,15 @@ valueSubProducto(): any{
     this.showSolicitudes = true;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    setTimeout(() =>{
+    setTimeout(() => {
       this.scroll(element);
-    },1000);
+    }, 1000);
   }
 
   getSolicitudesANS(cantidadSolicitudesANS: number, estadoId?: number, element?: HTMLElement) {
     let solicitudes;
     if (estadoId) {
-      solicitudes = this.solicitudANSList.filter(
-        (item) => item.EstadoId === estadoId
-      );
+      solicitudes = this.solicitudANSList.filter((item) => item.EstadoId === estadoId);
     } else {
       solicitudes = this.solicitudANSList.slice(0, cantidadSolicitudesANS);
     }
@@ -667,32 +663,24 @@ valueSubProducto(): any{
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.showSolicitudes = true;
-    setTimeout(() =>{
+    setTimeout(() => {
       this.scroll(element);
     }, 1000);
   }
 
-  getSolicitudesANSAcumulado(
-    cantidadSolicitudesANS: number,
-    estadoId?: number, element?: HTMLElement
-  ) {
+  getSolicitudesANSAcumulado(cantidadSolicitudesANS: number, estadoId?: number, element?: HTMLElement) {
     let solicitudes;
     if (estadoId) {
-      solicitudes = this.solicitudANSAcumuladoList.filter(
-        (item) => item.EstadoId === estadoId
-      );
+      solicitudes = this.solicitudANSAcumuladoList.filter((item) => item.EstadoId === estadoId);
     } else {
-      solicitudes = this.solicitudANSAcumuladoList.slice(
-        0,
-        cantidadSolicitudesANS
-      );
+      solicitudes = this.solicitudANSAcumuladoList.slice(0, cantidadSolicitudesANS);
     }
     this.solicitudesEstadoList = solicitudes;
     this.dataSource = new MatTableDataSource<any>(this.solicitudesEstadoList);
     this.dataSource.paginator = this.paginator;
     this.showSolicitudes = true;
     this.dataSource.sort = this.sort;
-    setTimeout(() =>{
+    setTimeout(() => {
       this.scroll(element);
     }, 1000);
 

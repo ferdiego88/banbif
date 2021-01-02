@@ -8,6 +8,7 @@
                     <span class="sub-title">Fecha de Creación</span>
                 </div>
             </div>
+            <a (click)="filtraSolicitudesFecha()">Filtra</a>
             <div class="col-md-2">
                 <mat-form-field class="full-width" appearance="fill">
                     <mat-label>Desde</mat-label>
@@ -184,6 +185,12 @@
                 <td class="td-center" mat-cell *matCellDef="let element"> {{element.Created | date:'dd/MM/yy'}} </td>
             </ng-container>
 
+            <!-- Fecha_Estado Column -->
+            <ng-container matColumnDef="Fecha_Estado">
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de Estado </th>
+                <td class="td-center" mat-cell *matCellDef="let element"> {{element.Fecha_Estado | date:'dd/MM/yy'}} </td>
+            </ng-container>
+
             <!-- Nombre Titular Column -->
             <ng-container matColumnDef="Nombre_Titular">
                 <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Cliente </th>
@@ -202,19 +209,19 @@
                 <td mat-cell class="td-right" *matCellDef="let element"> {{element.Author ? element.Author.Title: "-------" }} </td>
             </ng-container>
             <ng-container matColumnDef="Estado">
-              <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Estación </th>
-              <td mat-cell class="td-center" *matCellDef="let element"> {{element.Estado.Title}} </td>
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Estación </th>
+                <td mat-cell class="td-center" *matCellDef="let element"> {{element.Estado.Title}} </td>
             </ng-container>
             <!-- ZonaId  Column -->
             <ng-container matColumnDef="ZonaId">
-              <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Zona </th>
-              <td mat-cell *matCellDef="let element"> {{element.ZonaId ? element.ZonaId: "-------"}} </td>
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Zona </th>
+                <td mat-cell *matCellDef="let element"> {{element.ZonaId ? element.ZonaId: "-------"}} </td>
             </ng-container>
 
             <!-- Oficina  Column -->
             <ng-container matColumnDef="Oficina">
-              <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Oficina </th>
-              <td mat-cell class="td-center" *matCellDef="let element"> {{element.Oficina ? element.Oficina.Title: "SIN OFICINA"}} </td>
+                <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header> Oficina </th>
+                <td mat-cell class="td-center" *matCellDef="let element"> {{element.Oficina ? element.Oficina.Title: "SIN OFICINA"}} </td>
             </ng-container>
 
             <!-- Tipo_ProductoId  Column -->
