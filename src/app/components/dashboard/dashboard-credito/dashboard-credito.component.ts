@@ -412,6 +412,7 @@ valueSubProducto(): any{
     this.dashboardForm.controls.Fecha_Creacion_Hasta.valueChanges.subscribe((fecHasta) => {
        if (fecHasta) {
          this.listarSolicitudesEstado();
+         this.dashboardForm.controls.Fecha_Estado_Hasta.setValue('');
        }
       });
   }
@@ -419,6 +420,7 @@ valueSubProducto(): any{
     this.dashboardForm.controls.Fecha_Estado_Hasta.valueChanges.subscribe((fecHasta) => {
        if (fecHasta) {
          this.listarSolicitudesEstado();
+         this.dashboardForm.controls.Fecha_Creacion_Hasta.setValue('');
        }
       });
   }
