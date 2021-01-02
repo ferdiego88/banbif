@@ -4,13 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpinnerVisibilityService } from 'ng-http-loader';
 import { environment } from 'src/environments/environment';
-import {
-  SolicitudCreditoHipotecario,
-  TipoProductoModel,
-  ZonaModel,
-  EstadoModel,
-  DashboardModel,
-} from 'src/app/shared/models/fisics';
+import {SolicitudCreditoHipotecario, TipoProductoModel, ZonaModel, EstadoModel, DashboardModel} from 'src/app/shared/models/fisics';
 import { FormularioBase } from 'src/app/shared/pages/formularioBase';
 import { GeneralListService } from 'src/app/shared/services/general-list.service';
 import { MasterService } from 'src/app/shared/services/master.service';
@@ -34,6 +28,7 @@ import {
 } from '@angular/material/core';
 import { User } from 'src/app/shared/models/fisics/base/User';
 // import { Lookup } from '../../../shared/models/fisics/base/Lookup';
+import { element } from 'protractor';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'DD/MM/YYYY',
@@ -104,8 +99,9 @@ export class DashboardCreditoComponent
   solicitudANSAcumuladoList: SolicitudCreditoHipotecario[];
   solicitudANSPorEstadoList: SolicitudCreditoHipotecario[];
   solicitudHipotecarioList: SolicitudCreditoHipotecario[];
-  flujoSeguimientoList: SolicitudCreditoHipotecario[];
   solicitudesEstadoList: SolicitudCreditoHipotecario[];
+  solicitudesPorFechaCreacionList: SolicitudCreditoHipotecario[];
+  solicitudesPorFechaEstadoList: SolicitudCreditoHipotecario[];
 
   totalExpedientes = 0;
   totalTiempoPromedioEstacion = 0;
@@ -119,6 +115,8 @@ export class DashboardCreditoComponent
     OficinaId: [null],
     Fecha_Creacion_Desde: [null],
     Fecha_Creacion_Hasta: [null],
+    Fecha_Estado_Desde: [null],
+    Fecha_Estado_Hasta: [null],
     Vendedor: [null],
     Canal: [null],
     Origen: [null],
@@ -184,7 +182,8 @@ export class DashboardCreditoComponent
     this.listenerTipoSubProducto();
     this.listenerEjecutivo();
     // this.listenerAll();
-    this.listenerFecha();
+    this.listenerFechaCreacion();
+    this.listenerFechaEstado();
   }
 
   getZona() {
@@ -299,30 +298,27 @@ valueSubProducto(): any{
     return data;
   }
   filtraSolicitudes(estado: number) {
-    const solicitudes = this.solicitudHipotecarioList.filter( (item) => item.EstadoId === estado);
+    let solicitudes;
+    if (this.dashboardForm.controls.Fecha_Creacion_Hasta.value !== null) {
+      const solicitudesporFecha = this.getSolicitudesFechaCreacion();
+      solicitudes = solicitudesporFecha.filter( (item) => item.EstadoId === estado);
+      // solicitudes = solicitudesporFecha.filter()
+    }else if ( this.dashboardForm.controls.Fecha_Estado_Hasta.value !== null) 
+    {
+      const solicitudesporFechaEstado = this.getSolicitudesFechaEstado();
+      solicitudes = solicitudesporFechaEstado.filter( (item) => item.EstadoId === estado);
+    }
+    else {      
+      solicitudes = this.solicitudHipotecarioList.filter( (item) => item.EstadoId === estado);
+    }
     return solicitudes;
   }
 
-  filtraSolicitudesFecha() {
-    const solicitudes = this.solicitudHipotecarioList.filter( (item) => 
-      item.Fecha_Estado > '01/12/2020' && item.Fecha_Estado < '31/12/2020');
-    console.log(solicitudes);
-    this.solicitudesEstadoList = solicitudes;
-    this.dataSource = new MatTableDataSource<any>(this.solicitudesEstadoList);
-    this.showSolicitudes = true;
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  listenerCombosUnselected(
-    control1: string,
-    control2: string,
-    control3: string
-  ) {
-    this.dashboardForm.get(`${control1}`).setValue(null);
-    this.dashboardForm.get(`${control2}`).setValue(null);
-    this.dashboardForm.get(`${control3}`).setValue(null);
-  }
+  // listenerCombosUnselected(control1: string, control2: string, control3: string ) {
+  //   this.dashboardForm.get(`${control1}`).setValue(null);
+  //   this.dashboardForm.get(`${control2}`).setValue(null);
+  //   this.dashboardForm.get(`${control3}`).setValue(null);
+  // }
 
   listenerZona() {
     this.dashboardForm.controls.ZonaId.valueChanges.subscribe((zona) => {
@@ -360,33 +356,71 @@ valueSubProducto(): any{
       }
     });
   }
-  listenerFecha() {
-    this.dashboardForm.controls.Fecha_Creacion_Hasta.valueChanges.subscribe((fecHasta) => {
+  getSolicitudesFechaCreacion() {
+    // this.dashboardForm.controls.Fecha_Creacion_Hasta.valueChanges.subscribe((fecHasta) => {
       const fecha1 = moment(this.dashboardForm.controls.Fecha_Creacion_Desde.value).format('DD/MM/YYYY');
       const fechaDesde = moment(fecha1, 'DD-MM-YYYY').toDate();
-      const fecha2 = moment(fecHasta).format('DD/MM/YYYY');
+      const fecha2 = moment(this.dashboardForm.controls.Fecha_Creacion_Hasta.value).format('DD/MM/YYYY');
       const fechaHasta = moment(fecha2, 'DD-MM-YYYY').toDate();
       const solicitudes = this.solicitudHipotecarioList;
       let solicitudPorFecha;
-      this.solicitudesEstadoList = [];
+      this.solicitudesPorFechaCreacionList = [];
       solicitudes.forEach(solicitud => {
         const fecha = moment(solicitud.Created).format('DD/MM/YYYY');
         const fechaEstado = moment(fecha, 'DD-MM-YYYY').toDate();
         if (fechaEstado >= fechaDesde && fechaEstado <= fechaHasta) {
            solicitudPorFecha = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
-           this.solicitudesEstadoList.push(solicitudPorFecha);
-           setTimeout(() => {
-            const elmnt = document.getElementById('elemento');
-            elmnt.scrollIntoView();
-             }, 1000);
+           this.solicitudesPorFechaCreacionList.push(solicitudPorFecha);
+          //  setTimeout(() => {
+          //   // const elmnt = document.getElementById('elemento');
+          //   // elmnt.scrollIntoView();
+          //   const elemento: HTMLElement = document.getElementById('element');
+          //   this.scroll(elemento);
+          //    }, 1000);
             } 
           });
       // console.log(this.solicitudesEstadoList);
-      this.dataSource = new MatTableDataSource<any>(this.solicitudesEstadoList);
-      this.showSolicitudes = true;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-        });
+      // this.dataSource = new MatTableDataSource<any>(this.solicitudesPorFechaCreacionList);
+      // this.showSolicitudes = true;
+      // this.dataSource.paginator = this.paginator;
+      // this.dataSource.sort = this.sort;
+      // return this.solicitudesPorFechaCreacionList;
+        // });
+      return this.solicitudesPorFechaCreacionList;
+  }
+  getSolicitudesFechaEstado() {
+    // this.dashboardForm.controls.Fecha_Creacion_Hasta.valueChanges.subscribe((fecHasta) => {
+      const fecha1 = moment(this.dashboardForm.controls.Fecha_Estado_Desde.value).format('DD/MM/YYYY');
+      const fechaDesde = moment(fecha1, 'DD-MM-YYYY').toDate();
+      const fecha2 = moment(this.dashboardForm.controls.Fecha_Estado_Hasta.value).format('DD/MM/YYYY');
+      const fechaHasta = moment(fecha2, 'DD-MM-YYYY').toDate();
+      const solicitudes = this.solicitudHipotecarioList;
+      let solicitudPorFecha;
+      this.solicitudesPorFechaEstadoList = [];
+      solicitudes.forEach(solicitud => {
+        const fecha = moment(solicitud.Fecha_Estado).format('DD/MM/YYYY');
+        const fechaEstado = moment(fecha, 'DD-MM-YYYY').toDate();
+        if (fechaEstado >= fechaDesde && fechaEstado <= fechaHasta) {
+           solicitudPorFecha = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
+           this.solicitudesPorFechaEstadoList.push(solicitudPorFecha);
+            } 
+          });
+      return this.solicitudesPorFechaEstadoList;
+  }
+  
+  listenerFechaCreacion(){
+    this.dashboardForm.controls.Fecha_Creacion_Hasta.valueChanges.subscribe((fecHasta) => {
+       if (fecHasta) {
+         this.listarSolicitudesEstado();
+       }
+      });
+  }
+  listenerFechaEstado(){
+    this.dashboardForm.controls.Fecha_Estado_Hasta.valueChanges.subscribe((fecHasta) => {
+       if (fecHasta) {
+         this.listarSolicitudesEstado();
+       }
+      });
   }
 
   listenerOficina() {
@@ -639,7 +673,7 @@ valueSubProducto(): any{
     return estadosActivos;
   }
 
-  getSolicitudesPorEstado(estadoId: number, element: HTMLElement) {
+  getSolicitudesPorEstado(estadoId: number, elemento: HTMLElement) {
     const solicitudes = this.filtraSolicitudes(estadoId);
     this.solicitudesEstadoList = solicitudes;
     this.dataSource = new MatTableDataSource<any>(this.solicitudesEstadoList);
@@ -647,11 +681,11 @@ valueSubProducto(): any{
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     setTimeout(() => {
-      this.scroll(element);
+      this.scroll(elemento);
     }, 1000);
   }
 
-  getSolicitudesANS(cantidadSolicitudesANS: number, estadoId?: number, element?: HTMLElement) {
+  getSolicitudesANS(cantidadSolicitudesANS: number, estadoId?: number, elemento?: HTMLElement) {
     let solicitudes;
     if (estadoId) {
       solicitudes = this.solicitudANSList.filter((item) => item.EstadoId === estadoId);
@@ -664,11 +698,11 @@ valueSubProducto(): any{
     this.dataSource.sort = this.sort;
     this.showSolicitudes = true;
     setTimeout(() => {
-      this.scroll(element);
+      this.scroll(elemento);
     }, 1000);
   }
 
-  getSolicitudesANSAcumulado(cantidadSolicitudesANS: number, estadoId?: number, element?: HTMLElement) {
+  getSolicitudesANSAcumulado(cantidadSolicitudesANS: number, estadoId?: number, elemento?: HTMLElement) {
     let solicitudes;
     if (estadoId) {
       solicitudes = this.solicitudANSAcumuladoList.filter((item) => item.EstadoId === estadoId);
@@ -681,7 +715,7 @@ valueSubProducto(): any{
     this.showSolicitudes = true;
     this.dataSource.sort = this.sort;
     setTimeout(() => {
-      this.scroll(element);
+      this.scroll(elemento);
     }, 1000);
 
   }

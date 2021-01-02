@@ -8,7 +8,6 @@
                     <span class="sub-title">Fecha de Creación</span>
                 </div>
             </div>
-            <a (click)="filtraSolicitudesFecha()">Filtra</a>
             <div class="col-md-2">
                 <mat-form-field class="full-width" appearance="fill">
                     <mat-label>Desde</mat-label>
@@ -75,7 +74,7 @@
             <div class="col-md-2">
                 <mat-form-field class="full-width" appearance="fill">
                     <mat-label>Desde</mat-label>
-                    <input matInput [matDatepicker]="dpfed" formControlName="Fecha_Creacion_Desde">
+                    <input matInput [matDatepicker]="dpfed" formControlName="Fecha_Estado_Desde">
                     <mat-datepicker-toggle matSuffix [for]="dpfed"></mat-datepicker-toggle>
                     <mat-datepicker #dpfed></mat-datepicker>
                 </mat-form-field>
@@ -83,7 +82,7 @@
             <div class="col-md-2">
                 <mat-form-field class="full-width" appearance="fill">
                     <mat-label>Hasta</mat-label>
-                    <input matInput [matDatepicker]="dpfech" formControlName="Fecha_Creacion_Hasta">
+                    <input matInput [matDatepicker]="dpfech" formControlName="Fecha_Estado_Hasta">
                     <mat-datepicker-toggle matSuffix [for]="dpfech"></mat-datepicker-toggle>
                     <mat-datepicker #dpfech></mat-datepicker>
                 </mat-form-field>
@@ -158,7 +157,7 @@
     'col-md-12': showSolicitudes
 }">
 
-    <div #elemento class="row">
+    <div #elemento id="element" class="row">
         <span class="sub-title">Detalle de las Solicitudes</span>
     </div>
 
