@@ -6,7 +6,7 @@ import { MasterService } from '../../shared/services/master.service';
 import { TipoProductoModel, TipoSubProductoModel, ZonaModel, SolicitudCreditoHipotecario } from '../../shared/models/fisics';
 import { Variables } from 'src/app/shared/variables';
 import {formatCurrency, getCurrencySymbol, CurrencyPipe} from '@angular/common';
-
+import '../../../assets/js/maskMoney/moneyFormat.js';
 // import {default as _rollupMoment} from 'moment';
 import * as _moment from 'moment';
 const moment = _moment;
@@ -22,6 +22,7 @@ import Swal from 'sweetalert2';
 
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
+declare var myExtObject: any;
 export const MY_FORMATS = {
   parse: {
     dateInput: 'DD/MM/YYYY'
@@ -266,13 +267,20 @@ Desembolso = 0;
 
   }
 
+  // CallFunction1() {
+  //  // myExtObject.MASK();
+  //  myExtObject.MASKMONEY(this.creditForm.controls.Precio_Venta, '-###,###,##0.00', 1);
+  //  console.log(myExtObject.MASKMONEY(this.creditForm.controls.Precio_Venta, '-###,###,##0.00', 1));
+  // }
+
   ngOnInit() {
-   this.cargarCombos();
-   this.getidParams();
-   this.cargarListeners();
-   this.creditForm.get('EstadoId').disable();
-   this.creditForm.controls.Plan_Ahorro.disable();
-   this.setDisableControlsDesembolso();
+    this.cargarCombos();
+    this.getidParams();
+    this.cargarListeners();
+    this.creditForm.get('EstadoId').disable();
+    this.creditForm.controls.Plan_Ahorro.disable();
+    this.setDisableControlsDesembolso();
+    // this.CallFunction1();
    // this.setformatoMoneda();
 
   }
@@ -326,6 +334,37 @@ getidParams(){
                    this.creditForm.controls[element].setValue(this.solicitudHipotecarioList[element]);
                  }
                }
+              const precioVentaFormat = myExtObject.MASKMONEY(this.creditForm.controls.Precio_Venta.value, '-###,###,##0.00', 1);
+              this.creditForm.controls.Precio_Venta.setValue(precioVentaFormat);
+              const riesgoMaximoFormat = myExtObject.MASKMONEY(this.creditForm.controls.Riesgo_Maximo.value, '-###,###,##0.00', 1);
+              this.creditForm.controls.Riesgo_Maximo.setValue(riesgoMaximoFormat);
+              const aporteEfectivoFormat = myExtObject.MASKMONEY(this.creditForm.controls.Aporte_Efectivo.value, '-###,###,##0.00', 1);
+              this.creditForm.controls.Aporte_Efectivo.setValue(aporteEfectivoFormat);
+              const aporteRetiroAFPFormat = myExtObject.MASKMONEY(this.creditForm.controls.Aporte_RetiroAFP.value, '-###,###,##0.00', 1);
+              this.creditForm.controls.Aporte_RetiroAFP.setValue(aporteRetiroAFPFormat);
+              const BBPFormat = myExtObject.MASKMONEY(this.creditForm.controls.BBP.value, '-###,###,##0.00', 1);
+              this.creditForm.controls.BBP.setValue(BBPFormat);
+              const PBPFormat = myExtObject.MASKMONEY(this.creditForm.controls.PBP.value, '-###,###,##0.00', 1);
+              this.creditForm.controls.PBP.setValue(PBPFormat);
+              const PBPAdiconalSostenibleFormat = myExtObject.MASKMONEY(this.creditForm.controls.PBP_Adiconal_Sostenible.value, '-###,###,##0.00', 1);
+              this.creditForm.controls.PBP_Adiconal_Sostenible.setValue(PBPAdiconalSostenibleFormat);
+              const desembolsoFormat = myExtObject.MASKMONEY(this.creditForm.controls.Desembolso.value, '-###,###,##0.00', 1);
+              this.creditForm.controls.Desembolso.setValue(desembolsoFormat);
+              const grabamenFormat = myExtObject.MASKMONEY(this.creditForm.controls.Grabamen.value, '-###,###,##0.00', 1);
+              this.creditForm.controls.Grabamen.setValue(grabamenFormat);
+              const primerDesembolsoFormat = myExtObject.MASKMONEY(this.creditForm.controls.Primer_desembolso.value, '-###,###,##0.00', 1);
+              this.creditForm.controls.Primer_desembolso.setValue(primerDesembolsoFormat);
+              const segundoDesembolsoFormat = myExtObject
+              .MASKMONEY(this.creditForm.controls.Segundo_desembolso.value, '-###,###,##0.00', 1);
+              this.creditForm.controls.Segundo_desembolso.setValue(segundoDesembolsoFormat);
+              const tercerDesembolsoFormat = myExtObject.MASKMONEY(this.creditForm.controls.Tercer_desembolso.value, '-###,###,##0.00', 1);
+              this.creditForm.controls.Tercer_desembolso.setValue(tercerDesembolsoFormat);
+              const aporteClienteFormat = myExtObject.MASKMONEY(this.creditForm.controls.Aporte_Cliente.value, '-###,###,##0.00', 1);
+              this.creditForm.controls.Aporte_Cliente.setValue(aporteClienteFormat);
+              const importeCuotaAhorroFormat = myExtObject
+               .MASKMONEY(this.creditForm.controls.Importe_Cuota_Ahorro.value, '-###,###,##0.00', 1);
+              this.creditForm.controls.Importe_Cuota_Ahorro.setValue(importeCuotaAhorroFormat);
+
               this.creditForm.controls.TEA.setValue(this.solicitudHipotecarioList.TEA * 100);
               this.creditForm.controls.pFinanciamiento.setValue(this.solicitudHipotecarioList.Financiamiento * 100);
               this.rentaTitular = this.solicitudHipotecarioList.Tipo_RentaId;
@@ -851,6 +890,7 @@ valueSubProducto(): any{
           this.showBuenAplicacion = false;
           this.showTipoGarantiaAbono = true;
           this.setearMonedasEmpty();
+          this.CalificacionTradicional();
           break;
         case Variables.constantes.TipoProductoAmpliacionRemodelacionConstruccionId:
           this.creditForm.controls.Condicion_Desembolso.setValue( `    ${Variables.condicionesDesembolso.ContratoFirma}
@@ -863,6 +903,7 @@ valueSubProducto(): any{
           this.showmessageVivienda = false;
           this.showCuotaInicial = false;
           this.showBuenPagador = false;
+          this.CalificacionTradicional();
           this.showBuenAplicacion = true;
           this.setearMonedasEmpty();
           break;

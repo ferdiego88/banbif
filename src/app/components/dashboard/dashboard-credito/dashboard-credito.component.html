@@ -25,6 +25,13 @@
                 </mat-form-field>
             </div>
             <div class="col-md-2">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="listarPorFechaCreacion()">Filtrar
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class=row>
+            <div class="col-md-2">
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Zona" formControlName="ZonaId">
                         <mat-option>Todas</mat-option>
@@ -86,6 +93,11 @@
                     <mat-datepicker-toggle matSuffix [for]="dpfech"></mat-datepicker-toggle>
                     <mat-datepicker #dpfech></mat-datepicker>
                 </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="listarPorFechaEstado()">Filtrar
+                    <mat-icon>filter_list</mat-icon>
+                </button>
             </div>
             <div class="col-md-2">
                 <mat-form-field class="full-width">

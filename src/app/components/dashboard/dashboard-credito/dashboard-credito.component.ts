@@ -29,6 +29,7 @@ import {
 import { User } from 'src/app/shared/models/fisics/base/User';
 // import { Lookup } from '../../../shared/models/fisics/base/Lookup';
 import { element } from 'protractor';
+import Swal from 'sweetalert2';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'DD/MM/YYYY',
@@ -182,8 +183,10 @@ export class DashboardCreditoComponent
     this.listenerTipoSubProducto();
     this.listenerEjecutivo();
     // this.listenerAll();
-    this.listenerFechaCreacion();
-    this.listenerFechaEstado();
+    // this.listenerFechaCreacion();
+    // this.listenerFechaEstado();
+    this.listenerFechaCreacionDesde();
+    this.listenerFechaEstadoDesde();
   }
 
   getZona() {
@@ -299,13 +302,14 @@ valueSubProducto(): any{
   }
   filtraSolicitudes(estado: number) {
     let solicitudes;
-    if (this.dashboardForm.controls.Fecha_Creacion_Hasta.value !== null) {
+    if (this.dashboardForm.controls.Fecha_Creacion_Hasta.value) {
       const solicitudesporFecha = this.getSolicitudesFechaCreacion();
       solicitudes = solicitudesporFecha.filter( (item) => item.EstadoId === estado);
       // solicitudes = solicitudesporFecha.filter()
-    }else if ( this.dashboardForm.controls.Fecha_Estado_Hasta.value !== null) 
+    } else if ( this.dashboardForm.controls.Fecha_Estado_Hasta.value) 
     {
       const solicitudesporFechaEstado = this.getSolicitudesFechaEstado();
+      console.log(solicitudesporFechaEstado);
       solicitudes = solicitudesporFechaEstado.filter( (item) => item.EstadoId === estado);
     }
     else {      
@@ -379,17 +383,10 @@ valueSubProducto(): any{
           //    }, 1000);
             } 
           });
-      // console.log(this.solicitudesEstadoList);
-      // this.dataSource = new MatTableDataSource<any>(this.solicitudesPorFechaCreacionList);
-      // this.showSolicitudes = true;
-      // this.dataSource.paginator = this.paginator;
-      // this.dataSource.sort = this.sort;
-      // return this.solicitudesPorFechaCreacionList;
-        // });
+      this.showSolicitudes = false;
       return this.solicitudesPorFechaCreacionList;
   }
   getSolicitudesFechaEstado() {
-    // this.dashboardForm.controls.Fecha_Creacion_Hasta.valueChanges.subscribe((fecHasta) => {
       const fecha1 = moment(this.dashboardForm.controls.Fecha_Estado_Desde.value).format('DD/MM/YYYY');
       const fechaDesde = moment(fecha1, 'DD-MM-YYYY').toDate();
       const fecha2 = moment(this.dashboardForm.controls.Fecha_Estado_Hasta.value).format('DD/MM/YYYY');
@@ -405,21 +402,59 @@ valueSubProducto(): any{
            this.solicitudesPorFechaEstadoList.push(solicitudPorFecha);
             } 
           });
+      this.showSolicitudes = false;
       return this.solicitudesPorFechaEstadoList;
   }
   
-  listenerFechaCreacion(){
-    this.dashboardForm.controls.Fecha_Creacion_Hasta.valueChanges.subscribe((fecHasta) => {
+  listarPorFechaCreacion(){
+  const desde = this.dashboardForm.controls.Fecha_Creacion_Desde.value;
+  const fechaDesde = moment(desde, 'DD-MM-YYYY').toDate();
+  const hasta = this.dashboardForm.controls.Fecha_Creacion_Hasta.value;
+  const fechaHasta = moment(hasta, 'DD-MM-YYYY').toDate();
+  if (desde && hasta) {
+    if (fechaHasta > fechaDesde) {  
+      this.listarSolicitudesEstado();
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Ocurrió un error...',
+        text: 'Fecha Desde tiene que ser menor que fecha Hasta',
+      });
+    }
+    }
+  }
+
+  listarPorFechaEstado(){
+    const desde = this.dashboardForm.controls.Fecha_Estado_Desde.value;
+    const fechaDesde = moment(desde, 'DD-MM-YYYY').toDate();
+    const hasta = this.dashboardForm.controls.Fecha_Estado_Hasta.value;
+    const fechaHasta = moment(hasta, 'DD-MM-YYYY').toDate();
+    if (desde && hasta) {
+      if (fechaHasta > fechaDesde) {  
+        this.listarSolicitudesEstado();
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Ocurrió un error...',
+          text: 'Fecha Desde tiene que ser menor que fecha Hasta',
+        });
+      }
+      }
+  }
+
+  listenerFechaCreacionDesde(){
+    this.dashboardForm.controls.Fecha_Creacion_Desde.valueChanges.subscribe((fecHasta) => {
        if (fecHasta) {
-         this.listarSolicitudesEstado();
+         this.dashboardForm.controls.Fecha_Estado_Desde.setValue('');
          this.dashboardForm.controls.Fecha_Estado_Hasta.setValue('');
        }
       });
   }
-  listenerFechaEstado(){
-    this.dashboardForm.controls.Fecha_Estado_Hasta.valueChanges.subscribe((fecHasta) => {
+  
+  listenerFechaEstadoDesde(){
+    this.dashboardForm.controls.Fecha_Estado_Desde.valueChanges.subscribe((fecHasta) => {
        if (fecHasta) {
-         this.listarSolicitudesEstado();
+         this.dashboardForm.controls.Fecha_Creacion_Desde.setValue('');
          this.dashboardForm.controls.Fecha_Creacion_Hasta.setValue('');
        }
       });
