@@ -111,7 +111,7 @@ export class SolicitudesfinalizadasComponent extends FormularioBase implements O
       this.userSolicitante = false;
 
       this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
-        return elementoEstado.Id === 33 || elementoEstado.Id === 34;
+        return elementoEstado.Id === 33 || elementoEstado.Id === 34 || elementoEstado.Id === 40 || elementoEstado.Id === 42;
       });
 
       let order: string;

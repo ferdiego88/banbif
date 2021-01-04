@@ -133,6 +133,9 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
         else if (this.datosMaestrosBandeja.PertenceGrupo_U_Verificacion_Riesgos && elementoEstado.Id === 32) {
           return true;
         }
+        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Gestor && elementoEstado.Id === 39) {
+          return true;
+        }
       });
 
       if (this.datosMaestrosBandeja.maestroEstado.length === 0) {

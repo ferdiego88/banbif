@@ -14,6 +14,7 @@ export class MasterBandejaLogic {
   PertenceGrupo_U_Evaluacion: boolean;
   PertenceGrupo_U_Reasignador_Riesgos: boolean;
   PertenceGrupo_U_Verificacion_Riesgos: boolean;
+  PertenceGrupo_U_Gestor: boolean;
   isDatos: boolean;
 
   constructor() {
@@ -28,6 +29,7 @@ export class MasterBandejaLogic {
     this.PertenceGrupo_U_Evaluacion = false;
     this.PertenceGrupo_U_Reasignador_Riesgos = false;
     this.PertenceGrupo_U_Verificacion_Riesgos = false;
+    this.PertenceGrupo_U_Gestor = false;
     this.isDatos = false;
   }
 }
