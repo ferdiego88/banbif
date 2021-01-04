@@ -3,29 +3,46 @@ img {
     height: 10%;
 }
 
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+.cabeceraTabla {
+    font-size: 12px !important;
+    color: rgb(32, 163, 255) !important;
 }
 
+// table {
+//     font-family: arial, sans-serif !important;
+//     border-collapse: collapse !important;
+//     width: 100% !important;
+// }
 thead {
-    color: white;
+    color: white !important;
     background: rgb(32, 163, 255) !important;
     ;
 }
 
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
 td,
 th {
-    border: 1px solid #dddddd;
-    text-align: right;
-    padding: 8px;
+    border: 1px solid #dddddd !important;
+    text-align: right !important;
+    padding: 8px !important;
 }
 
 .td-center {
-    text-align: center;
+    text-align: center !important;
 }
 
-tr:nth-child(even) {
-    background-color: #dddddd;
+.td-left {
+    text-align: left !important;
 }
+
+.td-right {
+    text-align: right !important;
+}
+
+// tr:nth-child(even) {
+//     background-color: #dddddd !important;
+// }
