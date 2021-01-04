@@ -1022,7 +1022,6 @@
                 </div>
             </div>
 
-
             <div class="row">
                 <div class="" [ngClass]="{
                 'd-none': !showObservacionCPM,
@@ -1232,6 +1231,33 @@
 
             </div>
 
+            <div class="" [ngClass]="{
+                'd-none': !mostrarBotonDesestimiento,
+                'col': mostrarBotonDesestimiento
+                }">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="enviarDesestimiento()">Desestimiento</button>
+            </div>
+            <div class="" [ngClass]="{
+                'd-none': !mostrarBotonEnviarGestionFiles2,
+                'col': mostrarBotonEnviarGestionFiles2
+                }">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="enviarGestionFiles2()">Enviar</button>
+            </div>
+            <div class="" [ngClass]="{
+                'd-none': !mostrarBotonEnviarObservadoGestor,
+                'col': mostrarBotonEnviarObservadoGestor
+                }">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="enviarObservadoGestor()">Observar</button>
+            </div>
+            <div class="" [ngClass]="{
+                'd-none': !mostrarBotonEnviarValidacionFiles2,
+                'col': mostrarBotonEnviarValidacionFiles2
+                }">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="enviarValidacionFiles2()">Enviar</button>
+            </div>  
+            <!--<div>
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="gesionFiles2()">Enviar Gestión Files 2</button>
+            </div>-->        
         </div>
         <br>
     </form>

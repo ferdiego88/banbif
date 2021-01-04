@@ -83,6 +83,11 @@ export class Variables {
     EstadoRegularizacionCPM: 35,
     EstadoAprobadoSinVerificacion: 33,
     EstadoAprobadoConVerificacion: 34,
+    EstadoGestionFiles2: 38,
+    EstadoValidacionFiles2: 39,
+    EstadoDesestimiento: 40,
+    EstadoObservadoGestor: 41,
+    EstadoPreTerminado: 42,
     ZonaIDFFVV: 8,
   };
 
