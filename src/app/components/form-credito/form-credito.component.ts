@@ -109,6 +109,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   showBtnObservacionOficina = false;
   showBtnRechazar = false;
   showBtnObservarRegistro = false;
+  showComentarioGestor = false;
 
   showBtnGuardarBorrador = true;
   showBtnCancelar = true;
@@ -240,6 +241,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     Fecha_Gestor_Hip: [new Date(), Validators.required],
     Comentario_Gestor_Hip: [null, Validators.required],
 
+    ComentarioGestor: [null],
+
     postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
     ],
@@ -251,7 +254,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     Variables.columnasSolicitud.Descripcion_Inmueble, Variables.columnasSolicitud.Plan_Ahorro, Variables.columnasSolicitud.Observaciones,
     Variables.columnasSolicitud.Condicion_Desembolso, Variables.columnasSolicitud.Comentario_Registro,
     Variables.columnasSolicitud.Desembolso_Ampliacion, Variables.columnasSolicitud.Cometario_Evaluacion,
-    Variables.columnasSolicitud.Comentario_Gestor_Hip];
+    Variables.columnasSolicitud.Comentario_Gestor_Hip, Variables.columnasSolicitud.ComentarioGestor];
 
   Desembolso = 0;
   constructor(
@@ -422,6 +425,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.creditForm.get('Mon_BBP').setValue(Variables.constantes.SimboloSoles);
     this.creditForm.get('Mon_PBB').setValue(Variables.constantes.SimboloSoles);
   }
+
   setearMonedasEmpty() {
     this.creditForm.get('MonedaId').setValue(null);
     this.creditForm.get('Mon_Desembolso').setValue(null);
@@ -449,6 +453,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.creditForm.get('Ultimo_Abono_ValidadoId').setValue(null);
     this.creditForm.get('Cta_Ahorro_BanBif').setValue(null);
   }
+
   setPlanAhorroUntouched() {
     this.creditForm.get('Meses_Abono').markAsUntouched();
     this.creditForm.get('Importe_Cuota_Ahorro').markAsUntouched();
@@ -474,6 +479,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.creditForm.get('PBP_Adiconal_Sostenible').disable();
     this.creditForm.controls.Condicion_Desembolso.disable();
   }
+
   setDisableControlsAplicacion() {
     this.creditForm.get('Numero_Desemboslo').disable();
     this.creditForm.get('Primer_desembolso').disable();
@@ -481,6 +487,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.creditForm.get('Tercer_desembolso').disable();
     this.creditForm.get('Aporte_Cliente').disable();
   }
+
   setDisableControlsPlanAhorroProgramado() {
     this.creditForm.get('Meses_Abono').disable();
     this.creditForm.get('Tipo_Moneda_AhorroId').disable();
@@ -510,6 +517,10 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   setDisableComentarioOficina() {
     this.creditForm.get('Desembolso_Ampliacion').disable();
+  }
+
+  setDisableComentarioGestor() {
+    this.creditForm.get('ComentarioGestor').disable();
   }
 
   setDisableControlsCabezera() {
@@ -639,6 +650,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       });
     });
   }
+
   listenerBotones() {
     this.creditForm.get('EstadoId').valueChanges.subscribe(estado => {
       switch (true) {
@@ -778,12 +790,16 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.setDisableControlsAplicacion();
           this.setDisableComentarios();
           this.setDisableControlsPlanAhorroProgramado();
-          this.setDisableComentarioOficina();
+          //this.setDisableComentarioOficina();
           this.showBtnObservar = false;
           this.showBtnGuardarBorrador = false;
           this.showBtnEnviar = false;
           this.mostrarBotonEnviarGestionFiles2 = true;
           this.mostrarBotonDesestimiento = true;
+          if(estado === Variables.constantes.EstadoObservadoGestor){
+            this.showComentarioGestor = true;
+            this.setDisableComentarioGestor();
+          }
           break;
         case (estado === Variables.constantes.EstadoValidacionFiles2):
           this.setDisableControlsCabezera();
@@ -801,6 +817,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.mostrarBotonEnviarValidacionFiles2 = true;
           this.mostrarBotonEnviarObservadoGestor = true;
           this.mostrarBotonDesestimiento = true;
+          this.showComentarioGestor = true;
           break;
         case (estado === Variables.constantes.EstadoDesestimiento || estado === Variables.constantes.EstadoPreTerminado):
           this.setDisableControlsCabezera();
@@ -812,10 +829,12 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.setDisableComentarios();
           this.setDisableControlsPlanAhorroProgramado();
           this.setDisableComentarioOficina();
+          this.setDisableComentarioGestor();
           this.showBtnObservar = false;
           this.showBtnGuardarBorrador = false;
           this.showBtnEnviar = false;
           this.showBtnGrabar = false;
+          this.showComentarioGestor = true;
           break;
         case (estado !== Variables.constantes.EstadoRegistroCPM):
           this.showBtnObservar = false;
@@ -856,7 +875,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       }
     });
   }
-
 
   valueSubProducto(): any {
     this.creditForm.get('Tipo_ProductoId').valueChanges.subscribe(selectedValue => {
@@ -926,7 +944,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     });
   }
 
-
   valueModalidad(): any {
     this.creditForm.get('Tipo_ProductoId').valueChanges.subscribe(selectedValue => {
       // clean array
@@ -943,7 +960,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       .catch(error => console.error(error));
   }
 
-
   valueOficina(): any {
     this.creditForm.get('ZonaId').valueChanges.subscribe(selectedValue => {
       this.oficinaList = [];
@@ -953,13 +969,11 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     });
   }
 
-
   getTypeDocument() {
     this.generalListService.get(Variables.listas.AdmTipoDocumento)
       .then(typeDocumentList => this.typeDocumentList = typeDocumentList)
       .catch(error => console.error(error));
   }
-
 
   getSustentoIngresos() {
     this.generalListService.get(Variables.listas.AdmSustentoIngresos)
@@ -968,7 +982,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   }
 
   getProject() {
-    // TODO, implement search
     this.generalListService.get(Variables.listas.AdmProyectos, Variables.columns.Title)
       .then(projectList => {
         this.projectList = projectList;
@@ -1031,14 +1044,11 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   getvalueGarantias(): any {
     this.creditForm.get('ModalidadId').valueChanges.subscribe(selectedValue => {
-      // clean array
-      // this.typeguarenteeList = ;
       this.generalListService.getByField(Variables.listas.AdmTipoGarantia, Variables.listas.AdmModalidad, selectedValue)
         .then((typeguarenteeList: any) => this.typeguarenteeList = typeguarenteeList)
         .catch(error => console.error(error));
     });
   }
-
 
   getPaymentType() {
     this.generalListService.get(Variables.listas.AdmTipoAbono)
@@ -1181,7 +1191,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       Aporte_Efectivo: +this.creditForm.controls.Aporte_Efectivo.value,
       Aporte_RetiroAFP: +this.creditForm.controls.Aporte_RetiroAFP.value,
 
-
       Riesgo_Maximo: +this.creditForm.controls.Riesgo_Maximo.value,
       Tipo_RentaConyugueId: { results: rentaConyugue },
       Anlista_RiesgosId: analistaRiesgo,
@@ -1198,6 +1207,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       flag_PlanAhorro: this.flagPlanAhorro,
       EjecutivoId: ejecutivo
     };
+
     return solicitudCreditoHipotecario;
   }
 
@@ -1504,7 +1514,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   enviarGestionFiles2(): void {
     const itemSave = {
-      EstadoId: 39
+      EstadoId: 39,
+      Desembolso_Ampliacion: this.creditForm.controls.Desembolso_Ampliacion.value
     };
 
     Swal.fire({
@@ -1524,7 +1535,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   enviarValidacionFiles2(): void {
     const itemSave = {
-      EstadoId: 42
+      EstadoId: 42,
+      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value
     };
 
     Swal.fire({
@@ -1544,7 +1556,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   enviarDesestimiento(): void {
     const itemSave = {
-      EstadoId: 40
+      EstadoId: 40,
+      Desembolso_Ampliacion: this.creditForm.controls.Desembolso_Ampliacion.value,
+      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value
     };
 
     Swal.fire({
@@ -1564,7 +1578,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   enviarObservadoGestor(): void {
     const itemSave = {
-      EstadoId: 41
+      EstadoId: 41,
+      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
     };
 
     Swal.fire({

@@ -240,6 +240,7 @@ export class Variables {
     Desembolso_Ampliacion: 'Desembolso_Ampliacion',
     Cometario_Evaluacion: 'Cometario_Evaluacion',
     Comentario_Gestor_Hip: 'Comentario_Gestor_Hip',
+    ComentarioGestor: 'ComentarioGestor',
     Editor: 'Editor',
     Modified: 'Modified',
     NombreTitular: 'Nombre_Titular',
