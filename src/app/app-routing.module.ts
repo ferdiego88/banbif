@@ -18,7 +18,7 @@ import { SolicitudespendientesComponent } from './components/bandejas/solicitude
 import { SolicitudesenevaluacionComponent } from './components/bandejas/solicitudesenevaluacion/solicitudesenevaluacion.component';
 import { LogseguimientoComponent } from './components/bandejas/logseguimiento/logseguimiento.component';
 import { DashboardCreditoComponent } from './components/dashboard/dashboard-credito/dashboard-credito.component';
-
+import { DashboardHipotecarioComponent } from './components/dashboard/dashboard-hipotecario/dashboard-hipotecario.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
   {
@@ -35,6 +35,7 @@ const routes: Routes = [
   { path: Variables.path.bandejaSolicitudesEvaluacion, component: SolicitudesenevaluacionComponent },
   { path: Variables.path.bandejaSeguimientoSolicitudes, component: LogseguimientoComponent },
   { path: Variables.path.dashboardSolicitudesCreditoHipotecario, component: DashboardCreditoComponent },
+  { path: Variables.path.dashboardHipotecario, component: DashboardHipotecarioComponent },
 ];
 
 @NgModule({

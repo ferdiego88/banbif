@@ -84,6 +84,7 @@ import { DashboardCreditoComponent } from './components/dashboard/dashboard-cred
 import { PipemilesPipe } from './shared/pipes/pipemiles.pipe';
 import { OficinaPipe } from './shared/pipes/oficina.pipe';
 import { EstacionPipe } from './shared/pipes/estacion.pipe';
+import { DashboardHipotecarioComponent } from './components/dashboard/dashboard-hipotecario/dashboard-hipotecario.component';
 
 const materialModules = [/*  */
   MatSlideToggleModule,
@@ -153,7 +154,8 @@ const materialModules = [/*  */
     DashboardCreditoComponent,
     PipemilesPipe,
     OficinaPipe,
-    EstacionPipe
+    EstacionPipe,
+    DashboardHipotecarioComponent
   ],
   imports: [
     BrowserModule,

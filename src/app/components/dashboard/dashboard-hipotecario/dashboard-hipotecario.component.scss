@@ -27,7 +27,7 @@ thead {
 td,
 th {
     border: 1px solid #dddddd !important;
-    text-align: right !important;
+    text-align: center !important;
     padding: 8px !important;
 }
 
@@ -46,3 +46,12 @@ th {
 // tr:nth-child(even) {
 //     background-color: #dddddd !important;
 // }
+.verticalText {
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+}
+
+p {
+    margin-left: auto;
+    margin-right: auto;
+}
