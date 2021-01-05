@@ -1,6 +1,6 @@
 import { listLazyRoutes } from '@angular/compiler/src/aot/lazy_routes';
 import { Component, OnInit, ApplicationRef, NgZone } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { GeneralListService } from '../../shared/services/general-list.service';
 import { MasterService } from '../../shared/services/master.service';
 import { TipoProductoModel, TipoSubProductoModel, ZonaModel, SolicitudCreditoHipotecario } from '../../shared/models/fisics';
@@ -50,9 +50,7 @@ export const MY_FORMATS = {
 
 })
 export class FormCreditoComponent extends FormularioBase implements OnInit {
-  date = new FormControl(moment());
-
-
+  date = new FormControl(moment());  
   solicitudHipotecarioList: SolicitudCreditoHipotecario;
   tipoProductoList: TipoProductoModel[];
   modalidadList: TipoProductoModel[];
@@ -78,10 +76,11 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   observacionesCPMList: TipoProductoModel[];
   zonaModelList: ZonaModel;
 
-
   typeCurrencySaving: TipoProductoModel[];
   planSituationSavingList: TipoProductoModel[];
   LastValidatedBonoList: TipoProductoModel[];
+
+  mostrarCamposObligatorios = false;
 
   showSaving = false;
   showGarantias = false;
@@ -144,108 +143,109 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   expRegular = /(<([^>]+)>|\&\w{4}|\&\#\w{3})/ig;
   colorBoton = 'rgba(2, 139, 255, 1)';
   colorletraBoton = 'white';
+
   creditForm = this.fb.group({
     Tipo_ProductoId: [null, Validators.required],
     ejecutivo: [null, Validators.required],
-    Analista_Riesgos: [null, Validators.required],
+    Analista_Riesgos: [null],
     Sub_ProductoId: [null, Validators.required],
     ZonaId: [null, Validators.required],
     ModalidadId: [null, Validators.required],
     OficinaId: [null, Validators.required],
-    EstadoId: [0, Validators.required],
+    EstadoId: [0],
     Tipo_DocumentoId: [null, Validators.required],
     N_Documento: [null, [Validators.required, Validators.maxLength(11)]],
     Nombre_Titular: [null, Validators.required],
-    Riesgo_Maximo: [null, Validators.required],
-    Sustento_IngresosId: [null, Validators.required],
-    Oferta: [null, Validators.required],
-    T1: [null, Validators.required],
-    T2: [null, Validators.required],
-    T3: [null, Validators.required],
-    T4: [null, Validators.required],
-    T5: [null, Validators.required],
-    C1: [null, Validators.required],
-    C2: [null, Validators.required],
-    C3: [null, Validators.required],
-    C4: [null, Validators.required],
-    C5: [null, Validators.required],
-    ProyectoId: [null, Validators.required],
-    N_ViviendaId: [null, Validators.required],
-    tipoMoneda: [null, Validators.required],
-    MonedaId: [null, Validators.required],
-    TEA: [null, Validators.required],
-    TEA_AutorizadoId: [null, Validators.required],
-    Mon_PrecioVentaId: [null, Validators.required],
-    Precio_Venta: [null, Validators.required],
-    pFinanciamiento: [null, Validators.required],
-    Mon_Desembolso: [null, Validators.required],
-    Desembolso: [null, Validators.required],
-    Mon_Gravamen: [null, Validators.required],
-    Mon_BBP: [null, Validators.required],
-    Mon_PBB: [null, Validators.required],
-    BBP: [null, Validators.required],
-    PBP: [null, Validators.required],
-    Grabamen: [null, Validators.required],
-    Modalidad_PagoId: [null, Validators.required],
-    Lugar_VisitaId: [null, Validators.required],
-    Periodo_Gracia: [null, Validators.required],
-    Tipo_GarantiaId: [null, Validators.required],
-    Tipo_AbonoId: [null, Validators.required],
+    Riesgo_Maximo: [null],
+    Sustento_IngresosId: [null],
+    Oferta: [null],
+    T1: [null],
+    T2: [null],
+    T3: [null],
+    T4: [null],
+    T5: [null],
+    C1: [null],
+    C2: [null],
+    C3: [null],
+    C4: [null],
+    C5: [null],
+    ProyectoId: [null],
+    N_ViviendaId: [null],
+    tipoMoneda: [null],
+    MonedaId: [null],
+    TEA: [null],
+    TEA_AutorizadoId: [null],
+    Mon_PrecioVentaId: [null],
+    Precio_Venta: [null],
+    pFinanciamiento: [null],
+    Mon_Desembolso: [null],
+    Desembolso: [null],
+    Mon_Gravamen: [null],
+    Mon_BBP: [null],
+    Mon_PBB: [null],
+    BBP: [null],
+    PBP: [null],
+    Grabamen: [null],
+    Modalidad_PagoId: [null],
+    Lugar_VisitaId: [null],
+    Periodo_Gracia: [null],
+    Tipo_GarantiaId: [null],
+    Tipo_AbonoId: [null],
     /* Plan Ahorro*/
-    Meses_Abono: [null, Validators.required],
-    Tipo_Moneda_AhorroId: [null, Validators.required],
-    Importe_Cuota_Ahorro: [null, Validators.required],
-    Situacion_Plan_AhorroId: [null, Validators.required],
-    N_Abonos_Validados: [null, Validators.required],
-    Ultimo_Abono_ValidadoId: [null, Validators.required],
-    Cta_Ahorro_BanBif: [null, Validators.required],
-    Plan_Ahorro: [null, Validators.required],
+    Meses_Abono: [null],
+    Tipo_Moneda_AhorroId: [null],
+    Importe_Cuota_Ahorro: [null],
+    Situacion_Plan_AhorroId: [null],
+    N_Abonos_Validados: [null],
+    Ultimo_Abono_ValidadoId: [null],
+    Cta_Ahorro_BanBif: [null],
+    Plan_Ahorro: [null],
     /*Fin Plan Ahorro */
 
     /* Cuota Inicial*/
-    Mon_Ap_Efectivo: [null, Validators.required],
-    Aporte_Efectivo: [null, Validators.required],
-    Mon_Aport_AFPId: [null, Validators.required],
-    Aporte_RetiroAFP: [null, Validators.required],
-    BBP_AdicionalId: [null, Validators.required],
-    PBP_Adiconal_Sostenible: [null, Validators.required],
+    Mon_Ap_Efectivo: [null],
+    Aporte_Efectivo: [null],
+    Mon_Aport_AFPId: [null],
+    Aporte_RetiroAFP: [null],
+    BBP_AdicionalId: [null],
+    PBP_Adiconal_Sostenible: [null],
     /* Fin Cuota Inicial*/
 
     /* Ini Garantias*/
-    Descripcion_Inmueble: [null, Validators.required],
-    Fecha_Tasacion_Remodelac: [new Date(), Validators.required],
-    Mon_Valor_ComTas_Soles: [null, Validators.required],
-    Valor_ComTas_Soles: [null, Validators.required],
-    Mon_VRI_Soles: [null, Validators.required],
-    VRI_Soles: [null, Validators.required],
+    Descripcion_Inmueble: [null],
+    Fecha_Tasacion_Remodelac: [new Date()],
+    Mon_Valor_ComTas_Soles: [null],
+    Valor_ComTas_Soles: [null],
+    Mon_VRI_Soles: [null],
+    VRI_Soles: [null],
     /* Fin Garantias*/
 
-    Numero_Desemboslo: [null, Validators.required],
-    Primer_desembolso: [null, Validators.required],
-    Segundo_desembolso: [null, Validators.required],
-    Tercer_desembolso: [null, Validators.required],
-    Aporte_Cliente: [null, Validators.required],
-    Observaciones: [null, Validators.required],
+    Numero_Desemboslo: [null],
+    Primer_desembolso: [null],
+    Segundo_desembolso: [null],
+    Tercer_desembolso: [null],
+    Aporte_Cliente: [null],
+    Observaciones: [null],
     Observacion_CPMId: [null,],
     Observacion_CPM: [null,],
-    Comentario_Registro: [null, Validators.required],
-    Cometario_Revisor: [null, Validators.required],
-    Cometario_Revisor1: [null, Validators.required],
-    Cometario_Evaluacion: [null, Validators.required],
-    Condicion_Desembolso: [null, Validators.required],
-    Condicion_Desembolso1: [null, Validators.required],
-    Desembolso_Ampliacion: [null, Validators.required],
-    Enlace_Documentos: [null, Validators.required],
-    Anlista_RiesgosId: [null, Validators.required],
-    EstadoGestorId: [null, Validators.required],
-    Fecha_Gestor_Hip: [new Date(), Validators.required],
-    Comentario_Gestor_Hip: [null, Validators.required],
+    Comentario_Registro: [null],
+    Cometario_Revisor: [null],
+    Cometario_Revisor1: [null],
+    Cometario_Evaluacion: [null],
+    Condicion_Desembolso: [null],
+    Condicion_Desembolso1: [null],
+    Desembolso_Ampliacion: [null],
+    Enlace_Documentos: [null],
+    Anlista_RiesgosId: [null],
+    EstadoGestorId: [null],
+    Fecha_Gestor_Hip: [new Date()],
+    Comentario_Gestor_Hip: [null],
 
     ComentarioGestor: [null],
 
-    postalCode: [null, Validators.compose([
+    /*postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
-    ],
+    ],*/
     shipping: ['free', Validators.required]
   });
 
@@ -796,7 +796,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.showBtnEnviar = false;
           this.mostrarBotonEnviarGestionFiles2 = true;
           this.mostrarBotonDesestimiento = true;
-          if(estado === Variables.constantes.EstadoObservadoGestor){
+          if (estado === Variables.constantes.EstadoObservadoGestor) {
             this.showComentarioGestor = true;
             this.setDisableComentarioGestor();
           }
@@ -1211,33 +1211,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     return solicitudCreditoHipotecario;
   }
 
-  saveDraft(): void {
-    this.showLoading();
-
-    const solicitudCreditoHipotecario = this.getObjectToSave();
-    solicitudCreditoHipotecario.EstadoId = Variables.constantes.EstadoCreaExpedienteId;
-
-    const id = this.solicitudHipotecarioList && this.solicitudHipotecarioList.Id ? this.solicitudHipotecarioList.Id : 0;
-
-    this.solicitudService.save(id, solicitudCreditoHipotecario)
-      .then(resp => {
-        if (resp) {
-          this.hideLoading();
-          this.showSuccessMessage('El Borrador se Guardo Correctamente');
-
-          this.router.navigate(['/bandejas/solicitudes']);
-        } else {
-          this.hideLoading();
-          this.showErrorMessage('no se grabó el registro');
-        }
-      })
-      .catch(error => {
-        this.hideLoading();
-        this.showErrorMessage('no se grabó el registro');
-      });
-
-  }
-
   getObservacionesCPM() {
     this.generalListService.get(Variables.listas.AdmObservacionesCPM)
       .then(observacionesCPMList => this.observacionesCPMList = observacionesCPMList)
@@ -1276,12 +1249,54 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.creditForm.get('Ejecutivo').setValue([]);
     this.creditForm.controls['Ejecutivo'].updateValueAndValidity();
   }
+
   removeAnalista(): void {
     this.creditForm.get('Analista_Riesgos').setValue([]);
     this.creditForm.controls['Analista_Riesgos'].updateValueAndValidity();
   }
 
+  saveDraft(): void {
+    
+    if (this.creditForm.invalid) {
+      this.mostrarCamposObligatorios = true;
+      this.mostrarModalInformativo("Mensaje de Validación", 'Completar los campos obligatorios.');
+      return;
+    }
+
+    this.showLoading();
+
+    const solicitudCreditoHipotecario = this.getObjectToSave();
+    solicitudCreditoHipotecario.EstadoId = Variables.constantes.EstadoCreaExpedienteId;
+
+    const id = this.solicitudHipotecarioList && this.solicitudHipotecarioList.Id ? this.solicitudHipotecarioList.Id : 0;
+
+    this.solicitudService.save(id, solicitudCreditoHipotecario)
+      .then(resp => {
+        if (resp) {
+          this.hideLoading();
+          this.showSuccessMessage('El Borrador se Guardo Correctamente');
+
+          this.router.navigate(['/bandejas/solicitudes']);
+        } else {
+          this.hideLoading();
+          this.showErrorMessage('no se grabó el registro');
+        }
+      })
+      .catch(error => {
+        this.hideLoading();
+        this.showErrorMessage('no se grabó el registro');
+      });
+
+  }
+
   send() {
+
+    if (this.creditForm.invalid) {
+      this.mostrarCamposObligatorios = true;
+      this.mostrarModalInformativo("Mensaje de Validación", 'Completar los campos obligatorios.');
+      return;
+    }
+
     const EstadoIdOld = this.creditForm.controls.EstadoId.value;
     // let Fecha_Registro_CPM: Date;
     let EstadoId = 0;
@@ -1491,7 +1506,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   cancel(): void {
 
   }
-  
+
   gesionFiles2(): void {
     const itemSave = {
       EstadoId: 38
