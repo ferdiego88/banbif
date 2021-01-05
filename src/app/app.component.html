@@ -1,16 +1,13 @@
-<ng-http-loader [backdrop]="false" [backgroundColor]="'#ff44336'" [debounceDelay]="100" [extraDuration]="300"
-    [minDuration]="300" [opacity]="7" [spinner]="spinkit.skWave">
+<ng-http-loader [backdrop]="false" [backgroundColor]="'#ff44336'" [debounceDelay]="100" [extraDuration]="300" [minDuration]="300" [opacity]="7" [spinner]="spinkit.skWave">
 </ng-http-loader>
 <!-- <mat-toolbar color="warn" class=" position-fixed main-toolbar"> -->
 <mat-toolbar color="warn" class="position-fixed main-toolbar">
     <mat-toolbar-row>
-        <button class="mat-icon-white" type="button" aria-label="Toggle sidenav" mat-icon-button
-            (click)="sidenav.toggle()" color="primary">
+        <button class="mat-icon-white" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="sidenav.toggle()" color="primary">
             <mat-icon class="mat-icon-white" aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
 
-        <button type="button" mat-button class="mat-icon-button" aria-label="Go Back" hide-xs hide-sm
-            (click)="goBack()">
+        <button type="button" mat-button class="mat-icon-button" aria-label="Go Back" hide-xs hide-sm (click)="goBack()">
             <mat-icon class="mat-icon-white">chevron_left</mat-icon>
         </button>
 
@@ -25,8 +22,7 @@
 
         <span class="cls-spacer"></span>
 
-        <button type="button" type="button" mat-button class="mat-icon-button" aria-label="Expand"
-            (click)="toggleExpand()">
+        <button type="button" type="button" mat-button class="mat-icon-button" aria-label="Expand" (click)="toggleExpand()">
             <mat-icon>apps</mat-icon>
         </button>
 
@@ -71,7 +67,7 @@
                 </a>
                 <a mat-list-item routerLink='/bandejas/seguimientosolicitudes' (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>search</mat-icon> Seguimiento de Solicitudes
-                </a>               
+                </a>
                 <a mat-list-item routerLink='/bandejas/solicitudespendientes' (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>search</mat-icon> Bandeja de Trabajo
                 </a>
@@ -123,33 +119,33 @@
                 </a>
                 <mat-panel-title>Datos de la Operación</mat-panel-title>
                 <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Tipo_Documento/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
-                  <mat-icon mat-list-icon>language</mat-icon> Tipo Documentos
-              </a>
-              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Sustento_Ingresos/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
-                  <mat-icon mat-list-icon>language</mat-icon> Sustento Ingresos
-              </a>
-              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Proyecto/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
-                  <mat-icon mat-list-icon>language</mat-icon> Proyectos
-              </a>
-              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Numero_Vivienda/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
-                  <mat-icon mat-list-icon>language</mat-icon> Numero de Vivienda
-              </a>
-              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Modalidad_Pago/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
-                  <mat-icon mat-list-icon>language</mat-icon> Modalidad de Pago
-              </a>
-              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Lugar_Visita/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
-                  <mat-icon mat-list-icon>language</mat-icon> Lugar de Visita
-              </a>
-              <mat-panel-title>Garantías</mat-panel-title>
-              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Tipo_Garantia/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
-                  <mat-icon mat-list-icon>language</mat-icon> Tipo de Garantía
-              </a>
-              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Tipo_Abono/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
-                  <mat-icon mat-list-icon>language</mat-icon> Tipo de Abono
-              </a>
-              <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Tipo_Abono/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
-                  <mat-icon mat-list-icon>language</mat-icon> Estado Gestor
-              </a>
+                    <mat-icon mat-list-icon>language</mat-icon> Tipo Documentos
+                </a>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Sustento_Ingresos/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Sustento Ingresos
+                </a>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Proyecto/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Proyectos
+                </a>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Numero_Vivienda/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Numero de Vivienda
+                </a>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Modalidad_Pago/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Modalidad de Pago
+                </a>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Lugar_Visita/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Lugar de Visita
+                </a>
+                <mat-panel-title>Garantías</mat-panel-title>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Tipo_Garantia/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Tipo de Garantía
+                </a>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Tipo_Abono/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Tipo de Abono
+                </a>
+                <a mat-list-item href="https://bif1mssapp10/banmin/fdt/hipot/Lists/Tipo_Abono/AllItems.aspx" target="_blank" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>language</mat-icon> Estado Gestor
+                </a>
 
             </mat-expansion-panel>
 
@@ -157,17 +153,20 @@
         </mat-nav-list>
 
         <mat-nav-list>
-          <mat-expansion-panel [expanded]="false">
-              <mat-expansion-panel-header>
-                  <mat-panel-title>
-                      DashBoard
-                  </mat-panel-title>
-              </mat-expansion-panel-header>
-              <a mat-list-item routerLink='/dashboard/solicitudesCredito' (click)="sidenav.toggle()">
-                  <mat-icon mat-list-icon>search</mat-icon> Solicitudes de Crédito Hipotecario
-              </a>
-          </mat-expansion-panel>
-      </mat-nav-list>
+            <mat-expansion-panel [expanded]="false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        DashBoard
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <a mat-list-item routerLink='/dashboard/solicitudesCredito' (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>search</mat-icon> Solicitudes de Crédito Hipotecario
+                </a>
+                <a mat-list-item routerLink='/dashboard/Hipotecario' (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>search</mat-icon> Hipotecario
+                </a>
+            </mat-expansion-panel>
+        </mat-nav-list>
 
 
 

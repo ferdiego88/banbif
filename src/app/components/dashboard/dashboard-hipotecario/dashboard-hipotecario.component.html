@@ -1,0 +1,133 @@
+<div>
+    <form [formGroup]="hipotecarioForm">
+        <img mat-mat-card-image src="assets/img/bb.png" alt="Banbif Logo">
+        <hr>
+        <div class="row">
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="sub-title"> Mes de Operación </span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Mes" formControlName="MesId">
+                        <mat-option>Enero</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Zona" formControlName="ZonaId">
+                        <mat-option>Todas</mat-option>
+                        <!-- <mat-option *ngFor="let zona of zonaModelList" [value]="zona.Id">Zona {{zona.Title}}
+                        </mat-option> -->
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Oficina" formControlName="OficinaId">
+                        <mat-option [value]="">Todas</mat-option>
+                        <!-- <mat-option *ngFor="let oficina of oficinaList" [value]="oficina.Id">
+                            {{oficina.Title}}
+                        </mat-option> -->
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Vendedor" formControlName="Vendedor">
+                        <mat-option [value]="">Todas</mat-option>
+                        <!-- <mat-option *ngFor="let user of usersList" [value]="user.Id">
+                            {{user.Title}}
+                        </mat-option> -->
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Canal" formControlName="Canal">
+                        <mat-option [value]="">Todas</mat-option>
+                        <!-- <mat-option *ngFor="let item of data" [value]="item.id">
+                            {{item.name}}
+                        </mat-option> -->
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Origen" formControlName="Canal">
+                        <mat-option [value]="">Todas</mat-option>
+                        <!-- <mat-option *ngFor="let item of data" [value]="item.id">
+                            {{item.name}}
+                        </mat-option> -->
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Responsable" formControlName="Canal">
+                        <mat-option [value]="">Todas</mat-option>
+                        <!-- <mat-option *ngFor="let item of data" [value]="item.id">
+                            {{item.name}}
+                        </mat-option> -->
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Semáforo" formControlName="Canal">
+                        <mat-option [value]="">Todas</mat-option>
+                        <!-- <mat-option *ngFor="let item of data" [value]="item.id">
+                        {{item.name}}
+                    </mat-option> -->
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Variación" formControlName="Canal">
+                        <mat-option [value]="">Todas</mat-option>
+                        <!-- <mat-option *ngFor="let item of data" [value]="item.id">
+                        {{item.name}}
+                    </mat-option> -->
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="td-center" colspan="8">Indicador</th>
+                    </tr>
+                    <tr>
+                        <th>Título </th>
+                        <th>Unit</th>
+                        <th>Resp.</th>
+                        <th>Weight</th>
+                        <th>
+                            <p class="verticalText">Previous</p>
+                        </th>
+                        <th>
+                            <p class="verticalText">Variación</p>
+                        </th>
+                        <th>Meta</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Procesos Hipotecario</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+
+</div>
