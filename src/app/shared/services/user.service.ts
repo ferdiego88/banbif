@@ -56,11 +56,7 @@ export class UserService {
       );
 
       return principals.map((entity) => {
-        /*let EmailCorrecto = '';
-        if (entity.LoginName) {
-          debugger;
-          EmailCorrecto = entity.LoginName.replace('i:0#.f|membership|', '');
-        }*/
+       
         return <User>{
           Id: entity.PrincipalId,
           Key: entity.LoginName,

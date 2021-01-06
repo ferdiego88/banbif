@@ -47,7 +47,7 @@ export class MaestroMaterialService {
     const expandFields = MaestroMaterial.getColumnasExpand();
 
     let query = this.listaMaestroMaterial.items.expand(...expandFields).select(...selectFields);
-    // debugger;
+   
     let filterArr = [];
     if (!administrator) filterArr.push(`( (${Variables.columns.CreadoPor}/Id  eq ${usuario.Id}) or (${Variables.columns.ResponsableLaboratorio}/Id  eq ${usuario.Id})  or  (${Variables.columns.EjecutivoComercial}/Id  eq ${usuario.Id}) or  (${Variables.columns.ResponsableDT}/Id  eq ${usuario.Id}) or (${Variables.columns.ResponsableRDM}/Id  eq ${usuario.Id}))`);
 

@@ -1069,7 +1069,7 @@
                     </mat-form-field>
                 </div>
             </div>
-            <div [hidden]="!showComentarioGestor">
+            <div *ngIf="showComentarioGestor">
                 <div class="row">
                     <div class="col sub-title-col">
                         <span class="sub-title">
@@ -1086,7 +1086,11 @@
                     </div>
                 </div>
             </div>
-
+            <div *ngIf="showDesembolsado" class="row" style="padding-bottom: 10px;">
+                <div class="col">
+                    <mat-checkbox formControlName="Desembolsado">Desembolsado</mat-checkbox>
+                </div>
+            </div>
             <div class="row">
                 <div class="" [ngClass]="{'d-none': !showObservacionCPM,'col': showObservacionCPM}">
                     <mat-form-field class="full-width">
@@ -1299,7 +1303,7 @@
                 'col': mostrarBotonDesestimiento
                 }">
                 <button mat-raised-button class="full-width" color="primary" type="button"
-                    (click)="enviarDesestimiento()">Desestimiento</button>
+                    (click)="enviarDesestimiento()">Desestimar</button>
             </div>
             <div class="" [ngClass]="{
                 'd-none': !mostrarBotonEnviarGestionFiles2,
@@ -1325,6 +1329,13 @@
             <!--<div>
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="gesionFiles2()">Enviar Gestión Files 2</button>
             </div>-->
+            <div class="" [ngClass]="{
+                'd-none': !mostrarBotonGuardarPreTerminado,
+                'col': mostrarBotonGuardarPreTerminado
+                }">
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="guardarPreTerminado()">Guardar</button>
+            </div>
         </div>
         <br>
     </form>

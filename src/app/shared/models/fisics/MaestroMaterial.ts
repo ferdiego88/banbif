@@ -184,12 +184,7 @@ export class MaestroMaterial extends ListItem {
     }
 
     public static parseJson(element: any): MaestroMaterial {
-       /* const objeto = new MaestroMaterial();
-        objeto.Id = SPParse.getNumber(element[Variables.columns.ID]);
-        objeto.Title = SPParse.getString(element[Variables.columns.Title]);
-        objeto.TextoBreveMaterial = SPParse.getString(element[Variables.columns.TextoBreveMaterial]);
-      */
-      //  debugger;
+    
      element.Created = moment(element.Created).format('DD-MM-YYYY');
 
      if (element.ResponsableDT !== undefined && element.ResponsableDT.length > 0){

@@ -47,7 +47,7 @@ export class MaestroDesplegables extends ListItem {
     }
 
     public static parseJson(list: any): MaestroDesplegables[] {
-    // debugger;
+   
      let listaDesplegables: MaestroDesplegables[] = [];
    
       list.forEach(item => {

@@ -50,7 +50,7 @@ export const MY_FORMATS = {
 
 })
 export class FormCreditoComponent extends FormularioBase implements OnInit {
-  date = new FormControl(moment());  
+  date = new FormControl(moment());
   solicitudHipotecarioList: SolicitudCreditoHipotecario;
   tipoProductoList: TipoProductoModel[];
   modalidadList: TipoProductoModel[];
@@ -109,6 +109,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   showBtnRechazar = false;
   showBtnObservarRegistro = false;
   showComentarioGestor = false;
+  showDesembolsado = false;
 
   showBtnGuardarBorrador = true;
   showBtnCancelar = true;
@@ -122,6 +123,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   mostrarBotonEnviarValidacionFiles2 = false;
   mostrarBotonEnviarObservadoGestor = false;
   mostrarBotonDesestimiento = false;
+  mostrarBotonGuardarPreTerminado = false;
 
   rentaTitular = [];
   rentaConyugue = [];
@@ -242,6 +244,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     Comentario_Gestor_Hip: [null],
 
     ComentarioGestor: [null],
+    Desembolsado: [null],
 
     /*postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
@@ -350,7 +353,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
               }
               const Fecha_Tasacion_Remodelac = this.solicitudHipotecarioList.Fecha_Tasacion_Remodelac;
               const Fecha_Gestor_Hip = this.solicitudHipotecarioList.Fecha_Gestor_Hip;
-              // debugger;
+
               this.creditForm.controls.Fecha_Tasacion_Remodelac.setValue(new Date(Fecha_Tasacion_Remodelac));
               if (Fecha_Gestor_Hip) {
                 this.creditForm.controls.Fecha_Gestor_Hip.setValue(new Date(Fecha_Gestor_Hip));
@@ -371,6 +374,13 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
               }
               this.solicitudHipotecarioList.Enlace_Documentos && this.solicitudHipotecarioList.Enlace_Documentos !== null && (this.descripcionDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Description);
               this.enlaceDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Url;
+            
+              if (this.solicitudHipotecarioList.Desembolsado === null) {
+                this.creditForm.controls.Desembolsado.setValue(false);
+              } else {
+                this.creditForm.controls.Desembolsado.setValue(this.solicitudHipotecarioList.Desembolsado);
+              }
+
               this.hideLoading();
             })
             .catch(error => { this.hideLoading(); this.showErrorMessage('Los datos no se Obtuvieron Correctamente, Recargue la página'); });
@@ -835,6 +845,10 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.showBtnEnviar = false;
           this.showBtnGrabar = false;
           this.showComentarioGestor = true;
+          if (estado === Variables.constantes.EstadoPreTerminado) {
+            this.showDesembolsado = true;
+            this.mostrarBotonGuardarPreTerminado = true;
+          }
           break;
         case (estado !== Variables.constantes.EstadoRegistroCPM):
           this.showBtnObservar = false;
@@ -1256,7 +1270,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   }
 
   saveDraft(): void {
-    
+
     if (this.creditForm.invalid) {
       this.mostrarCamposObligatorios = true;
       this.mostrarModalInformativo("Mensaje de Validación", 'Completar los campos obligatorios.');
@@ -1608,6 +1622,27 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.update(itemSave, 'La Solicitud se ha Observado', 'No se pudo Observar');
       } else if (result.isDismissed) {
         Swal.fire('No se ha Observado la Solicitud', '', 'info');
+      }
+    });
+  }
+
+  guardarPreTerminado(): void {
+   
+    const itemSave = {
+      Desembolsado: this.creditForm.controls.Desembolsado.value
+    };
+
+    Swal.fire({
+      title: '¿Está seguro de guardar?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`, icon: 'question'
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.showLoading();
+        this.update(itemSave, 'La Solicitud se ha guardado', 'No se pudo Guardar');
+      } else if (result.isDismissed) {
+        Swal.fire('No se ha guardado la Solicitud', '', 'info');
       }
     });
   }

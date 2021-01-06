@@ -59,15 +59,7 @@ export class FormularioBase {
   }
 
   obtenerListaDesplegablesPorTipo(tipo: string): MaestroDesplegables[] {
-    //debugger;
-    //let listaDesplegables: MaestroDesplegables[];
-    /*if(this.datosMaestros != null){
-    listaDesplegables = this.datosMaestros.maestroDesplegables.filter(word => word.TipoText == tipo);
-    }*/
-
-
-    // let evaluaciones = new List<MaestroDesplegables>(listaDesplegables).OrderBy(x => x.Title).ToArray()
-
+   
     let listaDesplegables = [];
     if (this.datosMaestros != null) {
       listaDesplegables = new List<MaestroDesplegables>(this.datosMaestros.maestroDesplegables).Where(x => x.TipoText == tipo).OrderBy(x => x.Title).ToArray();

@@ -14,7 +14,7 @@ export const environment = {
   },
   getRutaBaseApp() {
     let rutaBase = '';
-    // debugger;
+    
     if (this.production) {
       rutaBase =
         environment.proxyTenant +
