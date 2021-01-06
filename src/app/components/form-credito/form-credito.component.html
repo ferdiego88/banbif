@@ -13,6 +13,8 @@
 
             <div class="col-md-6">
                 <mat-form-field class="full-width">
+                    <mat-label>Producto - Código <span *ngIf="mostrarCamposObligatorios" style="color: red;">(*)</span>
+                    </mat-label>
                     <mat-select placeholder="Producto - Código" formControlName="Tipo_ProductoId">
                         <mat-option *ngFor="let tipoProducto of tipoProductoList" [value]="tipoProducto.Id">
                             {{ tipoProducto.Title }}
@@ -26,7 +28,8 @@
 
             <div class="col-md-6">
                 <mat-form-field class="full-width">
-                    <mat-label>Ejecutivo</mat-label>
+                    <mat-label>Ejecutivo<span *ngIf="mostrarCamposObligatorios" style="color: red;">(*)</span>
+                    </mat-label>
                     <people-picker-input formControlName="ejecutivo" (onRemove)="removePeople()"
                         placeholder="Escribe un nombre..." [multiple]="false">
                     </people-picker-input>
@@ -38,6 +41,8 @@
         <div class="row">
             <div class="col-md-6">
                 <mat-form-field class="full-width">
+                    <mat-label>Sub Producto - Código<span *ngIf="mostrarCamposObligatorios"
+                            style="color: red;">(*)</span></mat-label>
                     <mat-select placeholder="Sub Producto - Código" formControlName="Sub_ProductoId">
                         <mat-option *ngFor="let tipoSubProducto of tipoSubProductoList" [value]="tipoSubProducto.Id">
                             {{ tipoSubProducto.Title }}
@@ -50,7 +55,9 @@
             </div>
 
             <div class="col-md-6">
+
                 <mat-form-field class="full-width">
+                    <mat-label>Zona<span *ngIf="mostrarCamposObligatorios" style="color: red;">(*)</span></mat-label>
                     <mat-select placeholder="Zona" formControlName="ZonaId">
                         <mat-option *ngFor="let zona of zonaModelList" [value]="zona.Id">
                             {{ zona.Title }}
@@ -66,6 +73,8 @@
         <div class="row">
             <div class="col-md-6">
                 <mat-form-field class="full-width">
+                    <mat-label>Modalidad<span *ngIf="mostrarCamposObligatorios" style="color: red;">(*)</span>
+                    </mat-label>
                     <mat-select placeholder="Modalidad" formControlName="ModalidadId">
                         <mat-option *ngFor="let modalidad of modalidadList" [value]="modalidad.Id">
                             {{ modalidad.Title }}
@@ -78,6 +87,8 @@
             </div>
             <div class="col-md-6">
                 <mat-form-field class="full-width">
+                    <mat-label>Oficina<span *ngIf="mostrarCamposObligatorios" style="color: red;">(*)</span>
+                    </mat-label>
                     <mat-select placeholder="Oficina" formControlName="OficinaId">
                         <mat-option *ngFor="let oficina of oficinaList" [value]="oficina.Id">
                             {{ oficina.Title }}
@@ -134,6 +145,9 @@
 
                     <div class="col">
                         <mat-form-field class="full-width">
+                            <mat-label>Tipo de Documento<span *ngIf="mostrarCamposObligatorios"
+                                    style="color: red;">(*)</span>
+                            </mat-label>
                             <mat-select placeholder="Tipo de Documento" formControlName="Tipo_DocumentoId">
                                 <mat-option *ngFor="let dcmto of typeDocumentList" [value]="dcmto.Id">
                                     {{ dcmto.Title }}
@@ -147,8 +161,10 @@
 
                     <div class="col">
                         <mat-form-field class="full-width">
+                            <mat-label>N° de Documento<span *ngIf="mostrarCamposObligatorios"
+                                    style="color: red;">(*)</span>
+                            </mat-label>
                             <input matInput placeholder="N° de Documento" type="number" formControlName="N_Documento">
-
                             <mat-error *ngIf="creditForm.controls['N_Documento'].hasError('required')">
                                 N° de Documento <strong>requerido</strong>
                             </mat-error>
@@ -159,6 +175,9 @@
                 <div class="row-md-12">
                     <div class="col">
                         <mat-form-field class="full-width">
+                            <mat-label>Nombre del Titular<span *ngIf="mostrarCamposObligatorios"
+                                    style="color: red;">(*)</span>
+                            </mat-label>
                             <input matInput placeholder="Nombre del Titular" formControlName="Nombre_Titular">
                             <mat-error *ngIf="creditForm.controls['Nombre_Titular'].hasError('required')">
                                 Nombre del Titular <strong>requerido</strong>
@@ -1061,8 +1080,8 @@
                 <div class="row">
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <textarea matInput placeholder="Comentarios del Gestor"
-                                formControlName="ComentarioGestor" multiline rows="3"></textarea>
+                            <textarea matInput placeholder="Comentarios del Gestor" formControlName="ComentarioGestor"
+                                multiline rows="3"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
@@ -1160,7 +1179,18 @@
         </div>
 
         <hr>
+
         <div class="row card-center">
+
+            <div class="" [ngClass]="{
+                'd-none': !showBtnCancelar,
+                'col': showBtnCancelar
+                }">
+                <button [routerLink]="['/']" mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="cancel()">Cancelar</button>
+
+            </div>
+
             <div class="" [ngClass]="{
                 'd-none': !showBtnAprobar,
                 'col': showBtnAprobar
@@ -1231,14 +1261,7 @@
                     class="full-width" (click)="save()" type="button">Grabar</button>
 
             </div>
-            <div class="" [ngClass]="{
-              'd-none': !showBtnCancelar,
-              'col': showBtnCancelar
-              }">
-                <button [routerLink]="['/']" mat-raised-button class="full-width" color="primary" type="button"
-                    (click)="cancel()">Cancelar</button>
 
-            </div>
             <div class="" [ngClass]="{
               'd-none': !showBtnEnviar,
               'col': showBtnEnviar
