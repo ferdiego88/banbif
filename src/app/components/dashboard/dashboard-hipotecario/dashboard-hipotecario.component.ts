@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-
 @Component({
   selector: 'app-dashboard-hipotecario',
   templateUrl: './dashboard-hipotecario.component.html',
-  styleUrls: ['./dashboard-hipotecario.component.scss']
+  styleUrls: ['./dashboard-hipotecario.component.scss'],
 })
 export class DashboardHipotecarioComponent implements OnInit {
-  
+  showSubItems = false;
   hipotecarioForm = this.fb.group({
     MesId: [null],
     ZonaId: [null],
@@ -33,5 +32,9 @@ export class DashboardHipotecarioComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+     
+  expand(){
+    alert('Expande las tablas');
+    this.showSubItems = true;
+     }
 }

@@ -123,11 +123,53 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Procesos Hipotecario</td>
+                        <td (click)="expand()">Procesos Hipotecario</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
+                    <div [ngClass]="{
+                    'd-none': !showSubItems,
+                    'col': showSubItems
+                }">
+                        <tr>
+                            <td>Porcentaje de Expedientes Concluidos</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Cumplimiento de ANS</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Porcentaje de Reprocesos</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                    </div>
                 </tbody>
             </table>
         </div>
     </form>
-
 </div>
