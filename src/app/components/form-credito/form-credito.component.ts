@@ -260,6 +260,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     Variables.columnasSolicitud.Comentario_Gestor_Hip, Variables.columnasSolicitud.ComentarioGestor];
 
   Desembolso = 0;
+  
   constructor(
     private fb: FormBuilder,
     private generalListService: GeneralListService,

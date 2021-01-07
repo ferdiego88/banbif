@@ -13,7 +13,7 @@
 
             <div class="col-md-6">
                 <mat-form-field class="full-width">
-                    <mat-label>Producto - Código <span *ngIf="mostrarCamposObligatorios" style="color: red;">(*)</span>
+                    <mat-label>Producto - Código  <span class="obligatorio">(*)</span>
                     </mat-label>
                     <mat-select placeholder="Producto - Código" formControlName="Tipo_ProductoId">
                         <mat-option *ngFor="let tipoProducto of tipoProductoList" [value]="tipoProducto.Id">
@@ -21,14 +21,14 @@
                         </mat-option>
                     </mat-select>
                     <mat-error *ngIf="creditForm.controls['Tipo_ProductoId'].hasError('required')">
-                        Producto - Código <strong>requerido</strong>
+                        Seleccione un valor
                     </mat-error>
                 </mat-form-field>
             </div>
 
             <div class="col-md-6">
                 <mat-form-field class="full-width">
-                    <mat-label>Ejecutivo<span *ngIf="mostrarCamposObligatorios" style="color: red;">(*)</span>
+                    <mat-label>Ejecutivo <span class="obligatorio">(*)</span>
                     </mat-label>
                     <people-picker-input formControlName="ejecutivo" (onRemove)="removePeople()"
                         placeholder="Escribe un nombre..." [multiple]="false">
@@ -41,15 +41,14 @@
         <div class="row">
             <div class="col-md-6">
                 <mat-form-field class="full-width">
-                    <mat-label>Sub Producto - Código<span *ngIf="mostrarCamposObligatorios"
-                            style="color: red;">(*)</span></mat-label>
+                    <mat-label>Sub Producto - Código <span class="obligatorio">(*)</span></mat-label>
                     <mat-select placeholder="Sub Producto - Código" formControlName="Sub_ProductoId">
                         <mat-option *ngFor="let tipoSubProducto of tipoSubProductoList" [value]="tipoSubProducto.Id">
                             {{ tipoSubProducto.Title }}
                         </mat-option>
                     </mat-select>
                     <mat-error *ngIf="creditForm.controls['Sub_ProductoId'].hasError('required')">
-                        Sub Producto - Código <strong>requerido</strong>
+                        Seleccione un valor
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -57,14 +56,14 @@
             <div class="col-md-6">
 
                 <mat-form-field class="full-width">
-                    <mat-label>Zona<span *ngIf="mostrarCamposObligatorios" style="color: red;">(*)</span></mat-label>
+                    <mat-label>Zona <span class="obligatorio">(*)</span></mat-label>
                     <mat-select placeholder="Zona" formControlName="ZonaId">
                         <mat-option *ngFor="let zona of zonaModelList" [value]="zona.Id">
                             {{ zona.Title }}
                         </mat-option>
                     </mat-select>
                     <mat-error *ngIf="creditForm.controls['ZonaId'].hasError('required')">
-                        Zona <strong>requerida</strong>
+                        Seleccione un valor
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -73,7 +72,7 @@
         <div class="row">
             <div class="col-md-6">
                 <mat-form-field class="full-width">
-                    <mat-label>Modalidad<span *ngIf="mostrarCamposObligatorios" style="color: red;">(*)</span>
+                    <mat-label>Modalidad <span class="obligatorio">(*)</span>
                     </mat-label>
                     <mat-select placeholder="Modalidad" formControlName="ModalidadId">
                         <mat-option *ngFor="let modalidad of modalidadList" [value]="modalidad.Id">
@@ -81,13 +80,13 @@
                         </mat-option>
                     </mat-select>
                     <mat-error *ngIf="creditForm.controls['ModalidadId'].hasError('required')">
-                        Modalidad <strong>requerido</strong>
+                        Seleccione un valor
                     </mat-error>
                 </mat-form-field>
             </div>
             <div class="col-md-6">
                 <mat-form-field class="full-width">
-                    <mat-label>Oficina<span *ngIf="mostrarCamposObligatorios" style="color: red;">(*)</span>
+                    <mat-label>Oficina <span class="obligatorio">(*)</span>
                     </mat-label>
                     <mat-select placeholder="Oficina" formControlName="OficinaId">
                         <mat-option *ngFor="let oficina of oficinaList" [value]="oficina.Id">
@@ -95,7 +94,7 @@
                         </mat-option>
                     </mat-select>
                     <mat-error *ngIf="creditForm.controls['OficinaId'].hasError('required')">
-                        Oficina <strong>requerido</strong>
+                        Seleccione un valor
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -127,10 +126,7 @@
                         <mat-option *ngFor="let estado of estadoList" [value]='estado.Id'>
                             {{estado.Title}}
                         </mat-option>
-                    </mat-select>
-                    <!-- <mat-error *ngIf="creditForm.controls['oficina'].hasError('required')">
-                            Estado <strong>requerido</strong>
-                        </mat-error> -->
+                    </mat-select>                    
                 </mat-form-field>
             </div>
         </div>
@@ -145,8 +141,7 @@
 
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <mat-label>Tipo de Documento<span *ngIf="mostrarCamposObligatorios"
-                                    style="color: red;">(*)</span>
+                            <mat-label>Tipo de Documento <span class="obligatorio">(*)</span>
                             </mat-label>
                             <mat-select placeholder="Tipo de Documento" formControlName="Tipo_DocumentoId">
                                 <mat-option *ngFor="let dcmto of typeDocumentList" [value]="dcmto.Id">
@@ -154,19 +149,18 @@
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="creditForm.controls['Tipo_DocumentoId'].hasError('required')">
-                                Tipo/ N° de Documento <strong>requerido</strong>
+                                Seleccione un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
 
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <mat-label>N° de Documento<span *ngIf="mostrarCamposObligatorios"
-                                    style="color: red;">(*)</span>
+                            <mat-label>N° de Documento <span class="obligatorio">(*)</span>
                             </mat-label>
                             <input matInput placeholder="N° de Documento" type="number" formControlName="N_Documento">
                             <mat-error *ngIf="creditForm.controls['N_Documento'].hasError('required')">
-                                N° de Documento <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -175,12 +169,11 @@
                 <div class="row-md-12">
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <mat-label>Nombre del Titular<span *ngIf="mostrarCamposObligatorios"
-                                    style="color: red;">(*)</span>
+                            <mat-label>Nombre del Titular <span class="obligatorio">(*)</span>
                             </mat-label>
                             <input matInput placeholder="Nombre del Titular" formControlName="Nombre_Titular">
                             <mat-error *ngIf="creditForm.controls['Nombre_Titular'].hasError('required')">
-                                Nombre del Titular <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -190,7 +183,7 @@
                                 placeholder="Riesgo Máximo (Monto en USD)" formControlName="Riesgo_Maximo">
                             <!-- <input type="text" class="form-control" id="separadorMiles" placeholder="Separador de miles"> -->
                             <mat-error *ngIf="creditForm.controls['Riesgo_Maximo'].hasError('required')">
-                                Riesgo Máximo (Monto en USD) <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -202,7 +195,7 @@
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="creditForm.controls['Sustento_IngresosId'].hasError('required')">
-                                Sustento de Ingresos <strong>requerido</strong>
+                                Seleccione un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -257,7 +250,7 @@
                         <mat-form-field class="full-width">
                             <input matInput placeholder="Meses de Ahorro" type="number" formControlName="Meses_Abono">
                             <mat-error *ngIf="creditForm.controls['Meses_Abono'].hasError('required')">
-                                Meses Abono <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -272,7 +265,7 @@
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="creditForm.controls['Tipo_Moneda_AhorroId'].hasError('required')">
-                                Tipo Moneda <strong>requerido</strong>
+                                Seleccione un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -284,7 +277,7 @@
                             <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="Importe Cuota Ahorro" type="text" formControlName="Importe_Cuota_Ahorro">
                             <mat-error *ngIf="creditForm.controls['Importe_Cuota_Ahorro'].hasError('required')">
-                                Importe Cuota Ahorro <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -300,7 +293,7 @@
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="creditForm.controls['Situacion_Plan_AhorroId'].hasError('required')">
-                                Situacion de Plan de Ahorro <strong>requerido</strong>
+                                Seleccione un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -312,7 +305,7 @@
                             <input matInput placeholder="Nº de Abonos Validados" type="number"
                                 formControlName="N_Abonos_Validados">
                             <mat-error *ngIf="creditForm.controls['N_Abonos_Validados'].hasError('required')">
-                                Nº Abonos Validados <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -328,7 +321,7 @@
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="creditForm.controls['Ultimo_Abono_ValidadoId'].hasError('required')">
-                                Último Abono Validado(Mes/Año) <strong>requerido</strong>
+                                Seleccione un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -339,7 +332,7 @@
                             <input matInput placeholder="Nº de Cta. Ahorro BanBif" type="number"
                                 formControlName="Cta_Ahorro_BanBif">
                             <mat-error *ngIf="creditForm.controls['Cta_Ahorro_BanBif'].hasError('required')">
-                                Nº Cta. Ahorro BanBif <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -354,31 +347,24 @@
             'd-none':!showAsignacionRiesgos,
              'col-md-12': showAsignacionRiesgos
         }">
-            <div class="row">
+            <div class="row" style="padding-bottom: 15px;">
                 <div class="col sub-title-col">
                     <span class="sub-title">DATOS DE LA OPERACIÓN</span>
                 </div>
             </div>
 
-            <div class="" [ngClass]="{
-                      'd-none':showGarantias,
-                      'col-md-6': !showGarantias
-                  }">
-
-                <div class="row">
-
-                    <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-select placeholder="Nombre de Proyecto" formControlName="ProyectoId">
-                                <mat-option *ngFor="let project of projectList" [value]="project.Id">
-                                    {{ project.Title }}
-                                </mat-option>
-                            </mat-select>
-                            <mat-error *ngIf="creditForm.controls['ProyectoId'].hasError('required')">
-                                Nombre de Proyecto <strong>requerido</strong>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
+            <div class="row" *ngIf="!showGarantias">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-select placeholder="Nombre de Proyecto" formControlName="ProyectoId">
+                            <mat-option *ngFor="let project of projectList" [value]="project.Id">
+                                {{ project.Title }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="creditForm.controls['ProyectoId'].hasError('required')">
+                            Seleccione un valor
+                        </mat-error>
+                    </mat-form-field>
                 </div>
             </div>
 
@@ -391,7 +377,7 @@
                             </mat-option>
                         </mat-select>
                         <mat-error *ngIf="creditForm.controls['N_ViviendaId'].hasError('required')">
-                            Número de Vivienda <strong>requerido</strong>
+                            Seleccione un valor
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -406,7 +392,7 @@
                             </mat-option>
                         </mat-select>
                         <mat-error *ngIf="creditForm.controls['MonedaId'].hasError('required')">
-                            Tipo de Moneda <strong>requerido</strong>
+                            Seleccione un valor
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -417,7 +403,7 @@
                     <mat-form-field class="full-width">
                         <input matInput placeholder="TEA (%)" type="number" formControlName="TEA">
                         <mat-error *ngIf="creditForm.controls['TEA'].hasError('required')">
-                            TEA ( % ) <strong>requerido</strong>
+                            Ingrese un valor
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -432,7 +418,7 @@
                             </mat-option>
                         </mat-select>
                         <mat-error *ngIf="creditForm.controls['TEA_AutorizadoId'].hasError('required')">
-                            TEA Autorizada por <strong>requerido</strong>
+                            Seleccione un valor
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -451,7 +437,7 @@
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="creditForm.controls['Mon_PrecioVentaId'].hasError('required')">
-                                Tipo Moneda Precio Venta <strong>requerido</strong>
+                                Seleccione un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -461,7 +447,7 @@
                             <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="Precio de Venta" type="text" formControlName="Precio_Venta">
                             <mat-error *ngIf="creditForm.controls['Precio_Venta'].hasError('required')">
-                                Precio de Venta <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -485,7 +471,7 @@
                             <input matInput placeholder="( % ) de Financiamiento" type="number"
                                 formControlName="pFinanciamiento">
                             <mat-error *ngIf="creditForm.controls['pFinanciamiento'].hasError('required')">
-                                ( % ) de Financiamiento <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -517,7 +503,7 @@
                             <input matInput placeholder="Descripción del Inmueble"
                                 formControlName="Descripcion_Inmueble">
                             <mat-error *ngIf="creditForm.controls['Descripcion_Inmueble'].hasError('required')">
-                                Descripción del Inmueble <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -539,7 +525,7 @@
                         <mat-form-field class="full-width">
                             <input matInput placeholder="" formControlName="Mon_Valor_ComTas_Soles" class="label-black">
                             <mat-error *ngIf="creditForm.controls['Importe_Cuota_Ahorro'].hasError('required')">
-                                S/. <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -548,19 +534,18 @@
                             <input matInput placeholder="Valor Tasación soles" type="number"
                                 formControlName="Valor_ComTas_Soles">
                             <mat-error *ngIf="creditForm.controls['Valor_ComTas_Soles'].hasError('required')">
-                                Valor Tasación soles <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
                 </div>
-
 
                 <div class="row">
                     <div class="col">
                         <mat-form-field class="full-width">
                             <input matInput placeholder="" formControlName="Mon_VRI_Soles" class="label-black">
                             <mat-error *ngIf="creditForm.controls['Mon_VRI_Soles'].hasError('required')">
-                                S/. <strong>requerido</strong>
+                               Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -568,7 +553,7 @@
                         <mat-form-field class="full-width">
                             <input matInput placeholder="VRI soles" type="number" formControlName="VRI_Soles">
                             <mat-error *ngIf="creditForm.controls['VRI_Soles'].hasError('required')">
-                                VRI soles <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -603,7 +588,7 @@
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="creditForm.controls['Mon_Ap_Efectivo'].hasError('required')">
-                                S/. <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -613,7 +598,7 @@
                             <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="Aporte en Efectivo" type="text" formControlName="Aporte_Efectivo">
                             <mat-error *ngIf="creditForm.controls['Aporte_Efectivo'].hasError('required')">
-                                Aporte en Efectivo <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -629,7 +614,7 @@
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="creditForm.controls['Mon_Aport_AFPId'].hasError('required')">
-                                S/. <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -639,7 +624,7 @@
                             <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="Aporte de retiro AFP" type="text" formControlName="Aporte_RetiroAFP">
                             <mat-error *ngIf="creditForm.controls['Aporte_RetiroAFP'].hasError('required')">
-                                Aporte de retiro AFP <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -658,7 +643,7 @@
                             <mat-form-field class="full-width">
                                 <input matInput placeholder="Tipo Moneda" formControlName="Mon_BBP">
                                 <mat-error *ngIf="creditForm.controls['Mon_BBP'].hasError('required')">
-                                    S/. <strong>requerido</strong>
+                                   Ingrese un valor
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -667,7 +652,7 @@
                             <mat-form-field class="full-width">
                                 <input matInput placeholder="Bono Buen Pagador (BBP)" type="text" formControlName="BBP">
                                 <mat-error *ngIf="creditForm.controls['BBP'].hasError('required')">
-                                    Bono Buen Pagador (BBP) <strong>requerido</strong>
+                                    Ingrese un valor
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -678,7 +663,7 @@
                             <mat-form-field class="full-width">
                                 <input matInput placeholder="Tipo Moneda" formControlName="Mon_PBB">
                                 <mat-error *ngIf="creditForm.controls['Mon_PBB'].hasError('required')">
-                                    S/. <strong>requerido</strong>
+                                    Ingrese un valor
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -688,7 +673,7 @@
                                 <input matInput placeholder="Premio Buen pagador (PBP)" type="text"
                                     formControlName="PBP">
                                 <mat-error *ngIf="creditForm.controls['PBP'].hasError('required')">
-                                    Premio Buen pagador (PBP) <strong>requerido</strong>
+                                    Ingrese un valor
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -704,7 +689,7 @@
                                     </mat-option>
                                 </mat-select>
                                 <mat-error *ngIf="creditForm.controls['BBP_AdicionalId'].hasError('required')">
-                                    BBP adicional por vivienda sostenible <strong>requerido</strong>
+                                    Seleccione un valor
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -714,7 +699,7 @@
                                 <input matInput placeholder="BBP adicional por vivienda sostenible" type="text"
                                     formControlName="PBP_Adiconal_Sostenible">
                                 <mat-error *ngIf="creditForm.controls['PBP_Adiconal_Sostenible'].hasError('required')">
-                                    BBP adicional por vivienda sostenible<strong>requerido</strong>
+                                    Ingrese un valor
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -764,7 +749,7 @@
                                     </mat-option>
                                 </mat-select>
                                 <mat-error *ngIf="creditForm.controls['Mon_Desembolso'].hasError('required')">
-                                    Tipo Moneda <strong>requerido</strong>
+                                    Seleccione un valor
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -773,7 +758,7 @@
                                 <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
                                     placeholder="Desembolso" type="text" formControlName="Desembolso">
                                 <mat-error *ngIf="creditForm.controls['Desembolso'].hasError('required')">
-                                    Desembolso <strong>requerido</strong>
+                                    Ingrese un valor
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -793,7 +778,7 @@
                                     </mat-option>
                                 </mat-select>
                                 <mat-error *ngIf="creditForm.controls['Mon_Gravamen'].hasError('required')">
-                                    S/. <strong>requerido</strong>
+                                    Seleccione un valor
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -802,7 +787,7 @@
                                 <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
                                     placeholder="Gravamen (120% x Desembolso)" type="text" formControlName="Grabamen">
                                 <mat-error *ngIf="creditForm.controls['Grabamen'].hasError('required')">
-                                    Gravamen (120% x Desembolso) <strong>requerido</strong>
+                                    Ingrese un valor
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -823,7 +808,7 @@
                             </mat-option>
                         </mat-select>
                         <mat-error *ngIf="creditForm.controls['Modalidad_PagoId'].hasError('required')">
-                            Modalidad de Pago <strong>requerido</strong>
+                            Seleccione un valor
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -849,7 +834,7 @@
                             </mat-option>
                         </mat-select>
                         <mat-error *ngIf="creditForm.controls['Lugar_VisitaId'].hasError('required')">
-                            Lugar de Visita <strong>requerido</strong>
+                            Seleccione un valor
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -857,7 +842,7 @@
                     <mat-form-field class="full-width">
                         <input matInput placeholder="Período de Gracia" type="number" formControlName="Periodo_Gracia">
                         <mat-error *ngIf="creditForm.controls['Periodo_Gracia'].hasError('required')">
-                            Período de Gracia <strong>requerido</strong>
+                            Ingrese un valor
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -901,7 +886,7 @@
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="creditForm.controls['Tipo_GarantiaId'].hasError('required')">
-                                Tipo de Garantia<strong>requerido</strong>
+                                Seleccione un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -913,7 +898,7 @@
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="creditForm.controls['Tipo_AbonoId'].hasError('required')">
-                                Tipo de Abono<strong>requerido</strong>
+                                Seleccione un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -941,7 +926,7 @@
                         <mat-form-field class="text-width">
                             <input matInput placeholder="" type="number" formControlName="Numero_Desemboslo">
                             <mat-error *ngIf="creditForm.controls['Numero_Desemboslo'].hasError('required')">
-                                Numero Desembolso <strong>requerido</strong>
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -955,9 +940,6 @@
                         <mat-form-field class="text-width">
                             <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="" type="text" formControlName="Primer_desembolso">
-                            <!-- <mat-error *ngIf="creditForm.controls['N_Documento'].hasError('required')">
-                                N° de Documento <strong>requerido</strong>
-                            </mat-error> -->
                         </mat-form-field>
                     </div>
                     <div class="col label-aplicacion">
@@ -970,9 +952,6 @@
                         <mat-form-field class="text-width">
                             <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="" type="text" formControlName="Segundo_desembolso">
-                            <!-- <mat-error *ngIf="creditForm.controls['N_Documento'].hasError('required')">
-                                N° de Documento <strong>requerido</strong>
-                            </mat-error> -->
                         </mat-form-field>
                     </div>
                     <div class="col label-aplicacion">
@@ -985,9 +964,6 @@
                         <mat-form-field class="text-width">
                             <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="" type="text" formControlName="Tercer_desembolso">
-                            <!-- <mat-error *ngIf="creditForm.controls['N_Documento'].hasError('required')">
-                                N° de Documento <strong>requerido</strong>
-                            </mat-error> -->
                         </mat-form-field>
                     </div>
                     <div class="col label-aplicacion">
@@ -1000,9 +976,6 @@
                         <mat-form-field class="text-width">
                             <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="" type="text" formControlName="Aporte_Cliente">
-                            <!-- <mat-error *ngIf="creditForm.controls['N_Documento'].hasError('required')">
-                                N° de Documento <strong>requerido</strong>
-                            </mat-error> -->
                         </mat-form-field>
                     </div>
                     <div class="col label-red">
