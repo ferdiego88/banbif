@@ -788,14 +788,14 @@ export class FormularioSolicitudComponent extends FormularioBase implements OnIn
   }
 
   obtenerMaestrosYDatos(): Promise<boolean> {
-    //debugger;
+  
     const d: Deferred<boolean> = new Deferred<boolean>();
 
     this.masterService
       .getDatosMaestros()
       .subscribe((masterLogic: MasterLogic) => {
         if (masterLogic.isDatos) {
-          // debugger;
+          
           this.datosMaestros = masterLogic;
 
           d.resolve(true);

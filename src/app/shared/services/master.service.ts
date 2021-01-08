@@ -152,7 +152,7 @@ export class MasterService {
   }
 
   async getMaestroMaterial( idMaestroMaterial: number ) {
-    // debugger;
+    
     const expandFields = MaestroMaterial.getColumnasExpand();
     const selectFields = MaestroMaterial.getColumnasSelectSingle();
     let item = await sp.web.lists.getByTitle( Variables.lists.MaestroMaterial).items
@@ -405,7 +405,7 @@ export class MasterService {
     Promise.all(listaPromesas).then((results) => {
       let cont = 0;
       masterData.isDatos = true;
-      //debugger;
+      
       masterData.currentUser = results[cont++];
      /* masterData.maestroDesplegables = results[cont++];
       masterData.maestroParametros = results[cont++];
@@ -431,7 +431,7 @@ export class MasterService {
   }
 
   async getMaestroDesplegables(): Promise<MaestroDesplegables[]> {
-    //debugger;
+   
     const selectFields = MaestroDesplegables.getColumnasSelect();
     const expandtFields = MaestroDesplegables.getColumnasExpand();
     let result: Array<any>;
@@ -444,7 +444,7 @@ export class MasterService {
   }
 
   async getMaestroParametros(): Promise<MaestroParametros[]> {
-    //debugger;
+   
     const selectFields = MaestroParametros.getColumnasSelect();
     let result: Array<any>;
     let item = this.listaMaestroParametros.items;
@@ -474,7 +474,7 @@ export class MasterService {
   }
 
   async getMaestroCampos(): Promise<MaestroCampos[]> {
-    // debugger;
+    
     const selectFields = MaestroCampos.getColumnasSelect();
     const expandtFields = MaestroCampos.getColumnasExpand();
     let result: Array<any>;
@@ -487,7 +487,7 @@ export class MasterService {
   }
 
   async getMaestroFLujoEtapas(): Promise<MaestroFLujoEtapa[]> {
-    // debugger;
+   
     const selectFields = MaestroFLujoEtapa.getColumnasSelect();
     const expandtFields = MaestroFLujoEtapa.getColumnasExpand();
     let result: Array<any>;
@@ -500,7 +500,7 @@ export class MasterService {
   }
 
   async getMaestroLinea(): Promise<MaestroLinea[]> {
-    // debugger;
+  
     const selectFields = MaestroLinea.getColumnasSelect();
     const expandtFields = MaestroLinea.getColumnasExpand();
     let result: Array<MaestroLinea>;
@@ -513,7 +513,7 @@ export class MasterService {
   }
 
   async getMaestroProveedores(): Promise<ListItem[]> {
-    // debugger;
+  
     const selectFields = "*";
     let result: Array<any>;
     const item = this.listaMaestroProveedores.items;

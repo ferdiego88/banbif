@@ -167,9 +167,7 @@ export class SolicitudesService {
   }
 
   async save(id: number, solicitudCreditoHipotecario: any): Promise<boolean> {
-
-    debugger;
-
+  
     try {
       let iar: IItemAddResult;
 

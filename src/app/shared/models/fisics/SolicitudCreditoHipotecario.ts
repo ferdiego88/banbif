@@ -102,7 +102,8 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public Ejecutivo = {
       Id: '',
       Title: ''
-    }
+    },
+    public Desembolsado = false
     ,
   ){
     super();

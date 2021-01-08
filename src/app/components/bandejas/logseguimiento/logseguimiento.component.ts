@@ -166,6 +166,13 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
     return d.promise;
   }
 
+  public irPaginaSolicitud(
+    elemento: any
+  ) {
+      const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.SolicitudHipotecario;
+      window.open(url, '_blank');   
+  }
+
   public irPaginaExterna(
     nombrePagina: string,
     parametroQueryString: string,
@@ -334,6 +341,11 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
     this.page_last = this.paginator.pageIndex;
 
     if (!this.seguimiento_paged_history[this.paginator.pageIndex]) {
+
+      if(this.seguimiento_paged["nextUrl"] !== undefined){
+        this.seguimiento_paged["nextUrl"] = this.seguimiento_paged["nextUrl"].replace("https","http");
+      }
+
       this.seguimiento_paged_history[this.paginator.pageIndex] = this.seguimiento_paged;
     }
 

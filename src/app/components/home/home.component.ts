@@ -383,7 +383,7 @@ export class HomeComponent extends FormularioBase implements OnInit {
   }
 
   obtenerMaestrosYDatos(): Promise<boolean> {
-    //debugger;
+   
     const d: Deferred<boolean> = new Deferred<boolean>();
 
     this.masterService

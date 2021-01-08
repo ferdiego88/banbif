@@ -172,7 +172,6 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
     parametroQueryString: string,
     valorQueryString: string
   ) {
-    debugger;
     if (parametroQueryString !== "") {
       const url = environment.getRutaBaseApp() + nombrePagina + '?' + parametroQueryString + '=' + valorQueryString;
       window.open(url, '_blank');

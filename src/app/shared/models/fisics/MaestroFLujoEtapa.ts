@@ -60,7 +60,7 @@ export class MaestroFLujoEtapa  extends ListItem {
   }
 
   public static parseJsonList(list: any): MaestroFLujoEtapa[] {
-    // debugger;
+ 
       let listaCampos: MaestroFLujoEtapa[] = [];
     
       list.forEach(item => {

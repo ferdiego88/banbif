@@ -29,6 +29,7 @@ export class EBandejaSeguimientoSolicitud {
         return [
             Variables.columnasSeguimiento.ID,
             Variables.columnasSeguimiento.SolicitudHipotecario + '/' + Variables.columnasSeguimiento.ID,
+            Variables.columnasSeguimiento.SolicitudHipotecario + '/' + Variables.columnasSeguimiento.Title,
             Variables.columnasSeguimiento.NombreTitular,
             Variables.columnasSeguimiento.NumeroDocumento,
             Variables.columnasSeguimiento.Author + '/' + Variables.columnasSeguimiento.Title,
@@ -52,7 +53,7 @@ export class EBandejaSeguimientoSolicitud {
 
     public static parseJson(elemento: any): EBandejaSeguimientoSolicitud {
         const item = new EBandejaSeguimientoSolicitud();
-
+       
         item.Id = SPParse.getNumber(elemento[Variables.columnasSeguimiento.ID]);
         item.Author = User.parseJson(elemento[Variables.columnasSeguimiento.Author]).Title.toUpperCase();
         item.Created = SPParse.getDate(elemento[Variables.columnasSeguimiento.Created]);
