@@ -94,7 +94,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     public dialog: MatDialog,
     public zone: NgZone,
     public spinner: SpinnerVisibilityService
-  ) { 
+  ) {
     super(
       'Dashboard de Solicitudes de Credito',
       applicationRef,
@@ -132,13 +132,16 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       .catch((error) => console.error(error));
   }
 
-     
+
   hideIcons(){
      document.getElementById('happyConcluded').style.display = 'none';
      document.getElementById('dissastisfiedConcluded').style.display = 'none';
      document.getElementById('sadConcluded').style.display = 'none';
+     document.getElementById('happyReprocessing').style.display = 'none';
+     document.getElementById('dissastisfiedReprocessing').style.display = 'none';
+     document.getElementById('sadReprocessing').style.display = 'none';
      }
-    
+
      listenerMes(){
       this.hipotecarioForm.controls.MesId.valueChanges.subscribe(mes => {
         const solicitudes = this.solicitudHipotecarioList;
@@ -159,7 +162,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
                this.solicitudFlujoSeguimientoList.push(solicitudFlujo);
              });
              this.solicitudPorMesFechaCreacionList.push(solicitudPorMes);
-              } 
+              }
             });
 
         this.cantidadSolicitudesPorMes = this.solicitudPorMesFechaCreacionList.length;
@@ -172,8 +175,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
                 contadorReprocesos++;
             }
         });
-        this.solicitudPorMesFechaCreacionList.forEach(solicitud => { 
-          if (solicitud.EstadoId === Variables.constantes.EstadoAprobadoConVerificacion 
+        this.solicitudPorMesFechaCreacionList.forEach(solicitud => {
+          if (solicitud.EstadoId === Variables.constantes.EstadoAprobadoConVerificacion
             || solicitud.EstadoId === Variables.constantes.EstadoAprobadoSinVerificacion) {
             contadorSolicitudesConcluidas++;
           }
@@ -181,15 +184,44 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         console.log(contadorReprocesos);
         this.cantidadSolicitudesConcluidas = contadorSolicitudesConcluidas;
         this.cantidadSolicitudesReprocesos = contadorReprocesos;
+
         this.porcentajeExpedientesConcluidos = (this.cantidadSolicitudesConcluidas / this.cantidadSolicitudesPorMes) * 100;
         if (this.porcentajeExpedientesConcluidos >= 50) {
           document.getElementById('happyConcluded').style.display = 'block';
+          document.getElementById('dissastisfiedConcluded').style.display = 'none';
+          document.getElementById('sadConcluded').style.display = 'none';
         } else if ( this.porcentajeExpedientesConcluidos >= 40  && this.porcentajeExpedientesConcluidos < 50) {
           document.getElementById('dissastisfiedConcluded').style.display = 'block';
+          document.getElementById('happyConcluded').style.display = 'none';
+          document.getElementById('sadConcluded').style.display = 'none';
         }else if (this.porcentajeExpedientesConcluidos < 40){
           document.getElementById('sadConcluded').style.display = 'block';
+          document.getElementById('happyConcluded').style.display = 'none';
+          document.getElementById('dissastisfiedConcluded').style.display = 'none';
+        }else{
+          document.getElementById('happyConcluded').style.display = 'none';
+          document.getElementById('dissastisfiedConcluded').style.display = 'none';
+          document.getElementById('sadConcluded').style.display = 'none';
         }
         this.porcentajeExpedientesReprocesos = (this.cantidadSolicitudesReprocesos / this.cantidadSolicitudesPorMes) * 100;
+        if (this.porcentajeExpedientesReprocesos >= 50) {
+          document.getElementById('happyReprocessing').style.display = 'none';
+          document.getElementById('dissastisfiedReprocessing').style.display = 'none';
+          document.getElementById('sadReprocessing').style.display = 'block';
+        } else if ( this.porcentajeExpedientesReprocesos >= 40  && this.porcentajeExpedientesReprocesos < 50) {
+          document.getElementById('dissastisfiedReprocessing').style.display = 'block';
+          document.getElementById('happyReprocessing').style.display = 'none';
+          document.getElementById('sadReprocessing').style.display = 'none';
+        }else if (this.porcentajeExpedientesReprocesos < 40){
+          document.getElementById('sadReprocessing').style.display = 'none';
+          document.getElementById('happyReprocessing').style.display = 'block';
+          document.getElementById('dissastisfiedReprocessing').style.display = 'none';
+        }else{
+          document.getElementById('happyReprocessing').style.display = 'none';
+          document.getElementById('dissastisfiedReprocessing').style.display = 'none';
+          document.getElementById('sadReprocessing').style.display = 'none';
+        }
+
       });
      }
 
@@ -205,12 +237,12 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       this.hideLoading();
       // console.log(this.solicitudHipotecarioList);
      }
-    
+
      async getSolicitudes(idZona = 0) {
       let data: SolicitudCreditoHipotecario[];
       const fieldsFilter: string[] = [];
       const valuesFilter: any[] = [];
-  
+
       // if (idMes !== 0) {
       //   fieldsFilter.push('MesSolicitud');
       //   valuesFilter.push(idMes);
@@ -223,7 +255,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       //   fieldsFilter.push('OficinaId');
       //   valuesFilter.push(idOficina);
       // }
-  
+
       // if (idTipoProducto !== 0) {
       //   fieldsFilter.push('Tipo_ProductoId');
       //   valuesFilter.push(idTipoProducto);
@@ -232,12 +264,12 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       //   fieldsFilter.push('Sub_ProductoId');
       //   valuesFilter.push(idTipoSubProducto);
       // }
-  
+
       // if (idEstado !== 0) {
       //   fieldsFilter.push('EstadoId');
       //   valuesFilter.push(idEstado);
       // }
-  
+
       // if (idAuthor !== 0) {
       //   fieldsFilter.push('AuthorId');
       //   valuesFilter.push(idAuthor);
@@ -262,5 +294,5 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         .then((flujoSegumientoEtapaList) => (this.flujoSegumientoEtapaList = flujoSegumientoEtapaList))
         .catch((error) => console.error(error));
     }
-   
+
 }

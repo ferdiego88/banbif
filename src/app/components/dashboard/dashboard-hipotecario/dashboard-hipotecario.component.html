@@ -134,21 +134,33 @@
                             <mat-icon class="dissatisfied">mood_bad</mat-icon>
                             <mat-icon class="sad">sentiment_dissatisfied</mat-icon>
                         </td>
-                        <td></td>
+                        <td>
+                           <mat-icon class="happy">trending_up</mat-icon>
+                            <mat-icon class="dissatisfied">trending_flat</mat-icon>
+                            <mat-icon class="sad">trending_down</mat-icon>
+                        </td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
-                        <td>Porcentaje de Expedientes Concluidos</td>
+                        <td>
+                          <mat-icon id="happyConcluded" class="happy">sentiment_satisfied_alt</mat-icon>
+                          <mat-icon id= "dissastisfiedConcluded" class="dissatisfied">mood_bad</mat-icon>
+                          <mat-icon id="sadConcluded" class="sad">sentiment_dissatisfied</mat-icon>
+                          Porcentaje de Expedientes Concluidos</td>
                         <td> %</td>
                         <td>Neg. Inmobiliario</td>
                         <td>33 % </td>
                         <td>
-                            <mat-icon id="happyConcluded" class="happy">sentiment_satisfied_alt</mat-icon>
-                            <mat-icon id="dissastisfiedConcluded" class="dissatisfied">mood_bad</mat-icon>
-                            <mat-icon id="sadConcluded" class="sad">sentiment_dissatisfied</mat-icon>
+                            <!-- <mat-icon id="happyConcluded" class="happy">sentiment_satisfied_alt</mat-icon>
+                            <mat-icon id= "dissastisfiedConcluded" class="dissatisfied">mood_bad</mat-icon>
+                            <mat-icon id="sadConcluded" class="sad">sentiment_dissatisfied</mat-icon> -->
                         </td>
-                        <td></td>
+                        <td>
+                           <!-- <mat-icon id="happyConcluded" class="happy">trending_up</mat-icon>
+                            <mat-icon id="dissastisfiedConcluded" class="dissatisfied">trending_flat</mat-icon>
+                            <mat-icon id="sadConcluded" class="sad">trending_down</mat-icon> -->
+                        </td>
                         <td></td>
                         <td>{{porcentajeExpedientesConcluidos | number: '.0-2'}} %</td>
                     </tr>
@@ -163,12 +175,24 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>Porcentaje de Reprocesos</td>
+                        <td>
+                            <mat-icon id="happyReprocessing" class="happy">sentiment_satisfied_alt</mat-icon>
+                            <mat-icon id= "dissastisfiedReprocessing" class="dissatisfied">mood_bad</mat-icon>
+                            <mat-icon id="sadReprocessing" class="sad">sentiment_dissatisfied</mat-icon>
+                            Porcentaje de Reprocesos</td>
                         <td> %</td>
                         <td>Neg. Inmobiliario</td>
                         <td>33 % </td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <!-- <mat-icon id="happyReprocessing" class="happy">sentiment_satisfied_alt</mat-icon>
+                            <mat-icon id= "dissastisfiedReprocessing" class="dissatisfied">mood_bad</mat-icon>
+                            <mat-icon id="sadReprocessing" class="sad">sentiment_dissatisfied</mat-icon> -->
+                        </td>
+                        <td>
+                           <!-- <mat-icon id="happyConcluded" class="happy">trending_up</mat-icon>
+                            <mat-icon id="dissastisfiedConcluded" class="dissatisfied">trending_flat</mat-icon>
+                            <mat-icon id="sadConcluded" class="sad">trending_down</mat-icon> -->
+                        </td>
                         <td></td>
                         <td>{{porcentajeExpedientesReprocesos | number: '.0-2' }} %</td>
                     </tr>
