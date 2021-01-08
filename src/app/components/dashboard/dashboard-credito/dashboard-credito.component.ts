@@ -1,5 +1,5 @@
 import { ApplicationRef, Component, NgZone, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpinnerVisibilityService } from 'ng-http-loader';
@@ -309,7 +309,7 @@ valueSubProducto(): any{
     } else if ( this.dashboardForm.controls.Fecha_Estado_Hasta.value) 
     {
       const solicitudesporFechaEstado = this.getSolicitudesFechaEstado();
-      console.log(solicitudesporFechaEstado);
+      // console.log(solicitudesporFechaEstado);
       solicitudes = solicitudesporFechaEstado.filter( (item) => item.EstadoId === estado);
     }
     else {      

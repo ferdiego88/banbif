@@ -24,6 +24,18 @@ thead {
     width: 100%;
 }
 
+mat-icon.happy {
+    color: green;
+}
+
+mat-icon.dissatisfied {
+    color: orangered;
+}
+
+mat-icon.sad {
+    color: red;
+}
+
 td,
 th {
     border: 1px solid #dddddd !important;

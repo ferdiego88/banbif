@@ -11,7 +11,9 @@
             <div class="col-md-2">
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Mes" formControlName="MesId">
-                        <mat-option>Enero</mat-option>
+                        <mat-option *ngFor="let item of data" [value]="item.id">
+                            {{item.name}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -21,8 +23,8 @@
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Zona" formControlName="ZonaId">
                         <mat-option>Todas</mat-option>
-                        <!-- <mat-option *ngFor="let zona of zonaModelList" [value]="zona.Id">Zona {{zona.Title}}
-                        </mat-option> -->
+                        <mat-option *ngFor="let zona of zonaModelList" [value]="zona.Id">Zona {{zona.Title}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -123,51 +125,53 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td (click)="expand()">Procesos Hipotecario</td>
+                        <td>Procesos Hipotecario</td>
+                        <td>Unidad</td>
+                        <td>Neg. Hipotecario</td>
+                        <td>100 %</td>
+                        <td>
+                            <mat-icon class="happy">sentiment_satisfied_alt</mat-icon>
+                            <mat-icon class="dissatisfied">mood_bad</mat-icon>
+                            <mat-icon class="sad">sentiment_dissatisfied</mat-icon>
+                        </td>
                         <td></td>
                         <td></td>
                         <td></td>
+                    </tr>
+                    <tr>
+                        <td>Porcentaje de Expedientes Concluidos</td>
+                        <td> %</td>
+                        <td>Neg. Inmobiliario</td>
+                        <td>33 % </td>
+                        <td>
+                            <mat-icon id="happyConcluded" class="happy">sentiment_satisfied_alt</mat-icon>
+                            <mat-icon id="dissastisfiedConcluded" class="dissatisfied">mood_bad</mat-icon>
+                            <mat-icon id="sadConcluded" class="sad">sentiment_dissatisfied</mat-icon>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>{{porcentajeExpedientesConcluidos | number: '.0-2'}} %</td>
+                    </tr>
+                    <tr>
+                        <td>Cumplimiento de ANS</td>
+                        <td> %</td>
+                        <td>Neg. Hipotecario</td>
+                        <td>33 % </td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
-                    <div [ngClass]="{
-                    'd-none': !showSubItems,
-                    'col': showSubItems
-                }">
-                        <tr>
-                            <td>Porcentaje de Expedientes Concluidos</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Cumplimiento de ANS</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Porcentaje de Reprocesos</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                    </div>
+                    <tr>
+                        <td>Porcentaje de Reprocesos</td>
+                        <td> %</td>
+                        <td>Neg. Inmobiliario</td>
+                        <td>33 % </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{porcentajeExpedientesReprocesos | number: '.0-2' }} %</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
