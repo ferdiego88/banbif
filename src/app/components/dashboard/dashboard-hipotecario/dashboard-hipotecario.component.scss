@@ -29,14 +29,35 @@ mat-icon.happy {
     font-size: 36px;
 }
 
+mat-icon.happy-center {
+    color: green;
+    font-size: 36px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 mat-icon.dissatisfied {
     color: #FFBF00;
     font-size: 36px;
 }
 
+mat-icon.dissatisfied-center {
+    color: #FFBF00;
+    font-size: 36px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 mat-icon.sad {
     color: red;
     font-size: 36px;
+}
+
+mat-icon.sad-center {
+    color: red;
+    font-size: 36px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 td,

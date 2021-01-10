@@ -45,8 +45,14 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   usersList: User[];
   zonaModelList: ZonaModel[];
   oficinaList: TipoProductoModel[];
-  flujoSegumientoEtapaList: TipoProductoModel[];
-  solicitudFlujoSeguimientoList: TipoProductoModel[];
+  flujoSeguimientoEtapaLista: TipoProductoModel[];
+
+  flujoSeguimientoList: TipoProductoModel[];
+  solicitudMesList: SolicitudCreditoHipotecario[];
+
+  flujoSeguimientoAnteriorList: TipoProductoModel[];
+  solicitudMesAnteriorList: SolicitudCreditoHipotecario[];
+
   estadoList: EstadoModel[];
   dashboard: DashboardModel[];
   tipoProductoList: TipoProductoModel[];
@@ -56,13 +62,19 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   solicitudANSPorEstadoList: SolicitudCreditoHipotecario[];
   solicitudHipotecarioList: SolicitudCreditoHipotecario[];
   solicitudesEstadoList: SolicitudCreditoHipotecario[];
-  solicitudPorMesFechaCreacionList: SolicitudCreditoHipotecario[];
   solicitudesPorFechaEstadoList: SolicitudCreditoHipotecario[];
+
   cantidadSolicitudesPorMes: number;
   cantidadSolicitudesConcluidas: number;
   cantidadSolicitudesReprocesos: number;
   porcentajeExpedientesConcluidos: number;
   porcentajeExpedientesReprocesos: number;
+
+  cantidadSolicitudesPorMesAnterior: number;
+  cantidadSolicitudesConcluidasAnterior: number;
+  cantidadSolicitudesReprocesosAnterior: number;
+  porcentajeExpedientesConcluidosAnterior: number;
+  porcentajeExpedientesReprocesosAnterior: number;
   hipotecarioForm = this.fb.group({
     MesId: [null],
     ZonaId: [null],
@@ -118,10 +130,11 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   loadCombos(){
     this.getZona();
     this.getFlujoSeguimiento();
+    this.getOficina();
   }
 
   loadListeners(){
-    this.listenerMes();
+    this.listenerMonth();
     this.listenerZona();
   }
 
@@ -134,94 +147,168 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
 
   hideIcons(){
-     document.getElementById('happyConcluded').style.display = 'none';
-     document.getElementById('dissastisfiedConcluded').style.display = 'none';
-     document.getElementById('sadConcluded').style.display = 'none';
-     document.getElementById('happyReprocessing').style.display = 'none';
-     document.getElementById('dissastisfiedReprocessing').style.display = 'none';
-     document.getElementById('sadReprocessing').style.display = 'none';
+     const elementosHide = ['happyConcluded', 'dissastisfiedConcluded', 'sadConcluded', 'happyConcludedPrevious',
+     'dissastisfiedConcludedPrevious', 'sadConcludedPrevious', 'happyConcludedVariation', 'dissastisfiedConcludedVariation',
+     'sadConcludedVariation', 'happyReprocessing', 'dissastisfiedReprocessing',
+     'sadReprocessing', 'happyReprocessingPrevious', 'dissastisfiedReprocessingPrevious', 'sadReprocessingPrevious',
+    'happyReprocessingVariation', 'dissastisfiedReprocessingVariation', 'sadReprocessingVariation' ];
+     this.hideIcon(elementosHide);
      }
+     
+  hideIcon(element: string[]){
+    for (const iterator of element) {
+      // console.log(iterator);
+      document.getElementById(iterator).style.display = 'none';
+    }
+  }
+     
+     getMonthRequest(mes: number){
+      const solicitudes = this.solicitudHipotecarioList;
+      let solicitudPorMes: SolicitudCreditoHipotecario;
+      let solicitudFlujoSeguimiento: TipoProductoModel[];
+      let solicitudPorMesAnterior: SolicitudCreditoHipotecario;
+      let solicitudFlujoSeguimientoAnterior: TipoProductoModel[];
+      this.solicitudMesList = [];
+      this.flujoSeguimientoList = [];
+      this.solicitudMesAnteriorList = [];
+      this.flujoSeguimientoAnteriorList = [];
 
-     listenerMes(){
-      this.hipotecarioForm.controls.MesId.valueChanges.subscribe(mes => {
-        const solicitudes = this.solicitudHipotecarioList;
-        let solicitudPorMes;
-        let solicitudFlujoSeguimiento: TipoProductoModel[];
-        this.solicitudPorMesFechaCreacionList = [];
-        this.solicitudFlujoSeguimientoList = [];
-        solicitudes.forEach(solicitud => {
+      let mesAnterior: number;
+      if (mes === 0) {
+        mesAnterior = 11;
+      } else {
+        mesAnterior = mes - 1; 
+      }
+      console.log(mesAnterior);
+      solicitudes.forEach(solicitud => {
           const fecha = moment(solicitud.Created).format('DD-MM-YYYY');
           const fechaCreacion = moment(fecha, 'DD-MM-YYYY').toDate();
           const mesCreacion  = fechaCreacion.getMonth();
-          // console.log(mesCreacion);
+
           if (mesCreacion === mes) {
-             solicitudPorMes = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
-             solicitudFlujoSeguimiento = this.flujoSegumientoEtapaList.filter(item => item.SolicitudHipotecarioId === solicitud.Id);
-             solicitudFlujoSeguimiento.forEach( solicitudFlujo => {
-               // console.log(solicitudFlujo);
-               this.solicitudFlujoSeguimientoList.push(solicitudFlujo);
-             });
-             this.solicitudPorMesFechaCreacionList.push(solicitudPorMes);
-              }
+            solicitudPorMes = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
+            solicitudFlujoSeguimiento = this.flujoSeguimientoEtapaLista.filter(item => item.SolicitudHipotecarioId === solicitud.Id);
+            solicitudFlujoSeguimiento.forEach( solicitudFlujo => {
+              this.flujoSeguimientoList.push(solicitudFlujo);
             });
+            this.solicitudMesList.push(solicitudPorMes);
+             }
+          if (mesCreacion === mesAnterior) {
+            solicitudPorMesAnterior = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
+            solicitudFlujoSeguimientoAnterior = 
+            this.flujoSeguimientoEtapaLista.filter(item => item.SolicitudHipotecarioId === solicitud.Id);
+            solicitudFlujoSeguimientoAnterior.forEach( solicitudFlujo => {
+              this.flujoSeguimientoAnteriorList.push(solicitudFlujo);
+            });
+            this.solicitudMesAnteriorList.push(solicitudPorMesAnterior);
+             }
+      });
+     }
 
-        this.cantidadSolicitudesPorMes = this.solicitudPorMesFechaCreacionList.length;
-        let contadorSolicitudesConcluidas = 0;
-        let contadorReprocesos = 0;
-        // console.log(this.solicitudFlujoSeguimientoList);
-        this.solicitudFlujoSeguimientoList.forEach(soliSeguimiento => {
-            if (soliSeguimiento.EstadoId === Variables.constantes.EstadoObservadoCPM ||
-                soliSeguimiento.EstadoId === Variables.constantes.EstadoObservadoRiesgos ) {
-                contadorReprocesos++;
-            }
-        });
-        this.solicitudPorMesFechaCreacionList.forEach(solicitud => {
-          if (solicitud.EstadoId === Variables.constantes.EstadoAprobadoConVerificacion
-            || solicitud.EstadoId === Variables.constantes.EstadoAprobadoSinVerificacion) {
-            contadorSolicitudesConcluidas++;
-          }
-        });
-        console.log(contadorReprocesos);
-        this.cantidadSolicitudesConcluidas = contadorSolicitudesConcluidas;
-        this.cantidadSolicitudesReprocesos = contadorReprocesos;
+     evaluateRequestConcluded(expedientesConcluidos: number, happy: string, normal: string, sad: string ){
+      let resultado = 0;
+      if (expedientesConcluidos >= 50) {
+        document.getElementById(happy).style.display = 'block';
+        this.hideIcon([normal, sad]);
+        resultado = 2;
+      } else if ( expedientesConcluidos >= 40  && expedientesConcluidos < 50) {
+        document.getElementById(normal).style.display = 'block';
+        this.hideIcon([happy, sad]);
+        resultado = 1;
+      }else if (expedientesConcluidos < 40){
+        document.getElementById(sad).style.display = 'block';
+        this.hideIcon([happy, normal]);
+        resultado = 0;
+      }else{
+        this.hideIcon([sad, normal, happy]);
+      }
+      return resultado;
+     }
 
-        this.porcentajeExpedientesConcluidos = (this.cantidadSolicitudesConcluidas / this.cantidadSolicitudesPorMes) * 100;
-        if (this.porcentajeExpedientesConcluidos >= 50) {
-          document.getElementById('happyConcluded').style.display = 'block';
-          document.getElementById('dissastisfiedConcluded').style.display = 'none';
-          document.getElementById('sadConcluded').style.display = 'none';
-        } else if ( this.porcentajeExpedientesConcluidos >= 40  && this.porcentajeExpedientesConcluidos < 50) {
-          document.getElementById('dissastisfiedConcluded').style.display = 'block';
-          document.getElementById('happyConcluded').style.display = 'none';
-          document.getElementById('sadConcluded').style.display = 'none';
-        }else if (this.porcentajeExpedientesConcluidos < 40){
-          document.getElementById('sadConcluded').style.display = 'block';
-          document.getElementById('happyConcluded').style.display = 'none';
-          document.getElementById('dissastisfiedConcluded').style.display = 'none';
-        }else{
-          document.getElementById('happyConcluded').style.display = 'none';
-          document.getElementById('dissastisfiedConcluded').style.display = 'none';
-          document.getElementById('sadConcluded').style.display = 'none';
+     evaluateVariation(result: number, resultPrevious: number, happy: string, normal: string, sad: string ){
+        if (result > resultPrevious) {
+          document.getElementById(happy).style.display = 'block';
+          this.hideIcon([normal, sad]);
+        } else if ( result < resultPrevious) {
+          document.getElementById(sad).style.display = 'block';
+          this.hideIcon([normal, happy]);
+        }else if (result === resultPrevious){
+          document.getElementById(normal).style.display = 'block';
+          this.hideIcon([sad, happy]);
+        }      
+     }
+     evaluateReprocess(reprocesos: number, happy: string, normal: string, sad: string ){
+      let resultado = 0;
+      if (reprocesos >= 50) {
+        this.hideIcon([happy, normal]);
+        document.getElementById(sad).style.display = 'block';
+        resultado = 0;
+      } else if ( reprocesos >= 40  && reprocesos < 50) {
+        document.getElementById(normal).style.display = 'block';
+        this.hideIcon([happy, sad]);
+        resultado = 1;
+      }else if (reprocesos < 40){
+        document.getElementById(happy).style.display = 'block';
+        this.hideIcon([sad, normal]);
+        resultado = 2;
+      }else{
+        this.hideIcon([sad, normal, happy]);
+      }
+      return resultado;
+     }
+
+     countReproccess(listaSeguimiento: TipoProductoModel[]){
+      let contadorReprocesos = 0;
+      listaSeguimiento.forEach(soliSeguimiento => {
+        if (soliSeguimiento.EstadoId === Variables.constantes.EstadoObservadoCPM ||
+            soliSeguimiento.EstadoId === Variables.constantes.EstadoObservadoRiesgos ) {
+            contadorReprocesos++;
         }
-        this.porcentajeExpedientesReprocesos = (this.cantidadSolicitudesReprocesos / this.cantidadSolicitudesPorMes) * 100;
-        if (this.porcentajeExpedientesReprocesos >= 50) {
-          document.getElementById('happyReprocessing').style.display = 'none';
-          document.getElementById('dissastisfiedReprocessing').style.display = 'none';
-          document.getElementById('sadReprocessing').style.display = 'block';
-        } else if ( this.porcentajeExpedientesReprocesos >= 40  && this.porcentajeExpedientesReprocesos < 50) {
-          document.getElementById('dissastisfiedReprocessing').style.display = 'block';
-          document.getElementById('happyReprocessing').style.display = 'none';
-          document.getElementById('sadReprocessing').style.display = 'none';
-        }else if (this.porcentajeExpedientesReprocesos < 40){
-          document.getElementById('sadReprocessing').style.display = 'none';
-          document.getElementById('happyReprocessing').style.display = 'block';
-          document.getElementById('dissastisfiedReprocessing').style.display = 'none';
-        }else{
-          document.getElementById('happyReprocessing').style.display = 'none';
-          document.getElementById('dissastisfiedReprocessing').style.display = 'none';
-          document.getElementById('sadReprocessing').style.display = 'none';
+    });
+      return contadorReprocesos;
+     }
+     countRequestConcluded(listaSolicitudes: SolicitudCreditoHipotecario[]){
+      let contadorSolicitudesConcluidas = 0;
+      listaSolicitudes.forEach(soliSeguimiento => {
+        if (soliSeguimiento.EstadoId === Variables.constantes.EstadoAprobadoConVerificacion ||
+            soliSeguimiento.EstadoId === Variables.constantes.EstadoAprobadoSinVerificacion ) {
+              contadorSolicitudesConcluidas++;
         }
+    });
+      return contadorSolicitudesConcluidas;
+     }
+     listenerMonth(){
+      this.hipotecarioForm.controls.MesId.valueChanges.subscribe(mes => {
+         this.getMonthRequest(mes);
+         // console.log(this.solicitudMesList);
+         this.cantidadSolicitudesPorMes = this.solicitudMesList.length;
+         this.cantidadSolicitudesPorMesAnterior = this.solicitudMesAnteriorList.length;
 
+         this.cantidadSolicitudesConcluidas = this.countRequestConcluded(this.solicitudMesList);
+         this.cantidadSolicitudesReprocesos = this.countReproccess(this.flujoSeguimientoList);
+
+         this.cantidadSolicitudesConcluidasAnterior = this.countRequestConcluded(this.solicitudMesAnteriorList);
+         this.cantidadSolicitudesReprocesosAnterior = this.countReproccess(this.flujoSeguimientoAnteriorList);
+
+         this.porcentajeExpedientesConcluidos = (this.cantidadSolicitudesConcluidas / this.cantidadSolicitudesPorMes) * 100;
+         this.porcentajeExpedientesReprocesos = (this.cantidadSolicitudesReprocesos / this.cantidadSolicitudesPorMes) * 100;
+
+         this.porcentajeExpedientesConcluidosAnterior = 
+         (this.cantidadSolicitudesConcluidasAnterior / this.cantidadSolicitudesPorMesAnterior) * 100;
+         this.porcentajeExpedientesReprocesosAnterior = 
+         (this.cantidadSolicitudesReprocesosAnterior / this.cantidadSolicitudesPorMesAnterior) * 100;
+
+         const resultEvaluation = 
+         this.evaluateRequestConcluded(this.porcentajeExpedientesConcluidos, 'happyConcluded', 'dissastisfiedConcluded', 'sadConcluded');   
+         const resultEvaluationPrevious = 
+         this.evaluateRequestConcluded(this.porcentajeExpedientesConcluidosAnterior, 'happyConcludedPrevious', 'dissastisfiedConcludedPrevious', 'sadConcludedPrevious');         
+         const resultProcess = 
+         this.evaluateReprocess(this.porcentajeExpedientesReprocesos, 'happyReprocessing', 'dissastisfiedReprocessing', 'sadReprocessing');
+         const resultProcessPrevious = 
+         this.evaluateReprocess(this.porcentajeExpedientesReprocesosAnterior, 'happyReprocessingPrevious', 'dissastisfiedReprocessingPrevious', 'sadReprocessingPrevious');
+
+         this.evaluateVariation(resultProcess, resultProcessPrevious, 'happyReprocessingVariation', 'dissastisfiedReprocessingVariation', 'sadReprocessingVariation');
+         this.evaluateVariation(resultEvaluation, resultEvaluationPrevious, 'happyConcludedVariation', 'dissastisfiedConcludedVariation', 'sadConcludedVariation');
       });
      }
 
@@ -291,7 +378,13 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     getFlujoSeguimiento() {
       this.generalListService
         .get(Variables.listas.FlujoSeguimientoEtapa)
-        .then((flujoSegumientoEtapaList) => (this.flujoSegumientoEtapaList = flujoSegumientoEtapaList))
+        .then((flujoSeguimientoEtapaLista) => (this.flujoSeguimientoEtapaLista = flujoSeguimientoEtapaLista))
+        .catch((error) => console.error(error));
+    }
+    getOficina(): any {
+      this.generalListService
+        .get(Variables.listas.AdmOficina, 'Title')
+        .then((oficinaList: any) => (this.oficinaList = oficinaList))
         .catch((error) => console.error(error));
     }
 
