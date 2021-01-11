@@ -19,6 +19,7 @@ import { FormularioBase } from '../../shared/pages/formularioBase';
 import { MatDialog } from '@angular/material/dialog';
 import { SpinnerVisibilityService } from 'ng-http-loader';
 import Swal from 'sweetalert2';
+import { User } from 'src/app/shared/models/fisics/base/User';
 
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
@@ -79,6 +80,15 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   typeCurrencySaving: TipoProductoModel[];
   planSituationSavingList: TipoProductoModel[];
   LastValidatedBonoList: TipoProductoModel[];
+
+  PertenceGrupo_U_Oficina: boolean = false;
+  PertenceGrupo_U_ReemplazoOficina: boolean = false;
+  PertenceGrupo_U_CPM: boolean = false;
+  PertenceGrupo_U_Asignacion_Riesgos: boolean = false;
+  PertenceGrupo_U_Evaluacion: boolean = false;
+  PertenceGrupo_U_Reasignador_Riesgos: boolean = false;
+  PertenceGrupo_U_Verificacion_Riesgos: boolean = false;
+  PertenceGrupo_U_Gestor: boolean = false;
 
   mostrarCamposObligatorios = false;
 
@@ -373,13 +383,20 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
                 this.creditForm.controls.Cometario_Revisor.setValue(cadComentarioRevisor);
                 this.creditForm.controls.Cometario_Revisor1.setValue(cadComentarioRevisor);
               }
-              this.solicitudHipotecarioList.Enlace_Documentos && this.solicitudHipotecarioList.Enlace_Documentos !== null && (this.descripcionDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Description);
-              this.enlaceDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Url;
 
               if (this.solicitudHipotecarioList.Desembolsado === null) {
                 this.creditForm.controls.Desembolsado.setValue(false);
               } else {
                 this.creditForm.controls.Desembolsado.setValue(this.solicitudHipotecarioList.Desembolsado);
+              }
+
+              this.solicitudHipotecarioList.Enlace_Documentos && this.solicitudHipotecarioList.Enlace_Documentos !== null && (this.descripcionDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Description);
+
+              if (this.solicitudHipotecarioList.Enlace_Documentos === null) {
+                this.mostrarModalInformativo("Mensaje de Validación", 'Vuelva a ingresar en unos minutos, se está creando la carpetas de la solicitud.');
+                this.router.navigate(['/bandejas/solicitudes']);
+              } else {
+                this.enlaceDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Url;
               }
 
               this.hideLoading();
@@ -393,32 +410,57 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   }
 
   cargarCombos() {
-    
-    this.getTypeProducts();
-    this.valueSubProducto();
-    this.valueModalidad();
-    this.getZonas();
-    this.valueOficina();
-    this.getTypeDocument();
-    this.getSustentoIngresos();
-    this.getProject();
-    this.getNVivienda();
-    this.getCurrency();
-    this.getCurrencyAporteEfectivo();
-    this.getCurrencyAporteAFP();
-    this.getTEA();
-    this.getTypeCurrencyPriceSale();
-    this.getPaymentMethod();
-    this.getVisitingPlace();
-    this.getvalueGarantias();
-    this.getPaymentType();
-    this.getTypeCurrencySaving();
-    this.getPlanSituationSaving();
-    this.getLastValidatedBono();
-    this.getEstado();
-    this.getBBPAdicional();
-    this.getObservacionesCPM();
-    this.getEstadoGestor();
+
+    this.generalListService.getCurrentUser().then(resultUsuario => {
+
+      this.PertenceGrupo_U_Oficina = resultUsuario.Groups.filter(x => x.Title === "U_Oficina").length > 0;
+      this.PertenceGrupo_U_ReemplazoOficina = resultUsuario.Groups.filter(x => x.Title === "U_ReemplazoOficina").length > 0;
+      this.PertenceGrupo_U_CPM = resultUsuario.Groups.filter(x => x.Title === "U_CPM").length > 0;
+      this.PertenceGrupo_U_Asignacion_Riesgos = resultUsuario.Groups.filter(x => x.Title === "U_Asignacion_Riesgos").length > 0;
+      this.PertenceGrupo_U_Evaluacion = resultUsuario.Groups.filter(x => x.Title === "U_Evaluacion").length > 0;
+      this.PertenceGrupo_U_Reasignador_Riesgos = resultUsuario.Groups.filter(x => x.Title === "U_Reasignador_Riesgos").length > 0;
+      this.PertenceGrupo_U_Verificacion_Riesgos = resultUsuario.Groups.filter(x => x.Title === "U_Verificacion_Riesgos").length > 0;
+      this.PertenceGrupo_U_Gestor = resultUsuario.Groups.filter(x => x.Title === "U_Gestor").length > 0;
+
+      let tieneAccesso = true;
+
+      this.route.params.subscribe(param => {
+        if (param.id === undefined && !this.PertenceGrupo_U_Oficina) {
+          tieneAccesso = false;
+          this.mostrarModalInformativo("Mensaje de Validación", 'Su usuario no pertenece al grupo "U_Oficina".');
+          this.router.navigate(['/bandejas/solicitudes']);
+        }
+      });
+
+      if (tieneAccesso) {
+        this.getTypeProducts();
+        this.valueSubProducto();
+        this.valueModalidad();
+        this.getZonas();
+        this.valueOficina();
+        this.getTypeDocument();
+        this.getSustentoIngresos();
+        this.getProject();
+        this.getNVivienda();
+        this.getCurrency();
+        this.getCurrencyAporteEfectivo();
+        this.getCurrencyAporteAFP();
+        this.getTEA();
+        this.getTypeCurrencyPriceSale();
+        this.getPaymentMethod();
+        this.getVisitingPlace();
+        this.getvalueGarantias();
+        this.getPaymentType();
+        this.getTypeCurrencySaving();
+        this.getPlanSituationSaving();
+        this.getLastValidatedBono();
+        this.getEstado();
+        this.getBBPAdicional();
+        this.getObservacionesCPM();
+        this.getEstadoGestor();
+      }
+
+    }).catch(error => console.error(error));
   }
 
   getTypeProducts() {
@@ -515,6 +557,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.creditForm.get('Descripcion_Inmueble').disable();
     this.creditForm.get('Fecha_Tasacion_Remodelac').disable();
   }
+
   setDisableObservacionesOpcional() {
     this.creditForm.get('Observaciones').disable();
     this.creditForm.get('Lugar_VisitaId').disable();
@@ -569,6 +612,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.creditForm.get('Desembolso').disable();
     this.creditForm.get('Grabamen').disable();
   }
+
   setDisableControlsCuotaInicial() {
     this.creditForm.get('Mon_Ap_Efectivo').disable();
     this.creditForm.get('Aporte_Efectivo').disable();
@@ -580,10 +624,12 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.creditForm.get('Grabamen').disable();
     this.creditForm.get('Modalidad_PagoId').disable();
   }
+
   setDisableControlsTipoGarantiaAbono() {
     this.creditForm.get('Tipo_GarantiaId').disable();
     this.creditForm.get('Tipo_AbonoId').disable();
   }
+
   setDisableControlsGarantias() {
     this.creditForm.get('Descripcion_Inmueble').disable();
     this.creditForm.get('Fecha_Tasacion_Remodelac').disable();
@@ -673,6 +719,23 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.creditForm.get('Desembolso').disable();
           this.creditForm.get('Grabamen').disable();
           this.mostrarBotonDesestimiento = true;
+
+          if (!this.PertenceGrupo_U_Oficina) {
+            this.setDisableControlsCabezera();
+            this.setDisableControlsCuotaInicial();
+            this.setDisableControlsDatosOperacion();
+            this.setDisableControlsTipoGarantiaAbono();
+            this.setDisableObservacionesOpcional();
+            this.setDisableControlsAplicacion();
+            this.setDisableComentarios();
+            this.setDisableControlsPlanAhorroProgramado();
+            this.setDisableComentarioOficina();
+            this.setDisableComentarioGestor();
+            this.showBtnGuardarBorrador = false;
+            this.showBtnEnviar = false;
+            this.mostrarBotonDesestimiento = false;
+          }
+
           break;
         case (estado === Variables.constantes.EstadoRegistroCPM):
           this.showBtnGuardarBorrador = false;
@@ -685,6 +748,18 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.setDisableControlsDatosOperacion();
           this.setDisableObservacionesOpcional();
           this.creditForm.controls.Cometario_Evaluacion.disable();
+
+          if (!this.PertenceGrupo_U_CPM) {
+            this.setDisableControlsTipoGarantiaAbono();
+            this.setDisableControlsAplicacion();
+            this.setDisableComentarios();
+            this.setDisableControlsPlanAhorroProgramado();
+            this.setDisableComentarioOficina();
+            this.setDisableComentarioGestor();
+            this.showBtnObservarRegistro = false;
+            this.showBtnEnviar = false;
+          }
+
           break;
         case (estado === Variables.constantes.EstadoObservadoCPM):
           this.showBtnEnviarRegularizar = false;
@@ -692,6 +767,21 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           break;
         case (estado === Variables.constantes.EstadoObservadoRiesgos):
           this.mostrarBotonDesestimiento = true;
+          if (!this.PertenceGrupo_U_Oficina) {
+            this.setDisableControlsCabezera();
+            this.setDisableControlsCuotaInicial();
+            this.setDisableControlsDatosOperacion();
+            this.setDisableControlsTipoGarantiaAbono();
+            this.setDisableObservacionesOpcional();
+            this.setDisableControlsAplicacion();
+            this.setDisableComentarios();
+            this.setDisableControlsPlanAhorroProgramado();
+            this.setDisableComentarioOficina();
+            this.setDisableComentarioGestor();
+            this.showBtnGuardarBorrador = false;
+            this.showBtnEnviar = false;
+            this.mostrarBotonDesestimiento = false;
+          }
           break;
         case (estado === Variables.constantes.EstadoEvaluacionRiesgos):
           this.showBotonesProducto = false;
@@ -712,6 +802,23 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.setDisableControlsPlanAhorroProgramado();
           this.creditForm.controls.Comentario_Registro.disable();
           this.creditForm.controls.Cometario_Revisor.disable();
+
+          if (!this.PertenceGrupo_U_Evaluacion) {
+            this.setDisableControlsCuotaInicial();
+            this.setDisableControlsDatosOperacion();
+            this.setDisableControlsTipoGarantiaAbono();
+            this.setDisableComentarios();
+            this.setDisableComentarioOficina();
+            this.setDisableComentarioGestor();
+            this.showBtnAprobarSinVerificacion = false;
+            this.showBtnAprobarEnVerificacion = false;
+            this.showBtnObservacionOficina = false;
+            this.showBtnObservacionCPM = false;
+            this.showBtnRechazar = false;
+            this.showComentarioRevisor = false;
+            this.showAnalistaRiesgos = false;
+          }
+
           break;
         case (estado === Variables.constantes.EstadoVerificacionRiesgos):
           this.showBotonesProducto = false;
@@ -818,6 +925,14 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
             this.showComentarioGestor = true;
             this.setDisableComentarioGestor();
           }
+
+          if (!this.PertenceGrupo_U_Oficina) {
+            this.setDisableComentarioOficina();
+            this.setDisableComentarioGestor();
+            this.mostrarBotonEnviarGestionFiles2 = false;
+            this.mostrarBotonDesestimiento = false;
+          }
+
           break;
         case (estado === Variables.constantes.EstadoValidacionFiles2):
           this.setDisableControlsCabezera();
@@ -836,6 +951,13 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.mostrarBotonEnviarObservadoGestor = true;
           this.mostrarBotonDesestimiento = true;
           this.showComentarioGestor = true;
+
+          if (!this.PertenceGrupo_U_Gestor) {
+            this.setDisableComentarioGestor();
+            this.mostrarBotonEnviarValidacionFiles2 = false;
+            this.mostrarBotonEnviarObservadoGestor = false;
+            this.mostrarBotonDesestimiento = false;
+          }
           break;
         case (estado === Variables.constantes.EstadoDesestimiento || estado === Variables.constantes.EstadoPreTerminado):
           this.setDisableControlsCabezera();
@@ -1319,10 +1441,21 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       return;
     }
 
+    if (this.creditForm.controls.EstadoId.value === Variables.constantes.EstadoRegistroCPM) {
+
+      const analistaRiesgo = this.getValorControlPeoplePicker('Analista_Riesgos', this.creditForm);
+
+      if (analistaRiesgo === 0) {
+        this.mostrarModalInformativo("Mensaje de Validación", 'Ingrese en Analista de Riesgo.');
+        return;
+      }
+    }
+
     const EstadoIdOld = this.creditForm.controls.EstadoId.value;
     // let Fecha_Registro_CPM: Date;
     let EstadoId = 0;
-    [0, Variables.constantes.EstadoCreaExpedienteId].includes(EstadoIdOld) && (EstadoId = Variables.constantes.EstadoRegistroCPM)/* && (Fecha_Registro_CPM = new Date())*/;
+    [0, Variables.constantes.EstadoCreaExpedienteId].includes(EstadoIdOld) && (EstadoId = Variables.constantes.EstadoRegistroCPM);
+    EstadoIdOld === Variables.constantes.EstadoObservadoRiesgos && (EstadoId = Variables.constantes.EstadoEvaluacionRiesgos);
     EstadoIdOld === Variables.constantes.EstadoRegistroCPM && (EstadoId = Variables.constantes.EstadoEvaluacionRiesgos);
     EstadoIdOld === Variables.constantes.EstadoAsignacionRiesgos && (EstadoId = Variables.constantes.EstadoEvaluacionRiesgos);
 
