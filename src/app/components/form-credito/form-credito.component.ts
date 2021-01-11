@@ -578,6 +578,10 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.creditForm.get('ComentarioGestor').disable();
   }
 
+  setDisableDesembolsado() {
+    this.creditForm.get('Desembolsado').disable();
+  }
+
   setDisableControlsCabezera() {
     this.creditForm.get('Tipo_ProductoId').disable();
     this.creditForm.get('ejecutivo').disable();
@@ -767,6 +771,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           break;
         case (estado === Variables.constantes.EstadoObservadoRiesgos):
           this.mostrarBotonDesestimiento = true;
+
           if (!this.PertenceGrupo_U_Oficina) {
             this.setDisableControlsCabezera();
             this.setDisableControlsCuotaInicial();
@@ -980,6 +985,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
             this.showDesembolsado = true;
             this.mostrarBotonGuardarPreTerminado = true;
             if (!this.PertenceGrupo_U_Gestor) {
+              this.setDisableDesembolsado();
               this.mostrarBotonGuardarPreTerminado = false;
             }
           }
