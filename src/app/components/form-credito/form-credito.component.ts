@@ -975,9 +975,13 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.showBtnEnviar = false;
           this.showBtnGrabar = false;
           this.showComentarioGestor = true;
+
           if (estado === Variables.constantes.EstadoPreTerminado) {
             this.showDesembolsado = true;
             this.mostrarBotonGuardarPreTerminado = true;
+            if (!this.PertenceGrupo_U_Gestor) {
+              this.mostrarBotonGuardarPreTerminado = false;
+            }
           }
           break;
         case (estado !== Variables.constantes.EstadoRegistroCPM):
