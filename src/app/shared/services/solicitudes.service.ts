@@ -237,18 +237,18 @@ export class SolicitudesService {
         }
     });
 }
-public getMeetings(startDate: Date, endDate: Date) {
-  let today = new Date();
-  let futureDate = new Date();
-  let offsetDays = 21;
-  // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
-  // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
-  const filterString = `Fecha_Estado ge datetime'${startDate.toISOString()}' and Fecha_Estado le datetime'${endDate.toISOString()}'`;
-  sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario).items.filter(filterString).get().then((items: any[]) => {
-      const returnedPMeetings = items.map((item) => ({ key: item.Fecha_Estado, text: item.Fecha_Estado }));
-      // this.setState({ MeetingsList: returnedPMeetings });
-      console.log(returnedPMeetings);
-  });
+// public getMeetings(startDate: Date, endDate: Date) {
+//   let today = new Date();
+//   let futureDate = new Date();
+//   let offsetDays = 21;
+//   // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
+//   // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
+//   const filterString = `Fecha_Estado ge datetime'${startDate.toISOString()}' and Fecha_Estado le datetime'${endDate.toISOString()}'`;
+//   sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario).items.filter(filterString).get().then((items: any[]) => {
+//       const returnedPMeetings = items.map((item) => ({ key: item.Fecha_Estado, text: item.Fecha_Estado }));
+//       // this.setState({ MeetingsList: returnedPMeetings });
+//       console.log(returnedPMeetings);
+//   });
 
-}
+// }
 }

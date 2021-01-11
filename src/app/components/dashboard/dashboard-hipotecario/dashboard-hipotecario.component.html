@@ -11,7 +11,9 @@
             <div class="col-md-2">
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Mes" formControlName="MesId">
-                        <mat-option>Enero</mat-option>
+                        <mat-option *ngFor="let item of data" [value]="item.id">
+                            {{item.name}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -21,8 +23,8 @@
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Zona" formControlName="ZonaId">
                         <mat-option>Todas</mat-option>
-                        <!-- <mat-option *ngFor="let zona of zonaModelList" [value]="zona.Id">Zona {{zona.Title}}
-                        </mat-option> -->
+                        <mat-option *ngFor="let zona of zonaModelList" [value]="zona.Id">Zona {{zona.Title}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -30,9 +32,9 @@
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Oficina" formControlName="OficinaId">
                         <mat-option [value]="">Todas</mat-option>
-                        <!-- <mat-option *ngFor="let oficina of oficinaList" [value]="oficina.Id">
+                        <mat-option *ngFor="let oficina of oficinaList" [value]="oficina.Id">
                             {{oficina.Title}}
-                        </mat-option> -->
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -123,51 +125,79 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td (click)="expand()">Procesos Hipotecario</td>
+                        <td>Procesos Hipotecario</td>
+                        <td>Unidad</td>
+                        <td>Neg. Hipotecario</td>
+                        <td>100 %</td>
+                        <td>
+                            <mat-icon class="happy">sentiment_satisfied_alt</mat-icon>
+                            <mat-icon class="dissatisfied">mood_bad</mat-icon>
+                            <mat-icon class="sad">sentiment_dissatisfied</mat-icon>
+                        </td>
+                        <td>
+                            <mat-icon class="happy">trending_up</mat-icon>
+                            <mat-icon class="dissatisfied">trending_flat</mat-icon>
+                            <mat-icon class="sad">trending_down</mat-icon>
+                        </td>
                         <td></td>
                         <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-icon id="happyConcluded" class="happy">sentiment_satisfied_alt</mat-icon>
+                            <mat-icon id="dissastisfiedConcluded" class="dissatisfied">mood_bad</mat-icon>
+                            <mat-icon id="sadConcluded" class="sad">sentiment_dissatisfied</mat-icon>
+                            Porcentaje de Expedientes Concluidos</td>
+                        <td> %</td>
+                        <td>Neg. Inmobiliario</td>
+                        <td>33 % </td>
+                        <td>
+                            <mat-icon id="happyConcludedPrevious" class="happy-center">sentiment_satisfied_alt</mat-icon>
+                            <mat-icon id="dissastisfiedConcludedPrevious" class="dissatisfied-center">mood_bad</mat-icon>
+                            <mat-icon id="sadConcludedPrevious" class="sad-center">sentiment_dissatisfied</mat-icon>
+                            <!-- {{porcentajeExpedientesConcluidosAnterior}} -->
+                        </td>
+                        <td>
+                            <mat-icon id="happyConcludedVariation" class="happy-center">trending_up</mat-icon>
+                            <mat-icon id="dissastisfiedConcludedVariation" class="dissatisfied-center">trending_flat</mat-icon>
+                            <mat-icon id="sadConcludedVariation" class="sad-center">trending_down</mat-icon>
+                        </td>
                         <td></td>
+                        <td>{{porcentajeExpedientesConcluidos | number: '.0-2'}} %</td>
+                    </tr>
+                    <tr>
+                        <td>Cumplimiento de ANS</td>
+                        <td> %</td>
+                        <td>Neg. Hipotecario</td>
+                        <td>33 % </td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
-                    <div [ngClass]="{
-                    'd-none': !showSubItems,
-                    'col': showSubItems
-                }">
-                        <tr>
-                            <td>Porcentaje de Expedientes Concluidos</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Cumplimiento de ANS</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Porcentaje de Reprocesos</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                    </div>
+                    <tr>
+                        <td>
+                            <mat-icon id="happyReprocessing" class="happy">sentiment_satisfied_alt</mat-icon>
+                            <mat-icon id="dissastisfiedReprocessing" class="dissatisfied">mood_bad</mat-icon>
+                            <mat-icon id="sadReprocessing" class="sad">sentiment_dissatisfied</mat-icon>
+                            Porcentaje de Reprocesos</td>
+                        <td> %</td>
+                        <td>Neg. Inmobiliario</td>
+                        <td>33 % </td>
+                        <td>
+                            <mat-icon id="happyReprocessingPrevious" class="happy-center">sentiment_satisfied_alt</mat-icon>
+                            <mat-icon id="dissastisfiedReprocessingPrevious" class="dissatisfied-center">mood_bad</mat-icon>
+                            <mat-icon id="sadReprocessingPrevious" class="sad-center">sentiment_dissatisfied</mat-icon>
+                            <!-- {{porcentajeExpedientesReprocesosAnterior}} -->
+                        </td>
+                        <td>
+                            <mat-icon id="happyReprocessingVariation" class="happy-center">trending_up</mat-icon>
+                            <mat-icon id="dissastisfiedReprocessingVariation" class="dissatisfied-center">trending_flat</mat-icon>
+                            <mat-icon id="sadReprocessingVariation" class="sad-center">trending_down</mat-icon>
+                        </td>
+                        <td></td>
+                        <td>{{porcentajeExpedientesReprocesos | number: '.0-2' }} %</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
