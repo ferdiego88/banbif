@@ -260,7 +260,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     Variables.columnasSolicitud.Comentario_Gestor_Hip, Variables.columnasSolicitud.ComentarioGestor];
 
   Desembolso = 0;
-  
+
   constructor(
     private fb: FormBuilder,
     private generalListService: GeneralListService,
@@ -375,7 +375,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
               }
               this.solicitudHipotecarioList.Enlace_Documentos && this.solicitudHipotecarioList.Enlace_Documentos !== null && (this.descripcionDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Description);
               this.enlaceDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Url;
-            
+
               if (this.solicitudHipotecarioList.Desembolsado === null) {
                 this.creditForm.controls.Desembolsado.setValue(false);
               } else {
@@ -393,6 +393,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   }
 
   cargarCombos() {
+    
     this.getTypeProducts();
     this.valueSubProducto();
     this.valueModalidad();
@@ -671,11 +672,13 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.setDisabledControlsBuenPagador();
           this.creditForm.get('Desembolso').disable();
           this.creditForm.get('Grabamen').disable();
+          this.mostrarBotonDesestimiento = true;
           break;
         case (estado === Variables.constantes.EstadoRegistroCPM):
           this.showBtnGuardarBorrador = false;
           this.showBtnObservarRegistro = true;
           this.showBotonesProducto = false;
+          this.showAnalistaRiesgos = true;
           this.showInputTextObservacion();
           this.setDisableControlsCabezera();
           this.setDisableControlsCuotaInicial();
@@ -685,6 +688,10 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           break;
         case (estado === Variables.constantes.EstadoObservadoCPM):
           this.showBtnEnviarRegularizar = false;
+          this.mostrarBotonDesestimiento = true;
+          break;
+        case (estado === Variables.constantes.EstadoObservadoRiesgos):
+          this.mostrarBotonDesestimiento = true;
           break;
         case (estado === Variables.constantes.EstadoEvaluacionRiesgos):
           this.showBotonesProducto = false;
@@ -1316,7 +1323,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     // let Fecha_Registro_CPM: Date;
     let EstadoId = 0;
     [0, Variables.constantes.EstadoCreaExpedienteId].includes(EstadoIdOld) && (EstadoId = Variables.constantes.EstadoRegistroCPM)/* && (Fecha_Registro_CPM = new Date())*/;
-    EstadoIdOld === Variables.constantes.EstadoRegistroCPM && (EstadoId = Variables.constantes.EstadoAsignacionRiesgos);
+    EstadoIdOld === Variables.constantes.EstadoRegistroCPM && (EstadoId = Variables.constantes.EstadoEvaluacionRiesgos);
     EstadoIdOld === Variables.constantes.EstadoAsignacionRiesgos && (EstadoId = Variables.constantes.EstadoEvaluacionRiesgos);
 
     const itemSave = this.getObjectToSave();
@@ -1628,7 +1635,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   }
 
   guardarPreTerminado(): void {
-   
+
     const itemSave = {
       Desembolsado: this.creditForm.controls.Desembolsado.value
     };
