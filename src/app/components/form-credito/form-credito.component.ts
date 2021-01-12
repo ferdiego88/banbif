@@ -20,6 +20,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { SpinnerVisibilityService } from 'ng-http-loader';
 import Swal from 'sweetalert2';
 import { User } from 'src/app/shared/models/fisics/base/User';
+import { Lookup } from 'src/app/shared/models/fisics/base/Lookup';
+import { debug } from 'console';
 
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
@@ -76,6 +78,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   estadoList: TipoProductoModel[];
   observacionesCPMList: TipoProductoModel[];
   zonaModelList: ZonaModel;
+  motivoObservacionEvaluacionRiesgoList: Lookup[];
 
   typeCurrencySaving: TipoProductoModel[];
   planSituationSavingList: TipoProductoModel[];
@@ -107,6 +110,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   showObservacionCPM = false;
   showComentarioCPM = false;
   showComentarioRiesgos = false;
+  showMotivoObservacionRiesgos = false;
   showAnalistaRiesgos = false;
   showControlesGestor = false;
   showComentarioRevisor = false;
@@ -255,6 +259,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
     ComentarioGestor: [null],
     Desembolsado: [null],
+    MotivoObsEvaluacionRiesgoId: [null],
 
     /*postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
@@ -383,6 +388,11 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
                 this.creditForm.controls.Cometario_Revisor.setValue(cadComentarioRevisor);
                 this.creditForm.controls.Cometario_Revisor1.setValue(cadComentarioRevisor);
               }
+              debugger;
+              if (solicitudHipotecarioList[0].MotivoObsEvaluacionRiesgoId !== null) {
+                const MotivoObsEvaluacionRiesgo = solicitudHipotecarioList[0].MotivoObsEvaluacionRiesgoId;                
+                this.creditForm.controls.MotivoObsEvaluacionRiesgoId.setValue(MotivoObsEvaluacionRiesgo);
+              }
 
               if (this.solicitudHipotecarioList.Desembolsado === null) {
                 this.creditForm.controls.Desembolsado.setValue(false);
@@ -458,6 +468,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.getBBPAdicional();
         this.getObservacionesCPM();
         this.getEstadoGestor();
+        this.getMotivoObservacionEvaluacionRiesgo();
       }
 
     }).catch(error => console.error(error));
@@ -568,6 +579,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.creditForm.get('Comentario_Registro').disable();
     this.creditForm.get('Cometario_Revisor').disable();
     this.creditForm.get('Cometario_Evaluacion').disable();
+    this.creditForm.get('MotivoObsEvaluacionRiesgoId').disable();
   }
 
   setDisableComentarioOficina() {
@@ -643,12 +655,15 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.showObservacionCPM = true;
     this.showComentarioCPM = true;
     this.showComentarioRiesgos = true;
+    this.showMotivoObservacionRiesgos = true;
   }
   showInputObservacion() {
     this.showObservacionCPM = false;
     this.showComentarioCPM = true;
     this.showComentarioRiesgos = true;
     this.creditForm.controls.Cometario_Revisor1.disable();
+    this.showMotivoObservacionRiesgos = true;
+    this.creditForm.controls.MotivoObsEvaluacionRiesgo.disable();
   }
 
   listenerBonoBuenPagador() {
@@ -752,6 +767,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.setDisableControlsDatosOperacion();
           this.setDisableObservacionesOpcional();
           this.creditForm.controls.Cometario_Evaluacion.disable();
+          this.creditForm.controls.MotivoObsEvaluacionRiesgoId.disable();
 
           if (!this.PertenceGrupo_U_CPM) {
             this.setDisableControlsTipoGarantiaAbono();
@@ -771,6 +787,10 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           break;
         case (estado === Variables.constantes.EstadoObservadoRiesgos):
           this.mostrarBotonDesestimiento = true;
+          this.showComentarioRiesgos = true;
+          this.showMotivoObservacionRiesgos = true;
+          this.creditForm.controls.Cometario_Evaluacion.disable();
+          this.creditForm.controls.MotivoObsEvaluacionRiesgoId.disable();
 
           if (!this.PertenceGrupo_U_Oficina) {
             this.setDisableControlsCabezera();
@@ -860,6 +880,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.showBtnObservarRegistro = true;
           this.showComentarioRiesgos = true;
           this.creditForm.controls.Cometario_Evaluacion.disable();
+          this.creditForm.controls.MotivoObsEvaluacionRiesgoId.disable();
           this.setDisableControlsCabezera();
           this.setDisableControlsCuotaInicial();
           this.setDisableControlsDatosOperacion();
@@ -1114,6 +1135,12 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       .catch(error => console.error(error));
   }
 
+  getMotivoObservacionEvaluacionRiesgo() {
+    this.generalListService.get(Variables.listas.AdmMotivoObservacionEvaluacionRiesgo)
+      .then(motivoList => this.motivoObservacionEvaluacionRiesgoList = motivoList)
+      .catch(error => console.error(error));
+  }
+
   valueOficina(): any {
     this.creditForm.get('ZonaId').valueChanges.subscribe(selectedValue => {
       this.oficinaList = [];
@@ -1252,8 +1279,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       .then(estadoList => this.estadoList = estadoList)
       .catch(error => console.error(error));
   }
-
-
 
   getObjectToSave(): any {
     if (this.creditForm.controls.Meses_Abono.value !== null ||
@@ -1537,7 +1562,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     const itemSave = {
       //EstadoId: 33
       EstadoId: 38, // TODO, create constant
-      Fecha_AprobSVerifica: new Date()
+      Fecha_AprobSVerifica: new Date(),
+      Cometario_Evaluacion: this.creditForm.controls.Cometario_Evaluacion.value
     };
 
     Swal.fire({
@@ -1561,6 +1587,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       EstadoId: 32, // TODO, create constant
       Fecha_Estado: new Date(),
       Fecha_Desestimado: new Date(),
+      Cometario_Evaluacion: this.creditForm.controls.Cometario_Evaluacion.value
     };
     Swal.fire({
       title: '¿Está seguro de pasar la Solicitud para su Verificación?',
@@ -1583,6 +1610,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       EstadoId: 5, // TODO, create constant
       Fecha_Estado: new Date(),
       FechaObs_Evaluacion: new Date(),
+      Cometario_Evaluacion: this.creditForm.controls.Cometario_Evaluacion.value,
+      MotivoObsEvaluacionRiesgoId: this.creditForm.controls.MotivoObsEvaluacionRiesgoId.value
     };
     Swal.fire({
       title: '¿Está seguro de pasar la Solicitud a Observación de Oficina?',
