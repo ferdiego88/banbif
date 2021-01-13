@@ -280,6 +280,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
      listenerMonth(){
       this.hipotecarioForm.controls.MesId.valueChanges.subscribe(mes => {
          this.getMonthRequest(mes);
+         this.filterSolicitudesEstado();
          // console.log(this.solicitudMesList);
          this.cantidadSolicitudesPorMes = this.solicitudMesList.length;
          this.cantidadSolicitudesPorMesAnterior = this.solicitudMesAnteriorList.length;
@@ -310,6 +311,14 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
          this.evaluateVariation(resultProcess, resultProcessPrevious, 'happyReprocessingVariation', 'dissastisfiedReprocessingVariation', 'sadReprocessingVariation');
          this.evaluateVariation(resultEvaluation, resultEvaluationPrevious, 'happyConcludedVariation', 'dissastisfiedConcludedVariation', 'sadConcludedVariation');
       });
+     }
+
+     async filterSolicitudesEstado(){
+      const estados = await this.getEstado();
+      estados.forEach(estado => {
+        let variable = this.solicitudMesList.filter(solicitud => solicitud.EstadoId === estado.Id);
+        console.log(variable);
+          });
      }
 
      listenerZona(){
@@ -386,6 +395,16 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         .get(Variables.listas.AdmOficina, 'Title')
         .then((oficinaList: any) => (this.oficinaList = oficinaList))
         .catch((error) => console.error(error));
+    }
+
+    async getEstado() {
+      let estados: EstadoModel[];
+      estados = await this.generalListService
+        .get(Variables.listas.AdmEstado)
+        .then((estadoList) => estadoList)
+        .catch((error) => console.error(error));
+      const estadosActivos = estados.filter((item) => item.Activo === true);
+      return estadosActivos;
     }
 
 }

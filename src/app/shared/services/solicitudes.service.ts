@@ -237,6 +237,13 @@ export class SolicitudesService {
         }
     });
 }
+public async updateList(){
+  let list = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario);
+
+  const i = await list.items.getById(1).update({Title: "My New Title", 
+  Description: "Here is a new description"
+});
+}
 // public getMeetings(startDate: Date, endDate: Date) {
 //   let today = new Date();
 //   let futureDate = new Date();
