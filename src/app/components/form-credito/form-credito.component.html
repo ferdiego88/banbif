@@ -13,7 +13,7 @@
 
             <div class="col-md-6">
                 <mat-form-field class="full-width">
-                    <mat-label>Producto - Código  <span class="obligatorio">(*)</span>
+                    <mat-label>Producto - Código <span class="obligatorio">(*)</span>
                     </mat-label>
                     <mat-select placeholder="Producto - Código" formControlName="Tipo_ProductoId">
                         <mat-option *ngFor="let tipoProducto of tipoProductoList" [value]="tipoProducto.Id">
@@ -126,7 +126,7 @@
                         <mat-option *ngFor="let estado of estadoList" [value]='estado.Id'>
                             {{estado.Title}}
                         </mat-option>
-                    </mat-select>                    
+                    </mat-select>
                 </mat-form-field>
             </div>
         </div>
@@ -545,7 +545,7 @@
                         <mat-form-field class="full-width">
                             <input matInput placeholder="" formControlName="Mon_VRI_Soles" class="label-black">
                             <mat-error *ngIf="creditForm.controls['Mon_VRI_Soles'].hasError('required')">
-                               Ingrese un valor
+                                Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -643,7 +643,7 @@
                             <mat-form-field class="full-width">
                                 <input matInput placeholder="Tipo Moneda" formControlName="Mon_BBP">
                                 <mat-error *ngIf="creditForm.controls['Mon_BBP'].hasError('required')">
-                                   Ingrese un valor
+                                    Ingrese un valor
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -853,7 +853,7 @@
             }">
                 <div class="col-md-6">
                     <mat-form-field class="full-width">
-                        <mat-label>Analista de Riesgo</mat-label>
+                        <mat-label>Analista de Riesgo <span class="obligatorio">(*)</span></mat-label>
                         <people-picker-input formControlName="Analista_Riesgos" (onRemove)="removeAnalista()"
                             placeholder="Escribe un nombre..." [multiple]="false">
                         </people-picker-input>
@@ -1104,6 +1104,21 @@
                     </mat-form-field>
                 </div>
             </div>
+            <div class="row">
+                <div class="" [ngClass]="{'d-none': !showMotivoObservacionRiesgos,'col': showMotivoObservacionRiesgos}">
+                    <mat-form-field class="full-width">
+                        <mat-label>Motivo Observación de Riesgo</mat-label>
+                        <mat-select placeholder="Motivo Observación de Riesgo" formControlName="MotivoObsEvaluacionRiesgoId">
+                            <mat-option *ngFor="let elemento of motivoObservacionEvaluacionRiesgoList" [value]="elemento.Id">
+                                {{ elemento.Title }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="creditForm.controls['MotivoObsEvaluacionRiesgoId'].hasError('required')">
+                            Seleccione un valor
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
 
             <div class="" [ngClass]="{'d-none': !showControlesGestor,'col': showControlesGestor}">
                 <div class="row">
@@ -1198,19 +1213,19 @@
                 'col': showBtnObservacionOficina
                 }">
                 <button mat-raised-button class="full-width" color="primary" type="button"
-                    (click)="officeObservation()">Observacion Oficina</button>
+                    (click)="officeObservation()">Observación Oficina</button>
 
             </div>
 
 
-            <div class="" [ngClass]="{
+            <!--<div class="" [ngClass]="{
                 'd-none': !showBtnObservacionCPM,
                 'col': showBtnObservacionCPM
                 }">
                 <button mat-raised-button class="full-width" color="primary" type="button"
-                    (click)="cpmObservation()">Observacion CPM</button>
+                    (click)="cpmObservation()">Observación CPM</button>
 
-            </div>
+            </div>-->
 
 
             <div class="" [ngClass]="{
@@ -1247,14 +1262,9 @@
                     (click)="send()">Enviar</button>
 
             </div>
-            <div class="" [ngClass]="{
-              'd-none': !showBtnEnviarRegularizar,
-              'col': showBtnEnviarRegularizar
-              }">
-                <button mat-raised-button class="full-width" color="primary" type="submit">Enviar
-                    Regularización</button>
-
-            </div>
+            <!--<div class="" [ngClass]="{'d-none': !showBtnEnviarRegularizar,'col': showBtnEnviarRegularizar}">
+                <button mat-raised-button class="full-width" color="primary" type="submit">Enviar Regularización</button>
+            </div>-->
             <div class="" [ngClass]="{
             'd-none': !showBtnObservar,
             'col': showBtnObservar
@@ -1263,13 +1273,13 @@
 
             </div>
 
-            <div class="" [ngClass]="{
+            <!--<div class="" [ngClass]="{
             'd-none': !showBtnObservarRegistro,
             'col': showBtnObservarRegistro
             }">
                 <button mat-raised-button class="full-width" color="warn" type="submit">Observar Registro</button>
 
-            </div>
+            </div>-->
 
             <div class="" [ngClass]="{
                 'd-none': !mostrarBotonDesestimiento,

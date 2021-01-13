@@ -154,14 +154,14 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     'happyReprocessingVariation', 'dissastisfiedReprocessingVariation', 'sadReprocessingVariation' ];
      this.hideIcon(elementosHide);
      }
-     
+
   hideIcon(element: string[]){
     for (const iterator of element) {
       // console.log(iterator);
       document.getElementById(iterator).style.display = 'none';
     }
   }
-     
+
      getMonthRequest(mes: number){
       const solicitudes = this.solicitudHipotecarioList;
       let solicitudPorMes: SolicitudCreditoHipotecario;
@@ -177,7 +177,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       if (mes === 0) {
         mesAnterior = 11;
       } else {
-        mesAnterior = mes - 1; 
+        mesAnterior = mes - 1;
       }
       console.log(mesAnterior);
       solicitudes.forEach(solicitud => {
@@ -195,7 +195,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
              }
           if (mesCreacion === mesAnterior) {
             solicitudPorMesAnterior = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
-            solicitudFlujoSeguimientoAnterior = 
+            solicitudFlujoSeguimientoAnterior =
             this.flujoSeguimientoEtapaLista.filter(item => item.SolicitudHipotecarioId === solicitud.Id);
             solicitudFlujoSeguimientoAnterior.forEach( solicitudFlujo => {
               this.flujoSeguimientoAnteriorList.push(solicitudFlujo);
@@ -235,7 +235,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         }else if (result === resultPrevious){
           document.getElementById(normal).style.display = 'block';
           this.hideIcon([sad, happy]);
-        }      
+        }
      }
      evaluateReprocess(reprocesos: number, happy: string, normal: string, sad: string ){
       let resultado = 0;
@@ -262,6 +262,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       listaSeguimiento.forEach(soliSeguimiento => {
         if (soliSeguimiento.EstadoId === Variables.constantes.EstadoObservadoCPM ||
             soliSeguimiento.EstadoId === Variables.constantes.EstadoObservadoRiesgos ) {
+            console.log(soliSeguimiento);
             contadorReprocesos++;
         }
     });
@@ -294,18 +295,18 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
          this.porcentajeExpedientesConcluidos = (this.cantidadSolicitudesConcluidas / this.cantidadSolicitudesPorMes) * 100;
          this.porcentajeExpedientesReprocesos = (this.cantidadSolicitudesReprocesos / this.cantidadSolicitudesPorMes) * 100;
 
-         this.porcentajeExpedientesConcluidosAnterior = 
+         this.porcentajeExpedientesConcluidosAnterior =
          (this.cantidadSolicitudesConcluidasAnterior / this.cantidadSolicitudesPorMesAnterior) * 100;
-         this.porcentajeExpedientesReprocesosAnterior = 
+         this.porcentajeExpedientesReprocesosAnterior =
          (this.cantidadSolicitudesReprocesosAnterior / this.cantidadSolicitudesPorMesAnterior) * 100;
 
-         const resultEvaluation = 
-         this.evaluateRequestConcluded(this.porcentajeExpedientesConcluidos, 'happyConcluded', 'dissastisfiedConcluded', 'sadConcluded');   
-         const resultEvaluationPrevious = 
-         this.evaluateRequestConcluded(this.porcentajeExpedientesConcluidosAnterior, 'happyConcludedPrevious', 'dissastisfiedConcludedPrevious', 'sadConcludedPrevious');         
-         const resultProcess = 
+         const resultEvaluation =
+         this.evaluateRequestConcluded(this.porcentajeExpedientesConcluidos, 'happyConcluded', 'dissastisfiedConcluded', 'sadConcluded');
+         const resultEvaluationPrevious =
+         this.evaluateRequestConcluded(this.porcentajeExpedientesConcluidosAnterior, 'happyConcludedPrevious', 'dissastisfiedConcludedPrevious', 'sadConcludedPrevious');
+         const resultProcess =
          this.evaluateReprocess(this.porcentajeExpedientesReprocesos, 'happyReprocessing', 'dissastisfiedReprocessing', 'sadReprocessing');
-         const resultProcessPrevious = 
+         const resultProcessPrevious =
          this.evaluateReprocess(this.porcentajeExpedientesReprocesosAnterior, 'happyReprocessingPrevious', 'dissastisfiedReprocessingPrevious', 'sadReprocessingPrevious');
 
          this.evaluateVariation(resultProcess, resultProcessPrevious, 'happyReprocessingVariation', 'dissastisfiedReprocessingVariation', 'sadReprocessingVariation');

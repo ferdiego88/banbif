@@ -5,11 +5,25 @@ import { IList } from '@pnp/sp/lists';
 import { Item, IItemAddResult, IItemUpdateResult } from '@pnp/sp/items';
 import { IEmailProperties } from '@pnp/sp/sputilities';
 import { IFields, IFieldInfo } from '@pnp/sp/fields';
+import { UsuarioConsultado } from '../variables';
+import { User } from '../models/fisics/base/User';
+import pnp from '@pnp/pnpjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class GeneralListService {
+
+    public async getCurrentUser(): Promise<User> {
+        if (UsuarioConsultado._user == null) {
+          let user: User;
+          user = await pnp.sp.web.currentUser.expand('groups').get();
+          user = user as User;
+          UsuarioConsultado._user = user;
+        }
+    
+        return UsuarioConsultado._user;
+      }
 
     public get(listName: string, orderField = '', orderAscending = true): Promise<any> {
         return new Promise((resolve, reject) => {
