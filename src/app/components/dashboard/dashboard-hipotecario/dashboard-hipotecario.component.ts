@@ -46,6 +46,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   zonaModelList: ZonaModel[];
   oficinaList: TipoProductoModel[];
   flujoSeguimientoEtapaLista: TipoProductoModel[];
+  flujoSeguimientoEstadoList: TipoProductoModel[];
 
   flujoSeguimientoList: TipoProductoModel[];
   solicitudMesList: SolicitudCreditoHipotecario[];
@@ -53,7 +54,9 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   flujoSeguimientoAnteriorList: TipoProductoModel[];
   solicitudMesAnteriorList: SolicitudCreditoHipotecario[];
 
-  estadoList: EstadoModel[];
+  estadoList: DashboardModel[];
+  solicitudesEstadoList: SolicitudCreditoHipotecario[];
+
   dashboard: DashboardModel[];
   tipoProductoList: TipoProductoModel[];
   tipoSubProductoList: TipoProductoModel[];
@@ -61,7 +64,6 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   solicitudANSAcumuladoList: SolicitudCreditoHipotecario[];
   solicitudANSPorEstadoList: SolicitudCreditoHipotecario[];
   solicitudHipotecarioList: SolicitudCreditoHipotecario[];
-  solicitudesEstadoList: SolicitudCreditoHipotecario[];
   solicitudesPorFechaEstadoList: SolicitudCreditoHipotecario[];
 
   cantidadSolicitudesPorMes: number;
@@ -131,6 +133,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     this.getZona();
     this.getFlujoSeguimiento();
     this.getOficina();
+    // this.getEstado();
   }
 
   loadListeners(){
@@ -262,7 +265,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       listaSeguimiento.forEach(soliSeguimiento => {
         if (soliSeguimiento.EstadoId === Variables.constantes.EstadoObservadoCPM ||
             soliSeguimiento.EstadoId === Variables.constantes.EstadoObservadoRiesgos ) {
-            console.log(soliSeguimiento);
+            // console.log(soliSeguimiento);
             contadorReprocesos++;
         }
     });
@@ -316,9 +319,19 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
      async filterSolicitudesEstado(){
       const estados = await this.getEstado();
+      this.estadoList = [];
+      this.flujoSeguimientoEstadoList = [];
       estados.forEach(estado => {
-        let variable = this.solicitudMesList.filter(solicitud => solicitud.EstadoId === estado.Id);
-        console.log(variable);
+        this.flujoSeguimientoEstadoList = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
+        console.log(this.flujoSeguimientoEstadoList);
+        const estadoElement = {
+          Id: estado.Id,
+          Title: estado.Title,
+          Cantidad: this.flujoSeguimientoEstadoList.length,
+        };
+        if (this.flujoSeguimientoEstadoList.length > 0) {
+         this.estadoList.push(estadoElement);
+        }
           });
      }
 

@@ -165,6 +165,16 @@
                         <td></td>
                         <td>{{porcentajeExpedientesConcluidos | number: '.0-2'}} %</td>
                     </tr>
+                    <tr *ngFor="let estado of estadoList">
+                      <td>{{estado.Title}} </td>
+                      <td> % </td>
+                      <td> Red de Oficinas </td>
+                      <td>  </td>
+                      <td>  </td>
+                      <td>  </td>
+                      <td>  </td>
+                      <td>{{estado.Cantidad}} </td>
+                    </tr>
                     <tr>
                         <td>Cumplimiento de ANS</td>
                         <td> %</td>
