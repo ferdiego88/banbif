@@ -101,6 +101,9 @@
                     </mat-select>
                 </mat-form-field>
             </div>
+            <div class="col-md-2">
+              <button type="button" class="btn btn-info" (click)="sentiment= 'sad'">Prueba</button>
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
@@ -130,14 +133,15 @@
                         <td>Neg. Hipotecario</td>
                         <td>100 %</td>
                         <td>
-                            <mat-icon class="happy">sentiment_satisfied_alt</mat-icon>
+                          <!-- <mat-icon [ngClass]="sentiment">{{icono}}</mat-icon> -->
+                            <!-- <mat-icon class="happy">sentiment_satisfied_alt</mat-icon>
                             <mat-icon class="dissatisfied">mood_bad</mat-icon>
-                            <mat-icon class="sad">sentiment_dissatisfied</mat-icon>
+                            <mat-icon class="sad">sentiment_dissatisfied</mat-icon> -->
                         </td>
                         <td>
-                            <mat-icon class="happy">trending_up</mat-icon>
+                            <!-- <mat-icon class="happy">trending_up</mat-icon>
                             <mat-icon class="dissatisfied">trending_flat</mat-icon>
-                            <mat-icon class="sad">trending_down</mat-icon>
+                            <mat-icon class="sad">trending_down</mat-icon> -->
                         </td>
                         <td></td>
                         <td></td>
@@ -166,7 +170,9 @@
                         <td>{{porcentajeExpedientesConcluidos | number: '.0-2'}} %</td>
                     </tr>
                     <tr *ngFor="let dashboard of dashboardList">
-                        <td>{{dashboard.Title}} </td>
+                        <td>
+                        <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}}</mat-icon>
+                          {{dashboard.Title}} </td>
                         <td> % </td>
                         <td> Red de Oficinas </td>
                         <td></td>

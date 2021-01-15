@@ -40,6 +40,8 @@ const MESES_DATA: Meses[] = [
 })
 
 export class DashboardHipotecarioComponent extends FormularioBase implements OnInit {
+  sentiment: string;
+  icono: string;
   data: Meses[] = MESES_DATA;
   showSubItems = false;
   usersList: User[];
@@ -201,6 +203,21 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       });
      }
 
+     evaluarProcesos(porcentaje: number){
+       let sentiment = '';
+       let icono = '';
+       if (porcentaje >= 50) {
+         sentiment = 'happy';
+         icono = 'sentiment_satisfied_alt';
+       } else if (porcentaje >= 40 && porcentaje < 50) {
+         sentiment = 'dissatisfied';
+         icono = 'mood_bad';
+       }else if (porcentaje < 40){
+         sentiment = 'sad';
+         icono = 'sentiment_dissatisfied';
+       }
+       return [icono, sentiment];
+     }
      evaluateRequestConcluded(expedientesConcluidos: number, happy: string, normal: string, sad: string ){
       let resultado = 0;
       if (expedientesConcluidos >= 50) {
@@ -324,7 +341,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         this.solicitudesEstadoList = this.solicitudMesList.filter(solicitud => solicitud.EstadoId === estado.Id);
         this.flujoSeguimientoEstadoList = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
         this.solicitudesEstadoAnteriorList = this.solicitudMesAnteriorList.filter(solicitud => solicitud.EstadoId === estado.Id);
-        this.flujoSeguimientoEstadoAnteriorList = 
+        this.flujoSeguimientoEstadoAnteriorList =
         this.flujoSeguimientoAnteriorList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
         const solicitudes = this.solicitudesEstadoList.length;
         const flujoSeguimiento = this.flujoSeguimientoEstadoList.length;
@@ -339,12 +356,14 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
         if (solicitudesAnterior){
           if (solicitudesAnterior > flujoSeguimientoAnterior) {
-            // porcentajeExpediente = 0;  
+            // porcentajeExpediente = 0;
             porcentajeExpedienteAnterior = 100 - (solicitudesAnterior / this.solicitudMesAnteriorList.length) * 100;
           } else {
             porcentajeExpedienteAnterior = ((flujoSeguimientoAnterior - solicitudesAnterior) / flujoSeguimientoAnterior) * 100;
           }
         }
+        [this.icono, this.sentiment] = this.evaluarProcesos(porcentajeExpediente);
+        // console.log(this.sentiment);
         const estadoElement = {
           Id: estado.Id,
           Title: estado.Title,
@@ -352,12 +371,15 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           FlujoSeguimiento: flujoSeguimiento,
           Porcentaje: porcentajeExpediente,
           PorcentajeAnterior: porcentajeExpedienteAnterior,
+          Icono: this.icono,
+          Sentimiento: this.sentiment
         };
+        console.log(estadoElement);
         // this.dashboardList.push(estadoElement);
         if (solicitudes > 0) {
          this.dashboardList.push(estadoElement);
         }
-          
+
           });
      }
 
