@@ -1,7 +1,7 @@
 import { ApplicationRef, Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import {SolicitudCreditoHipotecario, TipoProductoModel, ZonaModel, EstadoModel, DashboardModel} from 'src/app/shared/models/fisics';
+import {SolicitudCreditoHipotecario, TipoProductoModel, ZonaModel, EstadoModel, DashboardHipotecarioModel} from 'src/app/shared/models/fisics';
 import { User } from 'src/app/shared/models/fisics/base/User';
 import { GeneralListService } from '../../../shared/services/general-list.service';
 import { SolicitudesService } from '../../../shared/services/solicitudes.service';
@@ -47,6 +47,11 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   oficinaList: TipoProductoModel[];
   flujoSeguimientoEtapaLista: TipoProductoModel[];
   flujoSeguimientoEstadoList: TipoProductoModel[];
+  dashboardList: DashboardHipotecarioModel[];
+  solicitudesEstadoList: SolicitudCreditoHipotecario[];
+  flujoSeguimientoEstadoAnteriorList: TipoProductoModel[];
+  dashboardAnteriorList: DashboardHipotecarioModel[];
+  solicitudesEstadoAnteriorList: SolicitudCreditoHipotecario[];
 
   flujoSeguimientoList: TipoProductoModel[];
   solicitudMesList: SolicitudCreditoHipotecario[];
@@ -54,18 +59,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   flujoSeguimientoAnteriorList: TipoProductoModel[];
   solicitudMesAnteriorList: SolicitudCreditoHipotecario[];
 
-  estadoList: DashboardModel[];
-  solicitudesEstadoList: SolicitudCreditoHipotecario[];
-
-  dashboard: DashboardModel[];
-  tipoProductoList: TipoProductoModel[];
-  tipoSubProductoList: TipoProductoModel[];
-  solicitudANSList: SolicitudCreditoHipotecario[];
-  solicitudANSAcumuladoList: SolicitudCreditoHipotecario[];
-  solicitudANSPorEstadoList: SolicitudCreditoHipotecario[];
   solicitudHipotecarioList: SolicitudCreditoHipotecario[];
-  solicitudesPorFechaEstadoList: SolicitudCreditoHipotecario[];
-
   cantidadSolicitudesPorMes: number;
   cantidadSolicitudesConcluidas: number;
   cantidadSolicitudesReprocesos: number;
@@ -182,18 +176,17 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       } else {
         mesAnterior = mes - 1;
       }
-      console.log(mesAnterior);
+      // console.log(mesAnterior);
       solicitudes.forEach(solicitud => {
           const fecha = moment(solicitud.Created).format('DD-MM-YYYY');
           const fechaCreacion = moment(fecha, 'DD-MM-YYYY').toDate();
           const mesCreacion  = fechaCreacion.getMonth();
-
           if (mesCreacion === mes) {
-            solicitudPorMes = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
             solicitudFlujoSeguimiento = this.flujoSeguimientoEtapaLista.filter(item => item.SolicitudHipotecarioId === solicitud.Id);
             solicitudFlujoSeguimiento.forEach( solicitudFlujo => {
               this.flujoSeguimientoList.push(solicitudFlujo);
             });
+            solicitudPorMes = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
             this.solicitudMesList.push(solicitudPorMes);
              }
           if (mesCreacion === mesAnterior) {
@@ -319,19 +312,52 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
      async filterSolicitudesEstado(){
       const estados = await this.getEstado();
-      this.estadoList = [];
+      this.dashboardList = [];
       this.flujoSeguimientoEstadoList = [];
+      this.solicitudesEstadoList = [];
+      // this.dashboardAnteriorList = [];
+      this.flujoSeguimientoEstadoAnteriorList = [];
+      this.solicitudesEstadoAnteriorList = [];
       estados.forEach(estado => {
+        let porcentajeExpediente = 0;
+        let porcentajeExpedienteAnterior = 0;
+        this.solicitudesEstadoList = this.solicitudMesList.filter(solicitud => solicitud.EstadoId === estado.Id);
         this.flujoSeguimientoEstadoList = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
-        console.log(this.flujoSeguimientoEstadoList);
+        this.solicitudesEstadoAnteriorList = this.solicitudMesAnteriorList.filter(solicitud => solicitud.EstadoId === estado.Id);
+        this.flujoSeguimientoEstadoAnteriorList = 
+        this.flujoSeguimientoAnteriorList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
+        const solicitudes = this.solicitudesEstadoList.length;
+        const flujoSeguimiento = this.flujoSeguimientoEstadoList.length;
+        const solicitudesAnterior = this.solicitudesEstadoAnteriorList.length;
+        const flujoSeguimientoAnterior = this.flujoSeguimientoEstadoAnteriorList.length;
+        if (solicitudes > flujoSeguimiento) {
+          // porcentajeExpediente = 0;
+          porcentajeExpediente = (100 - (solicitudes / this.solicitudMesList.length) * 100);
+        } else {
+          porcentajeExpediente = ((flujoSeguimiento - solicitudes) / flujoSeguimiento) * 100;
+        }
+
+        if (solicitudesAnterior){
+          if (solicitudesAnterior > flujoSeguimientoAnterior) {
+            // porcentajeExpediente = 0;  
+            porcentajeExpedienteAnterior = 100 - (solicitudesAnterior / this.solicitudMesAnteriorList.length) * 100;
+          } else {
+            porcentajeExpedienteAnterior = ((flujoSeguimientoAnterior - solicitudesAnterior) / flujoSeguimientoAnterior) * 100;
+          }
+        }
         const estadoElement = {
           Id: estado.Id,
           Title: estado.Title,
-          Cantidad: this.flujoSeguimientoEstadoList.length,
+          CantidadSolicitudes: solicitudes,
+          FlujoSeguimiento: flujoSeguimiento,
+          Porcentaje: porcentajeExpediente,
+          PorcentajeAnterior: porcentajeExpedienteAnterior,
         };
-        if (this.flujoSeguimientoEstadoList.length > 0) {
-         this.estadoList.push(estadoElement);
+        // this.dashboardList.push(estadoElement);
+        if (solicitudes > 0) {
+         this.dashboardList.push(estadoElement);
         }
+          
           });
      }
 

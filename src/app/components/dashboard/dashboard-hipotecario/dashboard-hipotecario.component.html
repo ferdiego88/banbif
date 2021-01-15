@@ -165,15 +165,15 @@
                         <td></td>
                         <td>{{porcentajeExpedientesConcluidos | number: '.0-2'}} %</td>
                     </tr>
-                    <tr *ngFor="let estado of estadoList">
-                      <td>{{estado.Title}} </td>
-                      <td> % </td>
-                      <td> Red de Oficinas </td>
-                      <td>  </td>
-                      <td>  </td>
-                      <td>  </td>
-                      <td>  </td>
-                      <td>{{estado.Cantidad}} </td>
+                    <tr *ngFor="let dashboard of dashboardList">
+                        <td>{{dashboard.Title}} </td>
+                        <td> % </td>
+                        <td> Red de Oficinas </td>
+                        <td></td>
+                        <td>{{dashboard.PorcentajeAnterior | number: '.0-2'}} </td>
+                        <td>{{dashboard.CantidadSolicitudes}}</td>
+                        <td>{{dashboard.FlujoSeguimiento}} </td>
+                        <td>{{dashboard.Porcentaje | number: '.0-2'}} </td>
                     </tr>
                     <tr>
                         <td>Cumplimiento de ANS</td>

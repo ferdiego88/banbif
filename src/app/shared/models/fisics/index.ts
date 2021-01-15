@@ -4,6 +4,7 @@ import { ZonaModel } from './Zona.model';
 import { SolicitudCreditoHipotecario } from './SolicitudCreditoHipotecario';
 import { EstadoModel } from './EstadoModel';
 import { DashboardModel } from './DashboardModel';
+import { DashboardHipotecarioModel } from './DashboardHipotecarioModel';
 export {
-    TipoProductoModel, TipoSubProductoModel, ZonaModel, SolicitudCreditoHipotecario, EstadoModel, DashboardModel
+    TipoProductoModel, TipoSubProductoModel, ZonaModel, SolicitudCreditoHipotecario, EstadoModel, DashboardModel, DashboardHipotecarioModel
 };
