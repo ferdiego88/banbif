@@ -179,7 +179,7 @@
                     </div>
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input onchange="MASK(this,this.value,'-$##,###,##0.00',1)" autocomplete="off" matInput
+                            <input onchange="MASK(this,this.value,'-$##,###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="Riesgo Máximo (Monto en USD)" formControlName="Riesgo_Maximo">
                             <!-- <input type="text" class="form-control" id="separadorMiles" placeholder="Separador de miles"> -->
                             <mat-error *ngIf="creditForm.controls['Riesgo_Maximo'].hasError('required')">
@@ -274,7 +274,7 @@
                 <div class="row">
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="Importe Cuota Ahorro" type="text" formControlName="Importe_Cuota_Ahorro">
                             <mat-error *ngIf="creditForm.controls['Importe_Cuota_Ahorro'].hasError('required')">
                                 Ingrese un valor
@@ -444,7 +444,7 @@
 
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="Precio de Venta" type="text" formControlName="Precio_Venta">
                             <mat-error *ngIf="creditForm.controls['Precio_Venta'].hasError('required')">
                                 Ingrese un valor
@@ -595,7 +595,7 @@
 
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="Aporte en Efectivo" type="text" formControlName="Aporte_Efectivo">
                             <mat-error *ngIf="creditForm.controls['Aporte_Efectivo'].hasError('required')">
                                 Ingrese un valor
@@ -621,7 +621,7 @@
 
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="Aporte de retiro AFP" type="text" formControlName="Aporte_RetiroAFP">
                             <mat-error *ngIf="creditForm.controls['Aporte_RetiroAFP'].hasError('required')">
                                 Ingrese un valor
@@ -755,7 +755,7 @@
                         </div>
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
+                                <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
                                     placeholder="Desembolso" type="text" formControlName="Desembolso">
                                 <mat-error *ngIf="creditForm.controls['Desembolso'].hasError('required')">
                                     Ingrese un valor
@@ -784,7 +784,7 @@
                         </div>
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
+                                <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
                                     placeholder="Gravamen (120% x Desembolso)" type="text" formControlName="Grabamen">
                                 <mat-error *ngIf="creditForm.controls['Grabamen'].hasError('required')">
                                     Ingrese un valor
@@ -938,7 +938,7 @@
                     <div class="col">1er Desembolso por S/ </div>
                     <div class="col">
                         <mat-form-field class="text-width">
-                            <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="" type="text" formControlName="Primer_desembolso">
                         </mat-form-field>
                     </div>
@@ -950,7 +950,7 @@
                     <div class="col">2do Desembolso por S/ </div>
                     <div class="col">
                         <mat-form-field class="text-width">
-                            <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="" type="text" formControlName="Segundo_desembolso">
                         </mat-form-field>
                     </div>
@@ -962,7 +962,7 @@
                     <div class="col">3er Desembolso por S/ </div>
                     <div class="col">
                         <mat-form-field class="text-width">
-                            <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="" type="text" formControlName="Tercer_desembolso">
                         </mat-form-field>
                     </div>
@@ -974,7 +974,7 @@
                     <div class="col">Aporte de Cliente por S/</div>
                     <div class="col">
                         <mat-form-field class="text-width">
-                            <input onchange="MASK(this,this.value,'-###,###,##0.00',1)" autocomplete="off" matInput
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="" type="text" formControlName="Aporte_Cliente">
                         </mat-form-field>
                     </div>

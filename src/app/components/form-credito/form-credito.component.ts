@@ -409,7 +409,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
                 if (Object.prototype.hasOwnProperty.call(Variables.columnasNumericas, key)) {
                   const element = Variables.columnasNumericas[key];
                   this.creditForm.controls[element].setValue
-                  (myExtObject.MASKMONEY(this.solicitudHipotecarioList[element], '-##,###,##0.00', 1));
+                  (myExtObject.MASKMONEY(this.solicitudHipotecarioList[element], '-###,###,###,##0.00', 1));
                 }
               }
               this.solicitudHipotecarioList.Enlace_Documentos && this.solicitudHipotecarioList.Enlace_Documentos !== null && (this.descripcionDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Description);
