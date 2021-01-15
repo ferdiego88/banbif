@@ -6,7 +6,7 @@ import { MasterService } from '../../shared/services/master.service';
 import { TipoProductoModel, TipoSubProductoModel, ZonaModel, SolicitudCreditoHipotecario } from '../../shared/models/fisics';
 import { Variables } from 'src/app/shared/variables';
 import { formatCurrency, getCurrencySymbol, CurrencyPipe } from '@angular/common';
-
+import '../../../assets/js/maskMoney/moneyFormat.js';
 // import {default as _rollupMoment} from 'moment';
 import * as _moment from 'moment';
 const moment = _moment;
@@ -33,6 +33,7 @@ export const MY_FORMATS = {
     dateInput: 'DD/MM/YYYY'
   }
 };
+declare var myExtObject: any;
 
 @Component({
   selector: 'app-form-credito',
@@ -388,9 +389,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
                 this.creditForm.controls.Cometario_Revisor.setValue(cadComentarioRevisor);
                 this.creditForm.controls.Cometario_Revisor1.setValue(cadComentarioRevisor);
               }
-              debugger;
+              // debugger;
               if (solicitudHipotecarioList[0].MotivoObsEvaluacionRiesgoId !== null) {
-                const MotivoObsEvaluacionRiesgo = solicitudHipotecarioList[0].MotivoObsEvaluacionRiesgoId;                
+                const MotivoObsEvaluacionRiesgo = solicitudHipotecarioList[0].MotivoObsEvaluacionRiesgoId;
                 this.creditForm.controls.MotivoObsEvaluacionRiesgoId.setValue(MotivoObsEvaluacionRiesgo);
               }
 
@@ -399,7 +400,18 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
               } else {
                 this.creditForm.controls.Desembolsado.setValue(this.solicitudHipotecarioList.Desembolsado);
               }
+              // this.creditForm.controls.Riesgo_Maximo.setValue(myExtObject.MASKMONEY('2000'));
 
+              // ESTA ES LA FUNCION, ESTA EN moneyFormat.js
+              // console.log(myExtObject.MASKMONEY('2000', '-$##,###,##0.00', 1));
+
+              for (const key in Variables.columnasNumericas) {
+                if (Object.prototype.hasOwnProperty.call(Variables.columnasNumericas, key)) {
+                  const element = Variables.columnasNumericas[key];
+                  this.creditForm.controls[element].setValue
+                  (myExtObject.MASKMONEY(this.solicitudHipotecarioList[element], '-##,###,##0.00', 1));
+                }
+              }
               this.solicitudHipotecarioList.Enlace_Documentos && this.solicitudHipotecarioList.Enlace_Documentos !== null && (this.descripcionDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Description);
 
               if (this.solicitudHipotecarioList.Enlace_Documentos === null) {

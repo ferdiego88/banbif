@@ -12,11 +12,13 @@ import * as _moment from 'moment';
 import { FormularioBase } from '../../../shared/pages/formularioBase';
 import { MatDialog } from '@angular/material/dialog';
 import { SpinnerVisibilityService } from 'ng-http-loader';
+
 const moment = _moment;
 export interface Meses {
   name: string;
   id: number;
 }
+
 
 const MESES_DATA: Meses[] = [
   { id: 0, name: 'Enero' },

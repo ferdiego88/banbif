@@ -226,6 +226,24 @@ export class Variables {
     Tipo_AbonoId: 'Tipo_AbonoId',
     EstadoGestorId: 'EstadoGestorId'
   };
+  static columnasNumericas = {
+    Riesgo_Maximo: 'Riesgo_Maximo',
+    Valor_ComTas_Soles: 'Valor_ComTas_Soles',
+    VRI_Soles: 'VRI_Soles',
+    Primer_desembolso: 'Primer_desembolso',
+    Segundo_desembolso: 'Segundo_desembolso',
+    Tercer_desembolso: 'Tercer_desembolso',
+    Aporte_Cliente: 'Aporte_Cliente',
+    Precio_Venta: 'Precio_Venta',
+    Aporte_Efectivo: 'Aporte_Efectivo',
+    Aporte_RetiroAFP: 'Aporte_RetiroAFP',
+    BBP: 'BBP',
+    PBP: 'PBP',
+    PBP_Adiconal_Sostenible: 'PBP_Adiconal_Sostenible',
+    Importe_Cuota_Ahorro: 'Importe_Cuota_Ahorro',
+    Desembolso: 'Desembolso',
+    Grabamen: 'Grabamen',
+  };
   static readonly columnasSolicitud = {
     Id: 'Id',
     ID: 'ID',
