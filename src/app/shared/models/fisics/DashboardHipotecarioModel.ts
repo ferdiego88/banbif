@@ -10,6 +10,9 @@ export class DashboardHipotecarioModel{
         public PorcentajeAnterior?: number,
         public Icono?: string,
         public Sentimiento?: string,
+        public IconoAnterior?: string,
+        public SentimientoAnterior?: string,
+        public Variacion?: string,
     ) {
     }
 

@@ -42,6 +42,9 @@ const MESES_DATA: Meses[] = [
 export class DashboardHipotecarioComponent extends FormularioBase implements OnInit {
   sentiment: string;
   icono: string;
+  sentimentPrevious: string;
+  iconoPrevious: string;
+  variacionConcluidos: string;
   data: Meses[] = MESES_DATA;
   showSubItems = false;
   usersList: User[];
@@ -218,6 +221,18 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
        }
        return [icono, sentiment];
      }
+
+     evaluarVariacion(porcentaje: number, porcentajeAnterior: number){
+      let variacion = '';
+      if (porcentaje > porcentajeAnterior) {
+        variacion = 'trending_up';
+      } else if ( porcentaje < porcentajeAnterior) {
+        variacion = 'trending_down';
+      }else if (porcentaje === porcentajeAnterior){
+        variacion = 'trending_flat';
+      }
+      return variacion;
+     }
      evaluateRequestConcluded(expedientesConcluidos: number, happy: string, normal: string, sad: string ){
       let resultado = 0;
       if (expedientesConcluidos >= 50) {
@@ -363,6 +378,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           }
         }
         [this.icono, this.sentiment] = this.evaluarProcesos(porcentajeExpediente);
+        [this.iconoPrevious, this.sentimentPrevious] = this.evaluarProcesos(porcentajeExpedienteAnterior);
+        this.variacionConcluidos = this.evaluarVariacion(porcentajeExpediente, porcentajeExpedienteAnterior);
         // console.log(this.sentiment);
         const estadoElement = {
           Id: estado.Id,
@@ -372,7 +389,10 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           Porcentaje: porcentajeExpediente,
           PorcentajeAnterior: porcentajeExpedienteAnterior,
           Icono: this.icono,
-          Sentimiento: this.sentiment
+          Sentimiento: this.sentiment,
+          IconoAnterior: this.iconoPrevious,
+          SentimientoAnterior: this.sentimentPrevious,
+          Variacion: this.variacionConcluidos
         };
         console.log(estadoElement);
         // this.dashboardList.push(estadoElement);
