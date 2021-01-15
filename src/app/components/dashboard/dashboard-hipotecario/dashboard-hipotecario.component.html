@@ -175,11 +175,13 @@
                         {{dashboard.Title}} </td>
                         <td> % </td>
                         <td> Red de Oficinas </td>
-                        <td></td>
+                        <td>33 %</td>
                         <td>
                           <mat-icon class={{dashboard.SentimientoAnterior}}>{{dashboard.IconoAnterior}}</mat-icon>
                         </td>
-                        <td>{{dashboard.CantidadSolicitudes}}</td>
+                        <td>
+                          <mat-icon class={{dashboard.ColorVariacion}}>{{dashboard.Variacion}} </mat-icon>
+                        </td>
                         <td> 4.00 </td>
                         <td>{{dashboard.Porcentaje | number: '.0-2'}} </td>
                     </tr>

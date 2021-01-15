@@ -42,11 +42,6 @@ const MESES_DATA: Meses[] = [
 })
 
 export class DashboardHipotecarioComponent extends FormularioBase implements OnInit {
-  sentiment: string;
-  icono: string;
-  sentimentPrevious: string;
-  iconoPrevious: string;
-  variacionConcluidos: string;
   data: Meses[] = MESES_DATA;
   showSubItems = false;
   usersList: User[];
@@ -211,29 +206,37 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
      evaluarProcesos(porcentaje: number){
        let sentiment = '';
        let icono = '';
+       let resultado = 0;
        if (porcentaje >= 50) {
          sentiment = 'happy';
          icono = 'sentiment_satisfied_alt';
+         resultado = 2;
        } else if (porcentaje >= 40 && porcentaje < 50) {
          sentiment = 'dissatisfied';
          icono = 'mood_bad';
+         resultado = 1;
        }else if (porcentaje < 40){
          sentiment = 'sad';
          icono = 'sentiment_dissatisfied';
+         resultado = 0;
        }
-       return [icono, sentiment];
+       return {icono, sentiment, resultado};
      }
 
-     evaluarVariacion(porcentaje: number, porcentajeAnterior: number){
+     evaluarVariacion(valor: number, valorAnterior: number){
       let variacion = '';
-      if (porcentaje > porcentajeAnterior) {
+      let colorVariacion = '';
+      if (valor > valorAnterior) {
         variacion = 'trending_up';
-      } else if ( porcentaje < porcentajeAnterior) {
+        colorVariacion = 'happy';
+      } else if ( valor < valorAnterior) {
         variacion = 'trending_down';
-      }else if (porcentaje === porcentajeAnterior){
+        colorVariacion = 'sad';
+      }else if (valor === valorAnterior){
         variacion = 'trending_flat';
+        colorVariacion = 'dissatisfied';
       }
-      return variacion;
+      return [variacion, colorVariacion];
      }
      evaluateRequestConcluded(expedientesConcluidos: number, happy: string, normal: string, sad: string ){
       let resultado = 0;
@@ -379,9 +382,10 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
             porcentajeExpedienteAnterior = ((flujoSeguimientoAnterior - solicitudesAnterior) / flujoSeguimientoAnterior) * 100;
           }
         }
-        [this.icono, this.sentiment] = this.evaluarProcesos(porcentajeExpediente);
-        [this.iconoPrevious, this.sentimentPrevious] = this.evaluarProcesos(porcentajeExpedienteAnterior);
-        this.variacionConcluidos = this.evaluarVariacion(porcentajeExpediente, porcentajeExpedienteAnterior);
+        const {icono, sentiment, resultado} = this.evaluarProcesos(porcentajeExpediente);
+        const {icono: iconoPrevious, sentiment: sentimentPrevious, resultado: resultadoPrevious} =
+        this.evaluarProcesos(porcentajeExpedienteAnterior);
+        const [variacionConcluidos, colorVariacion] = this.evaluarVariacion(resultado, resultadoPrevious);
         // console.log(this.sentiment);
         const estadoElement = {
           Id: estado.Id,
@@ -390,11 +394,12 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           FlujoSeguimiento: flujoSeguimiento,
           Porcentaje: porcentajeExpediente,
           PorcentajeAnterior: porcentajeExpedienteAnterior,
-          Icono: this.icono,
-          Sentimiento: this.sentiment,
-          IconoAnterior: this.iconoPrevious,
-          SentimientoAnterior: this.sentimentPrevious,
-          Variacion: this.variacionConcluidos
+          Icono: icono,
+          Sentimiento: sentiment,
+          IconoAnterior: iconoPrevious,
+          SentimientoAnterior: sentimentPrevious,
+          Variacion: variacionConcluidos,
+          ColorVariacion: colorVariacion
         };
         console.log(estadoElement);
         // this.dashboardList.push(estadoElement);

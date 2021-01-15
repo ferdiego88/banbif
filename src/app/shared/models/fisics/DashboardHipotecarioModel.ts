@@ -13,6 +13,7 @@ export class DashboardHipotecarioModel{
         public IconoAnterior?: string,
         public SentimientoAnterior?: string,
         public Variacion?: string,
+        public ColorVariacion?: string,
     ) {
     }
 
