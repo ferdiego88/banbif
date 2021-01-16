@@ -179,7 +179,7 @@
                     </div>
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <input onchange="MASK(this,this.value,'-$##,###,###,##0.00',1)" autocomplete="off" matInput
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
                                 placeholder="Riesgo Máximo (Monto en USD)" formControlName="Riesgo_Maximo">
                             <!-- <input type="text" class="form-control" id="separadorMiles" placeholder="Separador de miles"> -->
                             <mat-error *ngIf="creditForm.controls['Riesgo_Maximo'].hasError('required')">
