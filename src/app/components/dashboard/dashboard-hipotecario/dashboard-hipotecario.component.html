@@ -102,7 +102,7 @@
                 </mat-form-field>
             </div>
             <div class="col-md-2">
-              <button type="button" class="btn btn-info" (click)="sentiment= 'sad'">Prueba</button>
+                <button type="button" class="btn btn-info" (click)="sentiment= 'sad'">Prueba</button>
             </div>
         </div>
         <div class="table-responsive">
@@ -133,7 +133,7 @@
                         <td>Neg. Hipotecario</td>
                         <td>100 %</td>
                         <td>
-                          <!-- <mat-icon [ngClass]="sentiment">{{icono}}</mat-icon> -->
+                            <!-- <mat-icon [ngClass]="sentiment">{{icono}}</mat-icon> -->
                             <!-- <mat-icon class="happy">sentiment_satisfied_alt</mat-icon>
                             <mat-icon class="dissatisfied">mood_bad</mat-icon>
                             <mat-icon class="sad">sentiment_dissatisfied</mat-icon> -->
@@ -146,7 +146,7 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr>
+                    <tr (click)="showDetalle()">
                         <td>
                             <mat-icon id="happyConcluded" class="happy">sentiment_satisfied_alt</mat-icon>
                             <mat-icon id="dissastisfiedConcluded" class="dissatisfied">mood_bad</mat-icon>
@@ -169,18 +169,18 @@
                         <td></td>
                         <td>{{porcentajeExpedientesConcluidos | number: '.0-2'}} %</td>
                     </tr>
-                    <tr *ngFor="let dashboard of dashboardList">
+                    <tr id="result_data" style="display: none;" *ngFor="let dashboard of dashboardList">
                         <td>
-                        <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon>
-                        {{dashboard.Title}} </td>
+                            <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon>
+                            {{dashboard.Title}} </td>
                         <td> % </td>
                         <td> Red de Oficinas </td>
                         <td>33 %</td>
                         <td>
-                          <mat-icon class={{dashboard.SentimientoAnterior}}>{{dashboard.IconoAnterior}}</mat-icon>
+                            <mat-icon class={{dashboard.SentimientoAnterior}}>{{dashboard.IconoAnterior}}</mat-icon>
                         </td>
                         <td>
-                          <mat-icon class={{dashboard.ColorVariacion}}>{{dashboard.Variacion}} </mat-icon>
+                            <mat-icon class={{dashboard.ColorVariacion}}>{{dashboard.Variacion}} </mat-icon>
                         </td>
                         <td> 4.00 </td>
                         <td>{{dashboard.Porcentaje | number: '.0-2'}} </td>
