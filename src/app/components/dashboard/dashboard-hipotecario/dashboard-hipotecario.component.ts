@@ -496,4 +496,10 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       return estadosActivos;
     }
 
+    showDetalle(){
+      alert('Que pasa bro');
+      const resultStyle = document.getElementById('result_data').style; 
+      resultStyle.display = 'table-row';
+    }
+
 }
