@@ -116,6 +116,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   showControlesGestor = false;
   showComentarioRevisor = false;
 
+  mostrarNumeroPropuesta = false;
+
   showBtnObservacionCPM = false;
   showBtnAprobar = false;
   showBtnAprobarSinVerificacion = false;
@@ -260,6 +262,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
     ComentarioGestor: [null],
     Desembolsado: [null],
+    NumeroPropuesta: [null],
+    FechaIngresoRiesgo: [null],
     MotivoObsEvaluacionRiesgoId: [null],
 
     /*postalCode: [null, Validators.compose([
@@ -354,7 +358,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
                   this.creditForm.controls[element].setValue(this.solicitudHipotecarioList[element]);
                 }
               }
-              this.creditForm.controls.TEA.setValue(this.solicitudHipotecarioList.TEA * 100);
+              //this.creditForm.controls.TEA.setValue(this.solicitudHipotecarioList.TEA * 100);
+              this.creditForm.controls.TEA.setValue(this.solicitudHipotecarioList.TEA);
               this.creditForm.controls.pFinanciamiento.setValue(this.solicitudHipotecarioList.Financiamiento * 100);
               this.rentaTitular = this.solicitudHipotecarioList.Tipo_RentaId;
               if (this.rentaTitular != null) {
@@ -400,8 +405,21 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
               } else {
                 this.creditForm.controls.Desembolsado.setValue(this.solicitudHipotecarioList.Desembolsado);
               }
-              // this.creditForm.controls.Riesgo_Maximo.setValue(myExtObject.MASKMONEY('2000'));
 
+              if (this.solicitudHipotecarioList.FechaIngresoRiesgo === null) {
+                this.creditForm.controls.FechaIngresoRiesgo.setValue(null);
+              } else {
+                const fechaIngresoRiesgo = new Date(this.solicitudHipotecarioList.FechaIngresoRiesgo);
+                this.creditForm.controls.FechaIngresoRiesgo.setValue(fechaIngresoRiesgo);
+              }              
+
+              if (this.solicitudHipotecarioList.NumeroPropuesta === null) {
+                this.creditForm.controls.NumeroPropuesta.setValue('');
+              } else {
+                this.creditForm.controls.NumeroPropuesta.setValue(this.solicitudHipotecarioList.NumeroPropuesta);
+              }
+
+              // this.creditForm.controls.Riesgo_Maximo.setValue(myExtObject.MASKMONEY('2000'));
               // ESTA ES LA FUNCION, ESTA EN moneyFormat.js
               // console.log(myExtObject.MASKMONEY('2000', '-$##,###,##0.00', 1));
 
@@ -409,7 +427,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
                 if (Object.prototype.hasOwnProperty.call(Variables.columnasNumericas, key)) {
                   const element = Variables.columnasNumericas[key];
                   this.creditForm.controls[element].setValue
-                  (myExtObject.MASKMONEY(this.solicitudHipotecarioList[element], '-###,###,###,##0.00', 1));
+                    (myExtObject.MASKMONEY(this.solicitudHipotecarioList[element], '-###,###,###,##0.00', 1));
                 }
               }
               this.solicitudHipotecarioList.Enlace_Documentos && this.solicitudHipotecarioList.Enlace_Documentos !== null && (this.descripcionDocumentos = this.solicitudHipotecarioList.Enlace_Documentos.Description);
@@ -675,7 +693,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.showComentarioRiesgos = true;
     this.creditForm.controls.Cometario_Revisor1.disable();
     this.showMotivoObservacionRiesgos = true;
-    this.creditForm.controls.MotivoObsEvaluacionRiesgo.disable();
+    this.creditForm.controls.MotivoObsEvaluacionRiesgoId.disable();
   }
 
   listenerBonoBuenPagador() {
@@ -749,8 +767,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.setDisabledControlsBuenPagador();
           this.creditForm.get('Desembolso').disable();
           this.creditForm.get('Grabamen').disable();
+          this.creditForm.get('NumeroPropuesta').disable();
           this.mostrarBotonDesestimiento = true;
-
+          
           if (!this.PertenceGrupo_U_Oficina) {
             this.setDisableControlsCabezera();
             this.setDisableControlsCuotaInicial();
@@ -778,15 +797,17 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.setDisableControlsCuotaInicial();
           this.setDisableControlsDatosOperacion();
           this.setDisableObservacionesOpcional();
+          this.setDisableControlsTipoGarantiaAbono();
           this.creditForm.controls.Cometario_Evaluacion.disable();
           this.creditForm.controls.MotivoObsEvaluacionRiesgoId.disable();
+          this.setDisableComentarioOficina();
+          this.mostrarNumeroPropuesta = true;
 
           if (!this.PertenceGrupo_U_CPM) {
-            this.setDisableControlsTipoGarantiaAbono();
+            this.creditForm.get('NumeroPropuesta').disable();
             this.setDisableControlsAplicacion();
             this.setDisableComentarios();
             this.setDisableControlsPlanAhorroProgramado();
-            this.setDisableComentarioOficina();
             this.setDisableComentarioGestor();
             this.showBtnObservarRegistro = false;
             this.showBtnEnviar = false;
@@ -803,6 +824,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.showMotivoObservacionRiesgos = true;
           this.creditForm.controls.Cometario_Evaluacion.disable();
           this.creditForm.controls.MotivoObsEvaluacionRiesgoId.disable();
+          this.creditForm.get('NumeroPropuesta').disable();
 
           if (!this.PertenceGrupo_U_Oficina) {
             this.setDisableControlsCabezera();
@@ -837,15 +859,18 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.setDisableObservacionesOpcional();
           this.setDisableControlsAplicacion();
           this.setDisableControlsPlanAhorroProgramado();
+          this.setDisableControlsTipoGarantiaAbono();
           this.creditForm.controls.Comentario_Registro.disable();
           this.creditForm.controls.Cometario_Revisor.disable();
+          this.creditForm.controls.NumeroPropuesta.disable();
+          this.creditForm.controls.NumeroPropuesta.disable();
+          this.setDisableComentarioOficina();
+          this.mostrarNumeroPropuesta = true;
 
           if (!this.PertenceGrupo_U_Evaluacion) {
             this.setDisableControlsCuotaInicial();
             this.setDisableControlsDatosOperacion();
-            this.setDisableControlsTipoGarantiaAbono();
             this.setDisableComentarios();
-            this.setDisableComentarioOficina();
             this.setDisableComentarioGestor();
             this.showBtnAprobarSinVerificacion = false;
             this.showBtnAprobarEnVerificacion = false;
@@ -875,6 +900,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.setDisableControlsAplicacion();
           this.setDisableObservacionesOpcional();
           this.setDisableControlsPlanAhorroProgramado();
+          this.setDisableControlsTipoGarantiaAbono();
+          this.creditForm.get('NumeroPropuesta').disable();
           break;
         case (estado === Variables.constantes.EstadoAsignacionRiesgos):
           this.showBotonesProducto = false;
@@ -883,6 +910,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.showPlanAhorro = false;
           this.setDisableControlsCabezera();
           this.setDisableControlsPlanAhorroProgramado();
+          this.setDisableControlsTipoGarantiaAbono();
+          this.creditForm.get('NumeroPropuesta').disable();
           break;
         case (estado === Variables.constantes.EstadoRegularizacionCPM):
           this.showBotonesProducto = false;
@@ -899,6 +928,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.setDisableControlsTipoGarantiaAbono();
           this.setDisableObservacionesOpcional();
           this.setDisableControlsPlanAhorroProgramado();
+          this.creditForm.get('NumeroPropuesta').disable();
           break;
         case (estado === Variables.constantes.EstadoAprobadoSinVerificacion):
           this.showComentarioRiesgos = true;
@@ -921,6 +951,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.showControlesGestor = true;
           this.colorBoton = 'rgb(24, 255, 120)';
           this.colorletraBoton = 'black';
+          this.creditForm.get('NumeroPropuesta').disable();
           break;
         case (estado === Variables.constantes.EstadoRechazado):
           this.showComentarioRiesgos = true;
@@ -943,6 +974,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.showControlesGestor = true;
           this.colorBoton = 'rgb(24, 255, 120)';
           this.colorletraBoton = 'black';
+          this.creditForm.get('NumeroPropuesta').disable();
           break;
         case (estado === Variables.constantes.EstadoGestionFiles2 || estado === Variables.constantes.EstadoObservadoGestor):
           this.setDisableControlsCabezera();
@@ -959,6 +991,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.showBtnEnviar = false;
           this.mostrarBotonEnviarGestionFiles2 = true;
           this.mostrarBotonDesestimiento = true;
+
           if (estado === Variables.constantes.EstadoObservadoGestor) {
             this.showComentarioGestor = true;
             this.setDisableComentarioGestor();
@@ -971,6 +1004,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
             this.mostrarBotonDesestimiento = false;
           }
 
+          this.creditForm.get('NumeroPropuesta').disable();
           break;
         case (estado === Variables.constantes.EstadoValidacionFiles2):
           this.setDisableControlsCabezera();
@@ -996,6 +1030,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
             this.mostrarBotonEnviarObservadoGestor = false;
             this.mostrarBotonDesestimiento = false;
           }
+          this.creditForm.get('NumeroPropuesta').disable();
           break;
         case (estado === Variables.constantes.EstadoDesestimiento || estado === Variables.constantes.EstadoPreTerminado):
           this.setDisableControlsCabezera();
@@ -1013,6 +1048,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.showBtnEnviar = false;
           this.showBtnGrabar = false;
           this.showComentarioGestor = true;
+          this.creditForm.get('NumeroPropuesta').disable();
 
           if (estado === Variables.constantes.EstadoPreTerminado) {
             this.showDesembolsado = true;
@@ -1377,6 +1413,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       Plan_Ahorro: this.creditForm.controls.Plan_Ahorro.value,
       Cta_Ahorro_BanBif: this.creditForm.controls.Cta_Ahorro_BanBif.value,
       Observacion_CPMId: this.creditForm.controls.Observacion_CPMId.value,
+      NumeroPropuesta: this.creditForm.controls.NumeroPropuesta.value,
 
       Precio_Venta: +this.creditForm.controls.Precio_Venta.value,
       Aporte_Efectivo: +this.creditForm.controls.Aporte_Efectivo.value,
@@ -1391,12 +1428,14 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       PBP: +this.creditForm.controls.PBP.value,
       Grabamen: +this.creditForm.controls.Grabamen.value,
       Periodo_Gracia: +this.creditForm.controls.Periodo_Gracia.value,
-      TEA: ((+this.creditForm.controls.TEA.value) / 100),
+      //TEA: ((+this.creditForm.controls.TEA.value) / 100),
+      TEA: this.creditForm.controls.TEA.value,
       Financiamiento: ((+this.creditForm.controls.pFinanciamiento.value) / 100),
       Fecha_Tasacion_Remodelac,
       Fecha_Gestor_Hip,
       flag_PlanAhorro: this.flagPlanAhorro,
-      EjecutivoId: ejecutivo
+      EjecutivoId: ejecutivo,
+      FechaIngresoRiesgo: this.creditForm.controls.FechaIngresoRiesgo.value,
     };
 
     return solicitudCreditoHipotecario;
@@ -1506,9 +1545,15 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     EstadoIdOld === Variables.constantes.EstadoRegistroCPM && (EstadoId = Variables.constantes.EstadoEvaluacionRiesgos);
     EstadoIdOld === Variables.constantes.EstadoAsignacionRiesgos && (EstadoId = Variables.constantes.EstadoEvaluacionRiesgos);
 
+    let fechaIngresoRiesgo = this.creditForm.controls.FechaIngresoRiesgo.value;
+    if (fechaIngresoRiesgo === null && EstadoId === Variables.constantes.EstadoEvaluacionRiesgos) {
+      fechaIngresoRiesgo = new Date();
+    }
+
     const itemSave = this.getObjectToSave();
     itemSave.EstadoId = EstadoId;
     itemSave.Fecha_Estado = new Date();
+    itemSave.FechaIngresoRiesgo = fechaIngresoRiesgo;
     // Fecha_Registro_CPM && (itemSave.Fecha_Registro_CPM = Fecha_Registro_CPM);
     Swal.fire({
       title: '¿Está seguro de Enviar la Solicitud?',

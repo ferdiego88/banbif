@@ -103,8 +103,10 @@ export class SolicitudCreditoHipotecario extends ListItem{
       Id: '',
       Title: ''
     },
-    public Desembolsado = false
-    ,
+    public Desembolsado = false,
+    public NumeroPropuesta = '',
+    public FechaIngresoRiesgo = null,
+    
   ){
     super();
   }
