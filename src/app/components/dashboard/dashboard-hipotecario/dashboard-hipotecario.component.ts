@@ -497,8 +497,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     }
 
     showDetalle(){
-      alert('Que pasa bro');
-      const resultStyle = document.getElementById('result_data').style; 
+      const resultStyle = document.getElementById('result_data').style;
       resultStyle.display = 'table-row';
     }
 
