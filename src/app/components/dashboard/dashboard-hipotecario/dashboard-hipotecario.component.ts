@@ -50,6 +50,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   flujoSeguimientoEtapaLista: TipoProductoModel[];
   flujoSeguimientoEstadoList: TipoProductoModel[];
   dashboardList: DashboardHipotecarioModel[];
+  dashboardReprocesosList: DashboardHipotecarioModel[];
   solicitudesEstadoList: SolicitudCreditoHipotecario[];
   flujoSeguimientoEstadoAnteriorList: TipoProductoModel[];
   dashboardAnteriorList: DashboardHipotecarioModel[];
@@ -73,6 +74,13 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   cantidadSolicitudesReprocesosAnterior: number;
   porcentajeExpedientesConcluidosAnterior: number;
   porcentajeExpedientesReprocesosAnterior: number;
+
+  solicitudANSList: SolicitudCreditoHipotecario[];
+  solicitudANSAnteriorList: SolicitudCreditoHipotecario[];
+
+  showDetalleConcluidos = false;
+  showDetalleReprocesos = false;
+  showDetalleANS = false;
   hipotecarioForm = this.fb.group({
     MesId: [null],
     ZonaId: [null],
@@ -350,30 +358,40 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
      async filterSolicitudesEstado(){
       const estados = await this.getEstado();
       this.dashboardList = [];
+      this.dashboardReprocesosList = [];
       this.flujoSeguimientoEstadoList = [];
       this.solicitudesEstadoList = [];
       // this.dashboardAnteriorList = [];
       this.flujoSeguimientoEstadoAnteriorList = [];
       this.solicitudesEstadoAnteriorList = [];
       estados.forEach(estado => {
+        this.solicitudANSList = [];
+        this.solicitudANSAnteriorList = [];
         let porcentajeExpediente = 0;
         let porcentajeExpedienteAnterior = 0;
         this.solicitudesEstadoList = this.solicitudMesList.filter(solicitud => solicitud.EstadoId === estado.Id);
+        this.getANSList(this.solicitudesEstadoList, estado, this.solicitudANSList);
+        console.log(this.solicitudANSList);
         this.flujoSeguimientoEstadoList = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
         this.solicitudesEstadoAnteriorList = this.solicitudMesAnteriorList.filter(solicitud => solicitud.EstadoId === estado.Id);
+        this.getANSList(this.solicitudesEstadoAnteriorList, estado, this.solicitudANSAnteriorList);
+        console.log(this.solicitudANSAnteriorList);
         this.flujoSeguimientoEstadoAnteriorList =
         this.flujoSeguimientoAnteriorList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
         const solicitudes = this.solicitudesEstadoList.length;
         const flujoSeguimiento = this.flujoSeguimientoEstadoList.length;
         const solicitudesAnterior = this.solicitudesEstadoAnteriorList.length;
         const flujoSeguimientoAnterior = this.flujoSeguimientoEstadoAnteriorList.length;
+        const cantidadSolicitudANS = this.solicitudANSList.length;
+        const cantidadSolicitudANSAnterior = this.solicitudANSAnteriorList.length;
+        /// const reprocesos = this.countReproccess(this.flujoSeguimientoEstadoList);
+        // console.log(reprocesos);
         if (solicitudes > flujoSeguimiento) {
           // porcentajeExpediente = 0;
           porcentajeExpediente = (100 - (solicitudes / this.solicitudMesList.length) * 100);
         } else {
           porcentajeExpediente = ((flujoSeguimiento - solicitudes) / flujoSeguimiento) * 100;
         }
-
         if (solicitudesAnterior){
           if (solicitudesAnterior > flujoSeguimientoAnterior) {
             // porcentajeExpediente = 0;
@@ -391,6 +409,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           Id: estado.Id,
           Title: estado.Title,
           CantidadSolicitudes: solicitudes,
+          CantidadSolicitudesANS: cantidadSolicitudANS,
+          CantidadSolicitudesANSAnterior: cantidadSolicitudANSAnterior,
           FlujoSeguimiento: flujoSeguimiento,
           Porcentaje: porcentajeExpediente,
           PorcentajeAnterior: porcentajeExpedienteAnterior,
@@ -401,13 +421,89 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           Variacion: variacionConcluidos,
           ColorVariacion: colorVariacion
         };
-        console.log(estadoElement);
+        // console.log(estadoElement);
         // this.dashboardList.push(estadoElement);
-        if (solicitudes > 0) {
-         this.dashboardList.push(estadoElement);
+        if (estado.Id === Variables.constantes.EstadoObservadoCPM || estado.Id === Variables.constantes.EstadoObservadoRiesgos) {
+          this.dashboardReprocesosList.push(estadoElement);
+        } else {
+          if (solicitudes > 0) {
+            this.dashboardList.push(estadoElement);
+           }
         }
 
           });
+     }
+
+     getANSList(solicitudes: SolicitudCreditoHipotecario[], estado: EstadoModel, solicitudANS: SolicitudCreditoHipotecario[]){
+      if (solicitudes.length !== 0){
+        const fechaActual = moment();
+        let fueraANS = 0;
+        solicitudes.forEach(solicitud => {
+          // console.log(solicitud);
+          let ansRenta = 0;
+          let ansRentaMixta = 0;
+          let esRentaMixta = false;
+          if (solicitud.EstadoId === Variables.constantes.EstadoEvaluacionRiesgos) {
+            if (solicitud.Tipo_RentaId.length > 2) {
+              esRentaMixta = true;
+            } else {
+              esRentaMixta = false;
+            }
+            if (esRentaMixta) {
+              if (solicitud.Tipo_RentaId.find(val => val === 3)) {
+                ansRentaMixta = estado.ANS_Renta_3;
+              } else {
+                ansRentaMixta = estado.ANS_Mixta;
+              }
+            }
+            solicitud.Tipo_RentaId.forEach((tipoRenta) => {
+              switch (tipoRenta) {
+                case Variables.constantes.TipoRenta1eraCategoria:
+                  ansRenta += estado.ANS_Renta_1;
+                  break;
+                case Variables.constantes.TipoRenta2daCategoria:
+                  ansRenta += estado.ANS_Renta_2;
+                  break;
+                case Variables.constantes.TipoRenta3eraCategoria:
+                  ansRenta += estado.ANS_Renta_3;
+                  break;
+                case Variables.constantes.TipoRenta4taCategoria:
+                  ansRenta += estado.ANS_Renta_4;
+                  break;
+                case Variables.constantes.TipoRenta5taCategoria:
+                  ansRenta += estado.ANS_Renta_5;
+                  break;
+                default:
+                  break;
+              }
+          });
+            if (solicitud.Fecha_Estado !== null) {
+            const AnsRenta = ansRenta + ansRentaMixta + estado.Valor_ANS;
+            const fechaEstado = moment(solicitud.Fecha_Estado);
+            const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado, fechaActual);
+            if (tiempoPromedioEstacion > AnsRenta) {
+              fueraANS++;
+              solicitudANS.push(solicitud);
+            }
+
+            }
+          } else {
+            if (solicitud.Fecha_Estado !== null) {
+              const fechaEstado = moment(solicitud.Fecha_Estado);
+              const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado, fechaActual);
+              if (tiempoPromedioEstacion > estado.Valor_ANS) {
+                fueraANS++;
+                // this.solicitudANSList.push(solicitudes[contador]);
+                solicitudANS.push(solicitud);
+              }
+              // tiempo += tiempoPromedioEstacion;
+              // tiempoPromedio = tiempo / solicitudes.length;
+            }      
+          }
+        });
+        // console.log(fueraANS);
+        // console.log(this.solicitudANSList);
+      }
      }
 
      listenerZona(){
@@ -496,9 +592,33 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       return estadosActivos;
     }
 
-    showDetalle(){
-      const resultStyle = document.getElementById('result_data').style;
-      resultStyle.display = 'table-row';
+    calcBusinessDays(startDate, endDate) {
+      // This makes no effort to account for holidays
+      // Counts end day, does not count start day
+  
+      // make copies we can normalize without changing passed in objects
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+  
+      // initial total
+      let totalBusinessDays = 0;
+  
+      // normalize both start and end to beginning of the day
+      start.setHours(0, 0, 0, 0);
+      end.setHours(0, 0, 0, 0);
+  
+      const current = new Date(start);
+      current.setDate(current.getDate() + 1);
+      let day;
+      // loop through each day, checking
+      while (current <= end) {
+        day = current.getDay();
+        if (day >= 1 && day <= 5) {
+          ++totalBusinessDays;
+        }
+        current.setDate(current.getDate() + 1);
+      }
+      return totalBusinessDays;
     }
 
 }

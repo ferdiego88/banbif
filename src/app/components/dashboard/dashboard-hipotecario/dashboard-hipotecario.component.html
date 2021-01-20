@@ -102,7 +102,7 @@
                 </mat-form-field>
             </div>
             <div class="col-md-2">
-                <button type="button" class="btn btn-info" >Prueba</button>
+                <button type="button" class="btn btn-info">Prueba</button>
             </div>
         </div>
         <div class="table-responsive">
@@ -146,7 +146,7 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr (click)="showDetalle()">
+                    <tr (click)="showDetalleConcluidos=!showDetalleConcluidos">
                         <td>
                             <mat-icon id="happyConcluded" class="happy">sentiment_satisfied_alt</mat-icon>
                             <mat-icon id="dissastisfiedConcluded" class="dissatisfied">mood_bad</mat-icon>
@@ -169,7 +169,7 @@
                         <td></td>
                         <td>{{porcentajeExpedientesConcluidos | number: '.0-2'}} %</td>
                     </tr>
-                    <tr id="result_data" style="display: none;" *ngFor="let dashboard of dashboardList">
+                    <tr [ngClass]="{'d-none':!showDetalleConcluidos,'d-block':showDetalleConcluidos}" id="result_data" *ngFor="let dashboard of dashboardList">
                         <td>
                             <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon>
                             {{dashboard.Title}} </td>
@@ -185,7 +185,7 @@
                         <td> 4.00 </td>
                         <td>{{dashboard.Porcentaje | number: '.0-2'}} </td>
                     </tr>
-                    <tr>
+                    <tr (click)="showDetalleANS=!showDetalleANS">
                         <td>Cumplimiento de ANS</td>
                         <td> %</td>
                         <td>Neg. Hipotecario</td>
@@ -195,7 +195,26 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr>
+                    <tr [ngClass]="{'d-none':!showDetalleANS,'d-block':showDetalleANS}" *ngFor="let dashboard of dashboardList">
+                        <td>
+                            <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon>
+                            {{dashboard.Title}} </td>
+                        <td> % </td>
+                        <td> Red de Oficinas </td>
+                        <td>33 %</td>
+                        <td>{{dashboard.CantidadSolicitudesANSAnterior}}</td>
+                        <td>{{dashboard.CantidadSolicitudesANS}}</td>
+                        <td>{{dashboard.CantidadSolicitudes}}</td>
+                        <!-- <td>
+                            <mat-icon class={{dashboard.SentimientoAnterior}}>{{dashboard.IconoAnterior}}</mat-icon>
+                        </td>
+                        <td>
+                            <mat-icon class={{dashboard.ColorVariacion}}>{{dashboard.Variacion}} </mat-icon>
+                        </td>
+                        <td> 4.00 </td>
+                        <td>{{dashboard.Porcentaje | number: '.0-2'}} </td> -->
+                    </tr>
+                    <tr (click)="showDetalleReprocesos=!showDetalleReprocesos">
                         <td>
                             <mat-icon id="happyReprocessing" class="happy">sentiment_satisfied_alt</mat-icon>
                             <mat-icon id="dissastisfiedReprocessing" class="dissatisfied">mood_bad</mat-icon>
@@ -217,6 +236,22 @@
                         </td>
                         <td></td>
                         <td>{{porcentajeExpedientesReprocesos | number: '.0-2' }} %</td>
+                    </tr>
+                    <tr [ngClass]="{'d-none':!showDetalleReprocesos,'d-block':showDetalleReprocesos}" *ngFor="let dashboard of dashboardReprocesosList">
+                        <td>
+                            <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon>
+                            {{dashboard.Title}} </td>
+                        <td> % </td>
+                        <td> Red de Oficinas </td>
+                        <td>33 %</td>
+                        <td>
+                            <mat-icon class={{dashboard.SentimientoAnterior}}>{{dashboard.IconoAnterior}}</mat-icon>
+                        </td>
+                        <td>
+                            <mat-icon class={{dashboard.ColorVariacion}}>{{dashboard.Variacion}} </mat-icon>
+                        </td>
+                        <td> 4.00 </td>
+                        <td>{{dashboard.Porcentaje | number: '.0-2'}} </td>
                     </tr>
                 </tbody>
             </table>
