@@ -109,26 +109,26 @@
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th class="td-center" colspan="8">Indicador</th>
+                        <th class="td-center" colspan="9">Indicador</th>
                     </tr>
                     <tr>
-                        <th>Título </th>
-                        <th>Unit</th>
+                        <th colspan="2">Título </th>
+                        <th>Unidad</th>
                         <th>Resp.</th>
-                        <th>Weight</th>
+                        <th>Peso</th>
                         <th>
-                            <p class="verticalText">Previous</p>
+                            <p class="verticalText">Anterior</p>
                         </th>
                         <th>
                             <p class="verticalText">Variación</p>
                         </th>
                         <th>Meta</th>
-                        <th>Value</th>
+                        <th>Valor</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Procesos Hipotecario</td>
+                        <td colspan="2">Procesos Hipotecario</td>
                         <td>Unidad</td>
                         <td>Neg. Hipotecario</td>
                         <td>100 %</td>
@@ -148,30 +148,25 @@
                     </tr>
                     <tr (click)="showDetalleConcluidos=!showDetalleConcluidos">
                         <td>
-                            <mat-icon id="happyConcluded" class="happy">sentiment_satisfied_alt</mat-icon>
-                            <mat-icon id="dissastisfiedConcluded" class="dissatisfied">mood_bad</mat-icon>
-                            <mat-icon id="sadConcluded" class="sad">sentiment_dissatisfied</mat-icon>
-                            Porcentaje de Expedientes Concluidos</td>
+                          <mat-icon class={{sentimentConcluded}}>{{iconoConcluded}} </mat-icon>
+                            </td>
+                         <td>Porcentaje de Expedientes Concluidos </td>
                         <td> %</td>
                         <td>Neg. Inmobiliario</td>
                         <td>33 % </td>
                         <td>
-                            <mat-icon id="happyConcludedPrevious" class="happy-center">sentiment_satisfied_alt</mat-icon>
-                            <mat-icon id="dissastisfiedConcludedPrevious" class="dissatisfied-center">mood_bad</mat-icon>
-                            <mat-icon id="sadConcludedPrevious" class="sad-center">sentiment_dissatisfied</mat-icon>
+                          <mat-icon class={{sentimentConcludedPrevious}}>{{iconoConcludedPrevious}} </mat-icon>
                             <!-- {{porcentajeExpedientesConcluidosAnterior}} -->
                         </td>
                         <td>
-                            <mat-icon id="happyConcludedVariation" class="happy-center">trending_up</mat-icon>
-                            <mat-icon id="dissastisfiedConcludedVariation" class="dissatisfied-center">trending_flat</mat-icon>
-                            <mat-icon id="sadConcludedVariation" class="sad-center">trending_down</mat-icon>
+                          <mat-icon class={{sentimentConcludedVariation}}>{{iconoConcludedVariation}} </mat-icon>
                         </td>
                         <td></td>
                         <td>{{porcentajeExpedientesConcluidos | number: '.0-2'}} %</td>
                     </tr>
                     <tr [ngClass]="{'d-none':!showDetalleConcluidos,'d-block':showDetalleConcluidos}" id="result_data" *ngFor="let dashboard of dashboardList">
-                        <td>
-                            <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon>
+                      <td><mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon></td>
+                      <td>
                             {{dashboard.Title}} </td>
                         <td> % </td>
                         <td> Red de Oficinas </td>
@@ -186,18 +181,21 @@
                         <td>{{dashboard.Porcentaje | number: '.0-2'}} </td>
                     </tr>
                     <tr (click)="showDetalleANS=!showDetalleANS">
+                        <td>
+                        <mat-icon class={{sentimentANS}}>{{iconoANS}} </mat-icon>
+                        </td>
                         <td>Cumplimiento de ANS</td>
                         <td> %</td>
                         <td>Neg. Hipotecario</td>
                         <td>33 % </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td><mat-icon class={{sentimentANSPrevious}}>{{iconoANSVariation}} </mat-icon></td>
+                        <td><mat-icon class={{sentimentANSVariation}}>{{iconoANSVariation}} </mat-icon></td>
                         <td></td>
                     </tr>
                     <tr [ngClass]="{'d-none':!showDetalleANS,'d-block':showDetalleANS}" *ngFor="let dashboard of dashboardList">
+                      <td><mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon> </td>
                         <td>
-                            <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon>
+
                             {{dashboard.Title}} </td>
                         <td> % </td>
                         <td> Red de Oficinas </td>
@@ -217,30 +215,34 @@
                     </tr>
                     <tr (click)="showDetalleReprocesos=!showDetalleReprocesos">
                         <td>
-                            <mat-icon id="happyReprocessing" class="happy">sentiment_satisfied_alt</mat-icon>
+                          <mat-icon class={{sentimentReprocesos}}>{{iconoReprocesos}} </mat-icon>
+                            <!-- <mat-icon id="happyReprocessing" class="happy">sentiment_satisfied_alt</mat-icon>
                             <mat-icon id="dissastisfiedReprocessing" class="dissatisfied">mood_bad</mat-icon>
-                            <mat-icon id="sadReprocessing" class="sad">sentiment_dissatisfied</mat-icon>
-                            Porcentaje de Reprocesos</td>
+                            <mat-icon id="sadReprocessing" class="sad">sentiment_dissatisfied</mat-icon> -->
+                            </td>
+                        <td>Porcentaje de Reprocesos</td>
                         <td> %</td>
                         <td>Neg. Inmobiliario</td>
                         <td>33 % </td>
                         <td>
-                            <mat-icon id="happyReprocessingPrevious" class="happy-center">sentiment_satisfied_alt</mat-icon>
+                          <mat-icon class={{sentimentReprocesosPrevious}}>{{iconoReprocesosPrevious}} </mat-icon>
+                            <!-- <mat-icon id="happyReprocessingPrevious" class="happy-center">sentiment_satisfied_alt</mat-icon>
                             <mat-icon id="dissastisfiedReprocessingPrevious" class="dissatisfied-center">mood_bad</mat-icon>
-                            <mat-icon id="sadReprocessingPrevious" class="sad-center">sentiment_dissatisfied</mat-icon>
+                            <mat-icon id="sadReprocessingPrevious" class="sad-center">sentiment_dissatisfied</mat-icon> -->
                             <!-- {{porcentajeExpedientesReprocesosAnterior}} -->
                         </td>
                         <td>
-                            <mat-icon id="happyReprocessingVariation" class="happy-center">trending_up</mat-icon>
+                          <mat-icon class={{sentimentReprocesosVariation}}>{{iconoReprocesosVariation}} </mat-icon>
+                            <!-- <mat-icon id="happyReprocessingVariation" class="happy-center">trending_up</mat-icon>
                             <mat-icon id="dissastisfiedReprocessingVariation" class="dissatisfied-center">trending_flat</mat-icon>
-                            <mat-icon id="sadReprocessingVariation" class="sad-center">trending_down</mat-icon>
+                            <mat-icon id="sadReprocessingVariation" class="sad-center">trending_down</mat-icon> -->
                         </td>
                         <td></td>
                         <td>{{porcentajeExpedientesReprocesos | number: '.0-2' }} %</td>
                     </tr>
                     <tr [ngClass]="{'d-none':!showDetalleReprocesos,'d-block':showDetalleReprocesos}" *ngFor="let dashboard of dashboardReprocesosList">
-                        <td>
-                            <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon>
+                      <td> <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon></td>
+                      <td>
                             {{dashboard.Title}} </td>
                         <td> % </td>
                         <td> Red de Oficinas </td>

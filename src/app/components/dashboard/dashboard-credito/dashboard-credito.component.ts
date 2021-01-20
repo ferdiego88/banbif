@@ -306,13 +306,13 @@ valueSubProducto(): any{
       const solicitudesporFecha = this.getSolicitudesFechaCreacion();
       solicitudes = solicitudesporFecha.filter( (item) => item.EstadoId === estado);
       // solicitudes = solicitudesporFecha.filter()
-    } else if ( this.dashboardForm.controls.Fecha_Estado_Hasta.value) 
+    } else if ( this.dashboardForm.controls.Fecha_Estado_Hasta.value)
     {
       const solicitudesporFechaEstado = this.getSolicitudesFechaEstado();
       // console.log(solicitudesporFechaEstado);
       solicitudes = solicitudesporFechaEstado.filter( (item) => item.EstadoId === estado);
     }
-    else {      
+    else {
       solicitudes = this.solicitudHipotecarioList.filter( (item) => item.EstadoId === estado);
     }
     return solicitudes;
@@ -381,7 +381,7 @@ valueSubProducto(): any{
           //   const elemento: HTMLElement = document.getElementById('element');
           //   this.scroll(elemento);
           //    }, 1000);
-            } 
+            }
           });
       this.showSolicitudes = false;
       return this.solicitudesPorFechaCreacionList;
@@ -400,19 +400,19 @@ valueSubProducto(): any{
         if (fechaEstado >= fechaDesde && fechaEstado <= fechaHasta) {
            solicitudPorFecha = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
            this.solicitudesPorFechaEstadoList.push(solicitudPorFecha);
-            } 
+            }
           });
       this.showSolicitudes = false;
       return this.solicitudesPorFechaEstadoList;
   }
-  
+
   listarPorFechaCreacion(){
   const desde = this.dashboardForm.controls.Fecha_Creacion_Desde.value;
   const fechaDesde = moment(desde, 'DD-MM-YYYY').toDate();
   const hasta = this.dashboardForm.controls.Fecha_Creacion_Hasta.value;
   const fechaHasta = moment(hasta, 'DD-MM-YYYY').toDate();
   if (desde && hasta) {
-    if (fechaHasta > fechaDesde) {  
+    if (fechaHasta > fechaDesde) {
       this.listarSolicitudesEstado();
     } else {
       Swal.fire({
@@ -430,7 +430,7 @@ valueSubProducto(): any{
     const hasta = this.dashboardForm.controls.Fecha_Estado_Hasta.value;
     const fechaHasta = moment(hasta, 'DD-MM-YYYY').toDate();
     if (desde && hasta) {
-      if (fechaHasta > fechaDesde) {  
+      if (fechaHasta > fechaDesde) {
         this.listarSolicitudesEstado();
       } else {
         Swal.fire({
@@ -450,7 +450,7 @@ valueSubProducto(): any{
        }
       });
   }
-  
+
   listenerFechaEstadoDesde(){
     this.dashboardForm.controls.Fecha_Estado_Desde.valueChanges.subscribe((fecHasta) => {
        if (fecHasta) {
@@ -624,7 +624,8 @@ valueSubProducto(): any{
               // console.log(ansRentaMixta);
               const AnsRenta = ansRenta + ansRentaMixta + estado.Valor_ANS;
               const fechaEstado = moment(solicitud.Fecha_Estado);
-              const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado, fechaActual); 
+              const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado, fechaActual);
+              // console.log(tiempoPromedioEstacion);
               if (tiempoPromedioEstacion > AnsRenta) {
                 fueraANS++;
                 this.solicitudANSList.push(solicitudes[contador]);
@@ -771,7 +772,9 @@ valueSubProducto(): any{
     // make copies we can normalize without changing passed in objects
     const start = new Date(startDate);
     const end = new Date(endDate);
-
+    const hourStr = moment(startDate).format('HH');
+    const hour = parseInt(hourStr, 10);
+    // console.log(hour);
     // initial total
     let totalBusinessDays = 0;
 
@@ -781,6 +784,9 @@ valueSubProducto(): any{
 
     const current = new Date(start);
     current.setDate(current.getDate() + 1);
+    if (!(hour >= 9 && hour <= 17)) {
+       current.setDate(current.getDate() + 1);
+    }
     let day;
     // loop through each day, checking
     while (current <= end) {
