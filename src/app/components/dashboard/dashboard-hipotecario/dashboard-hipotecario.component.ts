@@ -384,6 +384,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         const flujoSeguimientoAnterior = this.flujoSeguimientoEstadoAnteriorList.length;
         const cantidadSolicitudANS = this.solicitudANSList.length;
         const cantidadSolicitudANSAnterior = this.solicitudANSAnteriorList.length;
+        const porcentajeANS = (1 - (cantidadSolicitudANS / solicitudes)) * 100;
+        const porcentajeANSANterior = (1 - (cantidadSolicitudANSAnterior / solicitudesAnterior)) * 100;
         /// const reprocesos = this.countReproccess(this.flujoSeguimientoEstadoList);
         // console.log(reprocesos);
         if (solicitudes > flujoSeguimiento) {
@@ -414,6 +416,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           FlujoSeguimiento: flujoSeguimiento,
           Porcentaje: porcentajeExpediente,
           PorcentajeAnterior: porcentajeExpedienteAnterior,
+          PorcentajeANS: porcentajeANS,
+          PorcentajeANSAnterior: porcentajeANSANterior,
           Icono: icono,
           Sentimiento: sentiment,
           IconoAnterior: iconoPrevious,
