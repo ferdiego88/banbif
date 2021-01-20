@@ -93,6 +93,7 @@ export class Variables {
     EstadoDesestimiento: 40,
     EstadoObservadoGestor: 41,
     EstadoPreTerminado: 42,
+    EstadoIngresoFile: 43,
     ZonaIDFFVV: 8,
   };
 

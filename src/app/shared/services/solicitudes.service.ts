@@ -152,8 +152,8 @@ export class SolicitudesService {
     if (sp !== null && sp !== undefined) {
 
       const item = await this.listaSolicitudes.items
-        .expand(...['Ejecutivo', 'Anlista_Riesgos'])
-        .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id'])
+        .expand(...['Ejecutivo', 'Anlista_Riesgos', 'UsuarioIngresoFile'])
+        .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id', 'UsuarioIngresoFile/Title', 'UsuarioIngresoFile/Id'])
         // .getById(itemId)
         .filter(`Id eq ${itemId}`)
         .get();
@@ -167,7 +167,7 @@ export class SolicitudesService {
   }
 
   async save(id: number, solicitudCreditoHipotecario: any): Promise<boolean> {
-  
+
     try {
       let iar: IItemAddResult;
 
@@ -190,72 +190,73 @@ export class SolicitudesService {
 
   public get(orderField = '', orderAscending = true): Promise<any> {
     return new Promise((resolve, reject) => {
-        if (sp !== null && sp !== undefined) {
-            // const listExpand = this.variables.ListExpands[listName];
-            // if (listExpand) {
+      if (sp !== null && sp !== undefined) {
+        // const listExpand = this.variables.ListExpands[listName];
+        // if (listExpand) {
 
-            // }
-            let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario).items
-            .expand(...['Ejecutivo', 'Anlista_Riesgos', 'Author', 'Estado', 'Oficina', 'Tipo_Producto', 'Sub_Producto'])
-            .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id', 'Author/Title', 'Author/Id',
+        // }
+        let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario).items
+          .expand(...['Ejecutivo', 'Anlista_Riesgos', 'Author', 'Estado', 'Oficina', 'Tipo_Producto', 'Sub_Producto'])
+          .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id', 'Author/Title', 'Author/Id',
             'Estado/Title', 'Estado/Id', 'Oficina/Title', 'Oficina/Id', 'Tipo_Producto/Id', 'Tipo_Producto/Title', 'Sub_Producto/Id', 'Sub_Producto/Title']);
 
-            if (orderField !== '') {
-                query = query.orderBy(orderField, orderAscending);
-            }
-
-            const items = query.top(4999).get();
-            // // console.log({items});
-            resolve(items);
-        } else {
-            reject('Failed getting list data...');
+        if (orderField !== '') {
+          query = query.orderBy(orderField, orderAscending);
         }
+
+        const items = query.top(4999).get();
+        // // console.log({items});
+        resolve(items);
+      } else {
+        reject('Failed getting list data...');
+      }
     });
-}
+  }
 
   public async getByFields(fieldsFilter: string[], valuesFilter: any[], orderField = '', orderAscending = true): Promise<any> {
     return new Promise((resolve, reject) => {
-        if (sp !== null && sp !== undefined) {
-            const queryFilter = fieldsFilter.map((fieldFilter, index) => `${fieldFilter} eq ${valuesFilter[index]}`).join(' and ');
+      if (sp !== null && sp !== undefined) {
+        const queryFilter = fieldsFilter.map((fieldFilter, index) => `${fieldFilter} eq ${valuesFilter[index]}`).join(' and ');
 
-            let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario)
-            .items
-            .expand(...['Ejecutivo', 'Anlista_Riesgos', 'Author', 'Estado', 'Oficina', 'Tipo_Producto', 'Sub_Producto'])
-            .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id', 'Author/Title', 'Author/Id',
+        let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario)
+          .items
+          .expand(...['Ejecutivo', 'Anlista_Riesgos', 'Author', 'Estado', 'Oficina', 'Tipo_Producto', 'Sub_Producto'])
+          .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id', 'Author/Title', 'Author/Id',
             'Estado/Title', 'Estado/Id', 'Oficina/Title', 'Oficina/Id', 'Tipo_Producto/Id', 'Tipo_Producto/Title', 'Sub_Producto/Id', 'Sub_Producto/Title'])
-            .filter(queryFilter);
+          .filter(queryFilter);
 
-            if (orderField !== '') {
-                query = query.orderBy(orderField, orderAscending);
-            }
-
-            const items = query.top(4999).get();
-            // console.log({items});
-            resolve(items);
-        } else {
-            reject('Failed getting list data...');
+        if (orderField !== '') {
+          query = query.orderBy(orderField, orderAscending);
         }
+
+        const items = query.top(4999).get();
+        // console.log({items});
+        resolve(items);
+      } else {
+        reject('Failed getting list data...');
+      }
     });
-}
-public async updateList(){
-  let list = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario);
+  }
+  public async updateList() {
+    let list = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario);
 
-  const i = await list.items.getById(1).update({Title: "My New Title", 
-  Description: "Here is a new description"
-});
-}
-// public getMeetings(startDate: Date, endDate: Date) {
-//   let today = new Date();
-//   let futureDate = new Date();
-//   let offsetDays = 21;
-//   // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
-//   // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
-//   const filterString = `Fecha_Estado ge datetime'${startDate.toISOString()}' and Fecha_Estado le datetime'${endDate.toISOString()}'`;
-//   sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario).items.filter(filterString).get().then((items: any[]) => {
-//       const returnedPMeetings = items.map((item) => ({ key: item.Fecha_Estado, text: item.Fecha_Estado }));
-//       // this.setState({ MeetingsList: returnedPMeetings });
-//       console.log(returnedPMeetings);
-//   });
+    const i = await list.items.getById(1).update({
+      Title: "My New Title",
+      Description: "Here is a new description"
+    });
+  }
+  // public getMeetings(startDate: Date, endDate: Date) {
+  //   let today = new Date();
+  //   let futureDate = new Date();
+  //   let offsetDays = 21;
+  //   // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
+  //   // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
+  //   const filterString = `Fecha_Estado ge datetime'${startDate.toISOString()}' and Fecha_Estado le datetime'${endDate.toISOString()}'`;
+  //   sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario).items.filter(filterString).get().then((items: any[]) => {
+  //       const returnedPMeetings = items.map((item) => ({ key: item.Fecha_Estado, text: item.Fecha_Estado }));
+  //       // this.setState({ MeetingsList: returnedPMeetings });
+  //       console.log(returnedPMeetings);
+  //   });
 
-// }
+  // }
 }

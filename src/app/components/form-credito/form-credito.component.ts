@@ -141,6 +141,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   mostrarBotonEnviarObservadoGestor = false;
   mostrarBotonDesestimiento = false;
   mostrarBotonGuardarPreTerminado = false;
+  mostrarBotonEnviarRegistroCPM = false;
+  mostrarBotonEnviarIngresoFiles2 = false;
 
   rentaTitular = [];
   rentaConyugue = [];
@@ -265,7 +267,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     NumeroPropuesta: [null],
     FechaIngresoRiesgo: [null],
     MotivoObsEvaluacionRiesgoId: [null],
-
+    UsuarioIngresoFile: [null],
+    UsuarioIngresoFileId: [null],
     /*postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
     ],*/
@@ -306,7 +309,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.creditForm.controls.Plan_Ahorro.disable();
     this.setDisableControlsDesembolso();
     // this.setformatoMoneda();
-
   }
 
   setformatoMoneda() {
@@ -411,12 +413,24 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
               } else {
                 const fechaIngresoRiesgo = new Date(this.solicitudHipotecarioList.FechaIngresoRiesgo);
                 this.creditForm.controls.FechaIngresoRiesgo.setValue(fechaIngresoRiesgo);
-              }              
+              }
 
               if (this.solicitudHipotecarioList.NumeroPropuesta === null) {
                 this.creditForm.controls.NumeroPropuesta.setValue('');
               } else {
                 this.creditForm.controls.NumeroPropuesta.setValue(this.solicitudHipotecarioList.NumeroPropuesta);
+              }
+
+              if (this.solicitudHipotecarioList.FechaObservacionRiesgo !== null) {
+                this.solicitudHipotecarioList.FechaObservacionRiesgo = new Date(this.solicitudHipotecarioList.FechaObservacionRiesgo);
+              }
+
+              if (solicitudHipotecarioList[0].UsuarioIngresoFileId !== null) {
+                const usuarioIngresoFile = {
+                  Id: solicitudHipotecarioList[0].UsuarioIngresoFile.Id,
+                  Title: solicitudHipotecarioList[0].UsuarioIngresoFile.Title
+                };
+                this.creditForm.controls.UsuarioIngresoFile.setValue([usuarioIngresoFile]);
               }
 
               // this.creditForm.controls.Riesgo_Maximo.setValue(myExtObject.MASKMONEY('2000'));
@@ -687,6 +701,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.showComentarioRiesgos = true;
     this.showMotivoObservacionRiesgos = true;
   }
+
   showInputObservacion() {
     this.showObservacionCPM = false;
     this.showComentarioCPM = true;
@@ -769,7 +784,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.creditForm.get('Grabamen').disable();
           this.creditForm.get('NumeroPropuesta').disable();
           this.mostrarBotonDesestimiento = true;
-          
+
           if (!this.PertenceGrupo_U_Oficina) {
             this.setDisableControlsCabezera();
             this.setDisableControlsCuotaInicial();
@@ -820,6 +835,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           break;
         case (estado === Variables.constantes.EstadoObservadoRiesgos):
           this.mostrarBotonDesestimiento = true;
+          this.mostrarBotonEnviarRegistroCPM = true;
           this.showComentarioRiesgos = true;
           this.showMotivoObservacionRiesgos = true;
           this.creditForm.controls.Cometario_Evaluacion.disable();
@@ -1029,6 +1045,28 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
             this.mostrarBotonEnviarValidacionFiles2 = false;
             this.mostrarBotonEnviarObservadoGestor = false;
             this.mostrarBotonDesestimiento = false;
+          }
+          this.creditForm.get('NumeroPropuesta').disable();
+          break;
+        case (estado === Variables.constantes.EstadoIngresoFile):
+          this.setDisableControlsCabezera();
+          this.setDisableControlsCuotaInicial();
+          this.setDisableControlsDatosOperacion();
+          this.setDisableControlsTipoGarantiaAbono();
+          this.setDisableObservacionesOpcional();
+          this.setDisableControlsAplicacion();
+          this.setDisableComentarios();
+          this.setDisableControlsPlanAhorroProgramado();
+          this.setDisableComentarioOficina();
+          this.showBtnObservar = false;
+          this.showBtnGuardarBorrador = false;
+          this.showBtnEnviar = false;
+          this.mostrarBotonEnviarIngresoFiles2 = true;
+          this.showComentarioGestor = true;
+
+          if (!this.PertenceGrupo_U_Gestor) {
+            this.setDisableComentarioGestor();
+            this.mostrarBotonEnviarIngresoFiles2 = false;
           }
           this.creditForm.get('NumeroPropuesta').disable();
           break;
@@ -1435,7 +1473,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       Fecha_Gestor_Hip,
       flag_PlanAhorro: this.flagPlanAhorro,
       EjecutivoId: ejecutivo,
-      FechaIngresoRiesgo: this.creditForm.controls.FechaIngresoRiesgo.value,
+      FechaIngresoRiesgo: this.creditForm.controls.FechaIngresoRiesgo.value
     };
 
     return solicitudCreditoHipotecario;
@@ -1483,6 +1521,11 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   removeAnalista(): void {
     this.creditForm.get('Analista_Riesgos').setValue([]);
     this.creditForm.controls['Analista_Riesgos'].updateValueAndValidity();
+  }
+
+  removeUsuarioIngresoFile(): void {
+    this.creditForm.get('UsuarioIngresoFile').setValue([]);
+    this.creditForm.controls['UsuarioIngresoFile'].updateValueAndValidity();
   }
 
   saveDraft(): void {
@@ -1667,6 +1710,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       EstadoId: 5, // TODO, create constant
       Fecha_Estado: new Date(),
       FechaObs_Evaluacion: new Date(),
+      FechaObservacionRiesgo: new Date(),
       Cometario_Evaluacion: this.creditForm.controls.Cometario_Evaluacion.value,
       MotivoObsEvaluacionRiesgoId: this.creditForm.controls.MotivoObsEvaluacionRiesgoId.value
     };
@@ -1785,21 +1829,52 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     };
 
     Swal.fire({
-      title: '¿Está seguro de enviar la Solicitud a Verificación de Files?',
+      title: '¿Está seguro de enviar la Solicitud a Validación de Files?',
       showCancelButton: true,
       confirmButtonText: `Aceptar`, icon: 'question'
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.showLoading();
-        this.update(itemSave, 'La Solicitud se Envio a Verificación de Files', 'No se pudo enviar a Verificación de Files');
+        this.update(itemSave, 'La Solicitud se Envio a Validación de Files', 'No se pudo enviar a Validación de Files');
       } else if (result.isDismissed) {
         Swal.fire('No se Envio la Solicitud', '', 'info');
       }
     });
   }
 
-  enviarValidacionFiles2(): void {
+  enviarValidacionFiles2(): void {        
+
+    const usuarioIngresoFile = this.getValorControlPeoplePicker('UsuarioIngresoFile', this.creditForm);
+
+    if (usuarioIngresoFile === 0) {
+      this.mostrarModalInformativo("Mensaje de Validación", 'Ingrese el usuario de Ingreso de File.');
+      return;
+    }
+
+    const itemSave = {
+      EstadoId: 43,
+      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+      UsuarioIngresoFileId: usuarioIngresoFile
+    };
+
+    Swal.fire({
+      title: '¿Está seguro de enviar la Solicitud a Ingreso de File?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`, icon: 'question'
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.showLoading();
+        this.update(itemSave, 'La Solicitud se Envio a Ingreso de File', 'No se pudo enviar a Ingreso de File');
+      } else if (result.isDismissed) {
+        Swal.fire('No se Envio la Solicitud', '', 'info');
+      }
+    });
+  }
+
+  enviarIngresoFiles2(): void {    
+
     const itemSave = {
       EstadoId: 42,
       ComentarioGestor: this.creditForm.controls.ComentarioGestor.value
@@ -1813,9 +1888,30 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.showLoading();
-        this.update(itemSave, 'La Solicitud se Pre-Termino', 'No se pudo Pre-Terminar');
+        this.update(itemSave, 'La solicitud se Pre-Termino', 'No se pudo Pre-Terminar');
       } else if (result.isDismissed) {
-        Swal.fire('No se Pre-Termino la Solicitud', '', 'info');
+        Swal.fire('No se Pre-Termino la solicitud', '', 'info');
+      }
+    });
+  }
+
+  enviarRegistroCPM(): void {
+    const itemSave = {
+      EstadoId: 2,
+      Desembolso_Ampliacion: this.creditForm.controls.Desembolso_Ampliacion.value
+    };
+
+    Swal.fire({
+      title: '¿Está seguro de enviar la solicitud a Registro CPM?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`, icon: 'question'
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.showLoading();
+        this.update(itemSave, 'La solicitud se ha enviado a Registro CPM', 'No se pudo enviar a Registro CPM');
+      } else if (result.isDismissed) {
+        Swal.fire('No se ha enviado la Solicitud', '', 'info');
       }
     });
   }
