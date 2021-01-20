@@ -401,7 +401,8 @@
             <div class="row">
                 <div class="col">
                     <mat-form-field class="full-width">
-                        <input matInput placeholder="TEA (%)" type="number" step="0.00000001" min="0.00000000" formControlName="TEA">
+                        <input matInput placeholder="TEA (%)" type="number" step="0.00000001" min="0.00000000"
+                            formControlName="TEA">
                         <mat-error *ngIf="creditForm.controls['TEA'].hasError('required')">
                             Ingrese un valor
                         </mat-error>
@@ -755,8 +756,8 @@
                         </div>
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
-                                    placeholder="Desembolso" type="text" formControlName="Desembolso">
+                                <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off"
+                                    matInput placeholder="Desembolso" type="text" formControlName="Desembolso">
                                 <mat-error *ngIf="creditForm.controls['Desembolso'].hasError('required')">
                                     Ingrese un valor
                                 </mat-error>
@@ -784,8 +785,9 @@
                         </div>
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
-                                    placeholder="Gravamen (120% x Desembolso)" type="text" formControlName="Grabamen">
+                                <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off"
+                                    matInput placeholder="Gravamen (120% x Desembolso)" type="text"
+                                    formControlName="Grabamen">
                                 <mat-error *ngIf="creditForm.controls['Grabamen'].hasError('required')">
                                     Ingrese un valor
                                 </mat-error>
@@ -1011,8 +1013,11 @@
                     </textarea>
                 </mat-form-field>
             </div>
-
-
+            <div *ngIf="showDesembolsado" class="row" style="padding-bottom: 10px;">
+                <div class="col">
+                    <mat-checkbox formControlName="Desembolsado">Desembolsado</mat-checkbox>
+                </div>
+            </div>
             <div class="row">
                 <div class="col sub-title-col">
                     <span class="sub-title">
@@ -1043,7 +1048,7 @@
                 </div>
             </div>
             <div *ngIf="showComentarioGestor">
-                <div class="row">
+                <div class="row" style="padding-bottom: 20px;">
                     <div class="col sub-title-col">
                         <span class="sub-title">
                             COMENTARIOS DEL GESTOR
@@ -1058,127 +1063,156 @@
                         </mat-form-field>
                     </div>
                 </div>
-            </div>
-            <div *ngIf="showDesembolsado" class="row" style="padding-bottom: 10px;">
-                <div class="col">
-                    <mat-checkbox formControlName="Desembolsado">Desembolsado</mat-checkbox>
-                </div>
-            </div>
-            <div class="col" [hidden]="!mostrarNumeroPropuesta">
-                <mat-form-field class="full-width">
-                    <mat-label>Número de Propuesta
-                    </mat-label>
-                    <input matInput placeholder="Número de Propuesta" formControlName="NumeroPropuesta">
-                    <mat-error *ngIf="creditForm.controls['NumeroPropuesta'].hasError('required')">
-                        Ingrese un valor
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="row">
-                <div class="" [ngClass]="{'d-none': !showObservacionCPM,'col': showObservacionCPM}">
-                    <mat-form-field class="full-width">
-                        <mat-select placeholder="Observación CPM" formControlName="Observacion_CPMId">
-                            <mat-option>Ninguna</mat-option>
-                            <mat-option *ngFor="let observacion of observacionesCPMList" [value]="observacion.Id">
-                                {{ observacion.Title }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="row">
-                <div class="" [ngClass]="{'d-none': !showComentarioCPM,'col': showComentarioCPM}">
-                    <mat-form-field class="full-width">
-                        <mat-label>Comentarios CPM</mat-label>
-                        <textarea matInput placeholder="Comentarios CPM" multiline rows="3"
-                            formControlName="Comentario_Registro"></textarea>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="row">
-                <div class="" [ngClass]="{'d-none': !showComentarioRevisor,'col': showComentarioRevisor}">
-                    <mat-form-field class="full-width">
-                        <mat-label>Comentarios de Asistente de Riesgos</mat-label>
-                        <textarea matInput placeholder="Comentarios de Asistente de Riesgos"
-                            formControlName="Cometario_Revisor1" multiline rows="3"></textarea>
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="" [ngClass]="{'d-none': !showComentarioRiesgos,'col': showComentarioRiesgos}">
-                    <mat-form-field class="full-width">
-                        <mat-label>Comentarios de Riesgos</mat-label>
-                        <textarea matInput placeholder="Comentarios de Riesgos" formControlName="Cometario_Evaluacion"
-                            multiline rows="3"></textarea>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="row">
-                <div class="" [ngClass]="{'d-none': !showMotivoObservacionRiesgos,'col': showMotivoObservacionRiesgos}">
-                    <mat-form-field class="full-width">
-                        <mat-label>Motivo Observación de Riesgo</mat-label>
-                        <mat-select placeholder="Motivo Observación de Riesgo" formControlName="MotivoObsEvaluacionRiesgoId">
-                            <mat-option *ngFor="let elemento of motivoObservacionEvaluacionRiesgoList" [value]="elemento.Id">
-                                {{ elemento.Title }}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="creditForm.controls['MotivoObsEvaluacionRiesgoId'].hasError('required')">
-                            Seleccione un valor
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="" [ngClass]="{'d-none': !showControlesGestor,'col': showControlesGestor}">
                 <div class="row">
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <mat-select placeholder="Seleccione Estado Gestor" formControlName="EstadoGestorId">
-                                <mat-option *ngFor="let estado of estadoGestorList" [value]="estado.Id">
-                                    {{ estado.Title }}
+                            <mat-label>Usuario Ingreso File <span class="obligatorio">(*)</span></mat-label>
+                            <people-picker-input formControlName="UsuarioIngresoFile"
+                                (onRemove)="removeUsuarioIngresoFile()" placeholder="Escribe un nombre..."
+                                [multiple]="false">
+                            </people-picker-input>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="" [ngClass]="{'d-none': !showControlesGestor,'col': showControlesGestor}">
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <mat-select placeholder="Seleccione Estado Gestor" formControlName="EstadoGestorId">
+                                    <mat-option *ngFor="let estado of estadoGestorList" [value]="estado.Id">
+                                        {{ estado.Title }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width" appearance="fill">
+                                <mat-label>Fecha de Gestor</mat-label>
+                                <input matInput [matDatepicker]="dpi" formControlName="Fecha_Gestor_Hip">
+                                <mat-datepicker-toggle matSuffix [for]="dpi"></mat-datepicker-toggle>
+                                <mat-datepicker #dpi></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <mat-label>Comentario Gestor</mat-label>
+                                <textarea matInput placeholder="Comentarios Gestor" formControlName="Comentario_Gestor_Hip"
+                                    multiline rows="3"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <!--<div class="row" style="padding-bottom: 20px;">
+                    <div class="col sub-title-col">
+                        <span class="sub-title">
+                            CPM
+                        </span>
+                    </div>
+                </div>-->
+                <div class="row">
+                    <div class="col" [hidden]="!mostrarNumeroPropuesta">
+                        <mat-form-field class="full-width">
+                            <mat-label>Número de Propuesta
+                            </mat-label>
+                            <input matInput placeholder="Número de Propuesta" formControlName="NumeroPropuesta">
+                            <mat-error *ngIf="creditForm.controls['NumeroPropuesta'].hasError('required')">
+                                Ingrese un valor
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="" [ngClass]="{'d-none': !showObservacionCPM,'col': showObservacionCPM}">
+                        <mat-form-field class="full-width">
+                            <mat-select placeholder="Observación CPM" formControlName="Observacion_CPMId">
+                                <mat-option>Ninguna</mat-option>
+                                <mat-option *ngFor="let observacion of observacionesCPMList" [value]="observacion.Id">
+                                    {{ observacion.Title }}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col">
-                        <mat-form-field class="full-width" appearance="fill">
-                            <mat-label>Fecha de Gestor</mat-label>
-                            <input matInput [matDatepicker]="dpi" formControlName="Fecha_Gestor_Hip">
-                            <mat-datepicker-toggle matSuffix [for]="dpi"></mat-datepicker-toggle>
-                            <mat-datepicker #dpi></mat-datepicker>
+                </div>
+                <div class="row">
+                    <div class="" [ngClass]="{'d-none': !showComentarioCPM,'col': showComentarioCPM}">
+                        <mat-form-field class="full-width">
+                            <mat-label>Comentarios CPM</mat-label>
+                            <textarea matInput placeholder="Comentarios CPM" multiline rows="3"
+                                formControlName="Comentario_Registro"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
+            </div>
+            <div>
+                <!--<div class="row" style="padding-bottom: 20px;">
+                    <div class="col sub-title-col">
+                        <span class="sub-title">
+                            RIESGO
+                        </span>
+                    </div>
+                </div>-->
                 <div class="row">
-                    <div class="col">
+                    <div class="" [ngClass]="{'d-none': !showComentarioRevisor,'col': showComentarioRevisor}">
                         <mat-form-field class="full-width">
-                            <mat-label>Comentario Gestor</mat-label>
-                            <textarea matInput placeholder="Comentarios Gestor" formControlName="Comentario_Gestor_Hip"
+                            <mat-label>Comentarios de Asistente de Riesgos</mat-label>
+                            <textarea matInput placeholder="Comentarios de Asistente de Riesgos"
+                                formControlName="Cometario_Revisor1" multiline rows="3"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="" [ngClass]="{'d-none': !showComentarioRiesgos,'col': showComentarioRiesgos}">
+                        <mat-form-field class="full-width">
+                            <mat-label>Comentarios de Riesgos</mat-label>
+                            <textarea matInput placeholder="Comentarios de Riesgos" formControlName="Cometario_Evaluacion"
                                 multiline rows="3"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="" [ngClass]="{'d-none': !showMotivoObservacionRiesgos,'col': showMotivoObservacionRiesgos}">
+                        <mat-form-field class="full-width">
+                            <mat-label>Motivo Observación de Riesgo</mat-label>
+                            <mat-select placeholder="Motivo Observación de Riesgo"
+                                formControlName="MotivoObsEvaluacionRiesgoId">
+                                <mat-option *ngFor="let elemento of motivoObservacionEvaluacionRiesgoList"
+                                    [value]="elemento.Id">
+                                    {{ elemento.Title }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="creditForm.controls['MotivoObsEvaluacionRiesgoId'].hasError('required')">
+                                Seleccione un valor
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="" [ngClass]="{'d-none': showAsignacionRiesgos,'row': !showAsignacionRiesgos}">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-label>Comentario de Revision</mat-label>
+                            <textarea matInput placeholder="Comentario de Revision" formControlName="Cometario_Revisor"
+                                multiline rows="3"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-label>Analista de Riesgo</mat-label>
+                            <people-picker-input formControlName="Analista_Riesgos" (onRemove)="removeAnalista()"
+                                placeholder="Escribe un nombre..." [multiple]="false">
+                            </people-picker-input>
+                        </mat-form-field>
+                    </div>
+                </div>
             </div>
+            
         </div>
 
-        <div class="" [ngClass]="{'d-none': showAsignacionRiesgos,'row': !showAsignacionRiesgos}">
-            <div class="col">
-                <mat-form-field class="full-width">
-                    <mat-label>Comentario de Revision</mat-label>
-                    <textarea matInput placeholder="Comentario de Revision" formControlName="Cometario_Revisor"
-                        multiline rows="3"></textarea>
-                </mat-form-field>
-            </div>
-            <div class="col">
-                <mat-form-field class="full-width">
-                    <mat-label>Analista de Riesgo</mat-label>
-                    <people-picker-input formControlName="Analista_Riesgos" (onRemove)="removeAnalista()"
-                        placeholder="Escribe un nombre..." [multiple]="false">
-                    </people-picker-input>
-                </mat-form-field>
-            </div>
-        </div>
+        
 
         <hr>
 
@@ -1264,14 +1298,7 @@
 
             </div>
 
-            <div class="" [ngClass]="{
-              'd-none': !showBtnEnviar,
-              'col': showBtnEnviar
-              }">
-                <button mat-raised-button class="full-width" color="primary" type="button"
-                    (click)="send()">Enviar</button>
 
-            </div>
             <!--<div class="" [ngClass]="{'d-none': !showBtnEnviarRegularizar,'col': showBtnEnviarRegularizar}">
                 <button mat-raised-button class="full-width" color="primary" type="submit">Enviar Regularización</button>
             </div>-->
@@ -1280,17 +1307,13 @@
             'col': showBtnObservar
             }">
                 <button mat-raised-button class="full-width" color="primary" type="submit">Observar</button>
-
             </div>
-
             <!--<div class="" [ngClass]="{
             'd-none': !showBtnObservarRegistro,
             'col': showBtnObservarRegistro
             }">
                 <button mat-raised-button class="full-width" color="warn" type="submit">Observar Registro</button>
-
             </div>-->
-
             <div class="" [ngClass]="{
                 'd-none': !mostrarBotonDesestimiento,
                 'col': mostrarBotonDesestimiento
@@ -1299,12 +1322,28 @@
                     (click)="enviarDesestimiento()">Desestimar</button>
             </div>
             <div class="" [ngClass]="{
+                'd-none': !mostrarBotonEnviarRegistroCPM,
+                'col': mostrarBotonEnviarRegistroCPM
+                }">
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="enviarRegistroCPM()">Registro CPM</button>
+            </div>
+            <div class="" [ngClass]="{
+                'd-none': !showBtnEnviar,
+                'col': showBtnEnviar
+                }">
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="send()">Enviar</button>
+
+            </div>
+            <div class="" [ngClass]="{
                 'd-none': !mostrarBotonEnviarGestionFiles2,
                 'col': mostrarBotonEnviarGestionFiles2
                 }">
                 <button mat-raised-button class="full-width" color="primary" type="button"
                     (click)="enviarGestionFiles2()">Enviar</button>
             </div>
+
             <div class="" [ngClass]="{
                 'd-none': !mostrarBotonEnviarObservadoGestor,
                 'col': mostrarBotonEnviarObservadoGestor
@@ -1328,6 +1367,13 @@
                 }">
                 <button mat-raised-button class="full-width" color="primary" type="button"
                     (click)="guardarPreTerminado()">Guardar</button>
+            </div>
+            <div class="" [ngClass]="{
+                'd-none': !mostrarBotonEnviarIngresoFiles2,
+                'col': mostrarBotonEnviarIngresoFiles2
+                }">
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="enviarIngresoFiles2()">Terminar</button>
             </div>
         </div>
         <br>
