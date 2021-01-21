@@ -101,7 +101,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   cantidadsolicitudANSMes: number;
   cantidadsolicitudANSMesAnterior: number;
   solicitudANSAnteriorList: SolicitudCreditoHipotecario[];
-
+  
+  showIndicadores = false;
   showDetalleConcluidos = false;
   showDetalleReprocesos = false;
   showDetalleANS = false;
@@ -526,10 +527,11 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       this.evaluarProcesos(this.porcentajeExpedientesANSAnterior);
       this.iconoANSPrevious = iconoANSPrevious;
       this.sentimentANSPrevious = sentimentANSPrevious;
-      const [variacionReprocesos, colorReprocesos] = this.evaluarVariacion(resultadoANS, resultadoANSPrevious);
-      this.iconoReprocesosVariation = variacionReprocesos;
-      this.sentimentReprocesosVariation = colorReprocesos;
+      const [variacionANS, colorANS] = this.evaluarVariacion(resultadoANS, resultadoANSPrevious);
+      this.iconoANSVariation = variacionANS;
+      this.sentimentANSVariation = colorANS;
      // console.log(this.sentimentANS);
+      
      }
 
      getANSList(solicitudes: SolicitudCreditoHipotecario[], estado: EstadoModel, solicitudANS: SolicitudCreditoHipotecario[]){

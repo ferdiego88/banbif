@@ -127,7 +127,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr class='titulo' (click)="showIndicadores=!showIndicadores">
                         <td colspan="2">Procesos Hipotecario</td>
                         <td>Unidad</td>
                         <td>Neg. Hipotecario</td>
@@ -146,27 +146,29 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr (click)="showDetalleConcluidos=!showDetalleConcluidos">
+                    <tr [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleConcluidos=!showDetalleConcluidos">
                         <td>
-                          <mat-icon class={{sentimentConcluded}}>{{iconoConcluded}} </mat-icon>
-                            </td>
-                         <td>Porcentaje de Expedientes Concluidos </td>
+                            <mat-icon class={{sentimentConcluded}}>{{iconoConcluded}} </mat-icon>
+                        </td>
+                        <td>Porcentaje de Expedientes Concluidos </td>
                         <td> %</td>
                         <td>Neg. Inmobiliario</td>
                         <td>33 % </td>
                         <td>
-                          <mat-icon class={{sentimentConcludedPrevious}}>{{iconoConcludedPrevious}} </mat-icon>
+                            <mat-icon class={{sentimentConcludedPrevious}}>{{iconoConcludedPrevious}} </mat-icon>
                             <!-- {{porcentajeExpedientesConcluidosAnterior}} -->
                         </td>
                         <td>
-                          <mat-icon class={{sentimentConcludedVariation}}>{{iconoConcludedVariation}} </mat-icon>
+                            <mat-icon class={{sentimentConcludedVariation}}>{{iconoConcludedVariation}} </mat-icon>
                         </td>
                         <td></td>
                         <td>{{porcentajeExpedientesConcluidos | number: '.0-2'}} %</td>
                     </tr>
                     <tr [ngClass]="{'d-none':!showDetalleConcluidos,'d-block':showDetalleConcluidos}" id="result_data" *ngFor="let dashboard of dashboardList">
-                      <td><mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon></td>
-                      <td>
+                        <td>
+                            <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon>
+                        </td>
+                        <td>
                             {{dashboard.Title}} </td>
                         <td> % </td>
                         <td> Red de Oficinas </td>
@@ -180,20 +182,27 @@
                         <td> 4.00 </td>
                         <td>{{dashboard.Porcentaje | number: '.0-2'}} </td>
                     </tr>
-                    <tr (click)="showDetalleANS=!showDetalleANS">
+                    <tr [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleANS=!showDetalleANS">
                         <td>
-                        <mat-icon class={{sentimentANS}}>{{iconoANS}} </mat-icon>
+                            <mat-icon class={{sentimentANS}}>{{iconoANS}} </mat-icon>
                         </td>
                         <td>Cumplimiento de ANS</td>
                         <td> %</td>
                         <td>Neg. Hipotecario</td>
                         <td>33 % </td>
-                        <td><mat-icon class={{sentimentANSPrevious}}>{{iconoANSVariation}} </mat-icon></td>
-                        <td><mat-icon class={{sentimentANSVariation}}>{{iconoANSVariation}} </mat-icon></td>
+                        <td>
+                            <mat-icon class={{sentimentANSPrevious}}>{{iconoANSPrevious}} </mat-icon>
+                        </td>
+                        <td>
+                            <mat-icon class={{sentimentANSVariation}}>{{iconoANSVariation}} </mat-icon>
+                        </td>
                         <td></td>
+                        <td>{{porcentajeExpedientesANS | number: '.0-2'}} %</td>
                     </tr>
                     <tr [ngClass]="{'d-none':!showDetalleANS,'d-block':showDetalleANS}" *ngFor="let dashboard of dashboardList">
-                      <td><mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon> </td>
+                        <td>
+                            <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon>
+                        </td>
                         <td>
 
                             {{dashboard.Title}} </td>
@@ -213,26 +222,26 @@
                         <td> 4.00 </td>
                         <td>{{dashboard.Porcentaje | number: '.0-2'}} </td> -->
                     </tr>
-                    <tr (click)="showDetalleReprocesos=!showDetalleReprocesos">
+                    <tr [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleReprocesos=!showDetalleReprocesos">
                         <td>
-                          <mat-icon class={{sentimentReprocesos}}>{{iconoReprocesos}} </mat-icon>
+                            <mat-icon class={{sentimentReprocesos}}>{{iconoReprocesos}} </mat-icon>
                             <!-- <mat-icon id="happyReprocessing" class="happy">sentiment_satisfied_alt</mat-icon>
                             <mat-icon id="dissastisfiedReprocessing" class="dissatisfied">mood_bad</mat-icon>
                             <mat-icon id="sadReprocessing" class="sad">sentiment_dissatisfied</mat-icon> -->
-                            </td>
+                        </td>
                         <td>Porcentaje de Reprocesos</td>
                         <td> %</td>
                         <td>Neg. Inmobiliario</td>
                         <td>33 % </td>
                         <td>
-                          <mat-icon class={{sentimentReprocesosPrevious}}>{{iconoReprocesosPrevious}} </mat-icon>
+                            <mat-icon class={{sentimentReprocesosPrevious}}>{{iconoReprocesosPrevious}} </mat-icon>
                             <!-- <mat-icon id="happyReprocessingPrevious" class="happy-center">sentiment_satisfied_alt</mat-icon>
                             <mat-icon id="dissastisfiedReprocessingPrevious" class="dissatisfied-center">mood_bad</mat-icon>
                             <mat-icon id="sadReprocessingPrevious" class="sad-center">sentiment_dissatisfied</mat-icon> -->
                             <!-- {{porcentajeExpedientesReprocesosAnterior}} -->
                         </td>
                         <td>
-                          <mat-icon class={{sentimentReprocesosVariation}}>{{iconoReprocesosVariation}} </mat-icon>
+                            <mat-icon class={{sentimentReprocesosVariation}}>{{iconoReprocesosVariation}} </mat-icon>
                             <!-- <mat-icon id="happyReprocessingVariation" class="happy-center">trending_up</mat-icon>
                             <mat-icon id="dissastisfiedReprocessingVariation" class="dissatisfied-center">trending_flat</mat-icon>
                             <mat-icon id="sadReprocessingVariation" class="sad-center">trending_down</mat-icon> -->
@@ -241,8 +250,10 @@
                         <td>{{porcentajeExpedientesReprocesos | number: '.0-2' }} %</td>
                     </tr>
                     <tr [ngClass]="{'d-none':!showDetalleReprocesos,'d-block':showDetalleReprocesos}" *ngFor="let dashboard of dashboardReprocesosList">
-                      <td> <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon></td>
-                      <td>
+                        <td>
+                            <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon>
+                        </td>
+                        <td>
                             {{dashboard.Title}} </td>
                         <td> % </td>
                         <td> Red de Oficinas </td>
