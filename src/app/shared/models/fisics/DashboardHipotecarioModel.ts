@@ -3,6 +3,7 @@ export class DashboardHipotecarioModel{
         public Id: number,
         public Title: string,
         public CantidadSolicitudes?: number,
+        public CantidadSolicitudesConcluidas?: number,
         public CantidadSolicitudesANS?: number,
         public CantidadSolicitudesANSAnterior?: number,
         public FlujoSeguimiento?: number,
@@ -19,6 +20,12 @@ export class DashboardHipotecarioModel{
         public SentimientoAnterior?: string,
         public Variacion?: string,
         public ColorVariacion?: string,
+        public IconoANS?: string,
+        public SentimientoANS?: string,
+        public IconoANSAnterior?: string,
+        public SentimientoANSAnterior?: string,
+        public VariacionANS?: string,
+        public ColorVariacionANS?: string,
     ) {
     }
 

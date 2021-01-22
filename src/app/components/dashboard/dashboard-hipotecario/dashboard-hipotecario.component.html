@@ -10,8 +10,8 @@
             </div>
             <div class="col-md-2">
                 <mat-form-field class="full-width">
-                    <mat-select placeholder="Año" formControlName="MesId">
-                        <mat-option *ngFor="let item of YEARS" [value]="item.id">
+                    <mat-select placeholder="Año" formControlName="Year">
+                        <mat-option *ngFor="let item of YEARS" [value]="item.year">
                             {{item.year}}
                         </mat-option>
                     </mat-select>
@@ -125,7 +125,7 @@
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th class="td-center" colspan="9">Indicador</th>
+                        <th class="td-center" colspan="11">Indicador</th>
                     </tr>
                     <tr>
                         <th colspan="2">Título </th>
@@ -140,6 +140,8 @@
                         </th>
                         <th>Meta</th>
                         <th>Valor</th>
+                        <th>Numerador</th>
+                        <th>Denominador</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -161,6 +163,8 @@
                         </td>
                         <td></td>
                         <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     <tr [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleConcluidos=!showDetalleConcluidos">
                         <td>
@@ -179,6 +183,8 @@
                         </td>
                         <td></td>
                         <td>{{porcentajeExpedientesConcluidos | number: '.0-2'}} %</td>
+                        <td>{{cantidadSolicitudesConcluidas}}</td>
+                        <td>{{cantidadSolicitudesPorMes}}</td>
                     </tr>
                     <tr [ngClass]="{'d-none':!showDetalleConcluidos,'d-block':showDetalleConcluidos}" id="result_data" *ngFor="let dashboard of dashboardList">
                         <td>
@@ -195,8 +201,10 @@
                         <td>
                             <mat-icon class={{dashboard.ColorVariacion}}>{{dashboard.Variacion}} </mat-icon>
                         </td>
-                        <td> 4.00 </td>
-                        <td>{{dashboard.Porcentaje | number: '.0-2'}} </td>
+                        <td> </td>
+                        <td>{{dashboard.Porcentaje | number: '.0-2'}} %</td>
+                        <td>{{dashboard.CantidadSolicitudesConcluidas | number: '.0-2'}} </td>
+                        <td>{{dashboard.FlujoSeguimiento}} </td>
                     </tr>
                     <tr [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleANS=!showDetalleANS">
                         <td>
@@ -214,10 +222,12 @@
                         </td>
                         <td></td>
                         <td>{{porcentajeExpedientesANS | number: '.0-2'}} %</td>
+                        <td>{{cantidadsolicitudANSMesPrueba}}</td>
+                        <td>{{cantidadSolicitudesPorMes}}</td>
                     </tr>
                     <tr [ngClass]="{'d-none':!showDetalleANS,'d-block':showDetalleANS}" *ngFor="let dashboard of dashboardList">
                         <td>
-                            <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon>
+                            <mat-icon class={{dashboard.SentimientoANS}}>{{dashboard.IconoANS}} </mat-icon>
                         </td>
                         <td>
 
@@ -225,18 +235,16 @@
                         <td> % </td>
                         <td> Red de Oficinas </td>
                         <td>33 %</td>
-                        <td>{{dashboard.PorcentajeANSAnterior | number: '.0-2'}}</td>
-                        <td>{{dashboard.CantidadSolicitudesANS}}</td>
-                        <td>{{dashboard.CantidadSolicitudes}}</td>
-                        <td>{{dashboard.PorcentajeANS | number: '.0-2'}} %</td>
-                        <!-- <td>
-                            <mat-icon class={{dashboard.SentimientoAnterior}}>{{dashboard.IconoAnterior}}</mat-icon>
+                        <td>
+                            <mat-icon class={{dashboard.SentimientoANSAnterior}}>{{dashboard.IconoANSAnterior}} </mat-icon>
                         </td>
                         <td>
-                            <mat-icon class={{dashboard.ColorVariacion}}>{{dashboard.Variacion}} </mat-icon>
+                            <mat-icon class={{dashboard.ColorVariacionANS}}>{{dashboard.VariacionANS}} </mat-icon>
                         </td>
-                        <td> 4.00 </td>
-                        <td>{{dashboard.Porcentaje | number: '.0-2'}} </td> -->
+                        <td></td>
+                        <td>{{dashboard.PorcentajeANS | number: '.0-2'}} %</td>
+                        <td>{{dashboard.CantidadSolicitudesANS}}</td>
+                        <td>{{dashboard.CantidadSolicitudes}}</td>
                     </tr>
                     <tr [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleReprocesos=!showDetalleReprocesos">
                         <td>
@@ -251,19 +259,14 @@
                         <td>33 % </td>
                         <td>
                             <mat-icon class={{sentimentReprocesosPrevious}}>{{iconoReprocesosPrevious}} </mat-icon>
-                            <!-- <mat-icon id="happyReprocessingPrevious" class="happy-center">sentiment_satisfied_alt</mat-icon>
-                            <mat-icon id="dissastisfiedReprocessingPrevious" class="dissatisfied-center">mood_bad</mat-icon>
-                            <mat-icon id="sadReprocessingPrevious" class="sad-center">sentiment_dissatisfied</mat-icon> -->
-                            <!-- {{porcentajeExpedientesReprocesosAnterior}} -->
                         </td>
                         <td>
                             <mat-icon class={{sentimentReprocesosVariation}}>{{iconoReprocesosVariation}} </mat-icon>
-                            <!-- <mat-icon id="happyReprocessingVariation" class="happy-center">trending_up</mat-icon>
-                            <mat-icon id="dissastisfiedReprocessingVariation" class="dissatisfied-center">trending_flat</mat-icon>
-                            <mat-icon id="sadReprocessingVariation" class="sad-center">trending_down</mat-icon> -->
                         </td>
                         <td></td>
-                        <td>{{porcentajeExpedientesReprocesos | number: '.0-2' }} %</td>
+                        <td>{{porcentajeExpedientesReprocesos | number: '.0-3' }} %</td>
+                        <td>{{cantidadSolicitudesReprocesos}} </td>
+                        <td>{{cantidadSolicitudesPorMes}} </td>
                     </tr>
                     <tr [ngClass]="{'d-none':!showDetalleReprocesos,'d-block':showDetalleReprocesos}" *ngFor="let dashboard of dashboardReprocesosList">
                         <td>
@@ -281,7 +284,10 @@
                             <mat-icon class={{dashboard.ColorVariacion}}>{{dashboard.Variacion}} </mat-icon>
                         </td>
                         <td> 4.00 </td>
-                        <td>{{dashboard.PorcentajeReprocesos | number: '.0-2'}} </td>
+                        <td>{{dashboard.PorcentajeReprocesos | number: '.0-2'}} % </td>
+                        <td>{{dashboard.FlujoSeguimiento }}</td>
+                        <td>{{cantidadSolicitudesPorMes }} </td>
+
                     </tr>
                 </tbody>
             </table>
