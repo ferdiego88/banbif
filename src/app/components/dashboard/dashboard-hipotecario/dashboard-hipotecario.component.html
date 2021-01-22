@@ -270,7 +270,7 @@
                     </tr>
                     <tr [ngClass]="{'d-none':!showDetalleReprocesos,'d-block':showDetalleReprocesos}" *ngFor="let dashboard of dashboardReprocesosList">
                         <td>
-                            <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon>
+                            <mat-icon class={{dashboard.SentimientoReproceso}}>{{dashboard.IconoReproceso}} </mat-icon>
                         </td>
                         <td>
                             {{dashboard.Title}} </td>
@@ -278,10 +278,10 @@
                         <td> Red de Oficinas </td>
                         <td>33 %</td>
                         <td>
-                            <mat-icon class={{dashboard.SentimientoAnterior}}>{{dashboard.IconoAnterior}}</mat-icon>
+                            <mat-icon class={{dashboard.SentimientoReprocesoAnterior}}>{{dashboard.IconoReprocesoAnterior}}</mat-icon>
                         </td>
                         <td>
-                            <mat-icon class={{dashboard.ColorVariacion}}>{{dashboard.Variacion}} </mat-icon>
+                            <mat-icon class={{dashboard.ColorVariacionReproceso}}>{{dashboard.VariacionReproceso}} </mat-icon>
                         </td>
                         <td> 4.00 </td>
                         <td>{{dashboard.PorcentajeReprocesos | number: '.0-2'}} % </td>

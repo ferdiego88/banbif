@@ -103,7 +103,10 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
   solicitudANSList: SolicitudCreditoHipotecario[];
   cantidadsolicitudANSMes: number;
+
+  cantidadsolicitudANSPrueba: number;
   cantidadsolicitudANSMesPrueba: number;
+ 
   cantidadsolicitudANSMesAnterior: number;
   solicitudANSAnteriorList: SolicitudCreditoHipotecario[];
   
@@ -296,6 +299,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         let porcentajeExpediente = 0;
         let porcentajeExpedienteAnterior = 0;
         let porcentajeReprocesos = 0;
+        let porcentajeReprocesosAnterior = 0;
         this.solicitudesEstadoList = this.solicitudMesList.filter(solicitud => solicitud.EstadoId === estado.Id);
         this.getANSList(this.solicitudesEstadoList, estado, this.solicitudANSList);
         // console.log(this.solicitudANSList);
@@ -310,7 +314,10 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         const solicitudesAnterior = this.solicitudesEstadoAnteriorList.length;
         const flujoSeguimientoAnterior = this.flujoSeguimientoEstadoAnteriorList.length;
         const cantidadSolicitudANS = this.solicitudANSList.length;
-        const cantidadANSPrueba = this.solicitudANSList.length - solicitudes;
+        
+        this.cantidadsolicitudANSPrueba = solicitudes - this.solicitudANSList.length;
+        this.cantidadsolicitudANSMesPrueba += this.cantidadsolicitudANSPrueba;
+
         const cantidadSolicitudANSAnterior = this.solicitudANSAnteriorList.length;
         this.cantidadsolicitudANSMes += cantidadSolicitudANS;
         this.cantidadsolicitudANSMesAnterior += cantidadSolicitudANSAnterior;
@@ -334,6 +341,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
             // porcentajeExpediente = 0;
             porcentajeExpedienteAnterior = 100 - (solicitudesAnterior / this.solicitudMesAnteriorList.length) * 100;
           } else {
+            porcentajeReprocesosAnterior = (flujoSeguimientoAnterior / this.solicitudMesAnteriorList.length) * 100;
             porcentajeExpedienteAnterior = ((flujoSeguimientoAnterior - solicitudesAnterior) / flujoSeguimientoAnterior) * 100;
           }
         }
@@ -341,6 +349,12 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         const {icono: iconoPrevious, sentiment: sentimentPrevious, resultado: resultadoPrevious} =
         this.evaluarProcesos(porcentajeExpedienteAnterior);
 
+        const {icono: iconoReproceso, sentiment: sentimentReproceso, resultado: resultadoReproceso} =
+         this.evaluarReProcesos(porcentajeReprocesos);
+        const {icono: iconoReprocesoPrevio, sentiment: sentimentReprocesoPrevio, resultado: resultadoReprocesoPrevio} =
+        this.evaluarReProcesos(porcentajeReprocesosAnterior);
+        const [variacionReproceso, colorReproceso] = this.evaluarVariacion(resultadoReproceso, resultadoReprocesoPrevio);
+        
         const {icono: iconoANSDetalle, sentiment: sentimentANSDetalle, resultado: resultadoANSDetalle} = 
         this.evaluarProcesos(porcentajeANS);
         const {icono: iconoANSPreviousDetalle, sentiment: sentimentANSPreviousDetalle, resultado: resultadoANSPreviousDetlle} =
@@ -352,7 +366,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           Title: estado.Title,
           CantidadSolicitudes: solicitudes,
           CantidadSolicitudesConcluidas: numeradorConcluidos,
-          CantidadSolicitudesANS: cantidadANSPrueba,
+          CantidadSolicitudesANS: this.cantidadsolicitudANSPrueba,
           CantidadSolicitudesANSAnterior: cantidadSolicitudANSAnterior,
           FlujoSeguimiento: flujoSeguimiento,
           Porcentaje: porcentajeExpediente,
@@ -372,6 +386,13 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           IconoANSAnterior: iconoANSPreviousDetalle,
           VariacionANS: variacionANSDetalle,
           ColorVariacionANS: colorANSDetalle,
+          IconoReproceso: iconoReproceso,
+          SentimientoReproceso: sentimentReproceso,
+          IconoReprocesoAnterior: iconoReprocesoPrevio,
+          SentimientoReprocesoAnterior: sentimentReprocesoPrevio,
+          VariacionReproceso: variacionReproceso,
+          ColorVariacionReproceso: colorReproceso,
+
         };
         if (estado.Id === Variables.constantes.EstadoObservadoCPM || estado.Id === Variables.constantes.EstadoObservadoRiesgos) {
           this.dashboardReprocesosList.push(estadoElement);
@@ -381,7 +402,6 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
            }
         }
           });
-      this.cantidadsolicitudANSMesPrueba = this.cantidadsolicitudANSMes - this.solicitudMesList.length;
       this.porcentajeExpedientesANS = (1 - (this.cantidadsolicitudANSMes / this.solicitudMesList.length)) * 100;
       this.porcentajeExpedientesANSAnterior = (1 - (this.cantidadsolicitudANSMesAnterior / this.solicitudMesAnteriorList.length)) * 100;
       const {icono: iconoANS, sentiment: sentimentANS, resultado: resultadoANS} =
@@ -480,11 +500,11 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
      let variacion = '';
      let colorVariacion = '';
      if (valor > valorAnterior) {
+      variacion = 'trending_up';
+      colorVariacion = 'happy';
+     } else if ( valor < valorAnterior) {
       variacion = 'trending_down';
       colorVariacion = 'sad';
-     } else if ( valor < valorAnterior) {
-       variacion = 'trending_up';
-       colorVariacion = 'happy';
      }else if (valor === valorAnterior){
        variacion = 'trending_flat';
        colorVariacion = 'dissatisfied';

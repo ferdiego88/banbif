@@ -26,6 +26,13 @@ export class DashboardHipotecarioModel{
         public SentimientoANSAnterior?: string,
         public VariacionANS?: string,
         public ColorVariacionANS?: string,
+
+        public IconoReproceso?: string,
+        public SentimientoReproceso?: string,
+        public IconoReprocesoAnterior?: string,
+        public SentimientoReprocesoAnterior?: string,
+        public VariacionReproceso?: string,
+        public ColorVariacionReproceso?: string,
     ) {
     }
 
