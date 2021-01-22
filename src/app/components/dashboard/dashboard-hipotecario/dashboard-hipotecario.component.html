@@ -58,9 +58,9 @@
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Vendedor" formControlName="Vendedor">
                         <mat-option [value]="">Todas</mat-option>
-                        <!-- <mat-option *ngFor="let user of usersList" [value]="user.Id">
+                        <mat-option *ngFor="let user of usersList" [value]="user.Id">
                             {{user.Title}}
-                        </mat-option> -->
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -76,7 +76,7 @@
             </div>
             <div class="col-md-2">
                 <mat-form-field class="full-width">
-                    <mat-select placeholder="Origen" formControlName="Canal">
+                    <mat-select placeholder="Origen" formControlName="Origen">
                         <mat-option [value]="">Todas</mat-option>
                         <!-- <mat-option *ngFor="let item of data" [value]="item.id">
                             {{item.name}}
@@ -88,7 +88,7 @@
         <div class="row">
             <div class="col-md-2">
                 <mat-form-field class="full-width">
-                    <mat-select placeholder="Responsable" formControlName="Canal">
+                    <mat-select placeholder="Responsable" formControlName="Responsable">
                         <mat-option [value]="">Todas</mat-option>
                         <!-- <mat-option *ngFor="let item of data" [value]="item.id">
                             {{item.name}}
@@ -109,7 +109,7 @@
             </div>
             <div class="col-md-2">
                 <mat-form-field class="full-width">
-                    <mat-select placeholder="Variación" formControlName="Canal">
+                    <mat-select placeholder="Variación" formControlName="Variacion">
                         <mat-option [value]="">Todas</mat-option>
                         <!-- <mat-option *ngFor="let item of data" [value]="item.id">
                         {{item.name}}

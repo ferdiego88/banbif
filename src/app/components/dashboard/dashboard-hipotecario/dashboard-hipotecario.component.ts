@@ -181,6 +181,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     this.loadCombos();
     this.loadListeners();
     this.toListSolicitudes();
+    this.getEjecutivo();
     // this.hideIcons();
   }
 
@@ -602,6 +603,11 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
      listenerZona(){
       this.hipotecarioForm.controls.ZonaId.valueChanges.subscribe(zona => {
+        if (zona !== Variables.constantes.ZonaIDFFVV) {
+          this.hipotecarioForm.controls.Canal.setValue(2);
+        } else {
+          this.hipotecarioForm.controls.Canal.setValue(1);
+        }
         this.toListSolicitudes(zona);
       });
      }
@@ -703,6 +709,13 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
        i++;
      }
      // console.log(this.YEARS);
+  }
+
+  async getEjecutivo() {
+    this.usersList = [];
+    this.usersList = await this.userService.getUsuariosPorGrupo(Variables.listas.AdmEjecutivos)
+     .then((user) => user);
+    // console.log(this.usersList);
   }
     calcBusinessDays(startDate, endDate) {
       // This makes no effort to account for holidays
