@@ -5,6 +5,22 @@
         <div class="row">
             <div class="row">
                 <div class="col-md-12">
+                    <span class="sub-title"> Año </span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="full-width">
+                    <mat-select placeholder="Año" formControlName="MesId">
+                        <mat-option *ngFor="let item of YEARS" [value]="item.id">
+                            {{item.year}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row">
+                <div class="col-md-12">
                     <span class="sub-title"> Mes de Operación </span>
                 </div>
             </div>
@@ -265,7 +281,7 @@
                             <mat-icon class={{dashboard.ColorVariacion}}>{{dashboard.Variacion}} </mat-icon>
                         </td>
                         <td> 4.00 </td>
-                        <td>{{dashboard.Porcentaje | number: '.0-2'}} </td>
+                        <td>{{dashboard.PorcentajeReprocesos | number: '.0-2'}} </td>
                     </tr>
                 </tbody>
             </table>

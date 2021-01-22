@@ -18,6 +18,10 @@ export interface Meses {
   name: string;
   id: number;
 }
+export interface Year {
+  year: number;
+  id: number;
+}
 
 
 const MESES_DATA: Meses[] = [
@@ -43,7 +47,7 @@ const MESES_DATA: Meses[] = [
 
 export class DashboardHipotecarioComponent extends FormularioBase implements OnInit {
   data: Meses[] = MESES_DATA;
-  showSubItems = false;
+  YEARS: Year[];
   usersList: User[];
   zonaModelList: ZonaModel[];
   oficinaList: TipoProductoModel[];
@@ -162,6 +166,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     this.getZona();
     this.getFlujoSeguimiento();
     this.getOficina();
+    this.getYears();
     // this.getEstado();
   }
 
@@ -169,40 +174,68 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     this.listenerMonth();
     this.listenerZona();
   }
+   
 
-  getZona() {
-    this.generalListService
-      .get(Variables.listas.AdmZona)
-      .then((zonaModelList) => (this.zonaModelList = zonaModelList))
-      .catch((error) => console.error(error));
-  }
+  
+     listenerMonth(){
+      this.hipotecarioForm.controls.MesId.valueChanges.subscribe(mes => {
+         this.getMonthRequest(mes);
+         this.filterSolicitudesEstado();
+         this.cantidadSolicitudesPorMes = this.solicitudMesList.length;
+         this.cantidadSolicitudesPorMesAnterior = this.solicitudMesAnteriorList.length;
 
+         this.cantidadSolicitudesConcluidas = this.countRequestConcluded(this.solicitudMesList);
+         this.cantidadSolicitudesReprocesos = this.countReproccess(this.flujoSeguimientoList);
 
-  hideIcons(){
-     const elementosHide = ['happyReprocessing', 'dissastisfiedReprocessing',
-     'sadReprocessing', 'happyReprocessingPrevious', 'dissastisfiedReprocessingPrevious', 'sadReprocessingPrevious',
-    'happyReprocessingVariation', 'dissastisfiedReprocessingVariation', 'sadReprocessingVariation' ];
-     this.hideIcon(elementosHide);
+         this.cantidadSolicitudesConcluidasAnterior = this.countRequestConcluded(this.solicitudMesAnteriorList);
+         this.cantidadSolicitudesReprocesosAnterior = this.countReproccess(this.flujoSeguimientoAnteriorList);
+
+         this.porcentajeExpedientesConcluidos = (this.cantidadSolicitudesConcluidas / this.cantidadSolicitudesPorMes) * 100;
+         this.porcentajeExpedientesReprocesos = (this.cantidadSolicitudesReprocesos / this.cantidadSolicitudesPorMes) * 100;
+
+        //  this.porcentajeExpedientesANS = this.cantidadsolicitudANSMes - this.cantidadSolicitudesPorMes;
+        //  // console.log(this.cantidadsolicitudANSMesList);
+        //  this.porcentajeExpedientesANSAnterior = (this.cantidadSolicitudesReprocesos / this.cantidadSolicitudesPorMes) * 100;
+
+         this.porcentajeExpedientesConcluidosAnterior =
+         (this.cantidadSolicitudesConcluidasAnterior / this.cantidadSolicitudesPorMesAnterior) * 100;
+         this.porcentajeExpedientesReprocesosAnterior =
+         (this.cantidadSolicitudesReprocesosAnterior / this.cantidadSolicitudesPorMesAnterior) * 100;
+
+         const{icono: iconoConcluded, sentiment: sentimentConcluded, resultado: resultadoConcluded} =
+         this.evaluarProcesos(this.porcentajeExpedientesConcluidos);
+         this.iconoConcluded = iconoConcluded;
+         this.sentimentConcluded = sentimentConcluded;
+         const{icono: iconoConcludedPrevious, sentiment: sentimentConcludedPrevious, resultado: resultadoConcludedPrevious} =
+         this.evaluarProcesos(this.porcentajeExpedientesConcluidosAnterior);
+         this.iconoConcludedPrevious = iconoConcludedPrevious;
+         this.sentimentConcludedPrevious = sentimentConcludedPrevious;
+         const [variacionConcluidos, colorVariacion] = this.evaluarVariacion(resultadoConcluded, resultadoConcludedPrevious);
+         this.iconoConcludedVariation = variacionConcluidos;
+         this.sentimentConcludedVariation = colorVariacion;
+         const{icono: iconoReprocesos, sentiment: sentimentReprocesos, resultado: resultadoReprocesos} =
+         this.evaluarReProcesos(this.porcentajeExpedientesReprocesos);
+         this.iconoReprocesos = iconoReprocesos;
+         this.sentimentReprocesos = sentimentReprocesos;
+         const{icono: iconoReprocesosPrevious, sentiment: sentimentReprocesosPrevious, resultado: resultadoReprocesosPrevious} =
+         this.evaluarReProcesos(this.porcentajeExpedientesReprocesosAnterior);
+         this.iconoReprocesosPrevious = iconoReprocesosPrevious;
+         this.sentimentReprocesosPrevious = sentimentReprocesosPrevious;
+         const [variacionReprocesos, colorReprocesos] = this.evaluarVariacion(resultadoReprocesos, resultadoReprocesosPrevious);
+         this.iconoReprocesosVariation = variacionReprocesos;
+         this.sentimentReprocesosVariation = colorReprocesos;
+      });
      }
-
-  hideIcon(element: string[]){
-    for (const iterator of element) {
-      // console.log(iterator);
-      document.getElementById(iterator).style.display = 'none';
-    }
-  }
-
      getMonthRequest(mes: number){
       const solicitudes = this.solicitudHipotecarioList;
       let solicitudPorMes: SolicitudCreditoHipotecario;
-      let solicitudFlujoSeguimiento: TipoProductoModel[];
       let solicitudPorMesAnterior: SolicitudCreditoHipotecario;
+      let solicitudFlujoSeguimiento: TipoProductoModel[];
       let solicitudFlujoSeguimientoAnterior: TipoProductoModel[];
       this.solicitudMesList = [];
-      this.flujoSeguimientoList = [];
       this.solicitudMesAnteriorList = [];
+      this.flujoSeguimientoList = [];
       this.flujoSeguimientoAnteriorList = [];
-
       let mesAnterior: number;
       if (mes === 0) {
         mesAnterior = 11;
@@ -223,123 +256,119 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
             this.solicitudMesList.push(solicitudPorMes);
              }
           if (mesCreacion === mesAnterior) {
-            solicitudPorMesAnterior = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
             solicitudFlujoSeguimientoAnterior =
-            this.flujoSeguimientoEtapaLista.filter(item => item.SolicitudHipotecarioId === solicitud.Id);
+              this.flujoSeguimientoEtapaLista.filter(item => item.SolicitudHipotecarioId === solicitud.Id);
+        
             solicitudFlujoSeguimientoAnterior.forEach( solicitudFlujo => {
               this.flujoSeguimientoAnteriorList.push(solicitudFlujo);
             });
+
+            solicitudPorMesAnterior = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
             this.solicitudMesAnteriorList.push(solicitudPorMesAnterior);
+
              }
       });
      }
 
-     evaluarProcesos(porcentaje: number){
-       let sentiment = '';
-       let icono = '';
-       let resultado = 0;
-       if (porcentaje >= 50) {
-         sentiment = 'happy';
-         icono = 'sentiment_satisfied_alt';
-         resultado = 2;
-       } else if (porcentaje >= 40 && porcentaje < 50) {
-         sentiment = 'dissatisfied';
-         icono = 'mood_bad';
-         resultado = 1;
-       }else if (porcentaje < 40){
-         sentiment = 'sad';
-         icono = 'sentiment_dissatisfied';
-         resultado = 0;
-       }
-       return {icono, sentiment, resultado};
-     }
-     evaluarReProcesos(porcentaje: number){
-       let sentiment = '';
-       let icono = '';
-       let resultado = 0;
-       if (porcentaje >= 50) {
-        sentiment = 'sad';
-        icono = 'sentiment_dissatisfied';
-        resultado = 0;
-       } else if (porcentaje >= 40 && porcentaje < 50) {
-         sentiment = 'dissatisfied';
-         icono = 'mood_bad';
-         resultado = 1;
-       }else if (porcentaje < 40){
-         sentiment = 'happy';
-         icono = 'sentiment_satisfied_alt';
-         resultado = 2;
-       }
-       return {icono, sentiment, resultado};
-     }
-
-     evaluarVariacion(valor: number, valorAnterior: number){
-      let variacion = '';
-      let colorVariacion = '';
-      if (valor > valorAnterior) {
-        variacion = 'trending_up';
-        colorVariacion = 'happy';
-      } else if ( valor < valorAnterior) {
-        variacion = 'trending_down';
-        colorVariacion = 'sad';
-      }else if (valor === valorAnterior){
-        variacion = 'trending_flat';
-        colorVariacion = 'dissatisfied';
-      }
-      return [variacion, colorVariacion];
-     }
-     evaluateRequestConcluded(expedientesConcluidos: number, happy: string, normal: string, sad: string ){
-      let resultado = 0;
-      if (expedientesConcluidos >= 50) {
-        document.getElementById(happy).style.display = 'block';
-        this.hideIcon([normal, sad]);
-        resultado = 2;
-      } else if ( expedientesConcluidos >= 40  && expedientesConcluidos < 50) {
-        document.getElementById(normal).style.display = 'block';
-        this.hideIcon([happy, sad]);
-        resultado = 1;
-      }else if (expedientesConcluidos < 40){
-        document.getElementById(sad).style.display = 'block';
-        this.hideIcon([happy, normal]);
-        resultado = 0;
-      }else{
-        this.hideIcon([sad, normal, happy]);
-      }
-      return resultado;
-     }
-
-     evaluateVariation(result: number, resultPrevious: number, happy: string, normal: string, sad: string ){
-        if (result > resultPrevious) {
-          document.getElementById(happy).style.display = 'block';
-          this.hideIcon([normal, sad]);
-        } else if ( result < resultPrevious) {
-          document.getElementById(sad).style.display = 'block';
-          this.hideIcon([normal, happy]);
-        }else if (result === resultPrevious){
-          document.getElementById(normal).style.display = 'block';
-          this.hideIcon([sad, happy]);
+     async filterSolicitudesEstado(){
+      const estados = await this.getEstado();
+      this.dashboardList = [];
+      this.dashboardReprocesosList = [];
+      this.flujoSeguimientoEstadoList = [];
+      this.solicitudesEstadoList = [];
+      // this.dashboardAnteriorList = [];
+      this.flujoSeguimientoEstadoAnteriorList = [];
+      this.solicitudesEstadoAnteriorList = [];
+      this.cantidadsolicitudANSMes = 0;
+      this.cantidadsolicitudANSMesAnterior = 0;
+      estados.forEach(estado => {
+        this.solicitudANSList = [];
+        this.solicitudANSAnteriorList = [];
+        let porcentajeExpediente = 0;
+        let porcentajeReprocesos = 0;
+        let porcentajeExpedienteAnterior = 0;
+        this.solicitudesEstadoList = this.solicitudMesList.filter(solicitud => solicitud.EstadoId === estado.Id);
+        this.getANSList(this.solicitudesEstadoList, estado, this.solicitudANSList);
+        // console.log(this.solicitudANSList);
+        this.flujoSeguimientoEstadoList = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
+        this.solicitudesEstadoAnteriorList = this.solicitudMesAnteriorList.filter(solicitud => solicitud.EstadoId === estado.Id);
+        this.getANSList(this.solicitudesEstadoAnteriorList, estado, this.solicitudANSAnteriorList);
+        // console.log(this.solicitudANSAnteriorList);
+        this.flujoSeguimientoEstadoAnteriorList =
+        this.flujoSeguimientoAnteriorList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
+        const solicitudes = this.solicitudesEstadoList.length;
+        const flujoSeguimiento = this.flujoSeguimientoEstadoList.length;
+        const solicitudesAnterior = this.solicitudesEstadoAnteriorList.length;
+        const flujoSeguimientoAnterior = this.flujoSeguimientoEstadoAnteriorList.length;
+        const cantidadSolicitudANS = this.solicitudANSList.length;
+        this.cantidadsolicitudANSMes += cantidadSolicitudANS;
+        const cantidadSolicitudANSAnterior = this.solicitudANSAnteriorList.length;
+        this.cantidadsolicitudANSMesAnterior += cantidadSolicitudANSAnterior;
+        const porcentajeANS = (1 - (cantidadSolicitudANS / solicitudes)) * 100;
+        const porcentajeANSANterior = (1 - (cantidadSolicitudANSAnterior / solicitudesAnterior)) * 100;
+        if (solicitudes > flujoSeguimiento) {
+          // porcentajeExpediente = 0;
+          porcentajeExpediente = (100 - (solicitudes / this.solicitudMesList.length) * 100);
+        } else {
+          porcentajeExpediente = ((flujoSeguimiento - solicitudes) / flujoSeguimiento) * 100;
+          porcentajeReprocesos = (flujoSeguimiento / this.solicitudMesList.length) * 100;
         }
-     }
-     evaluateReprocess(reprocesos: number, happy: string, normal: string, sad: string ){
-      let resultado = 0;
-      if (reprocesos >= 50) {
-        this.hideIcon([happy, normal]);
-        document.getElementById(sad).style.display = 'block';
-        resultado = 0;
-      } else if ( reprocesos >= 40  && reprocesos < 50) {
-        document.getElementById(normal).style.display = 'block';
-        this.hideIcon([happy, sad]);
-        resultado = 1;
-      }else if (reprocesos < 40){
-        document.getElementById(happy).style.display = 'block';
-        this.hideIcon([sad, normal]);
-        resultado = 2;
-      }else{
-        this.hideIcon([sad, normal, happy]);
-      }
-      return resultado;
-     }
+        if (solicitudesAnterior){
+          if (solicitudesAnterior > flujoSeguimientoAnterior) {
+            // porcentajeExpediente = 0;
+            porcentajeExpedienteAnterior = 100 - (solicitudesAnterior / this.solicitudMesAnteriorList.length) * 100;
+          } else {
+            porcentajeExpedienteAnterior = ((flujoSeguimientoAnterior - solicitudesAnterior) / flujoSeguimientoAnterior) * 100;
+          }
+        }
+        const {icono, sentiment, resultado} = this.evaluarProcesos(porcentajeExpediente);
+        const {icono: iconoPrevious, sentiment: sentimentPrevious, resultado: resultadoPrevious} =
+        this.evaluarProcesos(porcentajeExpedienteAnterior);
+        const [variacionConcluidos, colorVariacion] = this.evaluarVariacion(resultado, resultadoPrevious);
+        const estadoElement = {
+          Id: estado.Id,
+          Title: estado.Title,
+          CantidadSolicitudes: solicitudes,
+          CantidadSolicitudesANS: cantidadSolicitudANS,
+          CantidadSolicitudesANSAnterior: cantidadSolicitudANSAnterior,
+          FlujoSeguimiento: flujoSeguimiento,
+          Porcentaje: porcentajeExpediente,
+          PorcentajeReprocesos: porcentajeReprocesos,
+          PorcentajeAnterior: porcentajeExpedienteAnterior,
+          PorcentajeANS: porcentajeANS,
+          PorcentajeANSAnterior: porcentajeANSANterior,
+          Icono: icono,
+          Sentimiento: sentiment,
+          IconoAnterior: iconoPrevious,
+          SentimientoAnterior: sentimentPrevious,
+          Variacion: variacionConcluidos,
+          ColorVariacion: colorVariacion
+        };
+        if (estado.Id === Variables.constantes.EstadoObservadoCPM || estado.Id === Variables.constantes.EstadoObservadoRiesgos) {
+          this.dashboardReprocesosList.push(estadoElement);
+        } else {
+          if (solicitudes > 0 && estado.Id !== Variables.constantes.EstadoAprobadoSinVerificacion) {
+            this.dashboardList.push(estadoElement);
+           }
+        }
+          });
+      this.porcentajeExpedientesANS = (1 - (this.cantidadsolicitudANSMes / this.solicitudMesList.length)) * 100;
+      this.porcentajeExpedientesANSAnterior = (1 - (this.cantidadsolicitudANSMesAnterior / this.solicitudMesAnteriorList.length)) * 100;
+      const {icono: iconoANS, sentiment: sentimentANS, resultado: resultadoANS} =
+      this.evaluarProcesos(this.porcentajeExpedientesANS);
+      this.iconoANS = iconoANS;
+      this.sentimentANS = sentimentANS;
 
+      const {icono: iconoANSPrevious, sentiment: sentimentANSPrevious, resultado: resultadoANSPrevious} =
+      this.evaluarProcesos(this.porcentajeExpedientesANSAnterior);
+      this.iconoANSPrevious = iconoANSPrevious;
+      this.sentimentANSPrevious = sentimentANSPrevious;
+      const [variacionANS, colorANS] = this.evaluarVariacion(resultadoANS, resultadoANSPrevious);
+      this.iconoANSVariation = variacionANS;
+      this.sentimentANSVariation = colorANS;
+     // console.log(this.sentimentANS);
+      
+     }
      countReproccess(listaSeguimiento: TipoProductoModel[]){
       let contadorReprocesos = 0;
       listaSeguimiento.forEach(soliSeguimiento => {
@@ -361,179 +390,62 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     });
       return contadorSolicitudesConcluidas;
      }
-     listenerMonth(){
-      this.hipotecarioForm.controls.MesId.valueChanges.subscribe(mes => {
-         this.getMonthRequest(mes);
-         this.filterSolicitudesEstado();
-         // console.log(this.solicitudMesList);
-         this.cantidadSolicitudesPorMes = this.solicitudMesList.length;
-         this.cantidadSolicitudesPorMesAnterior = this.solicitudMesAnteriorList.length;
+  
+     evaluarProcesos(porcentaje: number){
+      let sentiment = '';
+      let icono = '';
+      let resultado = 0;
+      if (porcentaje >= 50) {
+        sentiment = 'happy';
+        icono = 'sentiment_satisfied_alt';
+        resultado = 2;
+      } else if (porcentaje >= 40 && porcentaje < 50) {
+        sentiment = 'dissatisfied';
+        icono = 'mood_bad';
+        resultado = 1;
+      }else if (porcentaje < 40){
+        sentiment = 'sad';
+        icono = 'sentiment_dissatisfied';
+        resultado = 0;
+      }
+      return {icono, sentiment, resultado};
+    }
+    evaluarReProcesos(porcentaje: number){
+      let sentiment = '';
+      let icono = '';
+      let resultado = 0;
+      if (porcentaje >= 50) {
+       sentiment = 'sad';
+       icono = 'sentiment_dissatisfied';
+       resultado = 0;
+      } else if (porcentaje >= 40 && porcentaje < 50) {
+        sentiment = 'dissatisfied';
+        icono = 'mood_bad';
+        resultado = 1;
+      }else if (porcentaje < 40){
+        sentiment = 'happy';
+        icono = 'sentiment_satisfied_alt';
+        resultado = 2;
+      }
+      return {icono, sentiment, resultado};
+    }
 
-         this.cantidadSolicitudesConcluidas = this.countRequestConcluded(this.solicitudMesList);
-         this.cantidadSolicitudesReprocesos = this.countReproccess(this.flujoSeguimientoList);
-
-         this.cantidadSolicitudesConcluidasAnterior = this.countRequestConcluded(this.solicitudMesAnteriorList);
-         this.cantidadSolicitudesReprocesosAnterior = this.countReproccess(this.flujoSeguimientoAnteriorList);
-
-         this.porcentajeExpedientesConcluidos = (this.cantidadSolicitudesConcluidas / this.cantidadSolicitudesPorMes) * 100;
-         this.porcentajeExpedientesReprocesos = (this.cantidadSolicitudesReprocesos / this.cantidadSolicitudesPorMes) * 100;
-
-         this.porcentajeExpedientesANS = this.cantidadsolicitudANSMes - this.cantidadSolicitudesPorMes;
-         // console.log(this.cantidadsolicitudANSMesList);
-         this.porcentajeExpedientesANSAnterior = (this.cantidadSolicitudesReprocesos / this.cantidadSolicitudesPorMes) * 100;
-
-         this.porcentajeExpedientesConcluidosAnterior =
-         (this.cantidadSolicitudesConcluidasAnterior / this.cantidadSolicitudesPorMesAnterior) * 100;
-         this.porcentajeExpedientesReprocesosAnterior =
-         (this.cantidadSolicitudesReprocesosAnterior / this.cantidadSolicitudesPorMesAnterior) * 100;
-
-         const{icono: iconoConcluded, sentiment: sentimentConcluded, resultado: resultadoConcluded} =
-         this.evaluarProcesos(this.porcentajeExpedientesConcluidos);
-         this.iconoConcluded = iconoConcluded;
-         this.sentimentConcluded = sentimentConcluded;
-         const{icono: iconoConcludedPrevious, sentiment: sentimentConcludedPrevious, resultado: resultadoConcludedPrevious} =
-         this.evaluarProcesos(this.porcentajeExpedientesConcluidosAnterior);
-         this.iconoConcludedPrevious = iconoConcludedPrevious;
-         this.sentimentConcludedPrevious = sentimentConcludedPrevious;
-         const [variacionConcluidos, colorVariacion] = this.evaluarVariacion(resultadoConcluded, resultadoConcludedPrevious);
-         this.iconoConcludedVariation = variacionConcluidos;
-         this.sentimentConcludedVariation = colorVariacion;
-
-         const{icono: iconoReprocesos, sentiment: sentimentReprocesos, resultado: resultadoReprocesos} =
-         this.evaluarReProcesos(this.porcentajeExpedientesReprocesos);
-         this.iconoReprocesos = iconoReprocesos;
-         this.sentimentReprocesos = sentimentReprocesos;
-         const{icono: iconoReprocesosPrevious, sentiment: sentimentReprocesosPrevious, resultado: resultadoReprocesosPrevious} =
-         this.evaluarReProcesos(this.porcentajeExpedientesReprocesosAnterior);
-         this.iconoReprocesosPrevious = iconoReprocesosPrevious;
-         this.sentimentReprocesosPrevious = sentimentReprocesosPrevious;
-         const [variacionReprocesos, colorReprocesos] = this.evaluarVariacion(resultadoReprocesos, resultadoReprocesosPrevious);
-         this.iconoReprocesosVariation = variacionReprocesos;
-         this.sentimentReprocesosVariation = colorReprocesos;
-
-
-        //  const resultEvaluation =
-        //  this.evaluateRequestConcluded(this.porcentajeExpedientesConcluidos, 'happyConcluded', 'dissastisfiedConcluded', 'sadConcluded');
-        //  const resultEvaluationPrevious =
-        //  this.evaluateRequestConcluded(this.porcentajeExpedientesConcluidosAnterior, 'happyConcludedPrevious',
-        // 'dissastisfiedConcludedPrevious', 'sadConcludedPrevious');
-        //  const resultProcess =
-        //  this.evaluateReprocess(this.porcentajeExpedientesReprocesos, 'happyReprocessing',
-        // 'dissastisfiedReprocessing', 'sadReprocessing');
-        //  const resultProcessPrevious =
-        //  this.evaluateReprocess(this.porcentajeExpedientesReprocesosAnterior, 'happyReprocessingPrevious',
-        // 'dissastisfiedReprocessingPrevious', 'sadReprocessingPrevious');
-
-        //  this.evaluateVariation(resultProcess, resultProcessPrevious, 'happyReprocessingVariation',
-        // 'dissastisfiedReprocessingVariation', 'sadReprocessingVariation');
-        //  this.evaluateVariation(resultEvaluation, resultEvaluationPrevious, 'happyConcludedVariation',
-        // 'dissastisfiedConcludedVariation', 'sadConcludedVariation');
-      });
+    evaluarVariacion(valor: number, valorAnterior: number){
+     let variacion = '';
+     let colorVariacion = '';
+     if (valor > valorAnterior) {
+       variacion = 'trending_up';
+       colorVariacion = 'happy';
+     } else if ( valor < valorAnterior) {
+       variacion = 'trending_down';
+       colorVariacion = 'sad';
+     }else if (valor === valorAnterior){
+       variacion = 'trending_flat';
+       colorVariacion = 'dissatisfied';
      }
-
-     async filterSolicitudesEstado(){
-      const estados = await this.getEstado();
-      this.dashboardList = [];
-      this.dashboardReprocesosList = [];
-      this.flujoSeguimientoEstadoList = [];
-      this.solicitudesEstadoList = [];
-      // this.dashboardAnteriorList = [];
-      this.flujoSeguimientoEstadoAnteriorList = [];
-      this.solicitudesEstadoAnteriorList = [];
-      this.cantidadsolicitudANSMes = 0;
-      this.cantidadsolicitudANSMesAnterior = 0;
-      estados.forEach(estado => {
-        this.solicitudANSList = [];
-        this.solicitudANSAnteriorList = [];
-        let porcentajeExpediente = 0;
-        let porcentajeExpedienteAnterior = 0;
-        this.solicitudesEstadoList = this.solicitudMesList.filter(solicitud => solicitud.EstadoId === estado.Id);
-        this.getANSList(this.solicitudesEstadoList, estado, this.solicitudANSList);
-        // console.log(this.solicitudANSList);
-        this.flujoSeguimientoEstadoList = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
-        this.solicitudesEstadoAnteriorList = this.solicitudMesAnteriorList.filter(solicitud => solicitud.EstadoId === estado.Id);
-        this.getANSList(this.solicitudesEstadoAnteriorList, estado, this.solicitudANSAnteriorList);
-        // console.log(this.solicitudANSAnteriorList);
-        this.flujoSeguimientoEstadoAnteriorList =
-        this.flujoSeguimientoAnteriorList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
-        const solicitudes = this.solicitudesEstadoList.length;
-        const flujoSeguimiento = this.flujoSeguimientoEstadoList.length;
-        const solicitudesAnterior = this.solicitudesEstadoAnteriorList.length;
-        const flujoSeguimientoAnterior = this.flujoSeguimientoEstadoAnteriorList.length;
-        const cantidadSolicitudANS = this.solicitudANSList.length;
-        this.cantidadsolicitudANSMes += cantidadSolicitudANS;
-        const cantidadSolicitudANSAnterior = this.solicitudANSAnteriorList.length;
-        this.cantidadsolicitudANSMesAnterior += cantidadSolicitudANSAnterior;
-        const porcentajeANS = (1 - (cantidadSolicitudANS / solicitudes)) * 100;
-        const porcentajeANSANterior = (1 - (cantidadSolicitudANSAnterior / solicitudesAnterior)) * 100;
-        /// const reprocesos = this.countReproccess(this.flujoSeguimientoEstadoList);
-        // console.log(reprocesos);
-        if (solicitudes > flujoSeguimiento) {
-          // porcentajeExpediente = 0;
-          porcentajeExpediente = (100 - (solicitudes / this.solicitudMesList.length) * 100);
-        } else {
-          porcentajeExpediente = ((flujoSeguimiento - solicitudes) / flujoSeguimiento) * 100;
-        }
-        if (solicitudesAnterior){
-          if (solicitudesAnterior > flujoSeguimientoAnterior) {
-            // porcentajeExpediente = 0;
-            porcentajeExpedienteAnterior = 100 - (solicitudesAnterior / this.solicitudMesAnteriorList.length) * 100;
-          } else {
-            porcentajeExpedienteAnterior = ((flujoSeguimientoAnterior - solicitudesAnterior) / flujoSeguimientoAnterior) * 100;
-          }
-        }
-        const {icono, sentiment, resultado} = this.evaluarProcesos(porcentajeExpediente);
-        const {icono: iconoPrevious, sentiment: sentimentPrevious, resultado: resultadoPrevious} =
-        this.evaluarProcesos(porcentajeExpedienteAnterior);
-        const [variacionConcluidos, colorVariacion] = this.evaluarVariacion(resultado, resultadoPrevious);
-        // console.log(this.sentiment);
-        const estadoElement = {
-          Id: estado.Id,
-          Title: estado.Title,
-          CantidadSolicitudes: solicitudes,
-          CantidadSolicitudesANS: cantidadSolicitudANS,
-          CantidadSolicitudesANSAnterior: cantidadSolicitudANSAnterior,
-          FlujoSeguimiento: flujoSeguimiento,
-          Porcentaje: porcentajeExpediente,
-          PorcentajeAnterior: porcentajeExpedienteAnterior,
-          PorcentajeANS: porcentajeANS,
-          PorcentajeANSAnterior: porcentajeANSANterior,
-          Icono: icono,
-          Sentimiento: sentiment,
-          IconoAnterior: iconoPrevious,
-          SentimientoAnterior: sentimentPrevious,
-          Variacion: variacionConcluidos,
-          ColorVariacion: colorVariacion
-        };
-        // console.log(estadoElement);
-        // this.dashboardList.push(estadoElement);
-        if (estado.Id === Variables.constantes.EstadoObservadoCPM || estado.Id === Variables.constantes.EstadoObservadoRiesgos) {
-          this.dashboardReprocesosList.push(estadoElement);
-        } else {
-          if (solicitudes > 0 && estado.Id !== Variables.constantes.EstadoAprobadoSinVerificacion) {
-            this.dashboardList.push(estadoElement);
-           }
-        }
-
-          });
-      this.porcentajeExpedientesANS = (1 - (this.cantidadsolicitudANSMes / this.solicitudMesList.length)) * 100;
-      this.porcentajeExpedientesANSAnterior = (1 - (this.cantidadsolicitudANSMesAnterior / this.solicitudMesAnteriorList.length)) * 100;
-      const {icono: iconoANS, sentiment: sentimentANS, resultado: resultadoANS} =
-      this.evaluarProcesos(this.porcentajeExpedientesANS);
-      this.iconoANS = iconoANS;
-      this.sentimentANS = sentimentANS;
-
-      const {icono: iconoANSPrevious, sentiment: sentimentANSPrevious, resultado: resultadoANSPrevious} =
-      this.evaluarProcesos(this.porcentajeExpedientesANSAnterior);
-      this.iconoANSPrevious = iconoANSPrevious;
-      this.sentimentANSPrevious = sentimentANSPrevious;
-      const [variacionANS, colorANS] = this.evaluarVariacion(resultadoANS, resultadoANSPrevious);
-      this.iconoANSVariation = variacionANS;
-      this.sentimentANSVariation = colorANS;
-     // console.log(this.sentimentANS);
-      
-     }
-
+     return [variacion, colorVariacion];
+    }
+   
      getANSList(solicitudes: SolicitudCreditoHipotecario[], estado: EstadoModel, solicitudANS: SolicitudCreditoHipotecario[]){
       if (solicitudes.length !== 0){
         const fechaActual = moment();
@@ -692,6 +604,24 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       return estadosActivos;
     }
 
+    getZona() {
+      this.generalListService
+        .get(Variables.listas.AdmZona)
+        .then((zonaModelList) => (this.zonaModelList = zonaModelList))
+        .catch((error) => console.error(error));
+    }
+    
+     getYears(){
+     const yearDate = (new Date()).getFullYear();
+     let i = 0;
+     this.YEARS = [];
+     for (let index = 1900; index < yearDate; index++) {
+       const year = { id: i, year: index };
+       this.YEARS.push(year);
+       i++;
+     }
+     //console.log(this.YEARS);
+  }
     calcBusinessDays(startDate, endDate) {
       // This makes no effort to account for holidays
       // Counts end day, does not count start day
@@ -720,5 +650,69 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       }
       return totalBusinessDays;
     }
+ //  evaluateRequestConcluded(expedientesConcluidos: number, happy: string, normal: string, sad: string ){
+    //   let resultado = 0;
+    //   if (expedientesConcluidos >= 50) {
+    //     document.getElementById(happy).style.display = 'block';
+    //     this.hideIcon([normal, sad]);
+    //     resultado = 2;
+    //   } else if ( expedientesConcluidos >= 40  && expedientesConcluidos < 50) {
+    //     document.getElementById(normal).style.display = 'block';
+    //     this.hideIcon([happy, sad]);
+    //     resultado = 1;
+    //   }else if (expedientesConcluidos < 40){
+    //     document.getElementById(sad).style.display = 'block';
+    //     this.hideIcon([happy, normal]);
+    //     resultado = 0;
+    //   }else{
+    //     this.hideIcon([sad, normal, happy]);
+    //   }
+    //   return resultado;
+    //  }
 
+    //  evaluateVariation(result: number, resultPrevious: number, happy: string, normal: string, sad: string ){
+    //     if (result > resultPrevious) {
+    //       document.getElementById(happy).style.display = 'block';
+    //       this.hideIcon([normal, sad]);
+    //     } else if ( result < resultPrevious) {
+    //       document.getElementById(sad).style.display = 'block';
+    //       this.hideIcon([normal, happy]);
+    //     }else if (result === resultPrevious){
+    //       document.getElementById(normal).style.display = 'block';
+    //       this.hideIcon([sad, happy]);
+    //     }
+    //  }
+    //  evaluateReprocess(reprocesos: number, happy: string, normal: string, sad: string ){
+    //   let resultado = 0;
+    //   if (reprocesos >= 50) {
+    //     this.hideIcon([happy, normal]);
+    //     document.getElementById(sad).style.display = 'block';
+    //     resultado = 0;
+    //   } else if ( reprocesos >= 40  && reprocesos < 50) {
+    //     document.getElementById(normal).style.display = 'block';
+    //     this.hideIcon([happy, sad]);
+    //     resultado = 1;
+    //   }else if (reprocesos < 40){
+    //     document.getElementById(happy).style.display = 'block';
+    //     this.hideIcon([sad, normal]);
+    //     resultado = 2;
+    //   }else{
+    //     this.hideIcon([sad, normal, happy]);
+    //   }
+    //   return resultado;
+    //  }
+
+   // hideIcons(){
+    //    const elementosHide = ['happyReprocessing', 'dissastisfiedReprocessing',
+    //    'sadReprocessing', 'happyReprocessingPrevious', 'dissastisfiedReprocessingPrevious', 'sadReprocessingPrevious',
+    //   'happyReprocessingVariation', 'dissastisfiedReprocessingVariation', 'sadReprocessingVariation' ];
+    //    this.hideIcon(elementosHide);
+    //    }
+  
+    // hideIcon(element: string[]){
+    //   for (const iterator of element) {
+    //     // console.log(iterator);
+    //     document.getElementById(iterator).style.display = 'none';
+    //   }
+    // }
 }
