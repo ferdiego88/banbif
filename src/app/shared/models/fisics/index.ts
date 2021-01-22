@@ -5,6 +5,8 @@ import { SolicitudCreditoHipotecario } from './SolicitudCreditoHipotecario';
 import { EstadoModel } from './EstadoModel';
 import { DashboardModel } from './DashboardModel';
 import { DashboardHipotecarioModel } from './DashboardHipotecarioModel';
+import { Canal } from './ICanal';
 export {
-    TipoProductoModel, TipoSubProductoModel, ZonaModel, SolicitudCreditoHipotecario, EstadoModel, DashboardModel, DashboardHipotecarioModel
+    TipoProductoModel, TipoSubProductoModel, ZonaModel, SolicitudCreditoHipotecario, EstadoModel, DashboardModel, DashboardHipotecarioModel,
+    Canal
 };

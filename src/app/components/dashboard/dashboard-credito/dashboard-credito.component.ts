@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpinnerVisibilityService } from 'ng-http-loader';
 import { environment } from 'src/environments/environment';
-import {SolicitudCreditoHipotecario, TipoProductoModel, ZonaModel, EstadoModel, DashboardModel} from 'src/app/shared/models/fisics';
+import {SolicitudCreditoHipotecario, TipoProductoModel, ZonaModel, EstadoModel, DashboardModel, Canal} from 'src/app/shared/models/fisics';
 import { FormularioBase } from 'src/app/shared/pages/formularioBase';
 import { GeneralListService } from 'src/app/shared/services/general-list.service';
 import { MasterService } from 'src/app/shared/services/master.service';
@@ -39,10 +39,10 @@ export const MY_FORMATS = {
   },
 };
 
-export interface Canal {
-  name: string;
-  id: number;
-}
+// export interface Canal {
+//   name: string;
+//   id: number;
+// }
 // export interface DetalleSolicitud {
 //   Id: number;
 //   Created: Date;

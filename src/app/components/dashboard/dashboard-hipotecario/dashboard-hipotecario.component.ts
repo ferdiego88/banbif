@@ -1,7 +1,7 @@
 import { ApplicationRef, Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import {SolicitudCreditoHipotecario, TipoProductoModel, ZonaModel, EstadoModel, DashboardHipotecarioModel} from 'src/app/shared/models/fisics';
+import {SolicitudCreditoHipotecario, TipoProductoModel, ZonaModel, EstadoModel, DashboardHipotecarioModel, Canal} from 'src/app/shared/models/fisics';
 import { User } from 'src/app/shared/models/fisics/base/User';
 import { GeneralListService } from '../../../shared/services/general-list.service';
 import { SolicitudesService } from '../../../shared/services/solicitudes.service';
@@ -18,11 +18,21 @@ export interface Meses {
   name: string;
   id: number;
 }
+export interface Semaforo {
+  color: string;
+  id: number;
+}
 export interface Year {
   year: number;
   id: number;
 }
 
+
+const SEMAFORO_DATA: Semaforo[] = [
+  { id: 0, color: 'Rojo' },
+  { id: 1, color: 'Ambar' },
+  { id: 2, color: 'Verde' },
+];
 
 const MESES_DATA: Meses[] = [
   { id: 0, name: 'Enero' },
@@ -39,6 +49,10 @@ const MESES_DATA: Meses[] = [
   { id: 11, name: 'Diciembre' },
 ];
 
+const CANAL_DATA: Canal[] = [
+  { id: 1, name: 'FFVV' },
+  { id: 2, name: 'Red de Oficinas' },
+];
 @Component({
   selector: 'app-dashboard-hipotecario',
   templateUrl: './dashboard-hipotecario.component.html',
@@ -47,6 +61,8 @@ const MESES_DATA: Meses[] = [
 
 export class DashboardHipotecarioComponent extends FormularioBase implements OnInit {
   data: Meses[] = MESES_DATA;
+  canalData: Canal[] = CANAL_DATA;
+  semaforoData: Semaforo[] = SEMAFORO_DATA;
   YEARS: Year[];
   usersList: User[];
   zonaModelList: ZonaModel[];
@@ -106,10 +122,10 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
   cantidadsolicitudANSPrueba: number;
   cantidadsolicitudANSMesPrueba: number;
- 
+
   cantidadsolicitudANSMesAnterior: number;
   solicitudANSAnteriorList: SolicitudCreditoHipotecario[];
-  
+
   showIndicadores = false;
   showDetalleConcluidos = false;
   showDetalleReprocesos = false;
@@ -180,9 +196,9 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     this.listenerMonth();
     this.listenerZona();
   }
-   
 
-  
+
+
      listenerMonth(){
       this.hipotecarioForm.controls.MesId.valueChanges.subscribe(mes => {
          this.getMonthRequest(mes);
@@ -192,7 +208,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
          this.cantidadSolicitudesConcluidas = this.countRequestConcluded(this.solicitudMesList);
          this.cantidadSolicitudesReprocesos = this.countReproccess(this.flujoSeguimientoList);
-         
+
          this.cantidadSolicitudesConcluidasAnterior = this.countRequestConcluded(this.solicitudMesAnteriorList);
          this.cantidadSolicitudesReprocesosAnterior = this.countReproccess(this.flujoSeguimientoAnteriorList);
 
@@ -269,7 +285,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           if (mesCreacion === mesAnterior && yearSelectedAnterior === yearCreacion) {
             solicitudFlujoSeguimientoAnterior =
               this.flujoSeguimientoEtapaLista.filter(item => item.SolicitudHipotecarioId === solicitud.Id);
-        
+
             solicitudFlujoSeguimientoAnterior.forEach( solicitudFlujo => {
               this.flujoSeguimientoAnteriorList.push(solicitudFlujo);
             });
@@ -314,7 +330,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         const solicitudesAnterior = this.solicitudesEstadoAnteriorList.length;
         const flujoSeguimientoAnterior = this.flujoSeguimientoEstadoAnteriorList.length;
         const cantidadSolicitudANS = this.solicitudANSList.length;
-        
+
         this.cantidadsolicitudANSPrueba = solicitudes - this.solicitudANSList.length;
         this.cantidadsolicitudANSMesPrueba += this.cantidadsolicitudANSPrueba;
 
@@ -324,7 +340,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
         const porcentajeANS = (1 - (cantidadSolicitudANS / solicitudes)) * 100;
         const porcentajeANSANterior = (1 - (cantidadSolicitudANSAnterior / solicitudesAnterior)) * 100;
-        
+
         let numeradorConcluidos = flujoSeguimiento - solicitudes;
         if (solicitudes > flujoSeguimiento) {
           // porcentajeExpediente = 0;
@@ -332,7 +348,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           numeradorConcluidos = solicitudes;
           flujoSeguimiento = this.solicitudMesList.length;
         } else {
-          
+
           porcentajeExpediente = (numeradorConcluidos / flujoSeguimiento) * 100;
           porcentajeReprocesos = (flujoSeguimiento / this.solicitudMesList.length) * 100;
         }
@@ -354,8 +370,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         const {icono: iconoReprocesoPrevio, sentiment: sentimentReprocesoPrevio, resultado: resultadoReprocesoPrevio} =
         this.evaluarReProcesos(porcentajeReprocesosAnterior);
         const [variacionReproceso, colorReproceso] = this.evaluarVariacion(resultadoReproceso, resultadoReprocesoPrevio);
-        
-        const {icono: iconoANSDetalle, sentiment: sentimentANSDetalle, resultado: resultadoANSDetalle} = 
+
+        const {icono: iconoANSDetalle, sentiment: sentimentANSDetalle, resultado: resultadoANSDetalle} =
         this.evaluarProcesos(porcentajeANS);
         const {icono: iconoANSPreviousDetalle, sentiment: sentimentANSPreviousDetalle, resultado: resultadoANSPreviousDetlle} =
         this.evaluarProcesos(porcentajeANSANterior);
@@ -417,7 +433,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       this.iconoANSVariation = variacionANS;
       this.sentimentANSVariation = colorANS;
      // console.log(this.sentimentANS);
-      
+
      }
      countReproccess(listaSeguimiento: TipoProductoModel[]){
       let contadorReprocesos = 0;
@@ -440,7 +456,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     });
       return contadorSolicitudesConcluidas;
      }
-  
+
      evaluarProcesos(porcentaje: number){
       let sentiment = '';
       let icono = '';
@@ -495,7 +511,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
      }
      return [variacion, colorVariacion];
     }
-   
+
     evaluarVariacionReprocesos(valor: number, valorAnterior: number){
      let variacion = '';
      let colorVariacion = '';
@@ -511,7 +527,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
      }
      return [variacion, colorVariacion];
     }
-   
+
      getANSList(solicitudes: SolicitudCreditoHipotecario[], estado: EstadoModel, solicitudANS: SolicitudCreditoHipotecario[]){
       if (solicitudes.length !== 0){
         const fechaActual = moment();
@@ -676,7 +692,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         .then((zonaModelList) => (this.zonaModelList = zonaModelList))
         .catch((error) => console.error(error));
     }
-    
+
      getYears(){
      const yearDate = (new Date()).getFullYear();
      let i = 0;
@@ -774,7 +790,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     //   'happyReprocessingVariation', 'dissastisfiedReprocessingVariation', 'sadReprocessingVariation' ];
     //    this.hideIcon(elementosHide);
     //    }
-  
+
     // hideIcon(element: string[]){
     //   for (const iterator of element) {
     //     // console.log(iterator);
