@@ -199,54 +199,56 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   }
 
 
+    calculateIndicators(){
+      this.filterSolicitudesEstado();
+      this.cantidadSolicitudesPorMes = this.solicitudMesList.length;
+      this.cantidadSolicitudesPorMesAnterior = this.solicitudMesAnteriorList.length;
 
+      this.cantidadSolicitudesConcluidas = this.countRequestConcluded(this.solicitudMesList);
+      this.cantidadSolicitudesReprocesos = this.countReproccess(this.flujoSeguimientoList);
+
+      this.cantidadSolicitudesConcluidasAnterior = this.countRequestConcluded(this.solicitudMesAnteriorList);
+      this.cantidadSolicitudesReprocesosAnterior = this.countReproccess(this.flujoSeguimientoAnteriorList);
+
+      this.porcentajeExpedientesConcluidos = (this.cantidadSolicitudesConcluidas / this.cantidadSolicitudesPorMes) * 100;
+      this.porcentajeExpedientesReprocesos = (this.cantidadSolicitudesReprocesos / this.cantidadSolicitudesPorMes) * 100;
+
+     //  this.porcentajeExpedientesANS = this.cantidadsolicitudANSMes - this.cantidadSolicitudesPorMes;
+     //  // console.log(this.cantidadsolicitudANSMesList);
+     //  this.porcentajeExpedientesANSAnterior = (this.cantidadSolicitudesReprocesos / this.cantidadSolicitudesPorMes) * 100;
+
+      this.porcentajeExpedientesConcluidosAnterior =
+      (this.cantidadSolicitudesConcluidasAnterior / this.cantidadSolicitudesPorMesAnterior) * 100;
+      this.porcentajeExpedientesReprocesosAnterior =
+      (this.cantidadSolicitudesReprocesosAnterior / this.cantidadSolicitudesPorMesAnterior) * 100;
+
+      const{icono: iconoConcluded, sentiment: sentimentConcluded, resultado: resultadoConcluded} =
+      this.evaluarProcesos(this.porcentajeExpedientesConcluidos);
+      this.iconoConcluded = iconoConcluded;
+      this.sentimentConcluded = sentimentConcluded;
+      const{icono: iconoConcludedPrevious, sentiment: sentimentConcludedPrevious, resultado: resultadoConcludedPrevious} =
+      this.evaluarProcesos(this.porcentajeExpedientesConcluidosAnterior);
+      this.iconoConcludedPrevious = iconoConcludedPrevious;
+      this.sentimentConcludedPrevious = sentimentConcludedPrevious;
+      const [variacionConcluidos, colorVariacion] = this.evaluarVariacion(resultadoConcluded, resultadoConcludedPrevious);
+      this.iconoConcludedVariation = variacionConcluidos;
+      this.sentimentConcludedVariation = colorVariacion;
+      const{icono: iconoReprocesos, sentiment: sentimentReprocesos, resultado: resultadoReprocesos} =
+      this.evaluarReProcesos(this.porcentajeExpedientesReprocesos);
+      this.iconoReprocesos = iconoReprocesos;
+      this.sentimentReprocesos = sentimentReprocesos;
+      const{icono: iconoReprocesosPrevious, sentiment: sentimentReprocesosPrevious, resultado: resultadoReprocesosPrevious} =
+      this.evaluarReProcesos(this.porcentajeExpedientesReprocesosAnterior);
+      this.iconoReprocesosPrevious = iconoReprocesosPrevious;
+      this.sentimentReprocesosPrevious = sentimentReprocesosPrevious;
+      const [variacionReprocesos, colorReprocesos] = this.evaluarVariacionReprocesos(resultadoReprocesos, resultadoReprocesosPrevious);
+      this.iconoReprocesosVariation = variacionReprocesos;
+      this.sentimentReprocesosVariation = colorReprocesos;
+    }
      listenerMonth(){
       this.hipotecarioForm.controls.MesId.valueChanges.subscribe(mes => {
          this.getMonthRequest(mes);
-         this.filterSolicitudesEstado();
-         this.cantidadSolicitudesPorMes = this.solicitudMesList.length;
-         this.cantidadSolicitudesPorMesAnterior = this.solicitudMesAnteriorList.length;
-
-         this.cantidadSolicitudesConcluidas = this.countRequestConcluded(this.solicitudMesList);
-         this.cantidadSolicitudesReprocesos = this.countReproccess(this.flujoSeguimientoList);
-
-         this.cantidadSolicitudesConcluidasAnterior = this.countRequestConcluded(this.solicitudMesAnteriorList);
-         this.cantidadSolicitudesReprocesosAnterior = this.countReproccess(this.flujoSeguimientoAnteriorList);
-
-         this.porcentajeExpedientesConcluidos = (this.cantidadSolicitudesConcluidas / this.cantidadSolicitudesPorMes) * 100;
-         this.porcentajeExpedientesReprocesos = (this.cantidadSolicitudesReprocesos / this.cantidadSolicitudesPorMes) * 100;
-
-        //  this.porcentajeExpedientesANS = this.cantidadsolicitudANSMes - this.cantidadSolicitudesPorMes;
-        //  // console.log(this.cantidadsolicitudANSMesList);
-        //  this.porcentajeExpedientesANSAnterior = (this.cantidadSolicitudesReprocesos / this.cantidadSolicitudesPorMes) * 100;
-
-         this.porcentajeExpedientesConcluidosAnterior =
-         (this.cantidadSolicitudesConcluidasAnterior / this.cantidadSolicitudesPorMesAnterior) * 100;
-         this.porcentajeExpedientesReprocesosAnterior =
-         (this.cantidadSolicitudesReprocesosAnterior / this.cantidadSolicitudesPorMesAnterior) * 100;
-
-         const{icono: iconoConcluded, sentiment: sentimentConcluded, resultado: resultadoConcluded} =
-         this.evaluarProcesos(this.porcentajeExpedientesConcluidos);
-         this.iconoConcluded = iconoConcluded;
-         this.sentimentConcluded = sentimentConcluded;
-         const{icono: iconoConcludedPrevious, sentiment: sentimentConcludedPrevious, resultado: resultadoConcludedPrevious} =
-         this.evaluarProcesos(this.porcentajeExpedientesConcluidosAnterior);
-         this.iconoConcludedPrevious = iconoConcludedPrevious;
-         this.sentimentConcludedPrevious = sentimentConcludedPrevious;
-         const [variacionConcluidos, colorVariacion] = this.evaluarVariacion(resultadoConcluded, resultadoConcludedPrevious);
-         this.iconoConcludedVariation = variacionConcluidos;
-         this.sentimentConcludedVariation = colorVariacion;
-         const{icono: iconoReprocesos, sentiment: sentimentReprocesos, resultado: resultadoReprocesos} =
-         this.evaluarReProcesos(this.porcentajeExpedientesReprocesos);
-         this.iconoReprocesos = iconoReprocesos;
-         this.sentimentReprocesos = sentimentReprocesos;
-         const{icono: iconoReprocesosPrevious, sentiment: sentimentReprocesosPrevious, resultado: resultadoReprocesosPrevious} =
-         this.evaluarReProcesos(this.porcentajeExpedientesReprocesosAnterior);
-         this.iconoReprocesosPrevious = iconoReprocesosPrevious;
-         this.sentimentReprocesosPrevious = sentimentReprocesosPrevious;
-         const [variacionReprocesos, colorReprocesos] = this.evaluarVariacionReprocesos(resultadoReprocesos, resultadoReprocesosPrevious);
-         this.iconoReprocesosVariation = variacionReprocesos;
-         this.sentimentReprocesosVariation = colorReprocesos;
+         this.calculateIndicators();
       });
      }
      getMonthRequest(mes: number){
@@ -609,6 +611,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           this.hipotecarioForm.controls.Canal.setValue(1);
         }
         this.toListSolicitudes(zona);
+        this.getMonthRequest(this.hipotecarioForm.controls.MesId.value);
+        this.calculateIndicators();
       });
      }
 
@@ -660,9 +664,9 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
             (solicitudHipotecarioList) =>(this.solicitudHipotecarioList = solicitudHipotecarioList))
           .catch((error) => console.error(error));
       } else {
-        data = await this.solicitudService.getByFields(fieldsFilter, valuesFilter)
+        data = await this.solicitudService.getByFieldsFilter(fieldsFilter, valuesFilter)
           .then(
-            (solicitudHipotecarioList) =>(this.solicitudHipotecarioList = solicitudHipotecarioList))
+            (solicitudHipotecarioList) => (this.solicitudHipotecarioList = solicitudHipotecarioList))
           .catch((error) => console.error(error));
       }
       // console.log(data);

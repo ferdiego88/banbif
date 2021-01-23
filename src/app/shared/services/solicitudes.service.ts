@@ -11,6 +11,7 @@ import { Lookup } from '../models/fisics/base/Lookup';
 import { ProductProposalStatus } from '../models/fisics/State';
 import { EFiltroBandejaSolicitud } from '../models/fisics/EFiltroBandejaSolicitud';
 import * as moment from 'moment';
+import { map } from 'rxjs/operators';
 declare var $: any;
 
 @Injectable({
@@ -223,6 +224,27 @@ export class SolicitudesService {
           .expand(...['Ejecutivo', 'Anlista_Riesgos', 'Author', 'Estado', 'Oficina', 'Tipo_Producto', 'Sub_Producto'])
           .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id', 'Author/Title', 'Author/Id',
             'Estado/Title', 'Estado/Id', 'Oficina/Title', 'Oficina/Id', 'Tipo_Producto/Id', 'Tipo_Producto/Title', 'Sub_Producto/Id', 'Sub_Producto/Title'])
+          .filter(queryFilter);
+
+        if (orderField !== '') {
+          query = query.orderBy(orderField, orderAscending);
+        }
+
+        const items = query.top(4999).get();
+        // console.log({items});
+        resolve(items);
+      } else {
+        reject('Failed getting list data...');
+      }
+    });
+  }
+  public async getByFieldsFilter(fieldsFilter: string[], valuesFilter: any[], orderField = '', orderAscending = true): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (sp !== null && sp !== undefined) {
+        const queryFilter = fieldsFilter.map((fieldFilter, index) => `${fieldFilter} eq ${valuesFilter[index]}`).join(' and ');
+  
+        let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario)
+          .items
           .filter(queryFilter);
 
         if (orderField !== '') {
