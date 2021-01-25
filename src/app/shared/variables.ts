@@ -245,6 +245,23 @@ export class Variables {
     Desembolso: 'Desembolso',
     Grabamen: 'Grabamen',
   };
+  static readonly columnasDashboard = {
+    Id: 'Id',
+    ID: 'ID',
+    Author: 'Author',
+    AuthorId: 'AuthorId',
+    Agencia: 'Agencia',
+    Created: 'Created',
+    Editor: 'Editor',
+    Modified: 'Modified',
+    Title: 'Title',
+    ZonaId: 'ZonaId',
+    OficinaId: 'OficinaId',
+    FechaEstado: 'Fecha_Estado',
+    EstadoId: 'EstadoId',
+    Tipo_RentaId: 'Tipo_RentaId'
+  };
+
   static readonly columnasSolicitud = {
     Id: 'Id',
     ID: 'ID',
@@ -299,7 +316,7 @@ export class Variables {
     NombreTitular: 'NombreTitular',
     TipoDocumento: 'TipoDocumento',
     NumeroDocumento: 'NumeroDocumento'
-  }
+  };
 
   static readonly columns = {
     IdCanalDistribucion: 'IdCanalDistribucion',

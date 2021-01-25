@@ -12,6 +12,7 @@ import { ProductProposalStatus } from '../models/fisics/State';
 import { EFiltroBandejaSolicitud } from '../models/fisics/EFiltroBandejaSolicitud';
 import * as moment from 'moment';
 import { map } from 'rxjs/operators';
+import { EDashboardSolicitud } from '../models/fisics/EDashboardSolicitud';
 declare var $: any;
 
 @Injectable({
@@ -238,19 +239,42 @@ export class SolicitudesService {
       }
     });
   }
-  public async getByFieldsFilter(fieldsFilter: string[], valuesFilter: any[], orderField = '', orderAscending = true): Promise<any> {
-    return new Promise((resolve, reject) => {
-      if (sp !== null && sp !== undefined) {
-        const queryFilter = fieldsFilter.map((fieldFilter, index) => `${fieldFilter} eq ${valuesFilter[index]}`).join(' and ');
   
-        let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario)
-          .items
-          .filter(queryFilter);
-
+  public getDashboard(orderField = '', orderAscending = true): Promise<any> {
+    return new Promise(async (resolve, reject) => {
+      if (sp !== null && sp !== undefined) {
+        const selectFields = EDashboardSolicitud.getColumnasSelect();
+        const expandFields = EDashboardSolicitud.getColumnasExpand();
+        // use odata operators for more efficient queries
+        let query = await sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario)
+        .items.select(...selectFields).expand(...expandFields);
         if (orderField !== '') {
           query = query.orderBy(orderField, orderAscending);
         }
+        const items = query.top(4999).get();
+        // // console.log({items});
+        resolve(items);
+      } else {
+        reject('Failed getting list data...');
+      }
+    });
+  }
 
+
+  public async getDashboardByFields(fieldsFilter: string[], valuesFilter: any[], orderField = '', orderAscending = true): Promise<any> {
+    return new Promise(async(resolve, reject) => {
+      if (sp !== null && sp !== undefined) {
+        const queryFilter = fieldsFilter.map((fieldFilter, index) => `${fieldFilter} eq ${valuesFilter[index]}`).join(' and ');
+        const selectFields = EDashboardSolicitud.getColumnasSelect();
+        const expandFields = EDashboardSolicitud.getColumnasExpand();
+        // use odata operators for more efficient queries
+        let query = await sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario)
+        .items
+        .select(...selectFields).expand(...expandFields)
+        .filter(queryFilter);
+        if (orderField !== '') {
+          query = query.orderBy(orderField, orderAscending);
+        }
         const items = query.top(4999).get();
         // console.log({items});
         resolve(items);

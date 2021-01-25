@@ -627,11 +627,6 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       let data: SolicitudCreditoHipotecario[];
       const fieldsFilter: string[] = [];
       const valuesFilter: any[] = [];
-
-      // if (idMes !== 0) {
-      //   fieldsFilter.push('MesSolicitud');
-      //   valuesFilter.push(idMes);
-      // }
       if (idZona !== 0) {
         fieldsFilter.push('ZonaId');
         valuesFilter.push(idZona);
@@ -641,35 +636,21 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       //   valuesFilter.push(idOficina);
       // }
 
-      // if (idTipoProducto !== 0) {
-      //   fieldsFilter.push('Tipo_ProductoId');
-      //   valuesFilter.push(idTipoProducto);
-      // }
-      // if (idTipoSubProducto !== 0) {
-      //   fieldsFilter.push('Sub_ProductoId');
-      //   valuesFilter.push(idTipoSubProducto);
-      // }
-
-      // if (idEstado !== 0) {
-      //   fieldsFilter.push('EstadoId');
-      //   valuesFilter.push(idEstado);
-      // }
-
       // if (idAuthor !== 0) {
       //   fieldsFilter.push('AuthorId');
       //   valuesFilter.push(idAuthor);
       // }
-      if (fieldsFilter.length === 0) {data = await this.solicitudService.get()
+      if (fieldsFilter.length === 0) {data = await this.solicitudService.getDashboard()
           .then(
-            (solicitudHipotecarioList) =>(this.solicitudHipotecarioList = solicitudHipotecarioList))
+            (solicitudHipotecarioList) => (this.solicitudHipotecarioList = solicitudHipotecarioList))
           .catch((error) => console.error(error));
       } else {
-        data = await this.solicitudService.getByFieldsFilter(fieldsFilter, valuesFilter)
+        data = await this.solicitudService.getDashboardByFields(fieldsFilter, valuesFilter)
           .then(
             (solicitudHipotecarioList) => (this.solicitudHipotecarioList = solicitudHipotecarioList))
           .catch((error) => console.error(error));
       }
-      // console.log(data);
+      console.log(data);
       return data;
     }
 
