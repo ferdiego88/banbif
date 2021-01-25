@@ -135,10 +135,6 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     MesId: [null],
     ZonaId: [null],
     OficinaId: [null],
-    Fecha_Creacion_Desde: [null],
-    Fecha_Creacion_Hasta: [null],
-    Fecha_Estado_Desde: [null],
-    Fecha_Estado_Hasta: [null],
     Vendedor: [null],
     Canal: [null],
     Origen: [null],
@@ -146,8 +142,6 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     Responsable: [null],
     Semaforo: [null],
     Variacion: [null],
-    Tipo_ProductoId: [null],
-    Sub_ProductoId: [null],
     EstadoId: [null],
   });
   constructor(
@@ -178,23 +172,28 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
   ngOnInit(): void {
     this.hipotecarioForm.controls.Year.setValue(new Date().getFullYear());
-    this.loadCombos();
+    this.hipotecarioForm.controls.MesId.setValue(new Date().getMonth());
+    // this.toListSolicitudes();
     this.loadListeners();
-    this.toListSolicitudes();
     this.getEjecutivo();
+    this.loadCombos();
+    this.loadLists();
+    // this.solicitudService.getMeetings();
     // this.hideIcons();
   }
 
   loadCombos(){
-    this.getZona();
-    this.getFlujoSeguimiento();
+    this.getZona();  
     this.getOficina();
     this.getYears();
     // this.getEstado();
   }
+  loadLists(){
+  this.getFlujoSeguimiento();
+  }
 
   loadListeners(){
-    this.listenerMonth();
+    // this.listenerMonth();
     this.listenerZona();
   }
 
@@ -245,12 +244,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       this.iconoReprocesosVariation = variacionReprocesos;
       this.sentimentReprocesosVariation = colorReprocesos;
     }
-     listenerMonth(){
-      this.hipotecarioForm.controls.MesId.valueChanges.subscribe(mes => {
-         this.getMonthRequest(mes);
-         this.calculateIndicators();
-      });
-     }
+    
      getMonthRequest(mes: number){
       const solicitudes = this.solicitudHipotecarioList;
       let solicitudPorMes: SolicitudCreditoHipotecario;
@@ -610,23 +604,44 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         } else {
           this.hipotecarioForm.controls.Canal.setValue(1);
         }
-        this.toListSolicitudes(zona);
-        this.getMonthRequest(this.hipotecarioForm.controls.MesId.value);
-        this.calculateIndicators();
+        // const mes = this.hipotecarioForm.controls.MesId.value;
+        // this.toListSolicitudes(mes, zona);
       });
      }
-
-     async toListSolicitudes(idZona = 0){
+     
+     listenerMonth(){
+      this.hipotecarioForm.controls.MesId.valueChanges.subscribe(mes => {
+        // this.toListSolicitudes(mes, 0);
+      });
+     }
+     
+     listIndicators(){
+       const mes = this.hipotecarioForm.controls.MesId.value;
+       const zona = this.hipotecarioForm.controls.ZonaId.value;
+       if (mes !== null && zona !== null) {
+         this.toListSolicitudes(mes, zona);
+       } else if (mes !== null && zona === null) {
+        this.toListSolicitudes(mes, 0);
+       }else if (zona !== null && mes === null){
+        this.toListSolicitudes(0, zona);
+       }
+       this.showIndicadores = true;
+     }
+     
+     async toListSolicitudes(mes= 0 , idZona = 0){
       this.showLoading();
       this.solicitudHipotecarioList = await this.getSolicitudes(idZona);
       this.hideLoading();
+      this.getMonthRequest(mes);
+      this.calculateIndicators();
       // console.log(this.solicitudHipotecarioList);
      }
 
-     async getSolicitudes(idZona = 0) {
+     async getSolicitudes(idZona = 0, ) {
       let data: SolicitudCreditoHipotecario[];
       const fieldsFilter: string[] = [];
       const valuesFilter: any[] = [];
+      // debugger;
       if (idZona !== 0) {
         fieldsFilter.push('ZonaId');
         valuesFilter.push(idZona);

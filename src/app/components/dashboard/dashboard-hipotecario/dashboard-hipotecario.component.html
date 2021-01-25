@@ -4,8 +4,11 @@
         <hr>
         <div class="row">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-2">
                     <span class="sub-title"> Año </span>
+                </div>
+                <div class="col-md-2">
+                    <span class="sub-title"> Mes de Operación </span>
                 </div>
             </div>
             <div class="col-md-2">
@@ -16,13 +19,6 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-            </div>
-        </div>
-        <div class="row">
-            <div class="row">
-                <div class="col-md-12">
-                    <span class="sub-title"> Mes de Operación </span>
-                </div>
             </div>
             <div class="col-md-2">
                 <mat-form-field class="full-width">
@@ -74,6 +70,8 @@
                     </mat-select>
                 </mat-form-field>
             </div>
+        </div>
+        <div class="row">
             <div class="col-md-2">
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Origen" formControlName="Origen">
@@ -84,8 +82,6 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-        </div>
-        <div class="row">
             <div class="col-md-2">
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Responsable" formControlName="Responsable">
@@ -102,8 +98,8 @@
                     <mat-select placeholder="Semáforo" formControlName="Semaforo">
                         <mat-option [value]="">Todas</mat-option>
                         <mat-option *ngFor="let item of semaforoData" [value]="item.id">
-                        {{item.color}}
-                    </mat-option>
+                            {{item.color}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -118,7 +114,9 @@
                 </mat-form-field>
             </div>
             <div class="col-md-2">
-                <button type="button" class="btn btn-info">Prueba</button>
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="listIndicators()">Procesar
+                    <mat-icon>filter_list</mat-icon>
+                </button>
             </div>
         </div>
         <div class="table-responsive">

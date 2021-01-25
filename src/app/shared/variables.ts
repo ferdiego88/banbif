@@ -259,7 +259,8 @@ export class Variables {
     OficinaId: 'OficinaId',
     FechaEstado: 'Fecha_Estado',
     EstadoId: 'EstadoId',
-    Tipo_RentaId: 'Tipo_RentaId'
+    Tipo_RentaId: 'Tipo_RentaId',
+    MesSolicitud: 'MesSolicitud'
   };
 
   static readonly columnasSolicitud = {

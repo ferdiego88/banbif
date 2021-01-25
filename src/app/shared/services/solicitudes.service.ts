@@ -13,6 +13,7 @@ import { EFiltroBandejaSolicitud } from '../models/fisics/EFiltroBandejaSolicitu
 import * as moment from 'moment';
 import { map } from 'rxjs/operators';
 import { EDashboardSolicitud } from '../models/fisics/EDashboardSolicitud';
+import { ListItem } from '../models/fisics/base/ListItem';
 declare var $: any;
 
 @Injectable({
@@ -291,18 +292,20 @@ export class SolicitudesService {
       Description: "Here is a new description"
     });
   }
-  // public getMeetings(startDate: Date, endDate: Date) {
-  //   let today = new Date();
-  //   let futureDate = new Date();
-  //   let offsetDays = 21;
-  //   // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
-  //   // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
-  //   const filterString = `Fecha_Estado ge datetime'${startDate.toISOString()}' and Fecha_Estado le datetime'${endDate.toISOString()}'`;
-  //   sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario).items.filter(filterString).get().then((items: any[]) => {
-  //       const returnedPMeetings = items.map((item) => ({ key: item.Fecha_Estado, text: item.Fecha_Estado }));
-  //       // this.setState({ MeetingsList: returnedPMeetings });
-  //       console.log(returnedPMeetings);
-  //   });
+  public getMeetings() {
+    const offsetDays = 21;
+    const startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    const futureDate = new Date(new Date().setDate(new Date().getDate() + offsetDays));
+    // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
+    // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
+    const filterString = `Fecha_Estado ge datetime'${startDate.toISOString()}' and Fecha_Estado le datetime'${futureDate.toISOString()}'`;
+    sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario).items.filter(filterString).get().then((items: any[]) => {
+        const returnedPMeetings = items.map((item) => ({ key: item.id, text: item.Fecha_Estado }));
+        // this.setState({ MeetingsList: returnedPMeetings });
+        console.log(returnedPMeetings);
+    });
 
-  // }
+  }
+  
+
 }
