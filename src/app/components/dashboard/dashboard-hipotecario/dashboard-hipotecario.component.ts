@@ -746,6 +746,9 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
      .then((user) => user);
     // console.log(this.usersList);
   }
+  showItems(){
+    this.showIndicadores = !this.showIndicadores;
+  }
     calcBusinessDays(startDate, endDate) {
       // This makes no effort to account for holidays
       // Counts end day, does not count start day
@@ -773,7 +776,9 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         current.setDate(current.getDate() + 1);
       }
       return totalBusinessDays;
+
     }
+
  //  evaluateRequestConcluded(expedientesConcluidos: number, happy: string, normal: string, sad: string ){
     //   let resultado = 0;
     //   if (expedientesConcluidos >= 50) {
