@@ -748,6 +748,10 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   }
   showItems(){
     this.showIndicadores = !this.showIndicadores;
+    this.showDetalleConcluidos = !this.showDetalleConcluidos;
+    this.showDetalleANS = !this.showDetalleANS;
+    this.showDetalleReprocesos = !this.showDetalleReprocesos;
+
   }
     calcBusinessDays(startDate, endDate) {
       // This makes no effort to account for holidays

@@ -165,10 +165,10 @@
                         <td></td>
                     </tr>
                     <tr class="cabeceraTabla" [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleConcluidos=!showDetalleConcluidos">
-                        <td>
+                        <td class="td-left">
                             <mat-icon class={{sentimentConcluded}}>{{iconoConcluded}} </mat-icon>
                         </td>
-                        <td>Porcentaje de Expedientes Concluidos </td>
+                        <td class="td-left">Porcentaje de Expedientes Concluidos </td>
                         <td> %</td>
                         <td>Neg. Inmobiliario</td>
                         <td>33 % </td>
@@ -184,11 +184,12 @@
                         <td>{{cantidadSolicitudesConcluidas}}</td>
                         <td>{{cantidadSolicitudesPorMes}}</td>
                     </tr>
+
                     <tr [ngClass]="{'d-none':!showDetalleConcluidos,'d-block':showDetalleConcluidos}" id="result_data" *ngFor="let dashboard of dashboardList">
                         <td>
                             <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon>
                         </td>
-                        <td>
+                        <td class="td-left">
                             {{dashboard.Title}} </td>
                         <td> % </td>
                         <td> Red de Oficinas </td>
@@ -204,11 +205,12 @@
                         <td>{{dashboard.CantidadSolicitudesConcluidas | number: '.0-2'}} </td>
                         <td>{{dashboard.FlujoSeguimiento}} </td>
                     </tr>
+
                     <tr class="cabeceraTabla" [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleANS=!showDetalleANS">
-                        <td>
+                        <td class="td-left">
                             <mat-icon class={{sentimentANS}}>{{iconoANS}} </mat-icon>
                         </td>
-                        <td>Cumplimiento de ANS</td>
+                        <td class="td-left">Cumplimiento de ANS</td>
                         <td> %</td>
                         <td>Neg. Hipotecario</td>
                         <td>33 % </td>
@@ -227,7 +229,7 @@
                         <td>
                             <mat-icon class={{dashboard.SentimientoANS}}>{{dashboard.IconoANS}} </mat-icon>
                         </td>
-                        <td>
+                        <td class="td-left">
 
                             {{dashboard.Title}} </td>
                         <td> % </td>
@@ -245,13 +247,13 @@
                         <td>{{dashboard.CantidadSolicitudes}}</td>
                     </tr>
                     <tr class="cabeceraTabla" [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleReprocesos=!showDetalleReprocesos">
-                        <td>
+                        <td class="td-left">
                             <mat-icon class={{sentimentReprocesos}}>{{iconoReprocesos}} </mat-icon>
                             <!-- <mat-icon id="happyReprocessing" class="happy">sentiment_satisfied_alt</mat-icon>
                             <mat-icon id="dissastisfiedReprocessing" class="dissatisfied">mood_bad</mat-icon>
                             <mat-icon id="sadReprocessing" class="sad">sentiment_dissatisfied</mat-icon> -->
                         </td>
-                        <td>Porcentaje de Reprocesos</td>
+                        <td class="td-left">Porcentaje de Reprocesos</td>
                         <td> %</td>
                         <td>Neg. Inmobiliario</td>
                         <td>33 % </td>
@@ -270,7 +272,7 @@
                         <td>
                             <mat-icon class={{dashboard.SentimientoReproceso}}>{{dashboard.IconoReproceso}} </mat-icon>
                         </td>
-                        <td>
+                        <td class="td-left">
                             {{dashboard.Title}} </td>
                         <td> % </td>
                         <td> Red de Oficinas </td>

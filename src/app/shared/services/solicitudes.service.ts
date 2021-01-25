@@ -240,7 +240,7 @@ export class SolicitudesService {
       }
     });
   }
-  
+
   public getDashboard(orderField = '', orderAscending = true): Promise<any> {
     return new Promise(async (resolve, reject) => {
       if (sp !== null && sp !== undefined) {
@@ -263,7 +263,7 @@ export class SolicitudesService {
 
 
   public async getDashboardByFields(fieldsFilter: string[], valuesFilter: any[], orderField = '', orderAscending = true): Promise<any> {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       if (sp !== null && sp !== undefined) {
         const queryFilter = fieldsFilter.map((fieldFilter, index) => `${fieldFilter} eq ${valuesFilter[index]}`).join(' and ');
         const selectFields = EDashboardSolicitud.getColumnasSelect();
@@ -306,6 +306,6 @@ export class SolicitudesService {
     });
 
   }
-  
+
 
 }
