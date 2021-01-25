@@ -22,6 +22,10 @@ export interface Semaforo {
   color: string;
   id: number;
 }
+export interface Variacion {
+  title: string;
+  id: number;
+}
 export interface Year {
   year: number;
   id: number;
@@ -32,6 +36,11 @@ const SEMAFORO_DATA: Semaforo[] = [
   { id: 0, color: 'Rojo' },
   { id: 1, color: 'Ambar' },
   { id: 2, color: 'Verde' },
+];
+const VARIACION_DATA: Variacion[] = [
+  { id: 0, title: 'Tendencia a la Baja' },
+  { id: 1, title: 'Tendencia Plana' },
+  { id: 2, title: 'Tendencia al Alza' },
 ];
 
 const MESES_DATA: Meses[] = [
@@ -61,6 +70,7 @@ const CANAL_DATA: Canal[] = [
 
 export class DashboardHipotecarioComponent extends FormularioBase implements OnInit {
   data: Meses[] = MESES_DATA;
+  variacionData: Variacion[] = VARIACION_DATA;
   canalData: Canal[] = CANAL_DATA;
   semaforoData: Semaforo[] = SEMAFORO_DATA;
   YEARS: Year[];
@@ -183,7 +193,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   }
 
   loadCombos(){
-    this.getZona();  
+    this.getZona();
     this.getOficina();
     this.getYears();
     // this.getEstado();
@@ -244,7 +254,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       this.iconoReprocesosVariation = variacionReprocesos;
       this.sentimentReprocesosVariation = colorReprocesos;
     }
-    
+
      getMonthRequest(mes: number){
       const solicitudes = this.solicitudHipotecarioList;
       let solicitudPorMes: SolicitudCreditoHipotecario;
@@ -608,36 +618,55 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         // this.toListSolicitudes(mes, zona);
       });
      }
-     
+
      listenerMonth(){
       this.hipotecarioForm.controls.MesId.valueChanges.subscribe(mes => {
         // this.toListSolicitudes(mes, 0);
       });
      }
-     
+
      listIndicators(){
-       const mes = this.hipotecarioForm.controls.MesId.value;
-       const zona = this.hipotecarioForm.controls.ZonaId.value;
-       if (mes !== null && zona !== null) {
-         this.toListSolicitudes(mes, zona);
-       } else if (mes !== null && zona === null) {
-        this.toListSolicitudes(mes, 0);
-       }else if (zona !== null && mes === null){
-        this.toListSolicitudes(0, zona);
+       let mes = this.hipotecarioForm.controls.MesId.value;
+       let zona = this.hipotecarioForm.controls.ZonaId.value;
+       let oficina = this.hipotecarioForm.controls.OficinaId.value;
+       let autor = this.hipotecarioForm.controls.Vendedor.value;
+       if (mes === null) {
+         mes = 0;
        }
+       if (zona === null) {
+        zona = 0;
+       }
+       if (oficina === null) {
+        oficina = 0;
+       }
+       if (autor === null) {
+        autor = 0;
+       }
+       this.toListSolicitudes(mes, zona, oficina, autor);
+      //  if (mes !== null && zona !== null && oficina !== null ) {
+      //    this.toListSolicitudes(mes, zona, oficina);
+      //  } else if (mes !== null && zona === null && oficina === null) {
+      //   this.toListSolicitudes(mes, 0, 0);
+      //  }else if (zona !== null && mes === null){
+      //   this.toListSolicitudes(0, zona);
+      //  }
        this.showIndicadores = true;
      }
-     
-     async toListSolicitudes(mes= 0 , idZona = 0){
-      this.showLoading();
-      this.solicitudHipotecarioList = await this.getSolicitudes(idZona);
-      this.hideLoading();
-      this.getMonthRequest(mes);
-      this.calculateIndicators();
+
+     async toListSolicitudes(mes= 0 , idZona = 0, idOficina = 0, autor = 0 ){
+       try {
+         this.showLoading();
+         this.solicitudHipotecarioList = await this.getSolicitudes(idZona, idOficina, autor);
+         this.getMonthRequest(mes);
+         this.calculateIndicators();
+         this.hideLoading();
+       } catch (error) {
+         this.showErrorMessage('Intente Nuevamente');
+       }
       // console.log(this.solicitudHipotecarioList);
      }
 
-     async getSolicitudes(idZona = 0, ) {
+     async getSolicitudes(idZona = 0, idOficina = 0, idAuthor = 0 ) {
       let data: SolicitudCreditoHipotecario[];
       const fieldsFilter: string[] = [];
       const valuesFilter: any[] = [];
@@ -646,15 +675,15 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         fieldsFilter.push('ZonaId');
         valuesFilter.push(idZona);
       }
-      // if (idOficina !== 0) {
-      //   fieldsFilter.push('OficinaId');
-      //   valuesFilter.push(idOficina);
-      // }
+      if (idOficina !== 0) {
+        fieldsFilter.push('OficinaId');
+        valuesFilter.push(idOficina);
+      }
 
-      // if (idAuthor !== 0) {
-      //   fieldsFilter.push('AuthorId');
-      //   valuesFilter.push(idAuthor);
-      // }
+      if (idAuthor !== 0) {
+        fieldsFilter.push('AuthorId');
+        valuesFilter.push(idAuthor);
+      }
       if (fieldsFilter.length === 0) {data = await this.solicitudService.getDashboard()
           .then(
             (solicitudHipotecarioList) => (this.solicitudHipotecarioList = solicitudHipotecarioList))
@@ -776,25 +805,6 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     //       document.getElementById(normal).style.display = 'block';
     //       this.hideIcon([sad, happy]);
     //     }
-    //  }
-    //  evaluateReprocess(reprocesos: number, happy: string, normal: string, sad: string ){
-    //   let resultado = 0;
-    //   if (reprocesos >= 50) {
-    //     this.hideIcon([happy, normal]);
-    //     document.getElementById(sad).style.display = 'block';
-    //     resultado = 0;
-    //   } else if ( reprocesos >= 40  && reprocesos < 50) {
-    //     document.getElementById(normal).style.display = 'block';
-    //     this.hideIcon([happy, sad]);
-    //     resultado = 1;
-    //   }else if (reprocesos < 40){
-    //     document.getElementById(happy).style.display = 'block';
-    //     this.hideIcon([sad, normal]);
-    //     resultado = 2;
-    //   }else{
-    //     this.hideIcon([sad, normal, happy]);
-    //   }
-    //   return resultado;
     //  }
 
    // hideIcons(){

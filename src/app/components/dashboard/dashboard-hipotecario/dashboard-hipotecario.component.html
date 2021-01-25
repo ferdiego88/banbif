@@ -107,9 +107,9 @@
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Variación" formControlName="Variacion">
                         <mat-option [value]="">Todas</mat-option>
-                        <!-- <mat-option *ngFor="let item of data" [value]="item.id">
-                        {{item.name}}
-                    </mat-option> -->
+                        <mat-option *ngFor="let item of variacionData" [value]="item.id">
+                        {{item.title}}
+                    </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -164,7 +164,7 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleConcluidos=!showDetalleConcluidos">
+                    <tr class="cabeceraTabla" [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleConcluidos=!showDetalleConcluidos">
                         <td>
                             <mat-icon class={{sentimentConcluded}}>{{iconoConcluded}} </mat-icon>
                         </td>
@@ -204,7 +204,7 @@
                         <td>{{dashboard.CantidadSolicitudesConcluidas | number: '.0-2'}} </td>
                         <td>{{dashboard.FlujoSeguimiento}} </td>
                     </tr>
-                    <tr [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleANS=!showDetalleANS">
+                    <tr class="cabeceraTabla" [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleANS=!showDetalleANS">
                         <td>
                             <mat-icon class={{sentimentANS}}>{{iconoANS}} </mat-icon>
                         </td>
@@ -244,7 +244,7 @@
                         <td>{{dashboard.CantidadSolicitudesANS}}</td>
                         <td>{{dashboard.CantidadSolicitudes}}</td>
                     </tr>
-                    <tr [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleReprocesos=!showDetalleReprocesos">
+                    <tr class="cabeceraTabla" [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleReprocesos=!showDetalleReprocesos">
                         <td>
                             <mat-icon class={{sentimentReprocesos}}>{{iconoReprocesos}} </mat-icon>
                             <!-- <mat-icon id="happyReprocessing" class="happy">sentiment_satisfied_alt</mat-icon>

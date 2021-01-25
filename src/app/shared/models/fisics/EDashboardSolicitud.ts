@@ -12,6 +12,7 @@ export class EDashboardSolicitud {
     Estado: string;
     Tipo_RentaId: number;
     ZonaId: number;
+    OficinaId: number;
     MesSolicitud: number;
 
     constructor() {
@@ -24,6 +25,7 @@ export class EDashboardSolicitud {
         this.Tipo_RentaId = 0;
         this.ZonaId = 0;
         this.MesSolicitud = 0;
+        this.OficinaId = 0;
     }
 
     public static getColumnasSelect(): string[] {
@@ -37,6 +39,7 @@ export class EDashboardSolicitud {
             Variables.columnasDashboard.Tipo_RentaId,
             Variables.columnasDashboard.ZonaId,
             Variables.columnasDashboard.MesSolicitud,
+            Variables.columnasDashboard.OficinaId,
         ];
     }
 
@@ -46,5 +49,5 @@ export class EDashboardSolicitud {
         ];
     }
 
-    
+
 }
