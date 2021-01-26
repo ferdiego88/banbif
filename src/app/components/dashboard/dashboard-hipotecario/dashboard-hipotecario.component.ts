@@ -327,13 +327,23 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         this.getANSList(this.solicitudesEstadoList, estado, this.solicitudANSList);
         // console.log(this.solicitudANSList);
         this.flujoSeguimientoEstadoList = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
+        const dataSeguimiento = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id)
+          .map(codigo => codigo.SolicitudHipotecarioId);
+        const dataArray = new Set(dataSeguimiento);
+        const result = [...dataArray];
+        console.log(this.solicitudesEstadoList);
+        console.log(result);
+        console.log(this.flujoSeguimientoEstadoList);
         this.solicitudesEstadoAnteriorList = this.solicitudMesAnteriorList.filter(solicitud => solicitud.EstadoId === estado.Id);
         this.getANSList(this.solicitudesEstadoAnteriorList, estado, this.solicitudANSAnteriorList);
         // console.log(this.solicitudANSAnteriorList);
         this.flujoSeguimientoEstadoAnteriorList =
         this.flujoSeguimientoAnteriorList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
         const solicitudes = this.solicitudesEstadoList.length;
-        let flujoSeguimiento = this.flujoSeguimientoEstadoList.length;
+
+        // let flujoSeguimiento = this.flujoSeguimientoEstadoList.length;
+        let flujoSeguimiento = dataSeguimiento.length;
+
         const solicitudesAnterior = this.solicitudesEstadoAnteriorList.length;
         const flujoSeguimientoAnterior = this.flujoSeguimientoEstadoAnteriorList.length;
         const cantidadSolicitudANS = this.solicitudANSList.length;
