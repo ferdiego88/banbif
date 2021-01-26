@@ -302,6 +302,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
              }
       });
+      console.log(this.flujoSeguimientoList);
      }
 
      async filterSolicitudesEstado(){
@@ -316,6 +317,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       this.cantidadsolicitudANSMes = 0;
       this.cantidadsolicitudANSMesPrueba = 0;
       this.cantidadsolicitudANSMesAnterior = 0;
+      const prueba = this.flujoSeguimientoList.map(sol => sol.SolicitudHipotecarioId);
+      console.log(prueba);
       estados.forEach(estado => {
         this.solicitudANSList = [];
         this.solicitudANSAnteriorList = [];
@@ -326,14 +329,15 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         this.solicitudesEstadoList = this.solicitudMesList.filter(solicitud => solicitud.EstadoId === estado.Id);
         this.getANSList(this.solicitudesEstadoList, estado, this.solicitudANSList);
         // console.log(this.solicitudANSList);
-        this.flujoSeguimientoEstadoList = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
+        // const fs = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id)
+        //   .map(flujo => flujo.SolicitudHipotecarioId);
         const dataSeguimiento = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id)
           .map(codigo => codigo.SolicitudHipotecarioId);
         const dataArray = new Set(dataSeguimiento);
         const result = [...dataArray];
         console.log(this.solicitudesEstadoList);
         console.log(result);
-        console.log(this.flujoSeguimientoEstadoList);
+        // console.log(fs);
         this.solicitudesEstadoAnteriorList = this.solicitudMesAnteriorList.filter(solicitud => solicitud.EstadoId === estado.Id);
         this.getANSList(this.solicitudesEstadoAnteriorList, estado, this.solicitudANSAnteriorList);
         // console.log(this.solicitudANSAnteriorList);
