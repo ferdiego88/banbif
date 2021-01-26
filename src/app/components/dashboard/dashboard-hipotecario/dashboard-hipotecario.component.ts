@@ -429,11 +429,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         };
         if (estado.Id === Variables.constantes.EstadoObservadoCPM || estado.Id === Variables.constantes.EstadoObservadoRiesgos) {
           this.dashboardReprocesosList.push(estadoElement);
-        } else {
-          if (solicitudes > 0 && estado.Id !== Variables.constantes.EstadoAprobadoSinVerificacion) {
-            this.dashboardList.push(estadoElement);
-           }
         }
+        this.dashboardList.push(estadoElement);
           });
       this.porcentajeExpedientesANS = (1 - (this.cantidadsolicitudANSMes / this.solicitudMesList.length)) * 100;
       this.porcentajeExpedientesANSAnterior = (1 - (this.cantidadsolicitudANSMesAnterior / this.solicitudMesAnteriorList.length)) * 100;
