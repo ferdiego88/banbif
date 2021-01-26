@@ -304,6 +304,7 @@ valueSubProducto(): any{
     let solicitudes;
     if (this.dashboardForm.controls.Fecha_Creacion_Hasta.value) {
       const solicitudesporFecha = this.getSolicitudesFechaCreacion();
+      // console.log(solicitudesporFecha);
       solicitudes = solicitudesporFecha.filter( (item) => item.EstadoId === estado);
       // solicitudes = solicitudesporFecha.filter()
     } else if ( this.dashboardForm.controls.Fecha_Estado_Hasta.value)

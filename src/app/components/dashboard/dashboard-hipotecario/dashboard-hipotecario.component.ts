@@ -187,8 +187,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     this.loadListeners();
     this.getEjecutivo();
     this.loadCombos();
-    this.loadLists();
-    // this.solicitudService.getMeetings();
+    //this.loadLists();
     // this.hideIcons();
   }
 
@@ -198,9 +197,9 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     this.getYears();
     // this.getEstado();
   }
-  loadLists(){
-  this.getFlujoSeguimiento();
-  }
+  // async loadLists(){
+  //  await this.getFlujoSeguimiento();
+  // }
 
   loadListeners(){
     // this.listenerMonth();
@@ -255,8 +254,9 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       this.sentimentReprocesosVariation = colorReprocesos;
     }
 
-     getMonthRequest(mes: number){
+      getMonthRequest(mes: number){
       const solicitudes = this.solicitudHipotecarioList;
+      // console.log(this.flujoSeguimientoEtapaLista.map(indx => indx.SolicitudHipotecarioId));
       let solicitudPorMes: SolicitudCreditoHipotecario;
       let solicitudPorMesAnterior: SolicitudCreditoHipotecario;
       let solicitudFlujoSeguimiento: TipoProductoModel[];
@@ -302,7 +302,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
              }
       });
-      console.log(this.flujoSeguimientoList);
+      console.log(this.flujoSeguimientoAnteriorList);
      }
 
      async filterSolicitudesEstado(){
@@ -317,8 +317,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       this.cantidadsolicitudANSMes = 0;
       this.cantidadsolicitudANSMesPrueba = 0;
       this.cantidadsolicitudANSMesAnterior = 0;
-      const prueba = this.flujoSeguimientoList.map(sol => sol.SolicitudHipotecarioId);
-      console.log(prueba);
+      // const prueba = this.flujoSeguimientoList.map(sol => sol.SolicitudHipotecarioId);
+      // console.log(prueba);
       estados.forEach(estado => {
         this.solicitudANSList = [];
         this.solicitudANSAnteriorList = [];
@@ -329,15 +329,12 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         this.solicitudesEstadoList = this.solicitudMesList.filter(solicitud => solicitud.EstadoId === estado.Id);
         this.getANSList(this.solicitudesEstadoList, estado, this.solicitudANSList);
         // console.log(this.solicitudANSList);
-        // const fs = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id)
-        //   .map(flujo => flujo.SolicitudHipotecarioId);
         const dataSeguimiento = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id)
           .map(codigo => codigo.SolicitudHipotecarioId);
         const dataArray = new Set(dataSeguimiento);
         const result = [...dataArray];
         console.log(this.solicitudesEstadoList);
         console.log(result);
-        // console.log(fs);
         this.solicitudesEstadoAnteriorList = this.solicitudMesAnteriorList.filter(solicitud => solicitud.EstadoId === estado.Id);
         this.getANSList(this.solicitudesEstadoAnteriorList, estado, this.solicitudANSAnteriorList);
         // console.log(this.solicitudANSAnteriorList);
@@ -346,7 +343,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         const solicitudes = this.solicitudesEstadoList.length;
 
         // let flujoSeguimiento = this.flujoSeguimientoEstadoList.length;
-        let flujoSeguimiento = dataSeguimiento.length;
+        let flujoSeguimiento = result.length;
 
         const solicitudesAnterior = this.solicitudesEstadoAnteriorList.length;
         const flujoSeguimientoAnterior = this.flujoSeguimientoEstadoAnteriorList.length;
@@ -369,7 +366,6 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           numeradorConcluidos = solicitudes;
           flujoSeguimiento = this.solicitudMesList.length;
         } else {
-
           porcentajeExpediente = (numeradorConcluidos / flujoSeguimiento) * 100;
           porcentajeReprocesos = (flujoSeguimiento / this.solicitudMesList.length) * 100;
         }
@@ -654,24 +650,20 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         autor = 0;
        }
        this.toListSolicitudes(mes, zona, oficina, autor);
-      //  if (mes !== null && zona !== null && oficina !== null ) {
-      //    this.toListSolicitudes(mes, zona, oficina);
-      //  } else if (mes !== null && zona === null && oficina === null) {
-      //   this.toListSolicitudes(mes, 0, 0);
-      //  }else if (zona !== null && mes === null){
-      //   this.toListSolicitudes(0, zona);
-      //  }
        this.showIndicadores = true;
      }
 
      async toListSolicitudes(mes= 0 , idZona = 0, idOficina = 0, autor = 0 ){
        try {
+         const year = this.hipotecarioForm.controls.Year.value;
          this.showLoading();
          this.solicitudHipotecarioList = await this.getSolicitudes(idZona, idOficina, autor);
+         await this.getFlujoSeguimiento(mes, year);
          this.getMonthRequest(mes);
          this.calculateIndicators();
          this.hideLoading();
        } catch (error) {
+         console.log(error);
          this.showErrorMessage('Intente Nuevamente');
        }
       // console.log(this.solicitudHipotecarioList);
@@ -709,10 +701,10 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       return data;
     }
 
-    getFlujoSeguimiento() {
-      this.generalListService
-        .get(Variables.listas.FlujoSeguimientoEtapa)
-        .then((flujoSeguimientoEtapaLista) => (this.flujoSeguimientoEtapaLista = flujoSeguimientoEtapaLista))
+    async getFlujoSeguimiento(mes: number, year: number) {
+      await this.solicitudService
+        .getSolicitudSeguimiento(Variables.listas.FlujoSeguimientoEtapa, mes, year)
+        .then((flujoSeguimientoEtapaLista: any) => (this.flujoSeguimientoEtapaLista = flujoSeguimientoEtapaLista))
         .catch((error) => console.error(error));
     }
     getOficina(): any {
