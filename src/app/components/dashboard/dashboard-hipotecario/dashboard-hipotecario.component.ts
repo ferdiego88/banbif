@@ -80,6 +80,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   flujoSeguimientoEtapaLista: TipoProductoModel[];
   flujoSeguimientoEstadoList: TipoProductoModel[];
   dashboardList: DashboardHipotecarioModel[];
+  dashboardConcluidosList: DashboardHipotecarioModel[];
   dashboardReprocesosList: DashboardHipotecarioModel[];
   solicitudesEstadoList: SolicitudCreditoHipotecario[];
   flujoSeguimientoEstadoAnteriorList: TipoProductoModel[];
@@ -416,6 +417,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           cantidadSolicitudesConcluidasAnterior: numeradorConcluidosAnterior,
           FlujoSeguimiento: flujoSeguimiento,
           FlujoSeguimientoAnterior: flujoSeguimientoAnterior,
+          FlujoSeguimientoReprocesos: solicitudes,
+          FlujoSeguimientoReprocesosAnterior: solicitudes,
           CantidadSolicitudesANS: this.cantidadsolicitudANSPrueba,
           CantidadSolicitudesANSAnterior: cantidadSolicitudANSAnterior,
           Porcentaje: porcentajeExpediente,
@@ -446,19 +449,14 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         };
         if (estado.Id === Variables.constantes.EstadoObservadoCPM || estado.Id === Variables.constantes.EstadoObservadoRiesgos) {
           this.dashboardReprocesosList.push(estadoElement);
+
         }
-        if (numeradorConcluidos > 0  && estado.Id !== Variables.constantes.EstadoAsignacionRiesgos &&
-            estado.Id !== Variables.constantes.EstadoRegularizacionCPM &&
-            estado.Id !== Variables.constantes.EstadoPreTerminado &&
-            estado.Id !== Variables.constantes.EstadoAprobadoConVerificacion &&
-            estado.Id !== Variables.constantes.EstadoAprobadoSinVerificacion &&
-            estado.Id !== Variables.constantes.EstadoDesestimiento &&
-            estado.Id !== Variables.constantes.EstadoPreTerminado &&
-            estado.Id !== Variables.constantes.EstadoRegularizacionCPM) {
-            }
+
             this.dashboardList.push(estadoElement);
             this.modifiyCPMDashboardList();
             this.modifiyGestionDashboardList();
+            this.modifiyReprocesosDashboardList();
+            this.llenarDashboardConcluidos();
           });
       this.porcentajeExpedientesANS = (1 - (this.cantidadsolicitudANSMes / this.solicitudMesList.length)) * 100;
       this.porcentajeExpedientesANSAnterior = (1 - (this.cantidadsolicitudANSMesAnterior / this.solicitudMesAnteriorList.length)) * 100;
@@ -478,7 +476,22 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
      }
 
+    llenarDashboardConcluidos(){
+      this.dashboardConcluidosList = [];
+      this.dashboardList.map(dato=>{
+        if (dato.Id !== Variables.constantes.EstadoAsignacionRiesgos &&
+          dato.Id !== Variables.constantes.EstadoRegularizacionCPM &&
+          dato.Id !== Variables.constantes.EstadoPreTerminado &&
+          dato.Id !== Variables.constantes.EstadoAprobadoConVerificacion &&
+          dato.Id !== Variables.constantes.EstadoAprobadoSinVerificacion &&
+          dato.Id !== Variables.constantes.EstadoDesestimiento &&
+          dato.Id !== Variables.constantes.EstadoPreTerminado &&
+          dato.Id !== Variables.constantes.EstadoRegularizacionCPM) {
+            this.dashboardConcluidosList.push(dato);
+          }
+      });
 
+    }
      modifiyCPMDashboardList(){
        this.numeradorEvaluacionRiesgos = 0;
        this.numeradorEvaluacionRiesgosAnterior = 0;
@@ -606,7 +619,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       });
 
 
-      console.log(this.numeradorEvaluacionRiesgos);
+     // console.log(this.numeradorEvaluacionRiesgos);
      }
      modifiyReprocesosDashboardList(){
       this.denominadorReprocesosObservadoCPM = 0;
@@ -628,50 +641,44 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         }
       });
 
-      this.dashboardList.map(dato =>{
+      this.dashboardReprocesosList.map(dato =>{
         if (dato.Id === Variables.constantes.EstadoObservadoCPM) {
-          dato.FlujoSeguimiento = this.denominadorReprocesosObservadoCPM;
-          dato.FlujoSeguimientoAnterior = this.denominadorReprocesosObservadoCPMAnterior;
-          dato.Porcentaje = (dato.CantidadSolicitudesConcluidas/  this.denominadorReprocesosObservadoCPM) * 100;
-          dato.PorcentajeAnterior = (dato.CantidadSolicitudesConcluidasAnterior /  this.denominadorReprocesosObservadoCPMAnterior) * 100;
-          const {icono, sentiment, resultado} = this.evaluarProcesos(dato.Porcentaje);
+          dato.FlujoSeguimientoReprocesos = this.denominadorReprocesosObservadoCPM;
+          dato.FlujoSeguimientoReprocesosAnterior = this.denominadorReprocesosObservadoCPMAnterior;
+          dato.PorcentajeReprocesos = (dato.FlujoSeguimiento/  this.denominadorReprocesosObservadoCPM) * 100;
+          dato.PorcentajeReprocesosAnterior = (dato.FlujoSeguimientoAnterior /  this.denominadorReprocesosObservadoCPMAnterior) * 100;
+          const {icono, sentiment, resultado} = this.evaluarProcesos(dato.PorcentajeReprocesos);
           const {icono: iconoPrevious, sentiment: sentimentPrevious, resultado: resultadoPrevious} =
-          this.evaluarProcesos(dato.PorcentajeAnterior);
+          this.evaluarProcesos(dato.PorcentajeReprocesosAnterior);
           const [variacionConcluidos, colorVariacion] = this.evaluarVariacion(resultado, resultadoPrevious);
-          dato.Sentimiento = sentiment;
-          dato.Icono = icono;
-          dato.Variacion = variacionConcluidos;
-          dato.ColorVariacion = colorVariacion;
-          dato.SentimientoAnterior = sentimentPrevious;
-          dato.IconoAnterior = iconoPrevious;
+          dato.SentimientoReproceso = sentiment;
+          dato.IconoReproceso = icono;
+          dato.VariacionReproceso = variacionConcluidos;
+          dato.ColorVariacionReproceso = colorVariacion;
+          dato.SentimientoReprocesoAnterior = sentimentPrevious;
+          dato.IconoReprocesoAnterior = iconoPrevious;
 
         }
       });
-      this.dashboardList.map(dato =>{
+      this.dashboardReprocesosList.map(dato =>{
         if (dato.Id === Variables.constantes.EstadoObservadoRiesgos) {
-          dato.FlujoSeguimiento = this.denominadorReprocesosObservadoRiesgo;
-          dato.FlujoSeguimientoAnterior = this.denominadorReprocesosObservadoRiesgoAnterior;
-          dato.Porcentaje = (dato.CantidadSolicitudesConcluidas/  this.denominadorReprocesosObservadoRiesgoAnterior) * 100;
-          dato.PorcentajeAnterior = (dato.CantidadSolicitudesConcluidasAnterior /  this.denominadorReprocesosObservadoRiesgoAnterior) * 100;
-          const {icono, sentiment, resultado} = this.evaluarProcesos(dato.Porcentaje);
+          dato.FlujoSeguimientoReprocesos = this.denominadorReprocesosObservadoRiesgo;
+          dato.FlujoSeguimientoReprocesosAnterior = this.denominadorReprocesosObservadoRiesgoAnterior;
+          dato.PorcentajeReprocesos = (dato.FlujoSeguimiento/  this.denominadorReprocesosObservadoRiesgo) * 100;
+          dato.PorcentajeReprocesosAnterior = (dato.FlujoSeguimientoAnterior /  this.denominadorReprocesosObservadoRiesgoAnterior) * 100;
+          const {icono, sentiment, resultado} = this.evaluarProcesos(dato.PorcentajeReprocesos);
           const {icono: iconoPrevious, sentiment: sentimentPrevious, resultado: resultadoPrevious} =
-          this.evaluarProcesos(dato.PorcentajeAnterior);
+          this.evaluarProcesos(dato.PorcentajeReprocesosAnterior);
           const [variacionConcluidos, colorVariacion] = this.evaluarVariacion(resultado, resultadoPrevious);
-          dato.Sentimiento = sentiment;
-          dato.Icono = icono;
-          dato.Variacion = variacionConcluidos;
-          dato.ColorVariacion = colorVariacion;
-          dato.SentimientoAnterior = sentimentPrevious;
-          dato.IconoAnterior = iconoPrevious;
+          dato.SentimientoReproceso = sentiment;
+          dato.IconoReproceso = icono;
+          dato.VariacionReproceso = variacionConcluidos;
+          dato.ColorVariacionReproceso = colorVariacion;
+          dato.SentimientoReprocesoAnterior = sentimentPrevious;
+          dato.IconoReprocesoAnterior = iconoPrevious;
 
         }
       });
-
-
-
-
-
-      console.log(this.numeradorEvaluacionRiesgos);
      }
 
      countReproccess(listaSeguimiento: TipoProductoModel[]){

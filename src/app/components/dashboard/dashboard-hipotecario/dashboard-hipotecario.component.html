@@ -188,7 +188,7 @@
                         <td>{{cantidadSolicitudesPorMes}}</td>
                     </tr>
 
-                    <tr [ngClass]="{'d-none':!showDetalleConcluidos,'d-block':showDetalleConcluidos}" id="result_data" *ngFor="let dashboard of dashboardList">
+                    <tr [ngClass]="{'d-none':!showDetalleConcluidos,'d-block':showDetalleConcluidos}" id="result_data" *ngFor="let dashboard of dashboardConcluidosList">
                         <td>
                             <mat-icon class={{dashboard.Sentimiento}}>{{dashboard.Icono}} </mat-icon>
                         </td>
@@ -289,7 +289,7 @@
                         <td> </td>
                         <td>{{dashboard.PorcentajeReprocesos | number: '.0-2'}} % </td>
                         <td>{{dashboard.FlujoSeguimiento }}</td>
-                        <td>{{cantidadSolicitudesPorMes }} </td>
+                        <td>{{dashboard.FlujoSeguimientoReprocesos }} </td>
 
                     </tr>
                 </tbody>
