@@ -241,7 +241,7 @@ export class SolicitudesService {
     });
   }
 
-  public getDashboard(orderField = '', orderAscending = true): Promise<any> {
+  public async getDashboard(orderField = '', orderAscending = true): Promise<any> {
     return new Promise(async (resolve, reject) => {
       if (sp !== null && sp !== undefined) {
         const selectFields = EDashboardSolicitud.getColumnasSelect();
@@ -292,19 +292,76 @@ export class SolicitudesService {
       Description: "Here is a new description"
     });
   }
-  public getMeetings() {
-    const offsetDays = 21;
-    const startDate = new Date(new Date().setDate(new Date().getDate() - 30));
-    const futureDate = new Date(new Date().setDate(new Date().getDate() + offsetDays));
+
+ 
+  public async getSolicitudSeguimiento(listName: string, mes = 0, year = 0 , orderField = '', orderAscending = true) {
+    let startDate = new Date();
+    const december = 11;
+    const enero = 0;
+    let futureDate = new Date();
+    const dayToday = moment().format('DD');
+    const monthToday = moment().format('M');
+    const yearToday = moment().format('YYYY');
+    const DiaHoy = parseInt(dayToday, 10);
+    const MesHoy = parseInt(monthToday, 10);
+    const YearHoy = parseInt(yearToday, 10);
+
+    console.log(DiaHoy);
+    console.log(MesHoy);
+    console.log(YearHoy);
+    
+    if (mes === enero) {
+      startDate = new Date(year - 1, 11, 1);
+      futureDate = new Date(YearHoy, MesHoy, DiaHoy);
+    } else if (mes === december) {
+      startDate = new Date(year, 10, 1);
+      futureDate = new Date(YearHoy, MesHoy, DiaHoy);
+    }else{
+      startDate = new Date(year, mes - 1, 1);
+      futureDate = new Date(YearHoy, MesHoy, DiaHoy);
+    }
+   
+
+    const filterString = `Created ge datetime'${startDate.toISOString()}' and Created le datetime'${futureDate.toISOString()}'`;
+    return new Promise((resolve, reject) => {
+      if (sp !== null && sp !== undefined) {
+        let query = sp.web.lists.getByTitle(listName).items.filter(filterString).getAll();
+        // if (orderField !== '') {
+        //     query = query.orderBy(orderField, orderAscending);
+        // }
+        const items = query;
+          // const items = query.top(4999).get();
+        console.log({items});
+        resolve(items);
+      } else {
+          reject('Failed getting list data...');
+      }
+  });
+
+
+ 
     // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
     // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
-    const filterString = `Fecha_Estado ge datetime'${startDate.toISOString()}' and Fecha_Estado le datetime'${futureDate.toISOString()}'`;
-    sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario).items.filter(filterString).get().then((items: any[]) => {
-        const returnedPMeetings = items.map((item) => ({ key: item.id, text: item.Fecha_Estado }));
+    // const filterString = `Created ge datetime'${startDate.toISOString()}' and Created le datetime'${futureDate.toISOString()}'`;
+    // let query = sp.web.lists.getByTitle(Variables.listas.FlujoSeguimientoEtapa).items.top(4999).
+    // filter(filterString).get().then((items: any[]) => {
+    //     const returnedPMeetings = items.map((item) => ({ key: item.id, text: item.Created }));
+    //     // this.setState({ MeetingsList: returnedPMeetings });
+    //     console.log(returnedPMeetings);
+    // });
+    //query.top(4999);
+
+  }
+  public getSolicitudesFecha(){
+    const startDate = new Date(2020, 11, 1);
+    const futureDate = new Date(2021, 0, 1);
+    const filterString = `Created ge datetime'${startDate.toISOString()}' and Created le datetime'${futureDate.toISOString()}'`;
+    let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario).items.top(4999).
+    filter(filterString).get().then((items: any[]) => {
+        const returnedPMeetings = items.map((item) => ({ key: item.id, text: item.Created }));
         // this.setState({ MeetingsList: returnedPMeetings });
         console.log(returnedPMeetings);
     });
-
   }
 
 
