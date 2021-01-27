@@ -135,7 +135,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
   cantidadsolicitudANSMesAnterior: number;
   solicitudANSAnteriorList: SolicitudCreditoHipotecario[];
-
+  numeradorCPM: number;
   showIndicadores = false;
   showDetalleConcluidos = false;
   showDetalleReprocesos = false;
@@ -430,8 +430,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         if (estado.Id === Variables.constantes.EstadoObservadoCPM || estado.Id === Variables.constantes.EstadoObservadoRiesgos) {
           this.dashboardReprocesosList.push(estadoElement);
         }
-        if (numeradorConcluidos > 0  && estado.Id !== Variables.constantes.EstadoAsignacionRiesgos && 
-            estado.Id !== Variables.constantes.EstadoRegularizacionCPM && 
+        if (numeradorConcluidos > 0  && estado.Id !== Variables.constantes.EstadoAsignacionRiesgos &&
+            estado.Id !== Variables.constantes.EstadoRegularizacionCPM &&
             estado.Id !== Variables.constantes.EstadoPreTerminado &&
             estado.Id !== Variables.constantes.EstadoAprobadoConVerificacion &&
             estado.Id !== Variables.constantes.EstadoAprobadoSinVerificacion &&
@@ -439,7 +439,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
             estado.Id !== Variables.constantes.EstadoPreTerminado &&
             estado.Id !== Variables.constantes.EstadoRegularizacionCPM) {
           this.dashboardList.push(estadoElement);
-        } 
+          this.modifiyDashboardList();
+        }
           });
       this.porcentajeExpedientesANS = (1 - (this.cantidadsolicitudANSMes / this.solicitudMesList.length)) * 100;
       this.porcentajeExpedientesANSAnterior = (1 - (this.cantidadsolicitudANSMesAnterior / this.solicitudMesAnteriorList.length)) * 100;
@@ -457,6 +458,20 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       this.sentimentANSVariation = colorANS;
      // console.log(this.sentimentANS);
 
+     }
+
+     modifiyDashboardList(){
+      this.dashboardList.map(dato =>{
+        if (dato.Id === Variables.constantes.EstadoEvaluacionRiesgos) {
+          this.numeradorCPM = dato.CantidadSolicitudesConcluidas;
+        }
+      });
+
+      this.dashboardList.map(dato =>{
+        if (dato.Id === Variables.constantes.EstadoRegistroCPM) {
+          dato.CantidadSolicitudesConcluidas = this.numeradorCPM;
+        }
+      });
      }
      countReproccess(listaSeguimiento: TipoProductoModel[]){
       let contadorReprocesos = 0;
