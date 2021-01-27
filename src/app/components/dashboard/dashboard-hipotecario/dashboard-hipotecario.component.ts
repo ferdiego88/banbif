@@ -430,7 +430,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         if (estado.Id === Variables.constantes.EstadoObservadoCPM || estado.Id === Variables.constantes.EstadoObservadoRiesgos) {
           this.dashboardReprocesosList.push(estadoElement);
         }
-        if (estado.Id !== Variables.constantes.EstadoAsignacionRiesgos && 
+        if (numeradorConcluidos > 0  && estado.Id !== Variables.constantes.EstadoAsignacionRiesgos && 
             estado.Id !== Variables.constantes.EstadoRegularizacionCPM && 
             estado.Id !== Variables.constantes.EstadoPreTerminado &&
             estado.Id !== Variables.constantes.EstadoAprobadoConVerificacion &&
