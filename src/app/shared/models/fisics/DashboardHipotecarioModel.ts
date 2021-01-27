@@ -3,6 +3,7 @@ export class DashboardHipotecarioModel{
         public Id: number,
         public Title: string,
         public CantidadSolicitudes?: number,
+        public CantidadSolicitudesConcluidasAnterior?: number,
         public CantidadSolicitudesConcluidas?: number,
         public CantidadSolicitudesANS?: number,
         public CantidadSolicitudesANSAnterior?: number,
