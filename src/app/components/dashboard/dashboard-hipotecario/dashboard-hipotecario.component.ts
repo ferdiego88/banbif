@@ -141,6 +141,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   numeradorEvaluacionRiesgosAnterior: number;
   numeradorGestionFiles2: number;
   numeradorGestionFiles2Anterior: number;
+  numeradorValidacionFiles: number;
+  numeradorValidacionFilesAnterior: number;
   showIndicadores = false;
   showDetalleConcluidos = false;
   showDetalleReprocesos = false;
@@ -540,6 +542,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
      modifiyGestionDashboardList(){
        this.numeradorGestionFiles2 = 0;
        this.numeradorGestionFiles2Anterior = 0;
+       this.numeradorValidacionFiles = 0;
+       this.numeradorValidacionFilesAnterior = 0;
 
       this.dashboardList.map(dato =>{
         if (dato.Id === Variables.constantes.EstadoValidacionFiles2) {
@@ -567,6 +571,35 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
         }
       });
+
+      this.dashboardList.map(dato =>{
+        if (dato.Id === Variables.constantes.EstadoIngresoFile) {
+          this.numeradorValidacionFiles = dato.FlujoSeguimiento;
+          this.numeradorValidacionFilesAnterior = dato.FlujoSeguimientoAnterior;
+        }
+      });
+
+      this.dashboardList.map(dato =>{
+        if (dato.Id === Variables.constantes.EstadoValidacionFiles2) {
+          dato.CantidadSolicitudesConcluidas = this.numeradorValidacionFiles;
+          dato.CantidadSolicitudesConcluidasAnterior = this.numeradorValidacionFilesAnterior;
+          dato.Porcentaje = (this.numeradorValidacionFiles / dato.FlujoSeguimiento) * 100;
+          dato.PorcentajeAnterior = (this.numeradorValidacionFilesAnterior / dato.FlujoSeguimiento) * 100;
+          const {icono, sentiment, resultado} = this.evaluarProcesos(dato.Porcentaje);
+          const {icono: iconoPrevious, sentiment: sentimentPrevious, resultado: resultadoPrevious} =
+          this.evaluarProcesos(dato.PorcentajeAnterior);
+          const [variacionConcluidos, colorVariacion] = this.evaluarVariacion(resultado, resultadoPrevious);
+          dato.Sentimiento = sentiment;
+          dato.Icono = icono;
+          dato.Variacion = variacionConcluidos;
+          dato.ColorVariacion = colorVariacion;
+          dato.SentimientoAnterior = sentimentPrevious;
+          dato.IconoAnterior = iconoPrevious;
+
+        }
+      });
+
+
       console.log(this.numeradorEvaluacionRiesgos);
      }
 
@@ -584,8 +617,9 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
      countRequestConcluded(listaSolicitudes: SolicitudCreditoHipotecario[]){
       let contadorSolicitudesConcluidas = 0;
       listaSolicitudes.forEach(soliSeguimiento => {
-        if (soliSeguimiento.EstadoId === Variables.constantes.EstadoAprobadoConVerificacion ||
-            soliSeguimiento.EstadoId === Variables.constantes.EstadoAprobadoSinVerificacion ) {
+         const estadoConcluded = soliSeguimiento.EstadoId;
+        if (estadoConcluded === Variables.constantes.EstadoAprobadoConVerificacion ||
+            estadoConcluded === Variables.constantes.EstadoAprobadoSinVerificacion || estadoConcluded === Variables.constantes.EstadoPreTerminado) {
               contadorSolicitudesConcluidas++;
         }
     });
