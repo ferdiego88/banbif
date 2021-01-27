@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+  import { Injectable } from '@angular/core';
 import { sp } from '@pnp/sp';
 import { Web } from '@pnp/sp/webs';
 import { IList } from '@pnp/sp/lists';
@@ -293,7 +293,7 @@ export class SolicitudesService {
     });
   }
 
- 
+
   public async getSolicitudSeguimiento(listName: string, mes = 0, year = 0 , orderField = '', orderAscending = true) {
     let startDate = new Date();
     const december = 11;
@@ -309,7 +309,7 @@ export class SolicitudesService {
     console.log(DiaHoy);
     console.log(MesHoy);
     console.log(YearHoy);
-    
+
     if (mes === enero) {
       startDate = new Date(year - 1, 11, 1);
       futureDate = new Date(YearHoy, MesHoy, DiaHoy);
@@ -320,7 +320,7 @@ export class SolicitudesService {
       startDate = new Date(year, mes - 1, 1);
       futureDate = new Date(YearHoy, MesHoy, DiaHoy);
     }
-   
+
 
     const filterString = `Created ge datetime'${startDate.toISOString()}' and Created le datetime'${futureDate.toISOString()}'`;
     return new Promise((resolve, reject) => {
@@ -339,7 +339,7 @@ export class SolicitudesService {
   });
 
 
- 
+
     // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
     // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
     // const filterString = `Created ge datetime'${startDate.toISOString()}' and Created le datetime'${futureDate.toISOString()}'`;

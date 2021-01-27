@@ -139,6 +139,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   numeradorCPMAnterior: number;
   numeradorEvaluacionRiesgos: number;
   numeradorEvaluacionRiesgosAnterior: number;
+  numeradorGestionFiles2: number;
+  numeradorGestionFiles2Anterior: number;
   showIndicadores = false;
   showDetalleConcluidos = false;
   showDetalleReprocesos = false;
@@ -403,10 +405,10 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           Id: estado.Id,
           Title: estado.Title,
           CantidadSolicitudes: solicitudes,
-          FlujoSeguimiento: flujoSeguimiento,
-          FlujoSeguimientoAnterior: flujoSeguimientoAnterior,
           CantidadSolicitudesConcluidas: numeradorConcluidos,
           cantidadSolicitudesConcluidasAnterior: numeradorConcluidosAnterior,
+          FlujoSeguimiento: flujoSeguimiento,
+          FlujoSeguimientoAnterior: flujoSeguimientoAnterior,
           CantidadSolicitudesANS: this.cantidadsolicitudANSPrueba,
           CantidadSolicitudesANSAnterior: cantidadSolicitudANSAnterior,
           Porcentaje: porcentajeExpediente,
@@ -447,7 +449,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
             estado.Id !== Variables.constantes.EstadoRegularizacionCPM) {
             }
             this.dashboardList.push(estadoElement);
-            this.modifiyDashboardList();
+            this.modifiyCPMDashboardList();
+            this.modifiyGestionDashboardList();
           });
       this.porcentajeExpedientesANS = (1 - (this.cantidadsolicitudANSMes / this.solicitudMesList.length)) * 100;
       this.porcentajeExpedientesANSAnterior = (1 - (this.cantidadsolicitudANSMesAnterior / this.solicitudMesAnteriorList.length)) * 100;
@@ -467,7 +470,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
      }
 
-     modifiyDashboardList(){
+
+     modifiyCPMDashboardList(){
        this.numeradorEvaluacionRiesgos = 0;
        this.numeradorEvaluacionRiesgosAnterior = 0;
       this.dashboardList.map(dato =>{
@@ -489,8 +493,6 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           this.numeradorEvaluacionRiesgosAnterior += dato.FlujoSeguimientoAnterior;
         }
       });
-
-
       this.dashboardList.map(dato =>{
         if (dato.Id === Variables.constantes.EstadoEvaluacionRiesgos) {
           this.numeradorCPM = dato.FlujoSeguimiento;
@@ -517,7 +519,52 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       this.dashboardList.map(dato =>{
         if (dato.Id === Variables.constantes.EstadoRegistroCPM) {
           dato.CantidadSolicitudesConcluidas = this.numeradorCPM;
+          dato.CantidadSolicitudesConcluidasAnterior = this.numeradorCPMAnterior;
           dato.Porcentaje = (this.numeradorCPM / dato.FlujoSeguimiento) * 100;
+          dato.PorcentajeAnterior = (this.numeradorCPMAnterior / dato.FlujoSeguimientoAnterior) * 100;
+
+          const {icono, sentiment, resultado} = this.evaluarProcesos(dato.Porcentaje);
+          const {icono: iconoPrevious, sentiment: sentimentPrevious, resultado: resultadoPrevious} =
+          this.evaluarProcesos(dato.PorcentajeAnterior);
+          const [variacionConcluidos, colorVariacion] = this.evaluarVariacion(resultado, resultadoPrevious);
+          dato.Sentimiento = sentiment;
+          dato.Icono = icono;
+          dato.Variacion = variacionConcluidos;
+          dato.ColorVariacion = colorVariacion;
+          dato.SentimientoAnterior = sentimentPrevious;
+          dato.IconoAnterior = iconoPrevious;
+        }
+      });
+      // console.log(this.numeradorEvaluacionRiesgos);
+     }
+     modifiyGestionDashboardList(){
+       this.numeradorGestionFiles2 = 0;
+       this.numeradorGestionFiles2Anterior = 0;
+
+      this.dashboardList.map(dato =>{
+        if (dato.Id === Variables.constantes.EstadoValidacionFiles2) {
+          this.numeradorGestionFiles2 = dato.FlujoSeguimiento;
+          this.numeradorGestionFiles2Anterior = dato.FlujoSeguimientoAnterior;
+        }
+      });
+
+      this.dashboardList.map(dato =>{
+        if (dato.Id === Variables.constantes.EstadoGestionFiles2) {
+          dato.CantidadSolicitudesConcluidas = this.numeradorGestionFiles2;
+          dato.CantidadSolicitudesConcluidasAnterior = this.numeradorGestionFiles2Anterior;
+          dato.Porcentaje = (this.numeradorGestionFiles2 / dato.FlujoSeguimiento) * 100;
+          dato.PorcentajeAnterior = (this.numeradorGestionFiles2Anterior / dato.FlujoSeguimiento) * 100;
+          const {icono, sentiment, resultado} = this.evaluarProcesos(dato.Porcentaje);
+          const {icono: iconoPrevious, sentiment: sentimentPrevious, resultado: resultadoPrevious} =
+          this.evaluarProcesos(dato.PorcentajeAnterior);
+          const [variacionConcluidos, colorVariacion] = this.evaluarVariacion(resultado, resultadoPrevious);
+          dato.Sentimiento = sentiment;
+          dato.Icono = icono;
+          dato.Variacion = variacionConcluidos;
+          dato.ColorVariacion = colorVariacion;
+          dato.SentimientoAnterior = sentimentPrevious;
+          dato.IconoAnterior = iconoPrevious;
+
         }
       });
       console.log(this.numeradorEvaluacionRiesgos);
