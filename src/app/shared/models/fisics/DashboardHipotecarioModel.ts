@@ -13,6 +13,7 @@ export class DashboardHipotecarioModel{
         public Porcentaje?: number,
         public PorcentajeAnterior?: number,
         public PorcentajeReprocesos?: number,
+        public PorcentajeReprocesosAnterior?: number,
         public PorcentajeANS?: number,
         public PorcentajeANSAnterior?: number,
         public Icono?: string,
