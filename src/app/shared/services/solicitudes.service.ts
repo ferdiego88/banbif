@@ -325,11 +325,11 @@ export class SolicitudesService {
     const filterString = `Created ge datetime'${startDate.toISOString()}' and Created le datetime'${futureDate.toISOString()}'`;
     return new Promise((resolve, reject) => {
       if (sp !== null && sp !== undefined) {
-        let query = sp.web.lists.getByTitle(listName).items.top(10000);
-        if (orderField !== '') {
-            query = query.orderBy(orderField, orderAscending);
-        }
-        const items = query.filter(filterString).get();
+        let query = sp.web.lists.getByTitle(listName).items.filter(filterString).getAll();
+        // if (orderField !== '') {
+        //     query = query.orderBy(orderField, orderAscending);
+        // }
+        const items = query;
           // const items = query.top(4999).get();
         console.log({items});
         resolve(items);
