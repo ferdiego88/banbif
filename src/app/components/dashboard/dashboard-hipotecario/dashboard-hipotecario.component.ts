@@ -853,7 +853,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         let horasDif = 0;
         solicitudes.forEach(solicitud => {
           // console.log(solicitud);
-            if (solicitud.Created !== null && solicitud.FechaAtencion !== null && solicitud.EstadoFinalId !== null) {
+            if (solicitud.Created !== null && solicitud.FechaAtencion !== null && solicitud.EstadoFinalId != null) {
               const fechaInicio = moment(solicitud.Created);
               const fechaFinal = moment(solicitud.FechaAtencion);
               // console.log(fec1);
