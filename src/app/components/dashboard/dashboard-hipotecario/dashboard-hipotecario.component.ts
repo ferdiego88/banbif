@@ -851,19 +851,20 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       if (solicitudes.length !== 0){
         let fueraANS = 0;
         let horasDif = 0;
+        let tiempoPromedioEstacion;
         solicitudes.forEach(solicitud => {
           // console.log(solicitud);
             if (solicitud.Created !== null && solicitud.FechaAtencion !== null && solicitud.EstadoFinalId != null) {
-              if (solicitud.EstadoId === solicitud.EstadoFinalId) {
-
-
               const fechaInicio = moment(solicitud.Created);
               const fechaFinal = moment(solicitud.FechaAtencion);
               // console.log(fec1);
               // console.log(fec2);
-              const tiempoPromedioEstacion = this.calcBusinessDays(fechaInicio, fechaFinal);
+              tiempoPromedioEstacion = this.calcBusinessDays(fechaInicio, fechaFinal);
               if (tiempoPromedioEstacion === 1) {
                 horasDif = fechaFinal.diff(fechaInicio, 'hours');
+              }
+              if (solicitud.EstadoId === solicitud.EstadoFinalId) {
+                tiempoPromedioEstacion = 0;
               }
               // console.log(solicitud.SolicitudHipotecarioId);
               // console.log(tiempoPromedioEstacion);
@@ -875,13 +876,13 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
                 console.log(solicitud.SolicitudHipotecarioId);
                 console.log(fec1);
                 console.log(fec2);
-                // console.log(tiempoPromedioEstacion);
+                console.log(tiempoPromedioEstacion);
                 console.log(horasDif);
                 fueraANS++;
               }
               // tiempo += tiempoPromedioEstacion;
               // tiempoPromedio = tiempo / solicitudes.length;
-            }
+
           }
 
         });
