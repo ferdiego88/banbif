@@ -333,6 +333,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       this.solicitudesEstadoList = [];
       this.flujoSeguimientoEstadoAnteriorList = [];
       this.solicitudesEstadoAnteriorList = [];
+      // let contador = 0;
       estados.forEach(estado => {
         this.solicitudANSList = [];
         this.solicitudANSAnteriorList = [];
@@ -343,6 +344,15 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         this.solicitudesEstadoList = this.solicitudMesList.filter(solicitud => solicitud.EstadoId === estado.Id);
         // this.getFlujoSeguimientoList(this.solicitudesEstadoList, estado, this.solicitudANSList);
         const solicitudes = this.solicitudesEstadoList.length;
+        // this.solicitudesEstadoList.map(solicitud => {
+        //   const c = solicitud.Contador_ObservRiesgos;
+        //   contador += c;
+        //   console.log(contador);
+        // });
+        if (estado.Id === Variables.constantes.EstadoObservadoCPM) {
+           const dataObservado =  this.flujoSeguimientoList.filter(data => data.EstadoId === estado.Id);
+           console.log(dataObservado.length);
+        }
 
         this.solicitudesEstadoAnteriorList = this.solicitudMesAnteriorList.filter(solicitud => solicitud.EstadoId === estado.Id);
         // this.getFlujoSeguimientoList(this.solicitudesEstadoAnteriorList, estado, this.solicitudANSAnteriorList);
@@ -908,13 +918,13 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
               }else{
                 const fec1 = fechaInicio.format('DD/MM/YYYY HH:mm:ss');
                 const fec2 = fechaFinal.format('DD/MM/YYYY HH:mm:ss');
-                console.log(solicitud.SolicitudHipotecarioId);
-                console.log(fec1);
-                console.log(fec2);
+                // console.log(solicitud.SolicitudHipotecarioId);
+                // console.log(fec1);
+                // console.log(fec2);
                 // console.log(tiempoEnDias);
                 // console.log(tiempoPromedioEstacion);
-                console.log(horasDif);
-                console.log(day);
+                // console.log(horasDif);
+                // console.log(day);
                 fueraANS++;
               }
               // tiempo += tiempoPromedioEstacion;

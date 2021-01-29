@@ -14,6 +14,10 @@ export class EDashboardSolicitud {
     ZonaId: number;
     OficinaId: number;
     MesSolicitud: number;
+    Contador_ObservCPM: number;
+    Contador_ObservRiesgos: number;
+    ContadorObs_Gestor: number;
+    Contador_ObservData: number;
 
     constructor() {
         this.Id = 0;
@@ -26,6 +30,10 @@ export class EDashboardSolicitud {
         this.ZonaId = 0;
         this.MesSolicitud = 0;
         this.OficinaId = 0;
+        this.Contador_ObservCPM = 0;
+        this.Contador_ObservRiesgos = 0;
+        this.ContadorObs_Gestor = 0;
+        this.Contador_ObservData = 0;
     }
 
     public static getColumnasSelect(): string[] {
@@ -40,6 +48,10 @@ export class EDashboardSolicitud {
             Variables.columnasDashboard.ZonaId,
             Variables.columnasDashboard.MesSolicitud,
             Variables.columnasDashboard.OficinaId,
+             Variables.columnasDashboard.Contador_ObservCPM,
+             Variables.columnasDashboard.Contador_ObservRiesgos,
+             Variables.columnasDashboard.ContadorObs_Gestor,
+             Variables.columnasDashboard.Contador_ObservData,
         ];
     }
 

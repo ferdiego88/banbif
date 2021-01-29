@@ -265,7 +265,11 @@ export class Variables {
     FechaEstado: 'Fecha_Estado',
     EstadoId: 'EstadoId',
     Tipo_RentaId: 'Tipo_RentaId',
-    MesSolicitud: 'MesSolicitud'
+    MesSolicitud: 'MesSolicitud',
+    Contador_ObservCPM :  'Contador_ObservCPM',
+    Contador_ObservRiesgos :  'Contador_ObservRiesgos',
+    ContadorObs_Gestor :  'ContadorObs_Gestor',
+    Contador_ObservData :  'Contador_ObservData',
   };
 
   static readonly columnasSolicitud = {

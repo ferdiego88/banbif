@@ -79,6 +79,10 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public Comentario_Gestor_Hip = '',
     public BBP_AdicionalId = '',
     public Fecha_Estado = '',
+    public Contador_ObservCPM = 0,
+    public Contador_ObservRiesgos = 0,
+    public ContadorObs_Gestor = 0,
+    public Contador_ObservData = 0,
     public Enlace_Documentos = {
       Description: '',
       Url: ''
@@ -108,7 +112,7 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public FechaIngresoRiesgo = null,
     public FechaObservacionRiesgo = null,
     public UsuarioIngresoFileId = null,
-    
+
   ){
     super();
   }
