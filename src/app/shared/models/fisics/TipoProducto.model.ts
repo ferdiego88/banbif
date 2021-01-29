@@ -9,6 +9,7 @@ export class TipoProductoModel extends ListItem {
         public SolicitudHipotecarioId = 0,
         public NombreTitular = '',
         public EstadoId = 0,
+        public FechaAtencion = 0,
     ) {
         super();
     }

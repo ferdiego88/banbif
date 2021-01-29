@@ -111,8 +111,8 @@
                     <mat-select placeholder="Variación" formControlName="Variacion">
                         <mat-option [value]="">Todas</mat-option>
                         <mat-option *ngFor="let item of variacionData" [value]="item.id">
-                        {{item.title}}
-                    </mat-option>
+                            {{item.title}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -205,8 +205,8 @@
                         </td>
                         <td> </td>
                         <td>{{dashboard.Porcentaje | number: '.0-2'}} %</td>
-                        <td>{{dashboard.CantidadSolicitudesConcluidas | number: '.0-2'}} </td>
-                        <td>{{dashboard.FlujoSeguimiento}} </td>
+                        <td>{{dashboard.NumeradorSolicitudesConcluidas | number: '.0-2'}} </td>
+                        <td>{{dashboard.DenominadorSolicitudesConcluidas}} </td>
                     </tr>
 
                     <tr class="cabeceraTabla" [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleANS=!showDetalleANS">
@@ -225,10 +225,10 @@
                         </td>
                         <td>4.00</td>
                         <td>{{porcentajeExpedientesANS | number: '.0-2'}} %</td>
-                        <td>{{cantidadsolicitudANSMesPrueba}}</td>
+                        <td>{{acumuladoANSMes}}</td>
                         <td>{{cantidadSolicitudesPorMes}}</td>
                     </tr>
-                    <tr [ngClass]="{'d-none':!showDetalleANS,'d-block':showDetalleANS}" *ngFor="let dashboard of dashboardList">
+                    <tr [ngClass]="{'d-none':!showDetalleANS,'d-block':showDetalleANS}" *ngFor="let dashboard of dashboardANSList">
                         <td>
                             <mat-icon class={{dashboard.SentimientoANS}}>{{dashboard.IconoANS}} </mat-icon>
                         </td>
@@ -246,8 +246,8 @@
                         </td>
                         <td></td>
                         <td>{{dashboard.PorcentajeANS | number: '.0-2'}} %</td>
-                        <td>{{dashboard.CantidadSolicitudesANS}}</td>
-                        <td>{{dashboard.CantidadSolicitudes}}</td>
+                        <td>{{dashboard.NumeradorSolicitudesANS}}</td>
+                        <td>{{dashboard.DenominadorSolicitudesANS}}</td>
                     </tr>
                     <tr class="cabeceraTabla" [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleReprocesos=!showDetalleReprocesos">
                         <td class="td-left">
@@ -288,9 +288,9 @@
                         </td>
                         <td> </td>
                         <td>{{dashboard.PorcentajeReprocesos | number: '.0-2'}} % </td>
-                        <td>{{dashboard.FlujoSeguimiento }}</td>
+                        <td>{{dashboard.DenominadorSolicitudesConcluidas }}</td>
                         <td>{{dashboard.FlujoSeguimientoReprocesos }} </td>
-
+                        <td>Porcentaje de Expedientes Observado</td>
                     </tr>
                 </tbody>
             </table>

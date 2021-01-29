@@ -1,4 +1,4 @@
-  import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { sp } from '@pnp/sp';
 import { Web } from '@pnp/sp/webs';
 import { IList } from '@pnp/sp/lists';
@@ -284,15 +284,6 @@ export class SolicitudesService {
       }
     });
   }
-  public async updateList() {
-    let list = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario);
-
-    const i = await list.items.getById(1).update({
-      Title: "My New Title",
-      Description: "Here is a new description"
-    });
-  }
-
 
   public async getSolicitudSeguimiento(listName: string, mes = 0, year = 0 , orderField = '', orderAscending = true) {
     let startDate = new Date();
@@ -305,11 +296,6 @@ export class SolicitudesService {
     const DiaHoy = parseInt(dayToday, 10);
     const MesHoy = parseInt(monthToday, 10);
     const YearHoy = parseInt(yearToday, 10);
-
-    console.log(DiaHoy);
-    console.log(MesHoy);
-    console.log(YearHoy);
-
     if (mes === enero) {
       startDate = new Date(year - 1, 11, 1);
       futureDate = new Date(YearHoy, MesHoy, DiaHoy);
@@ -320,12 +306,10 @@ export class SolicitudesService {
       startDate = new Date(year, mes - 1, 1);
       futureDate = new Date(YearHoy, MesHoy, DiaHoy);
     }
-
-
     const filterString = `Created ge datetime'${startDate.toISOString()}' and Created le datetime'${futureDate.toISOString()}'`;
     return new Promise((resolve, reject) => {
       if (sp !== null && sp !== undefined) {
-        let query = sp.web.lists.getByTitle(listName).items.filter(filterString).getAll();
+        const query = sp.web.lists.getByTitle(listName).items.filter(filterString).getAll();
         // if (orderField !== '') {
         //     query = query.orderBy(orderField, orderAscending);
         // }
@@ -338,31 +322,28 @@ export class SolicitudesService {
       }
   });
 
-
-
-    // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
-    // futureDate.setDate(futureDate.getDate() + offsetDays, futureDate.getMonth(), futureDate.getFullYear());
-    // const filterString = `Created ge datetime'${startDate.toISOString()}' and Created le datetime'${futureDate.toISOString()}'`;
-    // let query = sp.web.lists.getByTitle(Variables.listas.FlujoSeguimientoEtapa).items.top(4999).
-    // filter(filterString).get().then((items: any[]) => {
-    //     const returnedPMeetings = items.map((item) => ({ key: item.id, text: item.Created }));
-    //     // this.setState({ MeetingsList: returnedPMeetings });
-    //     console.log(returnedPMeetings);
-    // });
-    //query.top(4999);
-
   }
-  public getSolicitudesFecha(){
-    const startDate = new Date(2020, 11, 1);
-    const futureDate = new Date(2021, 0, 1);
-    const filterString = `Created ge datetime'${startDate.toISOString()}' and Created le datetime'${futureDate.toISOString()}'`;
-    let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario).items.top(4999).
-    filter(filterString).get().then((items: any[]) => {
-        const returnedPMeetings = items.map((item) => ({ key: item.id, text: item.Created }));
-        // this.setState({ MeetingsList: returnedPMeetings });
-        console.log(returnedPMeetings);
-    });
-  }
+  
+  // public getSolicitudesFecha(){
+  //   const startDate = new Date(2020, 11, 1);
+  //   const futureDate = new Date(2021, 0, 1);
+  //   const filterString = `Created ge datetime'${startDate.toISOString()}' and Created le datetime'${futureDate.toISOString()}'`;
+  //   let query = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario).items.top(4999).
+  //   filter(filterString).get().then((items: any[]) => {
+  //       const returnedPMeetings = items.map((item) => ({ key: item.id, text: item.Created }));
+  //       // this.setState({ MeetingsList: returnedPMeetings });
+  //       console.log(returnedPMeetings);
+  //   });
+  // }
+  
+  // public async updateList() {
+  //   let list = sp.web.lists.getByTitle(Variables.listas.AdmSolicitudCreditoHipotecario);
+
+  //   const i = await list.items.getById(1).update({
+  //     Title: "My New Title",
+  //     Description: "Here is a new description"
+  //   });
+  // }
 
 
 }
