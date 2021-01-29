@@ -881,10 +881,11 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
                     // current.setDate(current.getDate() + 1);
                       fechaInicio.add(1, 'days');
                       fechaInicio.hours(9).minutes(0).seconds(0);
-                      const dia = fechaInicio.format('ddd');
+                      let dia = fechaInicio.format('ddd');
                       while (dia === Variables.constantes.Sabado || dia === Variables.constantes.Domingo) {
                       fechaInicio.add(1, 'days');
                       fechaInicio.hours(9).minutes(0).seconds(0);
+                      dia = fechaInicio.format('ddd');
                       }
 
                     // console.log(fechaInicio.format('DD/MM/YYYY HH:mm:ss'));
