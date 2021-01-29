@@ -853,7 +853,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         let horasDif = 0;
         solicitudes.forEach(solicitud => {
           // console.log(solicitud);
-            if (solicitud.Created !== null && solicitud.FechaAtencion !== null) {
+            if (solicitud.Created !== null && solicitud.FechaAtencion !== null && solicitud.EstadoFinalId !== null) {
               const fechaInicio = moment(solicitud.Created);
               const fechaFinal = moment(solicitud.FechaAtencion);
               // console.log(fec1);
@@ -867,8 +867,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
               if (tiempoPromedioEstacion < estado.Valor_ANS) {
                 solicitudANS.push(solicitud);
               }else{
-                const fec1 = fechaInicio.format('DD/MM/YYYY');
-                const fec2 = fechaFinal.format('DD/MM/YYYY');
+                const fec1 = fechaInicio.format('DD/MM/YYYY HH:mm:ss');
+                const fec2 = fechaFinal.format('DD/MM/YYYY HH:mm:ss');
                 console.log(solicitud.SolicitudHipotecarioId);
                 console.log(fec1);
                 console.log(fec2);
@@ -1106,7 +1106,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       // make copies we can normalize without changing passed in objects
       const start = new Date(startDate);
       const end = new Date(endDate);
-
+      const hourStr = moment(startDate).format('HH');
+      const hour = parseInt(hourStr, 10);
       // initial total
       let totalBusinessDays = 0;
 
@@ -1116,6 +1117,10 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
       const current = new Date(start);
       current.setDate(current.getDate() + 1);
+
+      if (!(hour >= 9 && hour <= 17)) {
+        current.setDate(current.getDate() + 1);
+     }
       let day;
       // loop through each day, checking
       while (current <= end) {
