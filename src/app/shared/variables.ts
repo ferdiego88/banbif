@@ -95,6 +95,11 @@ export class Variables {
     EstadoPreTerminado: 42,
     EstadoIngresoFile: 43,
     ZonaIDFFVV: 8,
+    DoceHoras: 12,
+    HorasDia: 24,
+    Uno: 1,
+    Sabado: 'Sat',
+    Domingo: 'Sun',
   };
 
   static readonly path = {

@@ -852,6 +852,9 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         let fueraANS = 0;
         let horasDif = 0;
         let tiempoPromedioEstacion;
+        let tiempoEnDias;
+        let tiempoCumplimiento = 0;
+        let day = '';
         solicitudes.forEach(solicitud => {
           // console.log(solicitud);
             if (solicitud.Created !== null && solicitud.FechaAtencion !== null && solicitud.EstadoFinalId != null) {
@@ -859,16 +862,47 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
               const fechaFinal = moment(solicitud.FechaAtencion);
               // console.log(fec1);
               // console.log(fec2);
-              tiempoPromedioEstacion = this.calcBusinessDays(fechaInicio, fechaFinal);
-              if (tiempoPromedioEstacion === 1) {
-                horasDif = fechaFinal.diff(fechaInicio, 'hours');
+              const horaInicioStr = moment(fechaInicio).format('HH');
+              const horaInicio = parseInt(horaInicioStr, 10);
+
+              const horaFinStr = moment(fechaInicio).format('HH');
+              const horaFin = parseInt(horaFinStr, 10);
+
+              tiempoEnDias = this.calcBusinessDays(fechaInicio, fechaFinal);
+              if (estado.Valor_ANS < Variables.constantes.Uno) {
+                day = fechaInicio.format('ddd');
+                const horasDias = tiempoEnDias * Variables.constantes.DoceHoras;
+                tiempoCumplimiento = estado.Valor_ANS * Variables.constantes.HorasDia;
+                if (day === Variables.constantes.Sabado) {
+                  horasDif = fechaFinal.diff(fechaFinal, 'hours');
+                  tiempoPromedioEstacion = horasDif - horasDias;
+                }else{
+                  if (!(horaInicio >= 9 && horaInicio <= 17)) {
+                    // current.setDate(current.getDate() + 1);
+                      fechaInicio.add(1, 'days');
+                      fechaInicio.hours(9).minutes(0).seconds(0);
+                      const dia = fechaInicio.format('ddd');
+                      while (dia === Variables.constantes.Sabado || dia === Variables.constantes.Domingo) {
+                      fechaInicio.add(1, 'days');
+                      fechaInicio.hours(9).minutes(0).seconds(0);
+                      }
+
+                    // console.log(fechaInicio.format('DD/MM/YYYY HH:mm:ss'));
+                 }
+                  horasDif = fechaFinal.diff(fechaInicio, 'hours');
+                  tiempoPromedioEstacion = horasDif - horasDias;
+                }
+
+              }else{
+                tiempoPromedioEstacion = tiempoEnDias;
+                tiempoCumplimiento = estado.Valor_ANS;
               }
+
               if (solicitud.EstadoId === solicitud.EstadoFinalId) {
                 tiempoPromedioEstacion = 0;
               }
-              // console.log(solicitud.SolicitudHipotecarioId);
-              // console.log(tiempoPromedioEstacion);
-              if (tiempoPromedioEstacion < estado.Valor_ANS) {
+
+              if (tiempoPromedioEstacion < tiempoCumplimiento) {
                 solicitudANS.push(solicitud);
               }else{
                 const fec1 = fechaInicio.format('DD/MM/YYYY HH:mm:ss');
@@ -876,8 +910,10 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
                 console.log(solicitud.SolicitudHipotecarioId);
                 console.log(fec1);
                 console.log(fec2);
-                console.log(tiempoPromedioEstacion);
+                // console.log(tiempoEnDias);
+                // console.log(tiempoPromedioEstacion);
                 console.log(horasDif);
+                console.log(day);
                 fueraANS++;
               }
               // tiempo += tiempoPromedioEstacion;
