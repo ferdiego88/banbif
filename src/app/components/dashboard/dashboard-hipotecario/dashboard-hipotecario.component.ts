@@ -13,6 +13,7 @@ import { FormularioBase } from '../../../shared/pages/formularioBase';
 import { MatDialog } from '@angular/material/dialog';
 import { SpinnerVisibilityService } from 'ng-http-loader';
 import { TipoSubProductoModel } from '../../../shared/models/fisics/TipoSubProducto.model';
+import { homedir } from 'os';
 
 const moment = _moment;
 export interface Meses {
@@ -85,7 +86,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   dashboardConcluidosList: DashboardHipotecarioModel[];
   dashboardReprocesosList: DashboardHipotecarioModel[];
   solicitudesEstadoList: SolicitudCreditoHipotecario[];
-  
+
   solicitudesEstadoANSList: TipoProductoModel[];
   solicitudesEstadoANSAnteriorList: TipoProductoModel[];
   solicitudFlujoANSList: TipoProductoModel[];
@@ -137,7 +138,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   sentimentReprocesosVariation: string;
 
   solicitudANSList: SolicitudCreditoHipotecario[];
-  
+
   porcentajeANSMes: number;
   acumuladoANSMes: number;
   contadorEstados: number;
@@ -370,7 +371,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           porcentajeExpediente = (numeradorConcluidos / flujoSeguimiento) * 100;
           porcentajeReprocesos = (flujoSeguimiento / this.solicitudMesList.length) * 100;
         }
-        
+
         const numeradorConcluidosAnterior = flujoSeguimientoAnterior - solicitudesAnterior;
         if (solicitudesAnterior){
           if (solicitudesAnterior > flujoSeguimientoAnterior) {
@@ -391,7 +392,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         this.evaluarReProcesos(porcentajeReprocesosAnterior);
         const [variacionReproceso, colorReproceso] = this.evaluarVariacion(resultadoReproceso, resultadoReprocesoPrevio);
 
-       
+
         const estadoElement = {
           Id: estado.Id,
           Title: estado.Title,
@@ -434,7 +435,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
      // console.log(this.sentimentANS);
 
      }
-     
+
       getSolicitudesFlujoSeguimiento(flujoSeguimiento: TipoProductoModel[] , estado: number){
       let solicitudesEstado;
       const dataSolicitud = flujoSeguimiento.filter(flujosolicitud => flujosolicitud.EstadoId === estado)
@@ -468,28 +469,29 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         this.solicitudesEstadoANSList = this.flujoSeguimientoList.filter(solicitud => solicitud.EstadoId === estado.Id);
         this.getANSList(this.solicitudesEstadoANSList, estado, this.solicitudFlujoANSList);
         const arrayCumplieronANS = this.solicitudFlujoANSList.length;
-        
+
         this.solicitudesEstadoAnteriorList = this.solicitudMesAnteriorList.filter(solicitud => solicitud.EstadoId === estado.Id);
         this.getANSList(this.solicitudesEstadoANSAnteriorList, estado, this.solicitudFlujoANSAnteriorList);
         const arrayCumplieronANSMesAnterior = this.solicitudFlujoANSAnteriorList.length;
-        
+
         const dataSeguimiento = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
         const dataArray = new Set(dataSeguimiento);
         const result = [...dataArray];
         const flujoSeguimiento = result.length;
-        
+        // console.log(arrayCumplieronANS);
+        // console.log(flujoSeguimiento);
         const solicitudesEstado = this.getSolicitudesFlujoSeguimiento(this.flujoSeguimientoList, estado.Id);
         const solicitudesEstadoMesAnterior = this.getSolicitudesFlujoSeguimiento(this.flujoSeguimientoAnteriorList, estado.Id);
-        
+
         const dataSeguimientoAnterior = this.flujoSeguimientoAnteriorList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id);
         const dataArrayAnterior = new Set(dataSeguimientoAnterior);
         const resultAnterior = [...dataArrayAnterior];
         const flujoSeguimientoAnterior = resultAnterior.length;
-        
+
         const cumplieronANS =  flujoSeguimiento - arrayCumplieronANS;
         const cantidadCumplieronANS =  solicitudesEstado - cumplieronANS;
         const porcentajeANS = (cantidadCumplieronANS / solicitudesEstado) * 100;
-        
+
         const cumplieronANSAnterior =  flujoSeguimientoAnterior - arrayCumplieronANSMesAnterior;
         const cantidadCumplieronANSAnterior =  solicitudesEstadoMesAnterior - cumplieronANSAnterior;
         const porcentajeANSAnterior = (cantidadCumplieronANSAnterior / solicitudesEstadoMesAnterior) * 100;
@@ -526,7 +528,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       this.porcentajeExpedientesANS = (this.acumuladoANSMes / this.contadorEstados);
       this.porcentajeExpedientesANSAnterior = this.acumuladoANSMesAnterior / this.contadorEstados;
       console.log(this.acumuladoANSMesAnterior);
-     
+
       const {icono: iconoANS, sentiment: sentimentANS, resultado: resultadoANS} =
       this.evaluarProcesos(this.porcentajeExpedientesANS);
       this.iconoANS = iconoANS;
@@ -764,8 +766,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       let contadorSolicitudesConcluidas = 0;
       listaSolicitudes.forEach(soliSeguimiento => {
          const estadoConcluded = soliSeguimiento.EstadoId;
-         if (estadoConcluded === Variables.constantes.EstadoAprobadoConVerificacion || 
-          estadoConcluded === Variables.constantes.EstadoAprobadoSinVerificacion || 
+         if (estadoConcluded === Variables.constantes.EstadoAprobadoConVerificacion ||
+          estadoConcluded === Variables.constantes.EstadoAprobadoSinVerificacion ||
           estadoConcluded === Variables.constantes.EstadoPreTerminado) {
               contadorSolicitudesConcluidas++;
         }
@@ -847,19 +849,37 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     /* Funcion que Devuelve las cantidad de solicitudes que cumplieron los ANS por Estado  */
      getANSList(solicitudes: TipoProductoModel[], estado: EstadoModel, solicitudANS: TipoProductoModel[]){
       if (solicitudes.length !== 0){
+        let fueraANS = 0;
+        let horasDif = 0;
         solicitudes.forEach(solicitud => {
           // console.log(solicitud);
-            if (solicitud.Created !== null) {
+            if (solicitud.Created !== null && solicitud.FechaAtencion !== null) {
               const fechaInicio = moment(solicitud.Created);
-              const FechaFinal = moment(solicitud.FechaAtencion);
-              const tiempoPromedioEstacion = this.calcBusinessDays(fechaInicio, FechaFinal);
+              const fechaFinal = moment(solicitud.FechaAtencion);
+              // console.log(fec1);
+              // console.log(fec2);
+              const tiempoPromedioEstacion = this.calcBusinessDays(fechaInicio, fechaFinal);
+              if (tiempoPromedioEstacion === 1) {
+                horasDif = fechaFinal.diff(fechaInicio, 'hours');
+              }
+              // console.log(solicitud.SolicitudHipotecarioId);
+              // console.log(tiempoPromedioEstacion);
               if (tiempoPromedioEstacion < estado.Valor_ANS) {
                 solicitudANS.push(solicitud);
+              }else{
+                const fec1 = fechaInicio.format('DD/MM/YYYY');
+                const fec2 = fechaFinal.format('DD/MM/YYYY');
+                console.log(solicitud.SolicitudHipotecarioId);
+                console.log(fec1);
+                console.log(fec2);
+                // console.log(tiempoPromedioEstacion);
+                console.log(horasDif);
+                fueraANS++;
               }
               // tiempo += tiempoPromedioEstacion;
               // tiempoPromedio = tiempo / solicitudes.length;
             }
-          
+
         });
        // console.log(fueraANS);
       }
