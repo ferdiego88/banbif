@@ -854,6 +854,9 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         solicitudes.forEach(solicitud => {
           // console.log(solicitud);
             if (solicitud.Created !== null && solicitud.FechaAtencion !== null && solicitud.EstadoFinalId != null) {
+              if (solicitud.EstadoId === solicitud.EstadoFinalId) {
+
+
               const fechaInicio = moment(solicitud.Created);
               const fechaFinal = moment(solicitud.FechaAtencion);
               // console.log(fec1);
@@ -879,6 +882,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
               // tiempo += tiempoPromedioEstacion;
               // tiempoPromedio = tiempo / solicitudes.length;
             }
+          }
 
         });
        // console.log(fueraANS);
