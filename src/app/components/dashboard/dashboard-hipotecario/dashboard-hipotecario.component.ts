@@ -159,6 +159,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   denominadorReprocesosObservadoCPMAnterior: number;
   denominadorReprocesosObservadoRiesgo: number;
   denominadorReprocesosObservadoRiesgoAnterior: number;
+  contadorobservadoRiesgos: number;
+  contadorobservadoCPM: number;
   showIndicadores = false;
   showDetalleConcluidos = false;
   showDetalleReprocesos = false;
@@ -325,6 +327,13 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       // console.log(this.flujoSeguimientoAnteriorList);
      }
 
+     getObervados(){
+      this.solicitudMesList.map(solicitud => {
+        this.contadorobservadoCPM += solicitud.Contador_ObservCPM;
+        this.contadorobservadoRiesgos += solicitud.Contador_ObservRiesgos;
+      });
+
+     }
      async porcentajeSolicitudesEstado(){
       const estados = await this.getEstado();
       this.dashboardList = [];
@@ -333,7 +342,6 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       this.solicitudesEstadoList = [];
       this.flujoSeguimientoEstadoAnteriorList = [];
       this.solicitudesEstadoAnteriorList = [];
-      // let contador = 0;
       estados.forEach(estado => {
         this.solicitudANSList = [];
         this.solicitudANSAnteriorList = [];
@@ -344,15 +352,6 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         this.solicitudesEstadoList = this.solicitudMesList.filter(solicitud => solicitud.EstadoId === estado.Id);
         // this.getFlujoSeguimientoList(this.solicitudesEstadoList, estado, this.solicitudANSList);
         const solicitudes = this.solicitudesEstadoList.length;
-        // this.solicitudesEstadoList.map(solicitud => {
-        //   const c = solicitud.Contador_ObservRiesgos;
-        //   contador += c;
-        //   console.log(contador);
-        // });
-        if (estado.Id === Variables.constantes.EstadoObservadoCPM) {
-           const dataObservado =  this.flujoSeguimientoList.filter(data => data.EstadoId === estado.Id);
-           console.log(dataObservado.length);
-        }
 
         this.solicitudesEstadoAnteriorList = this.solicitudMesAnteriorList.filter(solicitud => solicitud.EstadoId === estado.Id);
         // this.getFlujoSeguimientoList(this.solicitudesEstadoAnteriorList, estado, this.solicitudANSAnteriorList);
