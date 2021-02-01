@@ -464,9 +464,9 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           this.dashboardReprocesosList.push(estadoElement);
           this.cantidadObservados += estadoElement.NumeradorObservados;
           this.cantidadObservadosAnterior += estadoElement.NumeradorObservadosAnterior;
-          this.porcentajeExpedientesObservados = this.cantidadObservados / estadoElement.CantidadSolicitudes;
-          this.porcentajeExpedientesObservadosAnterior = this.cantidadObservadosAnterior / estadoElement.CantidadSolicitudes;
-         // console.log(this.cantidadObservados);
+          this.porcentajeExpedientesObservados = (this.cantidadObservados / this.cantidadSolicitudesPorMes) * 100;
+          this.porcentajeExpedientesObservadosAnterior = (this.cantidadObservadosAnterior / this.cantidadSolicitudesPorMes) * 100;
+          console.log(this.cantidadSolicitudesPorMes);
           const {icono : iconoObservado, sentiment: sentimentObservado, resultado : resultadoObservado} 
           = this.evaluarProcesos(this.porcentajeExpedientesObservados);
           const {icono: iconoObservadoPrevious, sentiment: sentimentObservadoPrevious, resultado: resultadoObservadoPrevious} =
