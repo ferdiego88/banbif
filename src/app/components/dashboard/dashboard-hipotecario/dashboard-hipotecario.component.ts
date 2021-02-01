@@ -12,8 +12,7 @@ import * as _moment from 'moment';
 import { FormularioBase } from '../../../shared/pages/formularioBase';
 import { MatDialog } from '@angular/material/dialog';
 import { SpinnerVisibilityService } from 'ng-http-loader';
-import { TipoSubProductoModel } from '../../../shared/models/fisics/TipoSubProducto.model';
-import { homedir } from 'os';
+
 
 const moment = _moment;
 export interface Meses {
@@ -109,10 +108,21 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   porcentajeExpedientesConcluidos: number;
   porcentajeExpedientesReprocesos: number;
   porcentajeExpedientesANS: number;
-
+  
   cantidadSolicitudesPorMesAnterior: number;
   cantidadSolicitudesConcluidasAnterior: number;
   cantidadSolicitudesReprocesosAnterior: number;
+  cantidadObservados: number;
+  cantidadObservadosAnterior: number;
+  porcentajeExpedientesObservados: number;
+  porcentajeExpedientesObservadosAnterior: number;
+  iconoObservado: string;
+  sentimentObservado: string;
+  iconoObservadoPrevious: string;
+  sentimentObservadoPrevious: string;
+  iconoObservadoVariation: string;
+  sentimentObservadoVariation: string;
+
   porcentajeExpedientesConcluidosAnterior: number;
   porcentajeExpedientesReprocesosAnterior: number;
   porcentajeExpedientesANSAnterior: number;
@@ -159,11 +169,13 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   denominadorReprocesosObservadoCPMAnterior: number;
   denominadorReprocesosObservadoRiesgo: number;
   denominadorReprocesosObservadoRiesgoAnterior: number;
-  contadorobservadoRiesgos: number;
-  contadorobservadoCPM: number;
+  contadorObservadoRiesgos: number;
+  contadorObservadoCPM: number;
+  contadorObservadoGestor: number;
   showIndicadores = false;
   showDetalleConcluidos = false;
   showDetalleReprocesos = false;
+  showDetalleObservados = false;
   showDetalleANS = false;
   hipotecarioForm = this.fb.group({
     Year: [null],
@@ -208,23 +220,19 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   ngOnInit(): void {
     this.hipotecarioForm.controls.Year.setValue(new Date().getFullYear());
     this.hipotecarioForm.controls.MesId.setValue(new Date().getMonth());
-    // this.toListSolicitudes();
+
     this.loadListeners();
     this.getEjecutivo();
     this.loadCombos();
-    // this.loadLists();
-    // this.hideIcons();
+
   }
 
   loadCombos(){
     this.getZona();
     this.getOficina();
     this.getYears();
-    // this.getEstado();
   }
-  // async loadLists(){
-  //  await this.getFlujoSeguimiento();
-  // }
+
 
   loadListeners(){
     // this.listenerMonth();
@@ -328,41 +336,54 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
      }
 
      getObervados(){
-      this.solicitudMesList.map(solicitud => {
-        this.contadorobservadoCPM += solicitud.Contador_ObservCPM;
-        this.contadorobservadoRiesgos += solicitud.Contador_ObservRiesgos;
+      this.contadorObservadoCPM = 0;
+      this.contadorObservadoRiesgos = 0;
+      this.contadorObservadoGestor = 0;
+      // this.solicitudMesList.map(solicitud => {
+      //   this.contadorObservadoCPM += solicitud.Contador_ObservCPM;
+      //   this.contadorObservadoRiesgos += solicitud.Contador_ObservRiesgos;
+      //   this.contadorObservadoGestor += solicitud.ContadorObs_Gestor;
+      // });
+      this.flujoSeguimientoList.map(dato => {
+          
       });
-
+      console.log(this.contadorObservadoGestor);
      }
      async porcentajeSolicitudesEstado(){
       const estados = await this.getEstado();
+      // this.getObervados();
       this.dashboardList = [];
       this.dashboardReprocesosList = [];
       this.flujoSeguimientoEstadoList = [];
       this.solicitudesEstadoList = [];
       this.flujoSeguimientoEstadoAnteriorList = [];
       this.solicitudesEstadoAnteriorList = [];
+      this.cantidadObservados = 0;
+      this.cantidadObservadosAnterior = 0;
+      this.porcentajeExpedientesObservados = 0;
+      this.porcentajeExpedientesObservadosAnterior = 0;
       estados.forEach(estado => {
         this.solicitudANSList = [];
         this.solicitudANSAnteriorList = [];
+        let numeradorReprocesos = 0;
         let porcentajeExpediente = 0;
         let porcentajeExpedienteAnterior = 0;
         let porcentajeReprocesos = 0;
         let porcentajeReprocesosAnterior = 0;
         this.solicitudesEstadoList = this.solicitudMesList.filter(solicitud => solicitud.EstadoId === estado.Id);
-        // this.getFlujoSeguimientoList(this.solicitudesEstadoList, estado, this.solicitudANSList);
+        
         const solicitudes = this.solicitudesEstadoList.length;
 
         this.solicitudesEstadoAnteriorList = this.solicitudMesAnteriorList.filter(solicitud => solicitud.EstadoId === estado.Id);
-        // this.getFlujoSeguimientoList(this.solicitudesEstadoAnteriorList, estado, this.solicitudANSAnteriorList);
         const solicitudesAnterior = this.solicitudesEstadoAnteriorList.length;
 
         const dataSeguimiento = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id)
           .map(codigo => codigo.SolicitudHipotecarioId);
+        numeradorReprocesos = dataSeguimiento.length;        
         const dataArray = new Set(dataSeguimiento);
         const result = [...dataArray];
         let flujoSeguimiento = result.length;
-
+        // console.log(result);
         const dataSeguimientoAnterior = this.flujoSeguimientoAnteriorList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id)
            .map(codigo => codigo.SolicitudHipotecarioId);
         const dataArrayAnterior = new Set(dataSeguimientoAnterior);
@@ -370,7 +391,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         const flujoSeguimientoAnterior = resultAnterior.length;
 
         let numeradorConcluidos = flujoSeguimiento - solicitudes;
-
+ 
         if (solicitudes > flujoSeguimiento) {
           // porcentajeExpediente = 0;
           porcentajeExpediente = (100 - (solicitudes / this.solicitudMesList.length) * 100);
@@ -408,6 +429,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           CantidadSolicitudes: solicitudes,
           NumeradorSolicitudesConcluidas: numeradorConcluidos,
           DenominadorSolicitudesConcluidas: flujoSeguimiento,
+          NumeradorReprocesos: numeradorReprocesos,
           cantidadSolicitudesConcluidasAnterior: numeradorConcluidosAnterior,
           FlujoSeguimientoAnterior: flujoSeguimientoAnterior,
           FlujoSeguimientoReprocesos: solicitudes,
@@ -416,12 +438,17 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           PorcentajeAnterior: porcentajeExpedienteAnterior,
           PorcentajeReprocesos: porcentajeReprocesos,
           PorcentajeReprocesosAnterior: porcentajeReprocesosAnterior,
+          NumeradorObservados: flujoSeguimiento,
+          NumeradorObservadosAnterior: flujoSeguimientoAnterior,
+          PorcentajeObservados: porcentajeReprocesos,
+          PorcentajeObservadosAnterior: porcentajeReprocesosAnterior,
           Icono: icono,
           Sentimiento: sentiment,
           IconoAnterior: iconoPrevious,
           SentimientoAnterior: sentimentPrevious,
           Variacion: variacionConcluidos,
           ColorVariacion: colorVariacion,
+
           IconoReproceso: iconoReproceso,
           SentimientoReproceso: sentimentReproceso,
           IconoReprocesoAnterior: iconoReprocesoPrevio,
@@ -430,8 +457,28 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           ColorVariacionReproceso: colorReproceso,
 
         };
-        if (estado.Id === Variables.constantes.EstadoObservadoCPM || estado.Id === Variables.constantes.EstadoObservadoRiesgos) {
+        if (estado.Id === Variables.constantes.EstadoObservadoCPM || 
+          estado.Id === Variables.constantes.EstadoObservadoRiesgos ||
+          estado.Id === Variables.constantes.EstadoObservadoGestor ||
+          estado.Id === Variables.constantes.EstadoObservadoData) {
           this.dashboardReprocesosList.push(estadoElement);
+          this.cantidadObservados += estadoElement.NumeradorObservados;
+          this.cantidadObservadosAnterior += estadoElement.NumeradorObservadosAnterior;
+          this.porcentajeExpedientesObservados = this.cantidadObservados / estadoElement.CantidadSolicitudes;
+          this.porcentajeExpedientesObservadosAnterior = this.cantidadObservadosAnterior / estadoElement.CantidadSolicitudes;
+         // console.log(this.cantidadObservados);
+          const {icono : iconoObservado, sentiment: sentimentObservado, resultado : resultadoObservado} 
+          = this.evaluarProcesos(this.porcentajeExpedientesObservados);
+          const {icono: iconoObservadoPrevious, sentiment: sentimentObservadoPrevious, resultado: resultadoObservadoPrevious} =
+          this.evaluarProcesos(this.porcentajeExpedientesObservadosAnterior);
+          const [variacionObservado, colorObservado] = 
+          this.evaluarVariacion(resultadoObservado, resultadoObservadoPrevious);
+          this.iconoObservado = iconoObservado;
+          this.sentimentObservado = sentimentObservado;
+          this.iconoObservadoPrevious = iconoObservadoPrevious;
+          this.sentimentObservadoPrevious = sentimentObservadoPrevious;
+          this.iconoObservadoVariation = variacionObservado;
+          this.sentimentObservadoVariation = colorObservado;
 
         }
 
@@ -442,7 +489,6 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         this.llenarDashboardConcluidos();
           });
      // console.log(this.sentimentANS);
-
      }
 
       getSolicitudesFlujoSeguimiento(flujoSeguimiento: TipoProductoModel[] , estado: number){
@@ -571,6 +617,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       });
 
     }
+
      modifiyCPMDashboardList(){
        this.numeradorEvaluacionRiesgos = 0;
        this.numeradorEvaluacionRiesgosAnterior = 0;
@@ -578,21 +625,16 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         if (dato.Id === Variables.constantes.EstadoAprobadoConVerificacion) {
           this.numeradorEvaluacionRiesgos += dato.DenominadorSolicitudesConcluidas;
           this.numeradorEvaluacionRiesgosAnterior += dato.FlujoSeguimientoAnterior;
-        }
-      });
-       this.dashboardList.map(dato => {
-        if (dato.Id === Variables.constantes.EstadoAprobadoSinVerificacion) {
+        } else if (dato.Id === Variables.constantes.EstadoAprobadoSinVerificacion){
+          this.numeradorEvaluacionRiesgos += dato.DenominadorSolicitudesConcluidas;
+          this.numeradorEvaluacionRiesgosAnterior += dato.FlujoSeguimientoAnterior;
+          
+        } else if (dato.Id === Variables.constantes.EstadoGestionFiles2) {
           this.numeradorEvaluacionRiesgos += dato.DenominadorSolicitudesConcluidas;
           this.numeradorEvaluacionRiesgosAnterior += dato.FlujoSeguimientoAnterior;
         }
       });
 
-       this.dashboardList.map(dato => {
-        if (dato.Id === Variables.constantes.EstadoGestionFiles2) {
-          this.numeradorEvaluacionRiesgos += dato.DenominadorSolicitudesConcluidas;
-          this.numeradorEvaluacionRiesgosAnterior += dato.FlujoSeguimientoAnterior;
-        }
-      });
        this.dashboardList.map(dato => {
         if (dato.Id === Variables.constantes.EstadoEvaluacionRiesgos) {
           this.numeradorCPM = dato.DenominadorSolicitudesConcluidas;
@@ -710,25 +752,22 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         if (dato.Id === Variables.constantes.EstadoRegistroCPM) {
           this.denominadorReprocesosObservadoCPM = dato.DenominadorSolicitudesConcluidas;
           this.denominadorReprocesosObservadoCPMAnterior = dato.FlujoSeguimientoAnterior;
-        }
-      });
-
-      this.dashboardList.map(dato => {
-        if (dato.Id === Variables.constantes.EstadoEvaluacionRiesgos) {
+        } else if (dato.Id === Variables.constantes.EstadoEvaluacionRiesgos){
           this.denominadorReprocesosObservadoRiesgo = dato.DenominadorSolicitudesConcluidas;
           this.denominadorReprocesosObservadoRiesgoAnterior = dato.FlujoSeguimientoAnterior;
         }
       });
 
+
       this.dashboardReprocesosList.map(dato => {
         if (dato.Id === Variables.constantes.EstadoObservadoCPM) {
           dato.FlujoSeguimientoReprocesos = this.denominadorReprocesosObservadoCPM;
           dato.FlujoSeguimientoReprocesosAnterior = this.denominadorReprocesosObservadoCPMAnterior;
-          dato.PorcentajeReprocesos = (dato.DenominadorSolicitudesConcluidas /  this.denominadorReprocesosObservadoCPM) * 100;
+          dato.PorcentajeReprocesos = (dato.NumeradorReprocesos /  this.denominadorReprocesosObservadoCPM) * 100;
           dato.PorcentajeReprocesosAnterior = (dato.FlujoSeguimientoAnterior /  this.denominadorReprocesosObservadoCPMAnterior) * 100;
-          const {icono, sentiment, resultado} = this.evaluarProcesos(dato.PorcentajeReprocesos);
+          const {icono, sentiment, resultado} = this.evaluarReProcesos(dato.PorcentajeReprocesos);
           const {icono: iconoPrevious, sentiment: sentimentPrevious, resultado: resultadoPrevious} =
-          this.evaluarProcesos(dato.PorcentajeReprocesosAnterior);
+          this.evaluarReProcesos(dato.PorcentajeReprocesosAnterior);
           const [variacionConcluidos, colorVariacion] = this.evaluarVariacion(resultado, resultadoPrevious);
           dato.SentimientoReproceso = sentiment;
           dato.IconoReproceso = icono;
@@ -737,17 +776,16 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           dato.SentimientoReprocesoAnterior = sentimentPrevious;
           dato.IconoReprocesoAnterior = iconoPrevious;
 
-        }
-      });
-      this.dashboardReprocesosList.map(dato => {
-        if (dato.Id === Variables.constantes.EstadoObservadoRiesgos) {
+        }else if (dato.Id === Variables.constantes.EstadoObservadoRiesgos || 
+                  dato.Id === Variables.constantes.EstadoObservadoData ||
+                  dato.Id === Variables.constantes.EstadoObservadoGestor){
           dato.FlujoSeguimientoReprocesos = this.denominadorReprocesosObservadoRiesgo;
           dato.FlujoSeguimientoReprocesosAnterior = this.denominadorReprocesosObservadoRiesgoAnterior;
-          dato.PorcentajeReprocesos = (dato.DenominadorSolicitudesConcluidas /  this.denominadorReprocesosObservadoRiesgo) * 100;
+          dato.PorcentajeReprocesos = (dato.NumeradorReprocesos /  this.denominadorReprocesosObservadoRiesgo) * 100;
           dato.PorcentajeReprocesosAnterior = (dato.FlujoSeguimientoAnterior /  this.denominadorReprocesosObservadoRiesgoAnterior) * 100;
-          const {icono, sentiment, resultado} = this.evaluarProcesos(dato.PorcentajeReprocesos);
+          const {icono, sentiment, resultado} = this.evaluarReProcesos(dato.PorcentajeReprocesos);
           const {icono: iconoPrevious, sentiment: sentimentPrevious, resultado: resultadoPrevious} =
-          this.evaluarProcesos(dato.PorcentajeReprocesosAnterior);
+          this.evaluarReProcesos(dato.PorcentajeReprocesosAnterior);
           const [variacionConcluidos, colorVariacion] = this.evaluarVariacion(resultado, resultadoPrevious);
           dato.SentimientoReproceso = sentiment;
           dato.IconoReproceso = icono;
@@ -755,7 +793,6 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           dato.ColorVariacionReproceso = colorVariacion;
           dato.SentimientoReprocesoAnterior = sentimentPrevious;
           dato.IconoReprocesoAnterior = iconoPrevious;
-
         }
       });
      }
@@ -764,7 +801,9 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       let contadorReprocesos = 0;
       listaSeguimiento.forEach(soliSeguimiento => {
         if (soliSeguimiento.EstadoId === Variables.constantes.EstadoObservadoCPM ||
-            soliSeguimiento.EstadoId === Variables.constantes.EstadoObservadoRiesgos ) {
+            soliSeguimiento.EstadoId === Variables.constantes.EstadoObservadoRiesgos ||
+            soliSeguimiento.EstadoId === Variables.constantes.EstadoObservadoGestor ||
+            soliSeguimiento.EstadoId === Variables.constantes.EstadoObservadoData ) {
             // console.log(soliSeguimiento);
             contadorReprocesos++;
         }
@@ -915,8 +954,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
               if (tiempoPromedioEstacion < tiempoCumplimiento) {
                 solicitudANS.push(solicitud);
               }else{
-                const fec1 = fechaInicio.format('DD/MM/YYYY HH:mm:ss');
-                const fec2 = fechaFinal.format('DD/MM/YYYY HH:mm:ss');
+                // const fec1 = fechaInicio.format('DD/MM/YYYY HH:mm:ss');
+                // const fec2 = fechaFinal.format('DD/MM/YYYY HH:mm:ss');
                 // console.log(solicitud.SolicitudHipotecarioId);
                 // console.log(fec1);
                 // console.log(fec2);
@@ -936,78 +975,6 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       }
      }
 
-     getFlujoSeguimientoList(solicitudes: SolicitudCreditoHipotecario[], estado: EstadoModel, solicitudANS: SolicitudCreditoHipotecario[]){
-      if (solicitudes.length !== 0){
-        const fechaActual = moment();
-        let fueraANS = 0;
-        solicitudes.forEach(solicitud => {
-          // console.log(solicitud);
-          let ansRenta = 0;
-          let ansRentaMixta = 0;
-          let esRentaMixta = false;
-          if (solicitud.EstadoId === Variables.constantes.EstadoEvaluacionRiesgos) {
-            if (solicitud.Tipo_RentaId.length > 2) {
-              esRentaMixta = true;
-            } else {
-              esRentaMixta = false;
-            }
-            if (esRentaMixta) {
-              if (solicitud.Tipo_RentaId.find(val => val === 3)) {
-                ansRentaMixta = estado.ANS_Renta_3;
-              } else {
-                ansRentaMixta = estado.ANS_Mixta;
-              }
-            }
-            solicitud.Tipo_RentaId.forEach((tipoRenta) => {
-              switch (tipoRenta) {
-                case Variables.constantes.TipoRenta1eraCategoria:
-                  ansRenta += estado.ANS_Renta_1;
-                  break;
-                case Variables.constantes.TipoRenta2daCategoria:
-                  ansRenta += estado.ANS_Renta_2;
-                  break;
-                case Variables.constantes.TipoRenta3eraCategoria:
-                  ansRenta += estado.ANS_Renta_3;
-                  break;
-                case Variables.constantes.TipoRenta4taCategoria:
-                  ansRenta += estado.ANS_Renta_4;
-                  break;
-                case Variables.constantes.TipoRenta5taCategoria:
-                  ansRenta += estado.ANS_Renta_5;
-                  break;
-                default:
-                  break;
-              }
-          });
-            if (solicitud.Fecha_Estado !== null) {
-            const AnsRenta = ansRenta + ansRentaMixta + estado.Valor_ANS;
-            const fechaEstado = moment(solicitud.Fecha_Estado);
-            const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado, fechaActual);
-            if (tiempoPromedioEstacion > AnsRenta) {
-              fueraANS++;
-              solicitudANS.push(solicitud);
-            }
-
-            }
-          } else {
-            if (solicitud.Fecha_Estado !== null) {
-              const fechaEstado = moment(solicitud.Fecha_Estado);
-              const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado, fechaActual);
-              if (tiempoPromedioEstacion > estado.Valor_ANS) {
-                fueraANS++;
-                // this.solicitudANSList.push(solicitudes[contador]);
-                solicitudANS.push(solicitud);
-              }
-              // tiempo += tiempoPromedioEstacion;
-              // tiempoPromedio = tiempo / solicitudes.length;
-            }
-          }
-        });
-        // console.log(fueraANS);
-        // console.log(this.solicitudANSList);
-      }
-     }
-
      listenerZona(){
       this.hipotecarioForm.controls.ZonaId.valueChanges.subscribe(zona => {
         if (zona !== Variables.constantes.ZonaIDFFVV) {
@@ -1015,16 +982,10 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         } else {
           this.hipotecarioForm.controls.Canal.setValue(1);
         }
-        // const mes = this.hipotecarioForm.controls.MesId.value;
-        // this.toListSolicitudes(mes, zona);
       });
      }
 
-     listenerMonth(){
-      this.hipotecarioForm.controls.MesId.valueChanges.subscribe(mes => {
-        // this.toListSolicitudes(mes, 0);
-      });
-     }
+
 
      listIndicators(){
        let mes = this.hipotecarioForm.controls.MesId.value;
@@ -1148,6 +1109,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     this.showDetalleConcluidos = !this.showDetalleConcluidos;
     this.showDetalleANS = !this.showDetalleANS;
     this.showDetalleReprocesos = !this.showDetalleReprocesos;
+    this.showDetalleObservados = !this.showDetalleObservados;
 
   }
     calcBusinessDays(startDate, endDate) {

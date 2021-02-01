@@ -225,7 +225,7 @@
                         </td>
                         <td>4.00</td>
                         <td>{{porcentajeExpedientesANS | number: '.0-2'}} %</td>
-                        <td>{{acumuladoANSMes}}</td>
+                        <td>--</td>
                         <td>{{cantidadSolicitudesPorMes}}</td>
                     </tr>
                     <tr [ngClass]="{'d-none':!showDetalleANS,'d-block':showDetalleANS}" *ngFor="let dashboard of dashboardANSList">
@@ -252,9 +252,6 @@
                     <tr class="cabeceraTabla" [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleReprocesos=!showDetalleReprocesos">
                         <td class="td-left">
                             <mat-icon class={{sentimentReprocesos}}>{{iconoReprocesos}} </mat-icon>
-                            <!-- <mat-icon id="happyReprocessing" class="happy">sentiment_satisfied_alt</mat-icon>
-                            <mat-icon id="dissastisfiedReprocessing" class="dissatisfied">mood_bad</mat-icon>
-                            <mat-icon id="sadReprocessing" class="sad">sentiment_dissatisfied</mat-icon> -->
                         </td>
                         <td class="td-left">Porcentaje de Reprocesos</td>
                         <td> %</td>
@@ -288,32 +285,29 @@
                         </td>
                         <td> </td>
                         <td>{{dashboard.PorcentajeReprocesos | number: '.0-2'}} % </td>
-                        <td>{{dashboard.DenominadorSolicitudesConcluidas }}</td>
+                        <td>{{dashboard.NumeradorReprocesos }}</td>
                         <td>{{dashboard.FlujoSeguimientoReprocesos }} </td>
                     </tr>
-                    <tr class="cabeceraTabla" [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleReprocesos=!showDetalleReprocesos">
+                    <tr class="cabeceraTabla" [ngClass]="{'d-none':!showIndicadores,'d-block':showIndicadores}" (click)="showDetalleObservados=!showDetalleObservados">
                         <td class="td-left">
-                            <mat-icon class={{sentimentReprocesos}}>{{iconoReprocesos}} </mat-icon>
-                            <!-- <mat-icon id="happyReprocessing" class="happy">sentiment_satisfied_alt</mat-icon>
-                            <mat-icon id="dissastisfiedReprocessing" class="dissatisfied">mood_bad</mat-icon>
-                            <mat-icon id="sadReprocessing" class="sad">sentiment_dissatisfied</mat-icon> -->
+                            <mat-icon class={{sentimentObservado}}>{{iconoObservado}} </mat-icon>
                         </td>
                         <td class="td-left">Porcentaje de Expedientes Observados</td>
                         <td> %</td>
                         <td>Neg. Inmobiliario</td>
                         <td>33 % </td>
                         <td>
-                            <mat-icon class={{sentimentReprocesosPrevious}}>{{iconoReprocesosPrevious}} </mat-icon>
+                            <mat-icon class={{sentimentObservadoPrevious}}>{{iconoObservadoPrevious}} </mat-icon>
                         </td>
                         <td>
-                            <mat-icon class={{sentimentReprocesosVariation}}>{{iconoReprocesosVariation}} </mat-icon>
+                            <mat-icon class={{sentimentObservadoVariation}}>{{iconoObservadoVariation}} </mat-icon>
                         </td>
                         <td>4.00</td>
-                        <td>{{porcentajeExpedientesReprocesos | number: '.0-3' }} %</td>
-                        <td>{{cantidadSolicitudesReprocesos}} </td>
+                        <td>{{porcentajeExpedientesObservados | number: '.0-3' }} %</td>
+                        <td>{{cantidadObservados}} </td>
                         <td>{{cantidadSolicitudesPorMes}} </td>
                     </tr>
-                    <tr [ngClass]="{'d-none':!showDetalleReprocesos,'d-block':showDetalleReprocesos}" *ngFor="let dashboard of dashboardReprocesosList">
+                    <tr [ngClass]="{'d-none':!showDetalleObservados,'d-block':showDetalleObservados}" *ngFor="let dashboard of dashboardReprocesosList">
                         <td>
                             <mat-icon class={{dashboard.SentimientoReproceso}}>{{dashboard.IconoReproceso}} </mat-icon>
                         </td>
@@ -329,9 +323,9 @@
                             <mat-icon class={{dashboard.ColorVariacionReproceso}}>{{dashboard.VariacionReproceso}} </mat-icon>
                         </td>
                         <td> </td>
-                        <td>{{dashboard.PorcentajeReprocesos | number: '.0-2'}} % </td>
-                        <td>{{dashboard.DenominadorSolicitudesConcluidas }}</td>
-                        <td>{{dashboard.FlujoSeguimientoReprocesos }} </td>
+                        <td>{{dashboard.PorcentajeObservados | number: '.0-2'}} % </td>
+                        <td>{{dashboard.NumeradorObservados}}</td>
+                        <td>{{cantidadSolicitudesPorMes }} </td>
                     </tr>
 
                 </tbody>

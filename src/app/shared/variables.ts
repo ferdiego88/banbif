@@ -82,6 +82,7 @@ export class Variables {
     EstadoAsignacionRiesgos: 30,
     EstadoEvaluacionRiesgos: 4,
     EstadoObservadoRiesgos: 5,
+    EstadoObservadoData: 37,
     EstadoRechazado: 6,
     EstadoDesestimado: 8,
     EstadoVerificacionRiesgos: 32,
