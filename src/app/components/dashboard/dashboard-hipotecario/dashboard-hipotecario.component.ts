@@ -218,13 +218,12 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   }
 
   ngOnInit(): void {
+    this.getFlujoSeguimiento();
     this.hipotecarioForm.controls.Year.setValue(new Date().getFullYear());
     this.hipotecarioForm.controls.MesId.setValue(new Date().getMonth());
-
     this.loadListeners();
     this.getEjecutivo();
     this.loadCombos();
-
   }
 
   loadCombos(){
@@ -1014,10 +1013,10 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
      async toListSolicitudes(mes= 0 , idZona = 0, idOficina = 0, autor = 0 ){
        try {
-         const year = this.hipotecarioForm.controls.Year.value;
+         // const year = this.hipotecarioForm.controls.Year.value;
          this.showLoading();
          this.solicitudHipotecarioList = await this.getSolicitudes(idZona, idOficina, autor);
-         await this.getFlujoSeguimiento(mes, year);
+         // await this.getFlujoSeguimiento(mes, year);
          this.getMonthRequest(mes);
          this.calculateIndicators();
          this.hideLoading();
@@ -1060,12 +1059,20 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       return data;
     }
 
-    async getFlujoSeguimiento(mes: number, year: number) {
+    async getFlujoSeguimiento() {
       await this.solicitudService
-        .getSolicitudSeguimiento(Variables.listas.FlujoSeguimientoEtapa, mes, year)
+        .getSolicitudSeguimiento()
         .then((flujoSeguimientoEtapaLista: any) => (this.flujoSeguimientoEtapaLista = flujoSeguimientoEtapaLista))
         .catch((error) => console.error(error));
     }
+
+    /* TRAE LAS SOLICITUDES DEL LOG FLUJOSEGUIMIENTO POR MES/*/
+    // async getFlujoSeguimiento(mes: number, year: number) {
+    //   await this.solicitudService
+    //     .getSolicitudSeguimiento(Variables.listas.FlujoSeguimientoEtapa, mes, year)
+    //     .then((flujoSeguimientoEtapaLista: any) => (this.flujoSeguimientoEtapaLista = flujoSeguimientoEtapaLista))
+    //     .catch((error) => console.error(error));
+    // }
     getOficina(): any {
       this.generalListService
         .get(Variables.listas.AdmOficina, 'Title')
