@@ -309,7 +309,7 @@ export class SolicitudesService {
     // const filterString = `Created ge datetime'${startDate.toISOString()}' and Created le datetime'${futureDate.toISOString()}'`;
     return new Promise((resolve, reject) => {
       if (sp !== null && sp !== undefined) {
-        const query = sp.web.lists.getByTitle(Variables.listas.FlujoSeguimientoEtapa).items
+        const query = sp.web.lists.getByTitle(Variables.listas.FlujoSeguimientoEtapa).items;
         // if (orderField !== '') {
         //     query = query.orderBy(orderField, orderAscending);
         // }
