@@ -169,6 +169,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   denominadorReprocesosObservadoCPMAnterior: number;
   denominadorReprocesosObservadoRiesgo: number;
   denominadorReprocesosObservadoRiesgoAnterior: number;
+  denominadorReprocesosObservadoGestor: number;
+  denominadorReprocesosObservadoGestorAnterior: number;
   contadorObservadoRiesgos: number;
   contadorObservadoCPM: number;
   contadorObservadoGestor: number;
@@ -218,19 +220,23 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   }
 
   ngOnInit(): void {
+    this.getFlujoSeguimientoList();
     this.hipotecarioForm.controls.Year.setValue(new Date().getFullYear());
     this.hipotecarioForm.controls.MesId.setValue(new Date().getMonth());
-
     this.loadListeners();
     this.getEjecutivo();
     this.loadCombos();
-
   }
 
   loadCombos(){
     this.getZona();
     this.getOficina();
     this.getYears();
+  }
+  async getFlujoSeguimientoList(){
+    this.showLoading();
+    await this.getFlujoSeguimiento();
+    this.hideLoading();
   }
 
 
@@ -466,7 +472,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           this.cantidadObservadosAnterior += estadoElement.NumeradorObservadosAnterior;
           this.porcentajeExpedientesObservados = (this.cantidadObservados / this.cantidadSolicitudesPorMes) * 100;
           this.porcentajeExpedientesObservadosAnterior = (this.cantidadObservadosAnterior / this.cantidadSolicitudesPorMes) * 100;
-          console.log(this.cantidadSolicitudesPorMes);
+          // console.log(this.cantidadSolicitudesPorMes);
           const {icono : iconoObservado, sentiment: sentimentObservado, resultado : resultadoObservado}
           = this.evaluarProcesos(this.porcentajeExpedientesObservados);
           const {icono: iconoObservadoPrevious, sentiment: sentimentObservadoPrevious, resultado: resultadoObservadoPrevious} =
@@ -493,10 +499,11 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
       getSolicitudesFlujoSeguimiento(flujoSeguimiento: TipoProductoModel[] , estado: number){
       let solicitudesEstado;
-      const dataSolicitud = flujoSeguimiento.filter(flujosolicitud => flujosolicitud.EstadoId === estado)
-      .map(codigo => codigo.SolicitudHipotecarioId);
-      const Array = new Set(dataSolicitud);
-      return solicitudesEstado = [...Array].length;
+      const dataSolicitud = flujoSeguimiento.filter(flujosolicitud => flujosolicitud.EstadoId === estado);
+      // .map(codigo => codigo.SolicitudHipotecarioId);
+      // const Array = new Set(dataSolicitud);
+      // return solicitudesEstado = [...Array].length;
+      return solicitudesEstado = dataSolicitud.length;
      }
      async porcentajeSolicitudesANSEstado(){
       const estados = await this.getEstado();
@@ -751,6 +758,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       this.denominadorReprocesosObservadoCPMAnterior = 0;
       this.denominadorReprocesosObservadoRiesgo = 0;
       this.denominadorReprocesosObservadoRiesgoAnterior = 0;
+      this.denominadorReprocesosObservadoGestor = 0;
+      this.denominadorReprocesosObservadoGestorAnterior = 0;
 
       this.dashboardList.map(dato => {
         if (dato.Id === Variables.constantes.EstadoRegistroCPM) {
@@ -759,6 +768,9 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         } else if (dato.Id === Variables.constantes.EstadoEvaluacionRiesgos){
           this.denominadorReprocesosObservadoRiesgo = dato.DenominadorSolicitudesConcluidas;
           this.denominadorReprocesosObservadoRiesgoAnterior = dato.FlujoSeguimientoAnterior;
+        } else if (dato.Id === Variables.constantes.EstadoValidacionFiles2){
+          this.denominadorReprocesosObservadoGestor = dato.DenominadorSolicitudesConcluidas;
+          this.denominadorReprocesosObservadoGestorAnterior = dato.FlujoSeguimientoAnterior;
         }
       });
 
@@ -767,8 +779,14 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         if (dato.Id === Variables.constantes.EstadoObservadoCPM) {
           dato.FlujoSeguimientoReprocesos = this.denominadorReprocesosObservadoCPM;
           dato.FlujoSeguimientoReprocesosAnterior = this.denominadorReprocesosObservadoCPMAnterior;
-          dato.PorcentajeReprocesos = (dato.NumeradorReprocesos /  this.denominadorReprocesosObservadoCPM) * 100;
-          dato.PorcentajeReprocesosAnterior = (dato.FlujoSeguimientoAnterior /  this.denominadorReprocesosObservadoCPMAnterior) * 100;
+          const porcentajeReprocesos = (dato.NumeradorReprocesos /  this.denominadorReprocesosObservadoCPM) * 100;
+          const porcentajeReprocesosAnterior = (dato.FlujoSeguimientoAnterior /  this.denominadorReprocesosObservadoCPMAnterior) * 100; 
+          const porcentajeObservados = (dato.NumeradorObservados /  this.denominadorReprocesosObservadoCPM) * 100;
+          const porcentajeObservadosAnterior = (dato.NumeradorObservadosAnterior /  this.denominadorReprocesosObservadoCPMAnterior) * 100; 
+          dato.PorcentajeReprocesos = porcentajeReprocesos;
+          dato.PorcentajeReprocesosAnterior = porcentajeReprocesosAnterior;
+          dato.PorcentajeObservados = porcentajeObservados;
+          dato.PorcentajeObservadosAnterior = porcentajeObservadosAnterior;
           const {icono, sentiment, resultado} = this.evaluarReProcesos(dato.PorcentajeReprocesos);
           const {icono: iconoPrevious, sentiment: sentimentPrevious, resultado: resultadoPrevious} =
           this.evaluarReProcesos(dato.PorcentajeReprocesosAnterior);
@@ -780,13 +798,33 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           dato.SentimientoReprocesoAnterior = sentimentPrevious;
           dato.IconoReprocesoAnterior = iconoPrevious;
 
+          const {icono : iconoObservado, sentiment: sentimentObservado, resultado : resultadoObservado}
+          = this.evaluarProcesos( dato.PorcentajeObservados);
+          const {icono: iconoObservadoPrevious, sentiment: sentimentObservadoPrevious, resultado: resultadoObservadoPrevious} =
+          this.evaluarProcesos( dato.PorcentajeObservadosAnterior);
+          const [variacionObservado, colorObservado] =
+          this.evaluarVariacion(resultadoObservado, resultadoObservadoPrevious);
+          this.iconoObservado = iconoObservado;
+          this.sentimentObservado = sentimentObservado;
+          this.iconoObservadoPrevious = iconoObservadoPrevious;
+          this.sentimentObservadoPrevious = sentimentObservadoPrevious;
+          this.iconoObservadoVariation = variacionObservado;
+          this.sentimentObservadoVariation = colorObservado;
+
         }else if (dato.Id === Variables.constantes.EstadoObservadoRiesgos ||
-                  dato.Id === Variables.constantes.EstadoObservadoData ||
-                  dato.Id === Variables.constantes.EstadoObservadoGestor){
+                  dato.Id === Variables.constantes.EstadoObservadoData ){
+                     
           dato.FlujoSeguimientoReprocesos = this.denominadorReprocesosObservadoRiesgo;
           dato.FlujoSeguimientoReprocesosAnterior = this.denominadorReprocesosObservadoRiesgoAnterior;
-          dato.PorcentajeReprocesos = (dato.NumeradorReprocesos /  this.denominadorReprocesosObservadoRiesgo) * 100;
-          dato.PorcentajeReprocesosAnterior = (dato.FlujoSeguimientoAnterior /  this.denominadorReprocesosObservadoRiesgoAnterior) * 100;
+          const porcentajeReprocesos = (dato.NumeradorReprocesos /  this.denominadorReprocesosObservadoRiesgo) * 100;
+          const porcentajeReprocesosAnterior = (dato.FlujoSeguimientoAnterior /  this.denominadorReprocesosObservadoRiesgoAnterior) * 100;  
+          const porcentajeObservados = (dato.NumeradorObservados /  this.denominadorReprocesosObservadoRiesgo) * 100;
+          const porcentajeObservadosAnterior = (dato.NumeradorObservadosAnterior / 
+            this.denominadorReprocesosObservadoRiesgoAnterior) * 100;  
+          dato.PorcentajeReprocesos = porcentajeReprocesos;
+          dato.PorcentajeReprocesosAnterior = porcentajeReprocesosAnterior;
+          dato.PorcentajeObservados = porcentajeObservados;
+          dato.PorcentajeObservadosAnterior = porcentajeObservadosAnterior;
           const {icono, sentiment, resultado} = this.evaluarReProcesos(dato.PorcentajeReprocesos);
           const {icono: iconoPrevious, sentiment: sentimentPrevious, resultado: resultadoPrevious} =
           this.evaluarReProcesos(dato.PorcentajeReprocesosAnterior);
@@ -797,6 +835,55 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           dato.ColorVariacionReproceso = colorVariacion;
           dato.SentimientoReprocesoAnterior = sentimentPrevious;
           dato.IconoReprocesoAnterior = iconoPrevious;
+          
+          const {icono : iconoObservado, sentiment: sentimentObservado, resultado : resultadoObservado}
+          = this.evaluarProcesos( dato.PorcentajeObservados);
+          const {icono: iconoObservadoPrevious, sentiment: sentimentObservadoPrevious, resultado: resultadoObservadoPrevious} =
+          this.evaluarProcesos( dato.PorcentajeObservadosAnterior);
+          const [variacionObservado, colorObservado] =
+          this.evaluarVariacion(resultadoObservado, resultadoObservadoPrevious);
+          this.iconoObservado = iconoObservado;
+          this.sentimentObservado = sentimentObservado;
+          this.iconoObservadoPrevious = iconoObservadoPrevious;
+          this.sentimentObservadoPrevious = sentimentObservadoPrevious;
+          this.iconoObservadoVariation = variacionObservado;
+          this.sentimentObservadoVariation = colorObservado;
+
+        }else if (dato.Id === Variables.constantes.EstadoObservadoGestor){
+          dato.FlujoSeguimientoReprocesos = this.denominadorReprocesosObservadoGestor;
+          dato.FlujoSeguimientoReprocesosAnterior = this.denominadorReprocesosObservadoGestorAnterior;
+          const porcentajeReprocesos = (dato.NumeradorReprocesos /  this.denominadorReprocesosObservadoGestor) * 100;
+          const porcentajeReprocesosAnterior = (dato.FlujoSeguimientoAnterior /  this.denominadorReprocesosObservadoGestorAnterior) * 100;
+          const porcentajeObservados = (dato.NumeradorObservados /  this.denominadorReprocesosObservadoGestor) * 100;
+          const porcentajeObservadosAnterior = (dato.NumeradorObservadosAnterior /
+            this.denominadorReprocesosObservadoGestorAnterior) * 100;
+          dato.PorcentajeReprocesos = porcentajeReprocesos; 
+          dato.PorcentajeReprocesosAnterior = porcentajeReprocesosAnterior;
+          dato.PorcentajeObservados = porcentajeObservados;
+          dato.PorcentajeObservadosAnterior = porcentajeObservadosAnterior;
+          const {icono, sentiment, resultado} = this.evaluarReProcesos(dato.PorcentajeReprocesos);
+          const {icono: iconoPrevious, sentiment: sentimentPrevious, resultado: resultadoPrevious} =
+          this.evaluarReProcesos(dato.PorcentajeReprocesosAnterior);
+          const [variacionConcluidos, colorVariacion] = this.evaluarVariacion(resultado, resultadoPrevious);
+          dato.SentimientoReproceso = sentiment;
+          dato.IconoReproceso = icono;
+          dato.VariacionReproceso = variacionConcluidos;
+          dato.ColorVariacionReproceso = colorVariacion;
+          dato.SentimientoReprocesoAnterior = sentimentPrevious;
+          dato.IconoReprocesoAnterior = iconoPrevious;
+
+          const {icono : iconoObservado, sentiment: sentimentObservado, resultado : resultadoObservado}
+          = this.evaluarProcesos( dato.PorcentajeObservados);
+          const {icono: iconoObservadoPrevious, sentiment: sentimentObservadoPrevious, resultado: resultadoObservadoPrevious} =
+          this.evaluarProcesos( dato.PorcentajeObservadosAnterior);
+          const [variacionObservado, colorObservado] =
+          this.evaluarVariacion(resultadoObservado, resultadoObservadoPrevious);
+          this.iconoObservado = iconoObservado;
+          this.sentimentObservado = sentimentObservado;
+          this.iconoObservadoPrevious = iconoObservadoPrevious;
+          this.sentimentObservadoPrevious = sentimentObservadoPrevious;
+          this.iconoObservadoVariation = variacionObservado;
+          this.sentimentObservadoVariation = colorObservado;
         }
       });
      }
@@ -1014,10 +1101,10 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
      async toListSolicitudes(mes= 0 , idZona = 0, idOficina = 0, autor = 0 ){
        try {
-         const year = this.hipotecarioForm.controls.Year.value;
+         // const year = this.hipotecarioForm.controls.Year.value;
          this.showLoading();
          this.solicitudHipotecarioList = await this.getSolicitudes(idZona, idOficina, autor);
-         await this.getFlujoSeguimiento(mes, year);
+         // await this.getFlujoSeguimiento(mes, year);
          this.getMonthRequest(mes);
          this.calculateIndicators();
          this.hideLoading();
@@ -1060,12 +1147,20 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       return data;
     }
 
-    async getFlujoSeguimiento(mes: number, year: number) {
+    async getFlujoSeguimiento() {
       await this.solicitudService
-        .getSolicitudSeguimiento(Variables.listas.FlujoSeguimientoEtapa, mes, year)
+        .getSolicitudSeguimiento()
         .then((flujoSeguimientoEtapaLista: any) => (this.flujoSeguimientoEtapaLista = flujoSeguimientoEtapaLista))
         .catch((error) => console.error(error));
     }
+
+    /* TRAE LAS SOLICITUDES DEL LOG FLUJOSEGUIMIENTO POR MES/*/
+    // async getFlujoSeguimiento(mes: number, year: number) {
+    //   await this.solicitudService
+    //     .getSolicitudSeguimiento(Variables.listas.FlujoSeguimientoEtapa, mes, year)
+    //     .then((flujoSeguimientoEtapaLista: any) => (this.flujoSeguimientoEtapaLista = flujoSeguimientoEtapaLista))
+    //     .catch((error) => console.error(error));
+    // }
     getOficina(): any {
       this.generalListService
         .get(Variables.listas.AdmOficina, 'Title')
@@ -1076,7 +1171,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     async getEstado() {
       let estados: EstadoModel[];
       estados = await this.generalListService
-        .get(Variables.listas.AdmEstado)
+        .get(Variables.listas.AdmEstado, 'Orden')
         .then((estadoList) => estadoList)
         .catch((error) => console.error(error));
       const estadosActivos = estados.filter((item) => item.Activo === true);

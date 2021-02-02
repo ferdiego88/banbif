@@ -46,7 +46,6 @@ export class EDashboardSolicitud {
             Variables.columnasDashboard.EstadoId,
             Variables.columnasDashboard.Tipo_RentaId,
             Variables.columnasDashboard.ZonaId,
-            Variables.columnasDashboard.MesSolicitud,
             Variables.columnasDashboard.OficinaId,
              Variables.columnasDashboard.Contador_ObservCPM,
              Variables.columnasDashboard.Contador_ObservRiesgos,
