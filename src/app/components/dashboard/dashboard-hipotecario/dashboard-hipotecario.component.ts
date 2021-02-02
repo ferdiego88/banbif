@@ -234,7 +234,9 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
     this.getYears();
   }
   async getFlujoSeguimientoList(){
+    this.showLoading();
     await this.getFlujoSeguimiento();
+    this.hideLoading();
   }
 
 

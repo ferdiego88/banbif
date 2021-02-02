@@ -705,7 +705,7 @@ valueSubProducto(): any{
   async getEstado() {
     let estados: EstadoModel[];
     estados = await this.generalListService
-      .get(Variables.listas.AdmEstado)
+      .get(Variables.listas.AdmEstado, 'Orden')
       .then((estadoList) => estadoList)
       .catch((error) => console.error(error));
     const estadosActivos = estados.filter((item) => item.Activo === true);
