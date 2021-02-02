@@ -716,6 +716,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   }
 
   listenerBonoBuenPagador() {
+
+    debugger;
+    
     this.creditForm.get('Precio_Venta').valueChanges.subscribe(selectedValue => {
 
       selectedValue = parseFloat(selectedValue.toString().replace(",", ""));
@@ -1497,23 +1500,49 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   calculaDesembolso() {
 
+    //debugger;
+
     let precioVenta = this.creditForm.get('Precio_Venta').value;
-    precioVenta = parseFloat(precioVenta.toString().replace(",", ""));
+    if (precioVenta !== null) {
+      precioVenta = parseFloat(precioVenta.toString().replace(",", ""));
+    } else {
+      precioVenta = 0;
+    }
 
     let AporteEfectivo = this.creditForm.get('Aporte_Efectivo').value;
-    AporteEfectivo = parseFloat(AporteEfectivo.toString().replace(",", ""));
+    if (AporteEfectivo !== null) {
+      AporteEfectivo = parseFloat(AporteEfectivo.toString().replace(",", ""));
+    } else {
+      AporteEfectivo = 0;
+    }
 
     let AporteRetiroAFP = this.creditForm.get('Aporte_RetiroAFP').value;
-    AporteRetiroAFP = parseFloat(AporteRetiroAFP.toString().replace(",", ""));
+    if (AporteRetiroAFP !== null) {
+      AporteRetiroAFP = parseFloat(AporteRetiroAFP.toString().replace(",", ""));
+    } else {
+      AporteRetiroAFP = 0;
+    }
 
     let BBP = this.creditForm.get('BBP').value;
-    BBP = parseFloat(BBP.toString().replace(",", ""));
+    if (BBP !== null) {
+      BBP = parseFloat(BBP.toString().replace(",", ""));
+    } else {
+      BBP = 0;
+    }
 
     let PBP = this.creditForm.get('PBP').value;
-    PBP = parseFloat(PBP.toString().replace(",", ""));
+    if (PBP !== null) {
+      PBP = parseFloat(PBP.toString().replace(",", ""));
+    } else {
+      PBP = 0;
+    }
 
     let PBPAdicionalSostenible = this.creditForm.get('PBP_Adiconal_Sostenible').value;
-    PBPAdicionalSostenible = parseFloat(PBPAdicionalSostenible.toString().replace(",", ""));
+    if (PBPAdicionalSostenible !== null) {
+      PBPAdicionalSostenible = parseFloat(PBPAdicionalSostenible.toString().replace(",", ""));
+    } else {
+      PBPAdicionalSostenible = 0;
+    }
 
     const Desembolso = precioVenta - AporteEfectivo - AporteRetiroAFP - BBP - PBP - PBPAdicionalSostenible;
     this.Desembolso = Desembolso;
@@ -1529,17 +1558,37 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   calculaGravamen() {
 
+    //debugger;
+
     let BBP = this.creditForm.get('BBP').value;
-    BBP = parseFloat(BBP.toString().replace(",", ""));
+    if (BBP !== null) {
+      BBP = parseFloat(BBP.toString().replace(",", ""));
+    } else {
+      BBP = 0;
+    }
 
     let PBP = this.creditForm.get('PBP').value;
-    PBP = parseFloat(PBP.toString().replace(",", ""));
+    if (PBP !== null) {
+      PBP = parseFloat(PBP.toString().replace(",", ""));
+    } else {
+      PBP = 0;
+    }
 
     let PBPAdicionalSostenible = this.creditForm.get('PBP_Adiconal_Sostenible').value;
-    PBPAdicionalSostenible = parseFloat(PBPAdicionalSostenible.toString().replace(",", ""));
+    if (PBPAdicionalSostenible !== null) {
+      PBPAdicionalSostenible = parseFloat(PBPAdicionalSostenible.toString().replace(",", ""));
+    } else {
+      PBPAdicionalSostenible = 0;
+    }
 
-    const Grabamen = (this.Desembolso + BBP + PBP + PBPAdicionalSostenible) * 120 / 100;
-    this.creditForm.get('Grabamen').setValue(myExtObject.MASKMONEY(Grabamen, '-###,###,###,##0.00', 1));
+    const montoTotal = (this.Desembolso + BBP + PBP + PBPAdicionalSostenible);
+    if (montoTotal > 0) {
+      const Grabamen = montoTotal * 120 / 100;
+      this.creditForm.get('Grabamen').setValue(myExtObject.MASKMONEY(Grabamen, '-###,###,###,##0.00', 1));
+    }else{
+      const Grabamen = 0;
+      this.creditForm.get('Grabamen').setValue(myExtObject.MASKMONEY(Grabamen, '-###,###,###,##0.00', 1));
+    }
   }
 
   updateValue(value: string) {
