@@ -108,7 +108,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
   porcentajeExpedientesConcluidos: number;
   porcentajeExpedientesReprocesos: number;
   porcentajeExpedientesANS: number;
-  
+
   cantidadSolicitudesPorMesAnterior: number;
   cantidadSolicitudesConcluidasAnterior: number;
   cantidadSolicitudesReprocesosAnterior: number;
@@ -345,7 +345,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
       //   this.contadorObservadoGestor += solicitud.ContadorObs_Gestor;
       // });
       this.flujoSeguimientoList.map(dato => {
-          
+
       });
       console.log(this.contadorObservadoGestor);
      }
@@ -371,7 +371,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         let porcentajeReprocesos = 0;
         let porcentajeReprocesosAnterior = 0;
         this.solicitudesEstadoList = this.solicitudMesList.filter(solicitud => solicitud.EstadoId === estado.Id);
-        
+
         const solicitudes = this.solicitudesEstadoList.length;
 
         this.solicitudesEstadoAnteriorList = this.solicitudMesAnteriorList.filter(solicitud => solicitud.EstadoId === estado.Id);
@@ -379,7 +379,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
         const dataSeguimiento = this.flujoSeguimientoList.filter(flujosolicitud => flujosolicitud.EstadoId === estado.Id)
           .map(codigo => codigo.SolicitudHipotecarioId);
-        numeradorReprocesos = dataSeguimiento.length;        
+        numeradorReprocesos = dataSeguimiento.length;
         const dataArray = new Set(dataSeguimiento);
         const result = [...dataArray];
         let flujoSeguimiento = result.length;
@@ -391,7 +391,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         const flujoSeguimientoAnterior = resultAnterior.length;
 
         let numeradorConcluidos = flujoSeguimiento - solicitudes;
- 
+
         if (solicitudes > flujoSeguimiento) {
           // porcentajeExpediente = 0;
           porcentajeExpediente = (100 - (solicitudes / this.solicitudMesList.length) * 100);
@@ -457,7 +457,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           ColorVariacionReproceso: colorReproceso,
 
         };
-        if (estado.Id === Variables.constantes.EstadoObservadoCPM || 
+        if (estado.Id === Variables.constantes.EstadoObservadoCPM ||
           estado.Id === Variables.constantes.EstadoObservadoRiesgos ||
           estado.Id === Variables.constantes.EstadoObservadoGestor ||
           estado.Id === Variables.constantes.EstadoObservadoData) {
@@ -467,11 +467,11 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           this.porcentajeExpedientesObservados = (this.cantidadObservados / this.cantidadSolicitudesPorMes) * 100;
           this.porcentajeExpedientesObservadosAnterior = (this.cantidadObservadosAnterior / this.cantidadSolicitudesPorMes) * 100;
           console.log(this.cantidadSolicitudesPorMes);
-          const {icono : iconoObservado, sentiment: sentimentObservado, resultado : resultadoObservado} 
+          const {icono : iconoObservado, sentiment: sentimentObservado, resultado : resultadoObservado}
           = this.evaluarProcesos(this.porcentajeExpedientesObservados);
           const {icono: iconoObservadoPrevious, sentiment: sentimentObservadoPrevious, resultado: resultadoObservadoPrevious} =
           this.evaluarProcesos(this.porcentajeExpedientesObservadosAnterior);
-          const [variacionObservado, colorObservado] = 
+          const [variacionObservado, colorObservado] =
           this.evaluarVariacion(resultadoObservado, resultadoObservadoPrevious);
           this.iconoObservado = iconoObservado;
           this.sentimentObservado = sentimentObservado;
@@ -576,7 +576,10 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         if (cantidadCumplieronANS) {
           this.acumuladoANSMes += porcentajeANS;
           this.acumuladoANSMesAnterior += porcentajeANSAnterior;
-          this.dashboardANSList.push(estadoElement);
+          if (estado.Id !== Variables.constantes.EstadoRechazado ||
+            estado.Id !== Variables.constantes.EstadoAsignacionRiesgos )  {
+            this.dashboardANSList.push(estadoElement);
+          }
           this.contadorEstados++;
         }
           });
@@ -611,7 +614,8 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           dato.Id !== Variables.constantes.EstadoAprobadoSinVerificacion &&
           dato.Id !== Variables.constantes.EstadoDesestimiento &&
           dato.Id !== Variables.constantes.EstadoPreTerminado &&
-          dato.Id !== Variables.constantes.EstadoRegularizacionCPM) {
+          dato.Id !== Variables.constantes.EstadoRegularizacionCPM  &&
+          dato.Id !== Variables.constantes.EstadoRechazado) {
             this.dashboardConcluidosList.push(dato);
           }
       });
@@ -628,7 +632,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         } else if (dato.Id === Variables.constantes.EstadoAprobadoSinVerificacion){
           this.numeradorEvaluacionRiesgos += dato.DenominadorSolicitudesConcluidas;
           this.numeradorEvaluacionRiesgosAnterior += dato.FlujoSeguimientoAnterior;
-          
+
         } else if (dato.Id === Variables.constantes.EstadoGestionFiles2) {
           this.numeradorEvaluacionRiesgos += dato.DenominadorSolicitudesConcluidas;
           this.numeradorEvaluacionRiesgosAnterior += dato.FlujoSeguimientoAnterior;
@@ -776,7 +780,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           dato.SentimientoReprocesoAnterior = sentimentPrevious;
           dato.IconoReprocesoAnterior = iconoPrevious;
 
-        }else if (dato.Id === Variables.constantes.EstadoObservadoRiesgos || 
+        }else if (dato.Id === Variables.constantes.EstadoObservadoRiesgos ||
                   dato.Id === Variables.constantes.EstadoObservadoData ||
                   dato.Id === Variables.constantes.EstadoObservadoGestor){
           dato.FlujoSeguimientoReprocesos = this.denominadorReprocesosObservadoRiesgo;
