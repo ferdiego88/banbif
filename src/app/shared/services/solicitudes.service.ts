@@ -309,12 +309,12 @@ export class SolicitudesService {
     // const filterString = `Created ge datetime'${startDate.toISOString()}' and Created le datetime'${futureDate.toISOString()}'`;
     return new Promise((resolve, reject) => {
       if (sp !== null && sp !== undefined) {
-        const query = sp.web.lists.getByTitle(Variables.listas.FlujoSeguimientoEtapa).items.getAll();
+        const query = sp.web.lists.getByTitle(Variables.listas.FlujoSeguimientoEtapa).items
         // if (orderField !== '') {
         //     query = query.orderBy(orderField, orderAscending);
         // }
-        const items = query;
-          // const items = query.top(4999).get();
+        // const items = query;
+        const items = query.top(10000000).get();
         console.log({items});
         resolve(items);
       } else {
