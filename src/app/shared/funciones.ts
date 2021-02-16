@@ -61,5 +61,11 @@ export const Funciones = {
         }
 
         return value;
+    },
+    esNullOrUndefined(valor){
+        if(valor === undefined || valor === null || valor === ""){
+            return true;
+        }
+        return false;
     }
 };

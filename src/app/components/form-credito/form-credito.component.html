@@ -26,7 +26,7 @@
                 </mat-form-field>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6" [hidden]="!mostrarEjecutivo" >
                 <mat-form-field class="full-width">
                     <mat-label>Ejecutivo <span class="obligatorio">(*)</span>
                     </mat-label>
@@ -116,9 +116,7 @@
                     Ahorro</button>
             </div>
 
-            <div class="col-md-6" [ngClass]="{
-                        'offset-md-6': !showBotonesProducto
-                    }">
+            <div class="col-md-6" [ngClass]="{'offset-md-6': !showBotonesProducto}" [hidden]="!mostrarEstado" >
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Estado" formControlName="EstadoId">
                         <mat-option *ngFor="let estado of estadoList" [value]='estado.Id'>
@@ -444,7 +442,7 @@
                 <div class="" [ngClass]="{'d-none': !showmessageVivienda,'col': showmessageVivienda}">
                     <div class="row padre">
                         <div class="col md-12">
-                            Corregir: Monto mínimo S/. 61,200 máximo S/. 323,100
+                            Corregir: Monto mínimo S/. 61,200 máximo S/. 436,100
                         </div>
                     </div>
                 </div>
@@ -1070,7 +1068,7 @@
                             CPM
                         </span>
                     </div>
-                </div>-->
+                </div>-->                
                 <div class="row">
                     <div class="col" [hidden]="!mostrarNumeroPropuesta">
                         <mat-form-field class="full-width">
@@ -1149,13 +1147,6 @@
                         <mat-form-field class="full-width">
                             <mat-label>Comentario de Revision</mat-label>
                             <textarea matInput placeholder="Comentario de Revision" formControlName="Cometario_Revisor" multiline rows="3"></textarea>
-                        </mat-form-field>
-                    </div>
-                    <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-label>Analista de Riesgo</mat-label>
-                            <people-picker-input formControlName="Analista_Riesgos" (onRemove)="removeAnalista()" placeholder="Escribe un nombre..." [multiple]="false">
-                            </people-picker-input>
                         </mat-form-field>
                     </div>
                 </div>
@@ -1251,7 +1242,7 @@
             'd-none': !showBtnObservar,
             'col': showBtnObservar
             }">
-                <button mat-raised-button class="full-width" color="primary" type="submit">Observar</button>
+                <button mat-raised-button class="full-width" color="primary" type="submit" (click)="eventoObservarCPM()">Observar</button>
             </div>
             <!--<div class="" [ngClass]="{
             'd-none': !showBtnObservarRegistro,
@@ -1295,7 +1286,7 @@
                 'd-none': !mostrarBotonEnviarValidacionFiles2,
                 'col': mostrarBotonEnviarValidacionFiles2
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="enviarValidacionFiles2()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoEnviarValidacionFiles2()">Enviar</button>
             </div>
             <!--<div>
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="gesionFiles2()">Enviar Gestión Files 2</button>
@@ -1310,7 +1301,7 @@
                 'd-none': !mostrarBotonEnviarIngresoFiles2,
                 'col': mostrarBotonEnviarIngresoFiles2
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="enviarIngresoFiles2()">Terminar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoEnviarIngresoFiles2()">Terminar</button>
             </div>
         </div>
         <br>

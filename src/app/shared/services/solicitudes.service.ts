@@ -155,8 +155,8 @@ export class SolicitudesService {
     if (sp !== null && sp !== undefined) {
 
       const item = await this.listaSolicitudes.items
-        .expand(...['Ejecutivo', 'Anlista_Riesgos', 'UsuarioIngresoFile'])
-        .select(...['*', 'Ejecutivo/Title', 'Ejecutivo/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id', 'UsuarioIngresoFile/Title', 'UsuarioIngresoFile/Id'])
+        .expand(...['Author', 'Anlista_Riesgos', 'UsuarioIngresoFile'])
+        .select(...['*', 'Author/Title', 'Author/Id', 'Anlista_Riesgos/Title', 'Anlista_Riesgos/Id', 'UsuarioIngresoFile/Title', 'UsuarioIngresoFile/Id'])
         // .getById(itemId)
         .filter(`Id eq ${itemId}`)
         .get();

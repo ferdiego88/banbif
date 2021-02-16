@@ -85,6 +85,7 @@ import { PipemilesPipe } from './shared/pipes/pipemiles.pipe';
 import { OficinaPipe } from './shared/pipes/oficina.pipe';
 import { EstacionPipe } from './shared/pipes/estacion.pipe';
 import { DashboardHipotecarioComponent } from './components/dashboard/dashboard-hipotecario/dashboard-hipotecario.component';
+import { BandejatrabajogestorComponent } from './components/bandejas/bandejatrabajogestor/bandejatrabajogestor.component';
 
 const materialModules = [/*  */
   MatSlideToggleModule,
@@ -155,7 +156,8 @@ const materialModules = [/*  */
     PipemilesPipe,
     OficinaPipe,
     EstacionPipe,
-    DashboardHipotecarioComponent
+    DashboardHipotecarioComponent,
+    BandejatrabajogestorComponent
   ],
   imports: [
     BrowserModule,

@@ -2,7 +2,7 @@ import { ListItem } from './base/ListItem';
 
 export class SolicitudCreditoHipotecario extends ListItem{
 
-  constructor(
+  constructor(  
     public Tipo_ProductoId = 0,
     public Nombre_Titular = '',
     // tslint:disable-next-line: variable-name
@@ -71,7 +71,7 @@ export class SolicitudCreditoHipotecario extends ListItem{
     public flag_PlanAhorro = '',
     public Observacion_CPMId = 0,
     public Comentario_Registro = '',
-    public Anlista_RiesgosId = '',
+    
     public Cometario_Revisor = '',
     public Cometario_Evaluacion = '',
     public EstadoGestorId = '',
@@ -103,16 +103,38 @@ export class SolicitudCreditoHipotecario extends ListItem{
       Id: '',
       Title: ''
     },
+    
+    public Desembolsado = false,
+    public NumeroPropuesta = '',
+    public FechaIngresoRiesgo = null,
+    public FechaObservacionRiesgo = null,     
+    
+    public AuthorId = 0,
+    
+    public EjecutivoId = 0,
     public Ejecutivo = {
       Id: '',
       Title: ''
     },
-    public Desembolsado = false,
-    public NumeroPropuesta = '',
-    public FechaIngresoRiesgo = null,
-    public FechaObservacionRiesgo = null,
-    public UsuarioIngresoFileId = null,
 
+    public Anlista_RiesgosId = 0,
+    public Anlista_Riesgos = {
+      Id: '',
+      Title: ''
+    },
+
+    public MotivoObsEvaluacionRiesgoId = '',
+    public MotivoObsEvaluacionRiesgo = {
+      Id: '',
+      Title: ''
+    },
+
+    public UsuarioIngresoFileId = null,
+    public UsuarioIngresoFile = {
+      Id: '',
+      Title: ''
+    },
+    
   ){
     super();
   }
