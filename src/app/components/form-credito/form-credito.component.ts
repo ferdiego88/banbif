@@ -2130,16 +2130,37 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     };
 
     Swal.fire({
-      title: '¿Está seguro de Pre-Terminar la solicitud?',
+      title: '¿Está seguro de enviar la solicitud a Pre-Terminado?',
       showCancelButton: true,
       confirmButtonText: `Aceptar`, icon: 'question'
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.showLoading();
-        this.update(itemSave, 'La solicitud se Pre-Termino', 'No se pudo Pre-Terminar');
+        this.update(itemSave, 'La solicitud se ha enviado a Pre-Terminado', 'No se pudo enviar la solicitud a Pre-Terminado');
       } else if (result.isDismissed) {
-        Swal.fire('No se Pre-Termino la solicitud', '', 'info');
+        Swal.fire('No se pudo enviar la solicitud a Pre-Terminado', '', 'info');
+      }
+    });
+  }
+
+  eventoBotonEnviar_IngresoFiles(): void {
+
+    const itemSave = {
+      EstadoId: 43,
+      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value
+    };
+
+    Swal.fire({
+      title: '¿Está seguro de enviar la solicitud a Registro de Garantía?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`, icon: 'question'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.showLoading();
+        this.update(itemSave, 'La solicitud se ha enviado a Registro de Garantía.', 'No se pudo enviar la solicitud a Registro de Garantía');
+      } else if (result.isDismissed) {
+        Swal.fire('No se pudo enviar la solicitud a Registro de Garantía', '', 'info');
       }
     });
   }

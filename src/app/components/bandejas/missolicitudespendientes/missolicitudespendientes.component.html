@@ -60,13 +60,13 @@
                     <ng-container matColumnDef="Created">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fec. Creación</th>
                         <td class="filaTabla" mat-cell *matCellDef="let element">
-                            {{element.Created | date: "dd/MM/yyyy"}}</td>
+                            {{element.Created | date: "dd/MM/yyyy HH:mm"}}</td>
                     </ng-container>
                     <ng-container matColumnDef="Fecha_Estado">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fecha
                             Estado</th>
                         <td class="filaTabla" mat-cell *matCellDef="let element">
-                            {{element.Fecha_Estado  | date: "dd/MM/yyyy"}} </td>
+                            {{element.Fecha_Estado  | date: "dd/MM/yyyy HH:mm"}} </td>
                     </ng-container>
                     <ng-container matColumnDef="Estado">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Estado
