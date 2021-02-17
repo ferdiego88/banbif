@@ -110,13 +110,16 @@ export class BandejatrabajogestorComponent extends FormularioBase implements OnI
     this.mostrarProgreso();
     this.obtenerMaestrosYDatos().then(() => {
 
+      debugger;
       this.currentUserName = this.datosMaestrosBandeja.currentUser.Title;
       this.userSolicitante = false;
 
       if (this.datosMaestrosBandeja.PertenceGrupo_U_Gestor) {
         this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
-          return elementoEstado.Id === 39 || elementoEstado.Id === 42 || elementoEstado.Id === 43;
+          return elementoEstado.Id === 43;
         });
+      } else {
+        this.datosMaestrosBandeja.maestroEstado = [];
       }
 
       if (this.datosMaestrosBandeja.maestroEstado.length === 0) {
@@ -198,8 +201,8 @@ export class BandejatrabajogestorComponent extends FormularioBase implements OnI
   public irPaginaSolicitud(
     elemento: any
   ) {
-      const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
-      window.open(url, '_blank');   
+    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
+    window.open(url, '_blank');
   }
 
   reload() {
@@ -359,8 +362,8 @@ export class BandejatrabajogestorComponent extends FormularioBase implements OnI
 
     if (!this.solicitudes_paged_history[this.paginator.pageIndex]) {
 
-      if(this.solicitudes_paged["nextUrl"] !== undefined){
-        this.solicitudes_paged["nextUrl"] = this.solicitudes_paged["nextUrl"].replace("https","http");
+      if (this.solicitudes_paged["nextUrl"] !== undefined) {
+        this.solicitudes_paged["nextUrl"] = this.solicitudes_paged["nextUrl"].replace("https", "http");
       }
 
       this.solicitudes_paged_history[this.paginator.pageIndex] = this.solicitudes_paged;
@@ -417,7 +420,7 @@ export class BandejatrabajogestorComponent extends FormularioBase implements OnI
           return EBandejaSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina',  'Tipo Producto', 'Moneda', 'Desembolso', 'Analista Riesgos'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina', 'Tipo Producto', 'Moneda', 'Desembolso', 'Analista Riesgos'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 

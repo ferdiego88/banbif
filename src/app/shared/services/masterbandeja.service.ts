@@ -72,6 +72,7 @@ export class MasterBandejaService {
       masterData.PertenceGrupo_U_Evaluacion = masterData.currentUser.Groups.filter(x => x.Title === "U_Evaluacion").length > 0;
       masterData.PertenceGrupo_U_Reasignador_Riesgos = masterData.currentUser.Groups.filter(x => x.Title === "U_Reasignador_Riesgos").length > 0;
       masterData.PertenceGrupo_U_Verificacion_Riesgos = masterData.currentUser.Groups.filter(x => x.Title === "U_Verificacion_Riesgos").length > 0;
+      masterData.PertenceGrupo_U_Asistente_Gestor = masterData.currentUser.Groups.filter(x => x.Title === "U_Asistente_Gestor").length > 0;
       masterData.PertenceGrupo_U_Gestor = masterData.currentUser.Groups.filter(x => x.Title === "U_Gestor").length > 0;
       
       d.resolve(masterData);

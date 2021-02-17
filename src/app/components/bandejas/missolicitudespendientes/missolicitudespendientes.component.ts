@@ -118,6 +118,8 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
         this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
           return elementoEstado.Id === 1 || elementoEstado.Id === 3 || elementoEstado.Id === 5 || elementoEstado.Id === 38 || elementoEstado.Id === 41;
         });
+      } else {
+        this.datosMaestrosBandeja.maestroEstado = [];
       }
 
       if (this.datosMaestrosBandeja.maestroEstado.length === 0) {
@@ -199,8 +201,8 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
   public irPaginaSolicitud(
     elemento: any
   ) {
-      const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
-      window.open(url, '_blank');   
+    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
+    window.open(url, '_blank');
   }
 
   reload() {
@@ -359,8 +361,8 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
 
     if (!this.solicitudes_paged_history[this.paginator.pageIndex]) {
 
-      if(this.solicitudes_paged["nextUrl"] !== undefined){
-        this.solicitudes_paged["nextUrl"] = this.solicitudes_paged["nextUrl"].replace("https","http");
+      if (this.solicitudes_paged["nextUrl"] !== undefined) {
+        this.solicitudes_paged["nextUrl"] = this.solicitudes_paged["nextUrl"].replace("https", "http");
       }
 
       this.solicitudes_paged_history[this.paginator.pageIndex] = this.solicitudes_paged;
@@ -412,7 +414,7 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
           return EBandejaSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina',  'Tipo Producto', 'Moneda', 'Desembolso'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina', 'Tipo Producto', 'Moneda', 'Desembolso'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
