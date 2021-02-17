@@ -93,6 +93,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   PertenceGrupo_U_Evaluacion: boolean = false;
   PertenceGrupo_U_Reasignador_Riesgos: boolean = false;
   PertenceGrupo_U_Verificacion_Riesgos: boolean = false;
+  PertenceGrupo_U_Asistente_Gestor: boolean = false;
   PertenceGrupo_U_Gestor: boolean = false;
 
   mostrarCamposObligatorios = false;
@@ -511,6 +512,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.PertenceGrupo_U_Evaluacion = resultUsuario.Groups.filter(x => x.Title === "U_Evaluacion").length > 0;
       this.PertenceGrupo_U_Reasignador_Riesgos = resultUsuario.Groups.filter(x => x.Title === "U_Reasignador_Riesgos").length > 0;
       this.PertenceGrupo_U_Verificacion_Riesgos = resultUsuario.Groups.filter(x => x.Title === "U_Verificacion_Riesgos").length > 0;
+      this.PertenceGrupo_U_Asistente_Gestor = resultUsuario.Groups.filter(x => x.Title === "U_Asistente_Gestor").length > 0;
       this.PertenceGrupo_U_Gestor = resultUsuario.Groups.filter(x => x.Title === "U_Gestor").length > 0;
 
       let tieneAccesso = true;
@@ -1138,8 +1140,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarBotonEnviarObservadoGestor = true;
       this.mostrarBotonDesestimiento = true;
       this.showComentarioGestor = true;
-
-      if (!this.PertenceGrupo_U_Gestor) {
+      
+      if (!this.PertenceGrupo_U_Asistente_Gestor) {
         this.setDisableComentarioGestor();
         this.mostrarBotonEnviarValidacionFiles2 = false;
         this.mostrarBotonEnviarObservadoGestor = false;
