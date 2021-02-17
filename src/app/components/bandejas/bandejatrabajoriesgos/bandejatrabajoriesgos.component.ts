@@ -23,15 +23,16 @@ import { Variables } from 'src/app/shared/variables';
 import { Funciones } from 'src/app/shared/funciones';
 import { MasterService } from 'src/app/shared/services/master.service';
 import { MasterBandejaLogic } from 'src/app/shared/models/logics/MasterBandejaLogic';
+import { variable } from '@angular/compiler/src/output/output_ast';
 
 declare var $: any;
 
 @Component({
-  selector: 'app-solicitudespendientes',
-  templateUrl: './solicitudespendientes.component.html',
-  styleUrls: ['./solicitudespendientes.component.scss']
+  selector: 'app-bandejatrabajoriesgos',
+  templateUrl: './bandejatrabajoriesgos.component.html',
+  styleUrls: ['./bandejatrabajoriesgos.component.scss']
 })
-export class SolicitudespendientesComponent extends FormularioBase implements OnInit {
+export class BandejatrabajoriesgosComponent extends FormularioBase implements OnInit {
   currentUserName: string = '';
   userSolicitante: boolean = false;
   datosMaestrosBandeja: MasterBandejaLogic = new MasterBandejaLogic();
@@ -66,7 +67,9 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
     Variables.columnasSolicitud.Oficina,
     Variables.columnasSolicitud.TipoProducto,
     Variables.columnasSolicitud.Desembolso,
-    Variables.columnasSolicitud.Anlista_Riesgos
+    Variables.columnasSolicitud.Oferta,
+    Variables.columnasSolicitud.TipoRenta,
+    Variables.columnasSolicitud.SustentoIngreso
   ];
   resultsLength = 0;
   isLoadingResults = true;
@@ -76,8 +79,7 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
   isCargando = true;
 
   nombreControles = {
-    filtroSolicitante: 'filtroSolicitante',
-    filtroAnalistaRiesgos: 'filtroAnalistaRiesgos'
+    filtroSolicitante: 'filtroSolicitante'
   }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -100,8 +102,7 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
     super('Mis Solicitudes Pendientes', applicationRef, dialog, route, router, masterService, zone, _spinner);
 
     this.form = this.formBuilder.group({
-      filtroSolicitante: [''],
-      filtroAnalistaRiesgos: ['']
+      filtroSolicitante: ['']
     });
   }
 
@@ -113,27 +114,11 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
       this.currentUserName = this.datosMaestrosBandeja.currentUser.Title;
       this.userSolicitante = false;
 
-      this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
-
-        if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 2) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 35) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 37) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Asignacion_Riesgos && elementoEstado.Id === 30) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Reasignador_Riesgos && elementoEstado.Id === 4) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Verificacion_Riesgos && elementoEstado.Id === 32) {
-          return true;
-        }
-      });
+      if (this.datosMaestrosBandeja.PertenceGrupo_U_Evaluacion) {
+        this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
+          return elementoEstado.Id === 4;
+        });
+      }
 
       if (this.datosMaestrosBandeja.maestroEstado.length === 0) {
         const url = environment.getRutaBaseApp();
@@ -265,7 +250,6 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
     if (this.tableQuery.filter) this.isOpenMenu = true;
 
     this.removePeople("solicitante");
-    this.removePeople("analistaRiesgos");
     this.setearFiltrosBusquedaPorEstado();
 
     this.getSolicitudes();
@@ -329,7 +313,6 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
     this.mostrarProgreso();
 
     this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
-    this.tableQuery.filter.AnalistaRiesgos = this.getValorControlPeoplePicker(this.nombreControles.filtroAnalistaRiesgos);
 
     if (this.tableQuery.filter.Estado.length === 0) {
       this.setearFiltrosBusquedaPorEstado();
@@ -357,7 +340,7 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
 
       this.solicitudes_paged_history = [];
 
-      this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then();
+      this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante, true).then();
 
     } else {
       if (this.solicitudes_paged_history[this.paginator.pageIndex]) {
@@ -396,10 +379,6 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
       this.form.get(this.nombreControles.filtroSolicitante).setValue([]);
       this.form.controls[this.nombreControles.filtroSolicitante].updateValueAndValidity();
     }
-    else if (tipoControl === 'analistaRiesgos') {
-      this.form.get(this.nombreControles.filtroAnalistaRiesgos).setValue([]);
-      this.form.controls[this.nombreControles.filtroAnalistaRiesgos].updateValueAndValidity();
-    }
   }
 
   exportarExcel() {
@@ -407,7 +386,6 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
     this.mostrarProgreso();
 
     this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
-    this.tableQuery.filter.AnalistaRiesgos = this.getValorControlPeoplePicker(this.nombreControles.filtroAnalistaRiesgos);
 
     if (this.tableQuery.filter.Estado.length === 0) {
       this.setearFiltrosBusquedaPorEstado();
@@ -427,13 +405,13 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
       order = null;
     }
 
-    this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, 100000, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then(
+    this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, 4999, this.datosMaestrosBandeja.currentUser, this.userSolicitante, true).then(
       (data: PagedItemCollection<any[]>) => {
         const items: EBandejaSolicitud[] = data.results.map(elemento => {
           return EBandejaSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina',  'Tipo Producto', 'Moneda', 'Desembolso', 'Analista Riesgos'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina',  'Tipo Producto', 'Moneda', 'Desembolso', 'Oferta', 'Tipo Renta', 'Sustento Ingresos'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
@@ -449,12 +427,14 @@ export class SolicitudespendientesComponent extends FormularioBase implements On
           dataMap.push(item.Tipo_Producto);
           dataMap.push(item.Moneda);
           dataMap.push(item.Desembolso);
-          dataMap.push(item.Anlista_Riesgos);
+          dataMap.push(item.Oferta);
+          dataMap.push(item.Tipo_Renta);
+          dataMap.push(item.Sustento_Ingresos);
 
           return dataMap;
         });
 
-        this.excelService.excelListadoSolicitudesPendientes('Bandeja de Trabajo', 'BandejaTrabajo', headers, details);
+        this.excelService.excelListadoSolicitudesEvaluacion('Bandeja de Trabajo Riesgos', 'BandejaTrabajoRiesgos', headers, details);
         this.ocultarProgreso();
         this.isCargando = false;
       },

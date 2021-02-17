@@ -27,11 +27,11 @@ import { MasterBandejaLogic } from 'src/app/shared/models/logics/MasterBandejaLo
 declare var $: any;
 
 @Component({
-  selector: 'app-solicitudes',
-  templateUrl: './solicitudes.component.html',
-  styleUrls: ['./solicitudes.component.scss']
+  selector: 'app-bandejatrabajo',
+  templateUrl: './bandejatrabajo.component.html',
+  styleUrls: ['./bandejatrabajo.component.scss']
 })
-export class SolicitudesComponent extends FormularioBase implements OnInit {
+export class BandejatrabajoComponent extends FormularioBase implements OnInit {
   currentUserName: string = '';
   userSolicitante: boolean = false;
   datosMaestrosBandeja: MasterBandejaLogic = new MasterBandejaLogic();
@@ -65,7 +65,8 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
     Variables.columnasSolicitud.Zona,
     Variables.columnasSolicitud.Oficina,
     Variables.columnasSolicitud.TipoProducto,
-    Variables.columnasSolicitud.Desembolso
+    Variables.columnasSolicitud.Desembolso,
+    Variables.columnasSolicitud.Anlista_Riesgos
   ];
   resultsLength = 0;
   isLoadingResults = true;
@@ -75,7 +76,8 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
   isCargando = true;
 
   nombreControles = {
-    filtroSolicitante: 'filtroSolicitante'
+    filtroSolicitante: 'filtroSolicitante',
+    filtroAnalistaRiesgos: 'filtroAnalistaRiesgos'
   }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -95,10 +97,11 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
     public excelService: ExcelService,
     public formBuilder: FormBuilder
   ) {
-    super('Solicitudes', applicationRef, dialog, route, router, masterService, zone, _spinner);
+    super('Mis Solicitudes Pendientes', applicationRef, dialog, route, router, masterService, zone, _spinner);
 
     this.form = this.formBuilder.group({
-      filtroSolicitante: ['']
+      filtroSolicitante: [''],
+      filtroAnalistaRiesgos: ['']
     });
   }
 
@@ -109,6 +112,33 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
 
       this.currentUserName = this.datosMaestrosBandeja.currentUser.Title;
       this.userSolicitante = false;
+
+      this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
+
+        if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 2) {
+          return true;
+        }
+        else if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 35) {
+          return true;
+        }
+        else if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 37) {
+          return true;
+        }
+        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Asignacion_Riesgos && elementoEstado.Id === 30) {
+          return true;
+        }
+        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Reasignador_Riesgos && elementoEstado.Id === 4) {
+          return true;
+        }
+        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Verificacion_Riesgos && elementoEstado.Id === 32) {
+          return true;
+        }
+      });
+
+      if (this.datosMaestrosBandeja.maestroEstado.length === 0) {
+        const url = environment.getRutaBaseApp();
+        this.mostrarModalInformativoConAccion("Mensaje del Sistema", "Usted no tiene permiso a esta bandeja.", window.open(url, '_self'));
+      }
 
       let order: string;
 
@@ -143,13 +173,13 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
   }
 
   private setearFiltrosBusquedaPorEstado() {
-    /*let estadosSeleccionados: number[] = [];
+    let estadosSeleccionados: number[] = [];
 
     estadosSeleccionados = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
       return true;
     }).map((elementoEstado: Lookup) => elementoEstado.Id);
 
-    this.tableQuery.filter.Estado = estadosSeleccionados;*/
+    this.tableQuery.filter.Estado = estadosSeleccionados;
   }
 
   obtenerMaestrosYDatos(): Promise<boolean> {
@@ -235,6 +265,7 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
     if (this.tableQuery.filter) this.isOpenMenu = true;
 
     this.removePeople("solicitante");
+    this.removePeople("analistaRiesgos");
     this.setearFiltrosBusquedaPorEstado();
 
     this.getSolicitudes();
@@ -243,12 +274,14 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
   async getSolicitudes() {
     this.paginator.pageIndex = 0;
     this.page_last = -1;
+
     this.getTablePagination();
     this.closeSidenavMenu();
   }
 
   getTablePagination() {
     this.mostrarProgreso();
+    this.isCargando = true;
 
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
@@ -277,6 +310,7 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
               this.resultsLength = this.resultsLength + 1;
             }
           }
+          this.isCargando = false;
           this.ocultarProgreso();
           return data;
         }),
@@ -293,9 +327,9 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
 
   async getSolicitudesPaged(): Promise<EBandejaSolicitud[]> {
     this.mostrarProgreso();
-    this.isCargando = true;
 
     this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
+    this.tableQuery.filter.AnalistaRiesgos = this.getValorControlPeoplePicker(this.nombreControles.filtroAnalistaRiesgos);
 
     if (this.tableQuery.filter.Estado.length === 0) {
       this.setearFiltrosBusquedaPorEstado();
@@ -326,7 +360,6 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
       this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then();
 
     } else {
-
       if (this.solicitudes_paged_history[this.paginator.pageIndex]) {
         this.solicitudes_paged = await this.solicitudes_paged_history[this.paginator.pageIndex - 1].getNext();
       } else {
@@ -353,7 +386,6 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
       return EBandejaSolicitud.parseJson(elemento);
     });
 
-    this.isCargando = false;
     this.ocultarProgreso();
     return items;
   }
@@ -364,6 +396,10 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
       this.form.get(this.nombreControles.filtroSolicitante).setValue([]);
       this.form.controls[this.nombreControles.filtroSolicitante].updateValueAndValidity();
     }
+    else if (tipoControl === 'analistaRiesgos') {
+      this.form.get(this.nombreControles.filtroAnalistaRiesgos).setValue([]);
+      this.form.controls[this.nombreControles.filtroAnalistaRiesgos].updateValueAndValidity();
+    }
   }
 
   exportarExcel() {
@@ -371,6 +407,7 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
     this.mostrarProgreso();
 
     this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
+    this.tableQuery.filter.AnalistaRiesgos = this.getValorControlPeoplePicker(this.nombreControles.filtroAnalistaRiesgos);
 
     if (this.tableQuery.filter.Estado.length === 0) {
       this.setearFiltrosBusquedaPorEstado();
@@ -390,13 +427,13 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
       order = null;
     }
 
-    this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, 4999, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then(
+    this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, 100000, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then(
       (data: PagedItemCollection<any[]>) => {
         const items: EBandejaSolicitud[] = data.results.map(elemento => {
           return EBandejaSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina',  'Tipo Producto', 'Moneda', 'Desembolso'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina',  'Tipo Producto', 'Moneda', 'Desembolso', 'Analista Riesgos'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
@@ -412,13 +449,14 @@ export class SolicitudesComponent extends FormularioBase implements OnInit {
           dataMap.push(item.Tipo_Producto);
           dataMap.push(item.Moneda);
           dataMap.push(item.Desembolso);
+          dataMap.push(item.Anlista_Riesgos);
 
           return dataMap;
         });
 
-        this.excelService.excelListadoSolicitudes('Consultas', 'Consultas', headers, details);
+        this.excelService.excelListadoSolicitudesPendientes('Bandeja de Trabajo', 'BandejaTrabajo', headers, details);
         this.ocultarProgreso();
-        this.isCargando = false;;
+        this.isCargando = false;
       },
       err => this.guardarLog(err)
     );

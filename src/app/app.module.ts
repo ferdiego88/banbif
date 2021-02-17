@@ -73,12 +73,12 @@ import { FormCreditoComponent } from './components/form-credito/form-credito.com
 import { MatRadioModule } from '@angular/material/radio';
 import { FormTableComponent } from './components/form-table/form-table.component';
 import { MissolicitudespendientesComponent } from './components/bandejas/missolicitudespendientes/missolicitudespendientes.component';
-import { SolicitudesComponent } from './components/bandejas/solicitudes/solicitudes.component';
+import { ConsultasComponent } from './components/bandejas/consultas/consultas.component';
 import { GridLoaderComponent } from './shared/controls/grid-loader/grid-loader.component';
 import { SolicitudesfinalizadasComponent } from './components/bandejas/solicitudesfinalizadas/solicitudesfinalizadas.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import { SolicitudespendientesComponent } from './components/bandejas/solicitudespendientes/solicitudespendientes.component';
-import { SolicitudesenevaluacionComponent } from './components/bandejas/solicitudesenevaluacion/solicitudesenevaluacion.component';
+import { BandejatrabajoComponent } from './components/bandejas/bandejatrabajo/bandejatrabajo.component';
+import { BandejatrabajoriesgosComponent } from './components/bandejas/bandejatrabajoriesgos/bandejatrabajoriesgos.component';
 import { LogseguimientoComponent } from './components/bandejas/logseguimiento/logseguimiento.component';
 import { DashboardCreditoComponent } from './components/dashboard/dashboard-credito/dashboard-credito.component';
 import { PipemilesPipe } from './shared/pipes/pipemiles.pipe';
@@ -145,12 +145,12 @@ const materialModules = [/*  */
     FormTableComponent,
     PeoplePickerInputComponent,
     MissolicitudespendientesComponent,
-    SolicitudesComponent,
+    ConsultasComponent,
     GridLoaderComponent,
     SolicitudesfinalizadasComponent,
     WelcomeComponent,
-    SolicitudespendientesComponent,
-    SolicitudesenevaluacionComponent,
+    BandejatrabajoComponent,
+    BandejatrabajoriesgosComponent,
     LogseguimientoComponent,
     DashboardCreditoComponent,
     PipemilesPipe,

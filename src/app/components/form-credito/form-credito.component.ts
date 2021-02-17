@@ -476,7 +476,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
               if (this.ItemSolicitud.Enlace_Documentos === null) {
                 this.mostrarModalInformativo("Mensaje de Validación", 'Vuelva a ingresar en unos minutos, se está creando la carpetas de la solicitud.');
-                this.router.navigate(['/bandejas/solicitudes']);
+                this.router.navigate(['/bandejas/consultas']);
               } else {
                 this.enlaceDocumentos = this.ItemSolicitud.Enlace_Documentos.Url;
               }
@@ -519,7 +519,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         if (param.id === undefined && !this.PertenceGrupo_U_Oficina) {
           tieneAccesso = false;
           this.mostrarModalInformativo("Mensaje de Validación", 'Su usuario no pertenece al grupo "U_Oficina".');
-          this.router.navigate(['/bandejas/solicitudes']);
+          this.router.navigate(['/bandejas/consultas']);
         }
       });
 
@@ -1796,7 +1796,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.hideLoading();
           this.showSuccessMessage('El Borrador se Guardo Correctamente');
 
-          this.router.navigate(['/bandejas/solicitudes']);
+          this.router.navigate(['/bandejas/consultas']);
         } else {
           this.hideLoading();
           this.showErrorMessage('no se grabó el registro');
@@ -2028,7 +2028,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         if (resp) {
           this.hideLoading();
           this.showSuccessMessage(successMessage);
-          this.router.navigate(['/bandejas/solicitudes']);
+          this.router.navigate(['/bandejas/consultas']);
         } else {
           this.hideLoading();
           this.showErrorMessage(errorMessage);

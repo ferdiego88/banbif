@@ -5,11 +5,11 @@ import { Variables } from './shared/variables';
 import { HomeComponent } from './components/home/home.component';
 import { FormCreditoComponent } from './components/form-credito/form-credito.component';
 import { MissolicitudespendientesComponent } from './components/bandejas/missolicitudespendientes/missolicitudespendientes.component';
-import { SolicitudesComponent } from './components/bandejas/solicitudes/solicitudes.component';
+import { ConsultasComponent } from './components/bandejas/consultas/consultas.component';
 import { SolicitudesfinalizadasComponent } from './components/bandejas/solicitudesfinalizadas/solicitudesfinalizadas.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import { SolicitudespendientesComponent } from './components/bandejas/solicitudespendientes/solicitudespendientes.component';
-import { SolicitudesenevaluacionComponent } from './components/bandejas/solicitudesenevaluacion/solicitudesenevaluacion.component';
+import { BandejatrabajoComponent } from './components/bandejas/bandejatrabajo/bandejatrabajo.component';
+import { BandejatrabajoriesgosComponent } from './components/bandejas/bandejatrabajoriesgos/bandejatrabajoriesgos.component';
 import { BandejatrabajogestorComponent } from './components/bandejas/bandejatrabajogestor/bandejatrabajogestor.component';
 import { LogseguimientoComponent } from './components/bandejas/logseguimiento/logseguimiento.component';
 import { DashboardCreditoComponent } from './components/dashboard/dashboard-credito/dashboard-credito.component';
@@ -26,10 +26,10 @@ const routes: Routes = [
   { path: Variables.path.formCreditoDetalle, component: FormCreditoComponent },
   { path: Variables.path.formCredito, component: FormCreditoComponent },
   { path: Variables.path.bandejaMisSolicitudesPendientes, component: MissolicitudespendientesComponent },
-  { path: Variables.path.bandejaSolicitudes, component: SolicitudesComponent },
+  { path: Variables.path.bandejaConsultas, component: ConsultasComponent },
   { path: Variables.path.bandejaSolicitudesFinalizadas, component: SolicitudesfinalizadasComponent },
-  { path: Variables.path.bandejaSolicitudesPendientes, component: SolicitudespendientesComponent },
-  { path: Variables.path.bandejaSolicitudesEvaluacion, component: SolicitudesenevaluacionComponent },
+  { path: Variables.path.bandejaTrabajo, component: BandejatrabajoComponent },
+  { path: Variables.path.bandejaTrabajoRiesgos, component: BandejatrabajoriesgosComponent },
   { path: Variables.path.bandejaTrabajoGestor, component: BandejatrabajogestorComponent },  
   { path: Variables.path.bandejaSeguimientoSolicitudes, component: LogseguimientoComponent },
   { path: Variables.path.dashboardSolicitudesCreditoHipotecario, component: DashboardCreditoComponent },
