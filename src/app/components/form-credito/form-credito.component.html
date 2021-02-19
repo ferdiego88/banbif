@@ -26,7 +26,7 @@
                 </mat-form-field>
             </div>
 
-            <div class="col-md-6" [hidden]="!mostrarEjecutivo" >
+            <div class="col-md-6" [hidden]="!mostrarEjecutivo">
                 <mat-form-field class="full-width">
                     <mat-label>Ejecutivo <span class="obligatorio">(*)</span>
                     </mat-label>
@@ -116,7 +116,7 @@
                     Ahorro</button>
             </div>
 
-            <div class="col-md-6" [ngClass]="{'offset-md-6': !showBotonesProducto}" [hidden]="!mostrarEstado" >
+            <div class="col-md-6" [ngClass]="{'offset-md-6': !showBotonesProducto}" [hidden]="!mostrarEstado">
                 <mat-form-field class="full-width">
                     <mat-select placeholder="Estado" formControlName="EstadoId">
                         <mat-option *ngFor="let estado of estadoList" [value]='estado.Id'>
@@ -815,18 +815,6 @@
                     </mat-form-field>
                 </div>
             </div>
-            <div class="" [ngClass]="{
-                'd-none':!showAnalistaRiesgos,
-                'row': showAnalistaRiesgos
-            }">
-                <div class="col-md-6">
-                    <mat-form-field class="full-width">
-                        <mat-label>Analista de Riesgo <span class="obligatorio">(*)</span></mat-label>
-                        <people-picker-input formControlName="Analista_Riesgos" (onRemove)="removeAnalista()" placeholder="Escribe un nombre..." [multiple]="false">
-                        </people-picker-input>
-                    </mat-form-field>
-                </div>
-            </div>
             <hr>
             <div class="" [ngClass]="{
               'd-none':!showTipoGarantiaAbono,
@@ -974,7 +962,10 @@
                     </textarea>
                 </mat-form-field>
             </div>
-            <div *ngIf="showDesembolsado" class="row" style="padding-bottom: 10px;">
+            <div style="padding-bottom: 10px;" [ngClass]="{
+                'd-none':!showDesembolsado,
+                'row': showDesembolsado
+            }">
                 <div class="col">
                     <mat-checkbox formControlName="Desembolsado">Desembolsado</mat-checkbox>
                 </div>
@@ -993,74 +984,20 @@
                 </div>
             </div>
             <br>
-            <div class="row">
+            <!--<div class="row">
                 <div class="col sub-title-col">
                     <span class="sub-title">
                         COMENTARIOS DE LA OFICINA
                     </span>
                 </div>
-            </div>
+            </div>-->
             <div class="row">
                 <div class="col">
                     <mat-form-field class="full-width">
                         <textarea matInput placeholder="Comentarios de la Oficina" formControlName="Desembolso_Ampliacion" multiline rows="3"></textarea>
                     </mat-form-field>
                 </div>
-            </div>
-            <div *ngIf="showComentarioGestor">
-                <div class="row" style="padding-bottom: 20px;">
-                    <div class="col sub-title-col">
-                        <span class="sub-title">
-                            COMENTARIOS DEL GESTOR
-                        </span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <mat-form-field class="full-width">
-                            <textarea matInput placeholder="Comentarios del Gestor" formControlName="ComentarioGestor" multiline rows="3"></textarea>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-label>Usuario Ingreso File <span class="obligatorio">(*)</span></mat-label>
-                            <people-picker-input formControlName="UsuarioIngresoFile" (onRemove)="removeUsuarioIngresoFile()" placeholder="Escribe un nombre..." [multiple]="false">
-                            </people-picker-input>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="" [ngClass]="{'d-none': !showControlesGestor,'col': showControlesGestor}">
-                    <div class="row">
-                        <div class="col">
-                            <mat-form-field class="full-width">
-                                <mat-select placeholder="Seleccione Estado Gestor" formControlName="EstadoGestorId">
-                                    <mat-option *ngFor="let estado of estadoGestorList" [value]="estado.Id">
-                                        {{ estado.Title }}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col">
-                            <mat-form-field class="full-width" appearance="fill">
-                                <mat-label>Fecha de Gestor</mat-label>
-                                <input matInput [matDatepicker]="dpi" formControlName="Fecha_Gestor_Hip">
-                                <mat-datepicker-toggle matSuffix [for]="dpi"></mat-datepicker-toggle>
-                                <mat-datepicker #dpi></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <mat-form-field class="full-width">
-                                <mat-label>Comentario Gestor</mat-label>
-                                <textarea matInput placeholder="Comentarios Gestor" formControlName="Comentario_Gestor_Hip" multiline rows="3"></textarea>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div>            
             <div>
                 <!--<div class="row" style="padding-bottom: 20px;">
                     <div class="col sub-title-col">
@@ -1068,7 +1005,7 @@
                             CPM
                         </span>
                     </div>
-                </div>-->                
+                </div>-->
                 <div class="row">
                     <div class="col" [hidden]="!mostrarNumeroPropuesta">
                         <mat-form-field class="full-width">
@@ -1078,6 +1015,18 @@
                             <mat-error *ngIf="creditForm.controls['NumeroPropuesta'].hasError('required')">
                                 Ingrese un valor
                             </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="" [ngClass]="{
+                    'd-none':!showAnalistaRiesgos,
+                    'row': showAnalistaRiesgos
+                }">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-label>Analista de Riesgo <span class="obligatorio">(*)</span></mat-label>
+                            <people-picker-input formControlName="Analista_Riesgos" (onRemove)="removeAnalista()" placeholder="Escribe un nombre..." [multiple]="false">
+                            </people-picker-input>
                         </mat-form-field>
                     </div>
                 </div>
@@ -1145,27 +1094,82 @@
                 <div class="" [ngClass]="{'d-none': showAsignacionRiesgos,'row': !showAsignacionRiesgos}">
                     <div class="col">
                         <mat-form-field class="full-width">
-                            <mat-label>Comentario de Revision</mat-label>
+                            <mat-label>Comentario de Revisión</mat-label>
                             <textarea matInput placeholder="Comentario de Revision" formControlName="Cometario_Revisor" multiline rows="3"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
+            </div>            
+            <div [hidden]="!showComentarioGestor">
+                <!--<div class="row" style="padding-bottom: 20px;">
+                    <div class="col sub-title-col">
+                        <span class="sub-title">
+                            COMENTARIOS DEL GESTOR
+                        </span>
+                    </div>
+                </div>-->
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <textarea matInput placeholder="Comentarios del Gestor" formControlName="ComentarioGestor" multiline rows="3"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-label>Usuario Ingreso File <span class="obligatorio">(*)</span></mat-label>
+                            <people-picker-input formControlName="UsuarioIngresoFile" (onRemove)="removeUsuarioIngresoFile()" placeholder="Escribe un nombre..." [multiple]="false">
+                            </people-picker-input>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="" [ngClass]="{'d-none': !showControlesGestor,'col': showControlesGestor}">
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <mat-select placeholder="Seleccione Estado Gestor" formControlName="EstadoGestorId">
+                                    <mat-option *ngFor="let estado of estadoGestorList" [value]="estado.Id">
+                                        {{ estado.Title }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width" appearance="fill">
+                                <mat-label>Fecha de Gestor</mat-label>
+                                <input matInput [matDatepicker]="dpi" formControlName="Fecha_Gestor_Hip">
+                                <mat-datepicker-toggle matSuffix [for]="dpi"></mat-datepicker-toggle>
+                                <mat-datepicker #dpi></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <mat-label>Comentario Gestor</mat-label>
+                                <textarea matInput placeholder="Comentarios Gestor" formControlName="Comentario_Gestor_Hip" multiline rows="3"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-        </div>
-
-
-
+            <div>
+                <div class="row">
+                    <div class="col" [hidden]="!mostrarCampo_ComentarioGarantia">
+                        <mat-form-field class="full-width">
+                            <mat-label>Comentario de Garantía</mat-label>
+                            <textarea matInput placeholder="Comentario Garantía" multiline rows="3" formControlName="ComentarioGarantia"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>      
         <hr>
-
         <div class="row card-center">
 
-            <div class="" [ngClass]="{
-                'd-none': !showBtnCancelar,
-                'col': showBtnCancelar
-                }">
-                <button [routerLink]="['/']" mat-raised-button class="full-width" color="primary" type="button" (click)="cancel()">Cancelar</button>
-
+            <div class="col">
+                <button [routerLink]="['/']" mat-raised-button class="full-width" color="primary" type="button">Cancelar</button>
             </div>
 
             <div class="" [ngClass]="{
@@ -1198,17 +1202,6 @@
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="officeObservation()">Observación Oficina</button>
 
             </div>
-
-
-            <!--<div class="" [ngClass]="{
-                'd-none': !showBtnObservacionCPM,
-                'col': showBtnObservacionCPM
-                }">
-                <button mat-raised-button class="full-width" color="primary" type="button"
-                    (click)="cpmObservation()">Observación CPM</button>
-
-            </div>-->
-
 
             <div class="" [ngClass]="{
                 'd-none': !showBtnRechazar,
@@ -1288,9 +1281,6 @@
                 }">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoEnviarValidacionFiles2()">Enviar</button>
             </div>
-            <!--<div>
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="gesionFiles2()">Enviar Gestión Files 2</button>
-            </div>-->
             <div class="" [ngClass]="{
                 'd-none': !mostrarBotonGuardarPreTerminado,
                 'col': mostrarBotonGuardarPreTerminado
@@ -1302,6 +1292,15 @@
                 'col': mostrarBotonEnviarIngresoFiles2
                 }">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoEnviarIngresoFiles2()">Terminar</button>
+            </div>
+            <div class="col" *ngIf="mostrarBotones_IngresoFiles">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_IngresoFiles()">Enviar</button>
+            </div>
+            <div class="col" *ngIf="mostrarBotones_RegistroGarantia">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservar_RegistroGarantia()">Observar</button>
+            </div>
+            <div class="col" *ngIf="mostrarBotones_RegistroGarantia">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_RegistroGarantia()">Enviar</button>
             </div>
         </div>
         <br>

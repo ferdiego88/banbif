@@ -441,7 +441,7 @@ export class BandejatrabajogestorComponent extends FormularioBase implements OnI
           return dataMap;
         });
 
-        this.excelService.excelListadoSolicitudesPendientes('Bandeja de Trabajo', 'BandejaTrabajo', headers, details);
+        this.excelService.excelListadoSolicitudesPendientes('Bandeja de Trabajo Gestor', 'BandejaTrabajoGestor', headers, details);
         this.ocultarProgreso();
         this.isCargando = false;
       },
