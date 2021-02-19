@@ -11,9 +11,9 @@
 
         <div class="row">
 
-            <div class="col-md-6">
-                <mat-form-field class="full-width">
-                    <mat-label>Producto - Código <span class="obligatorio">(*)</span>
+            <div class="col-md-6">               
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="TituloCampo">Producto - Código <span class="obligatorio">(*)</span>
                     </mat-label>
                     <mat-select placeholder="Producto - Código" formControlName="Tipo_ProductoId">
                         <mat-option *ngFor="let tipoProducto of tipoProductoList" [value]="tipoProducto.Id">
@@ -27,8 +27,8 @@
             </div>
 
             <div class="col-md-6" [hidden]="!mostrarEjecutivo">
-                <mat-form-field class="full-width">
-                    <mat-label>Ejecutivo <span class="obligatorio">(*)</span>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="TituloCampo">Ejecutivo <span class="obligatorio">(*)</span>
                     </mat-label>
                     <people-picker-input formControlName="ejecutivo" (onRemove)="removePeople()" placeholder="Escribe un nombre..." [multiple]="false">
                     </people-picker-input>
@@ -39,8 +39,8 @@
 
         <div class="row">
             <div class="col-md-6">
-                <mat-form-field class="full-width">
-                    <mat-label>Sub Producto - Código <span class="obligatorio">(*)</span></mat-label>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="TituloCampo">Sub Producto - Código <span class="obligatorio">(*)</span></mat-label>
                     <mat-select placeholder="Sub Producto - Código" formControlName="Sub_ProductoId">
                         <mat-option *ngFor="let tipoSubProducto of tipoSubProductoList" [value]="tipoSubProducto.Id">
                             {{ tipoSubProducto.Title }}
@@ -54,8 +54,8 @@
 
             <div class="col-md-6">
 
-                <mat-form-field class="full-width">
-                    <mat-label>Zona <span class="obligatorio">(*)</span></mat-label>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="TituloCampo">Zona <span class="obligatorio">(*)</span></mat-label>
                     <mat-select placeholder="Zona" formControlName="ZonaId">
                         <mat-option *ngFor="let zona of zonaModelList" [value]="zona.Id">
                             {{ zona.Title }}
@@ -70,8 +70,8 @@
 
         <div class="row">
             <div class="col-md-6">
-                <mat-form-field class="full-width">
-                    <mat-label>Modalidad <span class="obligatorio">(*)</span>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="TituloCampo">Modalidad <span class="obligatorio">(*)</span>
                     </mat-label>
                     <mat-select placeholder="Modalidad" formControlName="ModalidadId">
                         <mat-option *ngFor="let modalidad of modalidadList" [value]="modalidad.Id">
@@ -84,8 +84,8 @@
                 </mat-form-field>
             </div>
             <div class="col-md-6">
-                <mat-form-field class="full-width">
-                    <mat-label>Oficina <span class="obligatorio">(*)</span>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="TituloCampo">Oficina <span class="obligatorio">(*)</span>
                     </mat-label>
                     <mat-select placeholder="Oficina" formControlName="OficinaId">
                         <mat-option *ngFor="let oficina of oficinaList" [value]="oficina.Id">
@@ -117,7 +117,8 @@
             </div>
 
             <div class="col-md-6" [ngClass]="{'offset-md-6': !showBotonesProducto}" [hidden]="!mostrarEstado">
-                <mat-form-field class="full-width">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="TituloCampo">Estado</mat-label>
                     <mat-select placeholder="Estado" formControlName="EstadoId">
                         <mat-option *ngFor="let estado of estadoList" [value]='estado.Id'>
                             {{estado.Title}}
@@ -128,7 +129,7 @@
         </div>
 
         <!-- CUIDADO CON LOS ESTILOS DE EL HTML DE ARRIBA -->
-        <div class="row">
+        <div class="row" style="padding-top: 10px;">
             <div [ngClass]="{
                         'col-md-12': !showPlanAhorro,
                         'col-md-6': showPlanAhorro
@@ -136,8 +137,8 @@
                 <div class="row">
 
                     <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-label>Tipo de Documento <span class="obligatorio">(*)</span>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Tipo de Documento <span class="obligatorio">(*)</span>
                             </mat-label>
                             <mat-select placeholder="Tipo de Documento" formControlName="Tipo_DocumentoId">
                                 <mat-option *ngFor="let dcmto of typeDocumentList" [value]="dcmto.Id">
@@ -151,8 +152,8 @@
                     </div>
 
                     <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-label>N° de Documento <span class="obligatorio">(*)</span>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">N° de Documento <span class="obligatorio">(*)</span>
                             </mat-label>
                             <input matInput placeholder="N° de Documento" type="number" formControlName="N_Documento">
                             <mat-error *ngIf="creditForm.controls['N_Documento'].hasError('required')">
@@ -164,8 +165,8 @@
                 </div>
                 <div class="row-md-12">
                     <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-label>Nombre del Titular <span class="obligatorio">(*)</span>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Nombre del Titular <span class="obligatorio">(*)</span>
                             </mat-label>
                             <input matInput placeholder="Nombre del Titular" formControlName="Nombre_Titular">
                             <mat-error *ngIf="creditForm.controls['Nombre_Titular'].hasError('required')">
@@ -174,7 +175,8 @@
                         </mat-form-field>
                     </div>
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Riesgo Máximo (Monto en USD)</mat-label>
                             <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="Riesgo Máximo (Monto en USD)" formControlName="Riesgo_Maximo">
                             <!-- <input type="text" class="form-control" id="separadorMiles" placeholder="Separador de miles"> -->
                             <mat-error *ngIf="creditForm.controls['Riesgo_Maximo'].hasError('required')">
@@ -183,7 +185,8 @@
                         </mat-form-field>
                     </div>
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Sustento de Ingresos</mat-label>
                             <mat-select placeholder="Sustento de Ingresos" formControlName="Sustento_IngresosId">
                                 <mat-option *ngFor="let sustento of sustIngresosList" [value]="sustento.Id">
                                     {{ sustento.Title }}
@@ -242,7 +245,8 @@
                 <hr>
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Meses de Ahorro</mat-label>
                             <input matInput placeholder="Meses de Ahorro" type="number" formControlName="Meses_Abono">
                             <mat-error *ngIf="creditForm.controls['Meses_Abono'].hasError('required')">
                                 Ingrese un valor
@@ -253,7 +257,8 @@
 
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Moneda de Ahorro</mat-label>
                             <mat-select placeholder="Moneda de Ahorro" formControlName="Tipo_Moneda_AhorroId">
                                 <mat-option *ngFor="let typeCurrency of typeCurrencySaving" [value]="typeCurrency.Id">
                                     {{ typeCurrency.Title }}
@@ -268,7 +273,8 @@
 
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Importe Cuota Ahorro</mat-label>
                             <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="Importe Cuota Ahorro" type="text" formControlName="Importe_Cuota_Ahorro">
                             <mat-error *ngIf="creditForm.controls['Importe_Cuota_Ahorro'].hasError('required')">
                                 Ingrese un valor
@@ -279,7 +285,8 @@
 
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Situación de Plan de Ahorro</mat-label>
                             <mat-select placeholder="Situación de Plan de Ahorro" formControlName="Situacion_Plan_AhorroId">
                                 <mat-option *ngFor="let plan of planSituationSavingList" [value]="plan.Id">
                                     {{ plan.Title }}
@@ -294,7 +301,8 @@
 
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Nº de Abonos Validados</mat-label>
                             <input matInput placeholder="Nº de Abonos Validados" type="number" formControlName="N_Abonos_Validados">
                             <mat-error *ngIf="creditForm.controls['N_Abonos_Validados'].hasError('required')">
                                 Ingrese un valor
@@ -305,7 +313,8 @@
 
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Último Abono Validado(Mes/Año)</mat-label>
                             <mat-select placeholder="Último Abono Validado(Mes/Año)" formControlName="Ultimo_Abono_ValidadoId">
                                 <mat-option *ngFor="let lastBono of LastValidatedBonoList" [value]="lastBono.Id">
                                     {{ lastBono.Title }}
@@ -319,7 +328,8 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Nº de Cta. Ahorro BanBif</mat-label>
                             <input matInput placeholder="Nº de Cta. Ahorro BanBif" type="number" formControlName="Cta_Ahorro_BanBif">
                             <mat-error *ngIf="creditForm.controls['Cta_Ahorro_BanBif'].hasError('required')">
                                 Ingrese un valor
@@ -342,7 +352,8 @@
 
             <div class="row" *ngIf="!showGarantias">
                 <div class="col">
-                    <mat-form-field class="full-width">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label class="TituloCampo">Nombre de Proyecto</mat-label>
                         <mat-select placeholder="Nombre de Proyecto" formControlName="ProyectoId">
                             <mat-option *ngFor="let project of projectList" [value]="project.Id">
                                 {{ project.Title }}
@@ -357,7 +368,8 @@
 
             <div class="row">
                 <div class="col">
-                    <mat-form-field class="full-width">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label class="TituloCampo">Número de Vivienda</mat-label>
                         <mat-select placeholder="Número de Vivienda" formControlName="N_ViviendaId">
                             <mat-option *ngFor="let vivienda of nviviendaList" [value]="vivienda.Id">
                                 {{ vivienda.Title }}
@@ -372,7 +384,8 @@
 
             <div class="row">
                 <div class="col">
-                    <mat-form-field class="full-width">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label class="TituloCampo">Tipo de Moneda</mat-label>
                         <mat-select placeholder="Tipo de Moneda" formControlName="MonedaId">
                             <mat-option *ngFor="let currency of currencyList" [value]="currency.Id">
                                 {{ currency.Title }}
@@ -387,7 +400,8 @@
 
             <div class="row">
                 <div class="col">
-                    <mat-form-field class="full-width">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label class="TituloCampo">TEA (%)</mat-label>
                         <input matInput placeholder="TEA (%)" type="number" step="0.00000001" min="0.00000000" formControlName="TEA">
                         <mat-error *ngIf="creditForm.controls['TEA'].hasError('required')">
                             Ingrese un valor
@@ -398,7 +412,8 @@
 
             <div class="row">
                 <div class="col">
-                    <mat-form-field class="full-width">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label class="TituloCampo">EA Autorizada por</mat-label>
                         <mat-select placeholder="TEA Autorizada por" formControlName="TEA_AutorizadoId">
                             <mat-option *ngFor="let tea of TEAList" [value]="tea.Id">
                                 {{ tea.Title }}
@@ -417,7 +432,8 @@
                   }">
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Tipo Moneda</mat-label>
                             <mat-select placeholder="Tipo Moneda" formControlName="Mon_PrecioVentaId">
                                 <mat-option *ngFor="let typeCurrency of typeCurrencyList" [value]="typeCurrency.Id">
                                     {{ typeCurrency.Title }}
@@ -430,7 +446,8 @@
                     </div>
 
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Precio de Venta</mat-label>
                             <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" (blur)="ValidarReglasPrecioVenta()" autocomplete="off" matInput placeholder="Precio de Venta" type="text" formControlName="Precio_Venta">
                             <mat-error *ngIf="creditForm.controls['Precio_Venta'].hasError('required')">
                                 Ingrese un valor
@@ -450,7 +467,8 @@
 
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">( % ) de Financiamiento</mat-label>
                             <input matInput placeholder="( % ) de Financiamiento" type="number" formControlName="pFinanciamiento">
                             <mat-error *ngIf="creditForm.controls['pFinanciamiento'].hasError('required')">
                                 Ingrese un valor
@@ -481,7 +499,8 @@
 
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Descripción del Inmueble</mat-label>
                             <input matInput placeholder="Descripción del Inmueble" formControlName="Descripcion_Inmueble">
                             <mat-error *ngIf="creditForm.controls['Descripcion_Inmueble'].hasError('required')">
                                 Ingrese un valor
@@ -490,8 +509,8 @@
                     </div>
 
                     <div class="col">
-                        <mat-form-field class="full-width" appearance="fill">
-                            <mat-label>Fecha de Tasación</mat-label>
+                        <mat-form-field appearance="outline" class="full-width" appearance="fill">
+                            <mat-label class="TituloCampo">Fecha de Tasación</mat-label>
                             <input matInput [matDatepicker]="dp" formControlName="Fecha_Tasacion_Remodelac">
                             <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                             <mat-datepicker #dp></mat-datepicker>
@@ -503,15 +522,17 @@
 
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
-                            <input matInput placeholder="" formControlName="Mon_Valor_ComTas_Soles" class="label-black">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Moneda</mat-label>
+                            <input matInput placeholder="Moneda" formControlName="Mon_Valor_ComTas_Soles" class="label-black">
                             <mat-error *ngIf="creditForm.controls['Importe_Cuota_Ahorro'].hasError('required')">
                                 Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Valor Tasación soles</mat-label>
                             <input matInput placeholder="Valor Tasación soles" type="number" formControlName="Valor_ComTas_Soles">
                             <mat-error *ngIf="creditForm.controls['Valor_ComTas_Soles'].hasError('required')">
                                 Ingrese un valor
@@ -522,15 +543,17 @@
 
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
-                            <input matInput placeholder="" formControlName="Mon_VRI_Soles" class="label-black">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Moneda</mat-label>
+                            <input matInput placeholder="Moneda" formControlName="Mon_VRI_Soles" class="label-black">
                             <mat-error *ngIf="creditForm.controls['Mon_VRI_Soles'].hasError('required')">
                                 Ingrese un valor
                             </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">VRI soles</mat-label>
                             <input matInput placeholder="VRI soles" type="number" formControlName="VRI_Soles">
                             <mat-error *ngIf="creditForm.controls['VRI_Soles'].hasError('required')">
                                 Ingrese un valor
@@ -560,8 +583,9 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-select placeholder="Tipo Moneda" formControlName="Mon_Ap_Efectivo">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Moneda</mat-label>
+                            <mat-select placeholder="Moneda" formControlName="Mon_Ap_Efectivo">
                                 <mat-option *ngFor="let typeCurrency of currencyAporteEfectivoList" [value]="typeCurrency.Id">
                                     {{ typeCurrency.Title }}
                                 </mat-option>
@@ -573,7 +597,8 @@
                     </div>
 
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Aporte en Efectivo</mat-label>
                             <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="Aporte en Efectivo" type="text" formControlName="Aporte_Efectivo">
                             <mat-error *ngIf="creditForm.controls['Aporte_Efectivo'].hasError('required')">
                                 Ingrese un valor
@@ -584,8 +609,9 @@
 
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-select placeholder="Tipo Moneda" formControlName="Mon_Aport_AFPId">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Moneda</mat-label>
+                            <mat-select placeholder="Moneda" formControlName="Mon_Aport_AFPId">
                                 <mat-option *ngFor="let typeCurrency of currencyAporteAFPList" [value]="typeCurrency.Id">
                                     {{ typeCurrency.Title }}
                                 </mat-option>
@@ -597,7 +623,8 @@
                     </div>
 
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Aporte de retiro AFP</mat-label>
                             <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="Aporte de retiro AFP" type="text" formControlName="Aporte_RetiroAFP">
                             <mat-error *ngIf="creditForm.controls['Aporte_RetiroAFP'].hasError('required')">
                                 Ingrese un valor
@@ -616,8 +643,9 @@
                       }">
                     <div class="row">
                         <div class="col">
-                            <mat-form-field class="full-width">
-                                <input matInput placeholder="Tipo Moneda" formControlName="Mon_BBP">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label class="TituloCampo">Moneda</mat-label>
+                                <input matInput placeholder="Moneda" formControlName="Mon_BBP">
                                 <mat-error *ngIf="creditForm.controls['Mon_BBP'].hasError('required')">
                                     Ingrese un valor
                                 </mat-error>
@@ -625,7 +653,8 @@
                         </div>
 
                         <div class="col">
-                            <mat-form-field class="full-width">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label class="TituloCampo">Bono Buen Pagador (BBP)</mat-label>
                                 <input matInput placeholder="Bono Buen Pagador (BBP)" type="text" formControlName="BBP">
                                 <mat-error *ngIf="creditForm.controls['BBP'].hasError('required')">
                                     Ingrese un valor
@@ -636,8 +665,9 @@
 
                     <div class="row">
                         <div class="col">
-                            <mat-form-field class="full-width">
-                                <input matInput placeholder="Tipo Moneda" formControlName="Mon_PBB">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label class="TituloCampo">Moneda</mat-label>
+                                <input matInput placeholder="Moneda" formControlName="Mon_PBB">
                                 <mat-error *ngIf="creditForm.controls['Mon_PBB'].hasError('required')">
                                     Ingrese un valor
                                 </mat-error>
@@ -645,7 +675,8 @@
                         </div>
 
                         <div class="col">
-                            <mat-form-field class="full-width">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label class="TituloCampo">Premio Buen pagador (PBP)</mat-label>
                                 <input matInput placeholder="Premio Buen pagador (PBP)" type="text" formControlName="PBP">
                                 <mat-error *ngIf="creditForm.controls['PBP'].hasError('required')">
                                     Ingrese un valor
@@ -657,7 +688,8 @@
 
                     <div class="row">
                         <div class="col">
-                            <mat-form-field class="full-width">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label class="TituloCampo">Tipo vivienda sostenible</mat-label>
                                 <mat-select placeholder="Seleccione" formControlName="BBP_AdicionalId">
                                     <mat-option *ngFor="let BBPA of BBPAdicionalList" [value]="BBPA.Id">
                                         {{ BBPA.Title }}
@@ -670,7 +702,8 @@
                         </div>
 
                         <div class="col">
-                            <mat-form-field class="full-width">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label class="TituloCampo">BBP adicional por vivienda sostenible</mat-label>
                                 <input matInput placeholder="BBP adicional por vivienda sostenible" type="text" formControlName="PBP_Adiconal_Sostenible">
                                 <mat-error *ngIf="creditForm.controls['PBP_Adiconal_Sostenible'].hasError('required')">
                                     Ingrese un valor
@@ -715,8 +748,9 @@
 
                         </div>
                         <div class="col">
-                            <mat-form-field class="full-width">
-                                <mat-select placeholder="Seleccione Tipo Moneda" formControlName="Mon_Desembolso">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label class="TituloCampo">Moneda</mat-label>
+                                <mat-select placeholder="Moneda" formControlName="Mon_Desembolso">
                                     <mat-option *ngFor="let moneda of typeCurrencyList" [value]="moneda.Title">
                                         {{ moneda.Title }}
                                     </mat-option>
@@ -727,7 +761,8 @@
                             </mat-form-field>
                         </div>
                         <div class="col">
-                            <mat-form-field class="full-width">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label class="TituloCampo">Desembolso</mat-label>
                                 <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="Desembolso" type="text" formControlName="Desembolso">
                                 <mat-error *ngIf="creditForm.controls['Desembolso'].hasError('required')">
                                     Ingrese un valor
@@ -742,8 +777,9 @@
                         </div>
 
                         <div class="col">
-                            <mat-form-field class="full-width">
-                                <mat-select placeholder="Seleccione Tipo Moneda" formControlName="Mon_Gravamen">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label class="TituloCampo">Moneda</mat-label>
+                                <mat-select placeholder="Moneda" formControlName="Mon_Gravamen">
                                     <mat-option *ngFor="let moneda of typeCurrencyList" [value]="moneda.Title">
                                         {{ moneda.Title }}
                                     </mat-option>
@@ -754,7 +790,8 @@
                             </mat-form-field>
                         </div>
                         <div class="col">
-                            <mat-form-field class="full-width">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label class="TituloCampo">Gravamen (120% x Desembolso)</mat-label>
                                 <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="Gravamen (120% x Desembolso)" type="text" formControlName="Grabamen">
                                 <mat-error *ngIf="creditForm.controls['Grabamen'].hasError('required')">
                                     Ingrese un valor
@@ -771,7 +808,8 @@
 
             <div class="row-md-12">
                 <div class="col">
-                    <mat-form-field class="full-width">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label class="TituloCampo">Modalidad de Pago</mat-label>
                         <mat-select placeholder="Modalidad de Pago" formControlName="Modalidad_PagoId">
                             <mat-option *ngFor="let payMethod of paymentMethodList" [value]="payMethod.Id">
                                 {{ payMethod.Title }}
@@ -786,16 +824,17 @@
 
             <div class="row" style="display: none;">
                 <div class="col">
-                    <mat-form-field class="full-width">
-                        <mat-label>Observaciones (Opcional)</mat-label>
-                        <textarea matInput placeholder="Observaciones" multiline rows="3" formControlName="Observaciones"></textarea>
+                    <mat-form-field appearance="outline" class="full-width">                       
+                        <mat-label class="TituloCampo">Observaciones (Opcional)</mat-label>
+                        <textarea matInput placeholder="Observaciones (Opcional)" multiline rows="3" formControlName="Observaciones"></textarea>
                     </mat-form-field>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col">
-                    <mat-form-field class="full-width">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label class="TituloCampo">Lugar donde se realizó la visita (OFICINA/FERIA)</mat-label>
                         <mat-select placeholder="Lugar donde se realizó la visita (OFICINA/FERIA)" formControlName="Lugar_VisitaId">
                             <mat-option *ngFor="let place of visitingPlaceList" [value]="place.Id">
                                 {{ place.Title }}
@@ -807,7 +846,8 @@
                     </mat-form-field>
                 </div>
                 <div class="col">
-                    <mat-form-field class="full-width">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label class="TituloCampo">Período de Gracia</mat-label>
                         <input matInput placeholder="Período de Gracia" type="number" formControlName="Periodo_Gracia">
                         <mat-error *ngIf="creditForm.controls['Periodo_Gracia'].hasError('required')">
                             Ingrese un valor
@@ -834,8 +874,9 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-select placeholder="" formControlName="Tipo_GarantiaId">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Tipo de Garantía</mat-label>
+                            <mat-select placeholder="Tipo de Garantía" formControlName="Tipo_GarantiaId">
                                 <mat-option *ngFor="let typeGuarentee of typeguarenteeList" [value]="typeGuarentee.Id">
                                     {{ typeGuarentee.Title }}
                                 </mat-option>
@@ -846,8 +887,9 @@
                         </mat-form-field>
                     </div>
                     <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-select placeholder="" formControlName="Tipo_AbonoId">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Tipo de Abono</mat-label>
+                            <mat-select placeholder="Tipo de Abono" formControlName="Tipo_AbonoId">
                                 <mat-option *ngFor="let abono of paymentTypeList" [value]="abono.Id">
                                     {{ abono.Title }}
                                 </mat-option>
@@ -878,7 +920,8 @@
                 <div class="row">
                     <div class="col">La operación se realizará en </div>
                     <div class="col">
-                        <mat-form-field class="text-width">
+                        <mat-form-field appearance="outline" class="text-width">
+                            <mat-label class="TituloCampo">Número de Desembolso</mat-label>
                             <input matInput placeholder="" type="number" formControlName="Numero_Desemboslo">
                             <mat-error *ngIf="creditForm.controls['Numero_Desemboslo'].hasError('required')">
                                 Ingrese un valor
@@ -891,9 +934,10 @@
                 </div>
                 <div class="row">
                     <div class="col">1er Desembolso por S/ </div>
-                    <div class="col">
-                        <mat-form-field class="text-width">
-                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="" type="text" formControlName="Primer_desembolso">
+                    <div class="col">                      
+                        <mat-form-field appearance="outline" class="text-width">
+                            <mat-label class="TituloCampo">Monto</mat-label>
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="Primer Desembolso" type="text" formControlName="Primer_desembolso">
                         </mat-form-field>
                     </div>
                     <div class="col label-aplicacion">
@@ -902,8 +946,9 @@
                 </div>
                 <div class="row">
                     <div class="col">2do Desembolso por S/ </div>
-                    <div class="col">
-                        <mat-form-field class="text-width">
+                    <div class="col">                       
+                        <mat-form-field appearance="outline" class="text-width">
+                            <mat-label class="TituloCampo">Monto</mat-label>
                             <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="" type="text" formControlName="Segundo_desembolso">
                         </mat-form-field>
                     </div>
@@ -914,7 +959,8 @@
                 <div class="row">
                     <div class="col">3er Desembolso por S/ </div>
                     <div class="col">
-                        <mat-form-field class="text-width">
+                        <mat-form-field appearance="outline" class="text-width">
+                            <mat-label class="TituloCampo">Monto</mat-label>
                             <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="" type="text" formControlName="Tercer_desembolso">
                         </mat-form-field>
                     </div>
@@ -925,7 +971,8 @@
                 <div class="row">
                     <div class="col">Aporte de Cliente por S/</div>
                     <div class="col">
-                        <mat-form-field class="text-width">
+                        <mat-form-field appearance="outline" class="text-width">
+                            <mat-label class="TituloCampo">Monto</mat-label>
                             <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="" type="text" formControlName="Aporte_Cliente">
                         </mat-form-field>
                     </div>
@@ -941,8 +988,9 @@
                     <span class="sub-title">CONDICIÓN DE DESEMBOLSO</span>
                 </div>
                 <div class="col">
-                    <mat-form-field class="full-width">
-                        <textarea matInput placeholder="" multiline rows="4" formControlName="Condicion_Desembolso">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label class="TituloCampo">Condición de Desembolso</mat-label>
+                        <textarea matInput placeholder="Condición de Desembolso" multiline rows="4" formControlName="Condicion_Desembolso">
                         </textarea>
                     </mat-form-field>
                 </div>
@@ -956,8 +1004,8 @@
                         PLAN DE AHORRO
                     </span>
                 </div>
-                <mat-form-field class="full-width">
-                    <mat-label>Plan de Ahorro</mat-label>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="TituloCampo">Plan de Ahorro</mat-label>
                     <textarea matInput placeholder="" multiline rows="5" formControlName="Plan_Ahorro">
                     </textarea>
                 </mat-form-field>
@@ -993,7 +1041,8 @@
             </div>-->
             <div class="row">
                 <div class="col">
-                    <mat-form-field class="full-width">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label class="TituloCampo">Comentarios de Oficina</mat-label>
                         <textarea matInput placeholder="Comentarios de la Oficina" formControlName="Desembolso_Ampliacion" multiline rows="3"></textarea>
                     </mat-form-field>
                 </div>
@@ -1008,9 +1057,8 @@
                 </div>-->
                 <div class="row">
                     <div class="col" [hidden]="!mostrarNumeroPropuesta">
-                        <mat-form-field class="full-width">
-                            <mat-label>Número de Propuesta
-                            </mat-label>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Número de Propuesta</mat-label>
                             <input matInput placeholder="Número de Propuesta" formControlName="NumeroPropuesta">
                             <mat-error *ngIf="creditForm.controls['NumeroPropuesta'].hasError('required')">
                                 Ingrese un valor
@@ -1023,8 +1071,8 @@
                     'row': showAnalistaRiesgos
                 }">
                     <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-label>Analista de Riesgo <span class="obligatorio">(*)</span></mat-label>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Analista de Riesgo <span class="obligatorio">(*)</span></mat-label>
                             <people-picker-input formControlName="Analista_Riesgos" (onRemove)="removeAnalista()" placeholder="Escribe un nombre..." [multiple]="false">
                             </people-picker-input>
                         </mat-form-field>
@@ -1032,7 +1080,8 @@
                 </div>
                 <div class="row">
                     <div class="" [ngClass]="{'d-none': !showObservacionCPM,'col': showObservacionCPM}">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Observación CPM</mat-label>
                             <mat-select placeholder="Observación CPM" formControlName="Observacion_CPMId">
                                 <mat-option>Ninguna</mat-option>
                                 <mat-option *ngFor="let observacion of observacionesCPMList" [value]="observacion.Id">
@@ -1044,8 +1093,8 @@
                 </div>
                 <div class="row">
                     <div class="" [ngClass]="{'d-none': !showComentarioCPM,'col': showComentarioCPM}">
-                        <mat-form-field class="full-width">
-                            <mat-label>Comentarios CPM</mat-label>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Comentarios CPM</mat-label>
                             <textarea matInput placeholder="Comentarios CPM" multiline rows="3" formControlName="Comentario_Registro"></textarea>
                         </mat-form-field>
                     </div>
@@ -1061,8 +1110,8 @@
                 </div>-->
                 <div class="row">
                     <div class="" [ngClass]="{'d-none': !showComentarioRevisor,'col': showComentarioRevisor}">
-                        <mat-form-field class="full-width">
-                            <mat-label>Comentarios de Asistente de Riesgos</mat-label>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Comentarios de Asistente de Riesgos</mat-label>
                             <textarea matInput placeholder="Comentarios de Asistente de Riesgos" formControlName="Cometario_Revisor1" multiline rows="3"></textarea>
                         </mat-form-field>
                     </div>
@@ -1070,16 +1119,16 @@
 
                 <div class="row">
                     <div class="" [ngClass]="{'d-none': !showComentarioRiesgos,'col': showComentarioRiesgos}">
-                        <mat-form-field class="full-width">
-                            <mat-label>Comentarios de Riesgos</mat-label>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Comentarios de Riesgos</mat-label>
                             <textarea matInput placeholder="Comentarios de Riesgos" formControlName="Cometario_Evaluacion" multiline rows="3"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="row">
                     <div class="" [ngClass]="{'d-none': !showMotivoObservacionRiesgos,'col': showMotivoObservacionRiesgos}">
-                        <mat-form-field class="full-width">
-                            <mat-label>Motivo Observación de Riesgo</mat-label>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Motivo Observación de Riesgo</mat-label>
                             <mat-select placeholder="Motivo Observación de Riesgo" formControlName="MotivoObsEvaluacionRiesgoId">
                                 <mat-option *ngFor="let elemento of motivoObservacionEvaluacionRiesgoList" [value]="elemento.Id">
                                     {{ elemento.Title }}
@@ -1093,8 +1142,8 @@
                 </div>
                 <div class="" [ngClass]="{'d-none': showAsignacionRiesgos,'row': !showAsignacionRiesgos}">
                     <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-label>Comentario de Revisión</mat-label>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Comentario de Revisión</mat-label>
                             <textarea matInput placeholder="Comentario de Revision" formControlName="Cometario_Revisor" multiline rows="3"></textarea>
                         </mat-form-field>
                     </div>
@@ -1110,15 +1159,16 @@
                 </div>-->
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Comentarios del Gestor</mat-label>
                             <textarea matInput placeholder="Comentarios del Gestor" formControlName="ComentarioGestor" multiline rows="3"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="full-width">
-                            <mat-label>Usuario Ingreso File <span class="obligatorio">(*)</span></mat-label>
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Usuario Ingreso File <span class="obligatorio">(*)</span></mat-label>
                             <people-picker-input formControlName="UsuarioIngresoFile" (onRemove)="removeUsuarioIngresoFile()" placeholder="Escribe un nombre..." [multiple]="false">
                             </people-picker-input>
                         </mat-form-field>
@@ -1127,8 +1177,9 @@
                 <div class="" [ngClass]="{'d-none': !showControlesGestor,'col': showControlesGestor}">
                     <div class="row">
                         <div class="col">
-                            <mat-form-field class="full-width">
-                                <mat-select placeholder="Seleccione Estado Gestor" formControlName="EstadoGestorId">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label class="TituloCampo">Estado Gestor</mat-label>
+                                <mat-select placeholder="Estado Gestor" formControlName="EstadoGestorId">
                                     <mat-option *ngFor="let estado of estadoGestorList" [value]="estado.Id">
                                         {{ estado.Title }}
                                     </mat-option>
@@ -1136,8 +1187,8 @@
                             </mat-form-field>
                         </div>
                         <div class="col">
-                            <mat-form-field class="full-width" appearance="fill">
-                                <mat-label>Fecha de Gestor</mat-label>
+                            <mat-form-field appearance="outline" class="full-width" appearance="fill">
+                                <mat-label class="TituloCampo">Fecha de Gestor</mat-label>
                                 <input matInput [matDatepicker]="dpi" formControlName="Fecha_Gestor_Hip">
                                 <mat-datepicker-toggle matSuffix [for]="dpi"></mat-datepicker-toggle>
                                 <mat-datepicker #dpi></mat-datepicker>
@@ -1146,20 +1197,30 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <mat-form-field class="full-width">
-                                <mat-label>Comentario Gestor</mat-label>
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label class="TituloCampo">Comentario Gestor</mat-label>
                                 <textarea matInput placeholder="Comentarios Gestor" formControlName="Comentario_Gestor_Hip" multiline rows="3"></textarea>
                             </mat-form-field>
                         </div>
                     </div>
                 </div>
             </div>
-            <div>
+            <div [hidden]="!mostrarCampo_ComentarioGarantia">
                 <div class="row">
-                    <div class="col" [hidden]="!mostrarCampo_ComentarioGarantia">
-                        <mat-form-field class="full-width">
-                            <mat-label>Comentario de Garantía</mat-label>
+                    <div class="col" >
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Comentario de Garantía</mat-label>
                             <textarea matInput placeholder="Comentario Garantía" multiline rows="3" formControlName="ComentarioGarantia"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div [hidden]="!mostrarCampo_ComentarioOficinaFile2">
+                <div class="row">
+                    <div class="col" >
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Comentario de Oficina File 2</mat-label>
+                            <textarea matInput placeholder="Comentario de Oficina File 2" multiline rows="3" formControlName="ComentarioOficinaFile2"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
@@ -1302,6 +1363,14 @@
             <div class="col" *ngIf="mostrarBotones_RegistroGarantia">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_RegistroGarantia()">Enviar</button>
             </div>
+
+            <div class="col" *ngIf="mostrarBotones_ObservadoGarantia">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonDesestimar_ObservadoGarantia()">Desestimar</button>
+            </div>
+            <div class="col" *ngIf="mostrarBotones_ObservadoGarantia">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ObservadoGarantia()">Enviar</button>
+            </div>           
+           
         </div>
         <br>
     </form>

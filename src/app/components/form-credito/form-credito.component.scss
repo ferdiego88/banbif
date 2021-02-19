@@ -1,72 +1,70 @@
 .full-width {
-    width: 100%;
+  width: 100%;
 }
 
 .padre {
-    text-align: center;
-    color: rgb(255, 0, 0);
+  text-align: center;
+  color: rgb(255, 0, 0);
 }
 
 .card-center {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 .mat-card-subtitle {
-    background: rgb(32, 163, 255) !important;
-    color: aliceblue;
+  background: rgb(32, 163, 255) !important;
+  color: aliceblue;
 }
 
 .text-width {
-    width: 60%;
-    margin: auto;
+  width: 60%;
+  margin: auto;
 }
 
 .label-red {
-    color: red;
+  color: red;
 }
 
 .label-black {
-    color: black;
+  color: black;
 }
 
 .mat-card-title {
   background: rgb(32, 163, 255) !important;
-    margin-bottom: auto;
+  margin-bottom: auto;
 }
 
 .mat-raised-button.mat-primary {
-    background: rgb(32, 163, 255) !important;
+  background: rgb(32, 163, 255) !important;
 }
 
 ::ng-deep .mat-raised-button.mat-primary:hover {
-  background: rgb(198, 92, 117)!important;
+  background: rgb(198, 92, 117) !important;
 }
 
 .mat-raised-button.mat-warn {
-    background: rgb(236, 112, 99)!important;
+  background: rgb(236, 112, 99) !important;
 }
 
 .mat-raised-button.mat-acent {
-    background: rgb(24, 255, 120)!important;
+  background: rgb(24, 255, 120) !important;
 }
 
 ::ng-deep .mat-form-field-underline {
-    /*change color of label*/
-    background: rgb(32, 163, 255) !important;
+  /*change color of label*/
+  background: rgb(32, 163, 255) !important;
 }
 
 a:link {
-    color: rgb(220, 52, 32)!important;
+  color: rgb(220, 52, 32) !important;
 }
-
 
 /* visited link */
 
 a:visited {
-    color: rgb(250, 159, 9)!important;
+  color: rgb(250, 159, 9) !important;
 }
-
 
 /* mouse over link */
 
@@ -74,11 +72,10 @@ a:hover {
   color: rgb(2, 139, 255) !important;
 }
 
-
 /* selected link */
 
 a:active {
-    color: blue!important;
+  color: blue !important;
 }
 
 // .a-color {
@@ -86,40 +83,77 @@ a:active {
 //     border-bottom: 2px;
 // }
 :disabled {
-    background-color: rgb(253, 255, 204);
-    color: gray;
+  //background-color: rgb(253, 255, 204);
+  color: gray;
 }
 
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
   background: rgb(32, 163, 255) !important;
 }
 .shipping-card {
-    min-width: 120px;
-    margin: 20px auto;
+  min-width: 120px;
+  margin: 20px auto;
 }
 
 .mat-radio-button {
-    display: block;
-    margin: 5px 0;
+  display: block;
+  margin: 5px 0;
 }
 
 .row {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
-.div{
-  border-radius: 20px!important;
+.div {
+  border-radius: 20px !important;
 }
 
 .col {
-    flex: 1;
-    margin-right: 20px;
+  flex: 1;
+  margin-right: 20px;
 }
 
 .col:last-child {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 input[type="number"] {
-    text-align: right !important;
+  text-align: right !important;
 }
+
+/*.TituloCampo:disabled{
+    font-size: 12px  !important;
+    color: gray !important;
+}
+
+.TituloCampo {
+    font-size: 12px  !important;
+    color: black !important;
+}*/
+
+.mat-form-field {
+  font-size: 14px;
+}
+
+.mat-label {
+    font-size: 12px !important
+}
+  
+/*mat-form-field.mat-form-field.mat-white {
+    &.mat-focused {
+      .mat-form-field-label {
+          color: #90e232;
+      }
+      .mat-form-field-ripple {
+          background-color: #723e3e !important;
+      }
+    }
+    .mat-form-field-label,.mat-form-field-label.mat-focused,
+    .mat-form-field.mat-focused.matform-field-should-float {
+        color: #f71414;     
+    }
+    .mat-form-field-underline, .mat-form-field-underline.mat-focused {
+        background-color: #1f12d4;
+      }
+    }
+*/

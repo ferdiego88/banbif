@@ -301,6 +301,7 @@ export class Variables {
     Comentario_Gestor_Hip: 'Comentario_Gestor_Hip',
     ComentarioGestor: 'ComentarioGestor',
     ComentarioGarantia: 'ComentarioGarantia',
+    ComentarioOficinaFile2: 'ComentarioOficinaFile2',
     Editor: 'Editor',
     Modified: 'Modified',
     NombreTitular: 'Nombre_Titular',

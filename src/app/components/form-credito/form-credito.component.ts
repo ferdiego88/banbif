@@ -103,6 +103,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   mostrarCampo_ComentarioGarantia: boolean = false;
 
+  mostrarCampo_ComentarioOficinaFile2: boolean = false;
+
   mostrarEjecutivo = false;
   mostrarEstado = false;
   IdUsuarioActual = 0;
@@ -283,6 +285,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     UsuarioIngresoFile: [null],
     UsuarioIngresoFileId: [null],
     ComentarioGarantia: [null],
+    ComentarioOficinaFile2: [null],
     /*postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
     ],*/
@@ -296,7 +299,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     Variables.columnasSolicitud.Condicion_Desembolso, Variables.columnasSolicitud.Comentario_Registro,
     Variables.columnasSolicitud.Desembolso_Ampliacion, Variables.columnasSolicitud.Cometario_Evaluacion,
     Variables.columnasSolicitud.Comentario_Gestor_Hip, Variables.columnasSolicitud.ComentarioGestor,
-    Variables.columnasSolicitud.ComentarioGarantia];
+    Variables.columnasSolicitud.ComentarioGarantia, Variables.columnasSolicitud.ComentarioOficinaFile2];
 
   Desembolso = 0;
 
@@ -321,7 +324,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.mostrarEjecutivo = false;
     this.mostrarEstado = false;
     this.showBtnObservar = false;
-  
+
     this.generalListService.getCurrentUser().then(resultUsuario => {
 
       this.IdUsuarioActual = resultUsuario.Id;
@@ -1111,7 +1114,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.setDisableControlsAplicacion();
       this.setDisableComentarios();
       this.setDisableControlsPlanAhorroProgramado();
-    
+
       this.showComentarioRiesgos = true;
       this.showComentarioCPM = true;
       this.showComentarioRevisor = true;
@@ -1212,7 +1215,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.mostrarBotonEnviarIngresoFiles2 = false;
         this.mostrarBotones_IngresoFiles = false;
       }
-      this.creditForm.get('NumeroPropuesta').disable();
     }
     else if (estado === Variables.constantes.EstadoDesestimiento || estado === Variables.constantes.EstadoPreTerminado) {
       this.setDisableControlsCabezera();
@@ -1273,8 +1275,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarBotones_RegistroGarantia = true;
       this.mostrarCampo_ComentarioGarantia = true;
     }
-    else if (estado === Variables.constantes.EstadoObservadoGarantia) {    
-      
+    else if (estado === Variables.constantes.EstadoObservadoGarantia) {
+
       this.setDisableControlsCabezera();
       this.setDisableControlsCuotaInicial();
       this.setDisableControlsDatosOperacion();
@@ -1297,15 +1299,21 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.Comentario_Registro.disable();
       this.creditForm.controls.Cometario_Revisor1.disable();
       this.creditForm.controls.Cometario_Revisor.disable();
-      this.creditForm.controls.ComentarioGestor.disable();    
+      this.creditForm.controls.ComentarioGestor.disable();
       this.creditForm.controls.NumeroPropuesta.disable();
       this.creditForm.controls.Analista_Riesgos.disable();
       this.creditForm.controls.UsuarioIngresoFile.disable();
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
 
-      this.mostrarBotones_ObservadoGarantia = true;    
-      
+      this.mostrarBotones_ObservadoGarantia = true;
+      this.mostrarCampo_ComentarioOficinaFile2 = true;
+
+      if (!this.PertenceGrupo_U_Gestor) {
+        this.creditForm.controls.ComentarioOficinaFile2.disable();
+        this.mostrarBotones_ObservadoGarantia = false;
+      }
+
     } else if (estado === Variables.constantes.EstadoValidacionGarantia) {
 
       this.mostrarBotones_ValidacionGarantia = true;
@@ -2439,5 +2447,48 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       }
     });
   }
+
+  eventoBotonEnviar_ObservadoGarantia(): void {
+
+    const itemSave = {
+      EstadoId: 46,
+      ComentarioOficinaFile2: this.creditForm.controls.ComentarioOficinaFile2.value
+    };
+
+    Swal.fire({
+      title: '¿Está seguro de enviar la solicitud a Registro de Garantía?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`, icon: 'question'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.showLoading();
+        this.update(itemSave, 'La solicitud se ha enviado a Registro de Garantía.', 'No se pudo enviar la solicitud a Registro de Garantía');
+      } else if (result.isDismissed) {
+        Swal.fire('No se pudo enviar la solicitud a Registro de Garantía', '', 'info');
+      }
+    });
+  }
+
+  eventoBotonDesestimar_ObservadoGarantia(): void {
+    const itemSave = {
+      EstadoId: 40,
+      Desembolso_Ampliacion: this.creditForm.controls.Desembolso_Ampliacion.value,
+      ComentarioOficinaFile2: this.creditForm.controls.ComentarioOficinaFile2.value
+    };
+
+    Swal.fire({
+      title: '¿Está seguro de Desestimar la solicitud?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`, icon: 'question'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.showLoading();
+        this.update(itemSave, 'La Solicitud se Desestimado', 'No se pudo Desestimar');
+      } else if (result.isDismissed) {
+        Swal.fire('No se ha Desestimado la Solicitud', '', 'info');
+      }
+    });
+  }
+
 
 }
