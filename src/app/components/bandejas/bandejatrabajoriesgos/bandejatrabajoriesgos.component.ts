@@ -114,13 +114,18 @@ export class BandejatrabajoriesgosComponent extends FormularioBase implements On
       this.currentUserName = this.datosMaestrosBandeja.currentUser.Title;
       this.userSolicitante = false;
 
-      if (this.datosMaestrosBandeja.PertenceGrupo_U_Evaluacion) {
-        this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
-          return elementoEstado.Id === 4;
-        });
-      } else {
-        this.datosMaestrosBandeja.maestroEstado = [];
-      }
+      debugger;
+      this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
+        if (this.datosMaestrosBandeja.PertenceGrupo_U_Evaluacion && elementoEstado.Id === 4) {
+          return true;
+        }     
+        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Reasignador_Riesgos && elementoEstado.Id === 4) {
+          return true;
+        }   
+        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Verificacion_Riesgos && elementoEstado.Id === 32) {
+          return true;
+        }      
+      });
 
       if (this.datosMaestrosBandeja.maestroEstado.length === 0) {
         const url = environment.getRutaBaseApp();

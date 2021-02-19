@@ -126,13 +126,7 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
         }
         else if (this.datosMaestrosBandeja.PertenceGrupo_U_Asignacion_Riesgos && elementoEstado.Id === 30) {
           return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Reasignador_Riesgos && elementoEstado.Id === 4) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Verificacion_Riesgos && elementoEstado.Id === 32) {
-          return true;
-        }
+        }               
         else if (this.datosMaestrosBandeja.PertenceGrupo_U_Asistente_Gestor && elementoEstado.Id === 39) {
           return true;
         }
