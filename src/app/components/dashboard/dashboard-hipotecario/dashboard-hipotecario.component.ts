@@ -619,7 +619,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
           dato.Id !== Variables.constantes.EstadoPreTerminado &&
           dato.Id !== Variables.constantes.EstadoAprobadoConVerificacion &&
           dato.Id !== Variables.constantes.EstadoAprobadoSinVerificacion &&
-          dato.Id !== Variables.constantes.EstadoDesestimiento &&
+          dato.Id !== Variables.constantes.EstadoDesestimado &&
           dato.Id !== Variables.constantes.EstadoPreTerminado &&
           dato.Id !== Variables.constantes.EstadoRegularizacionCPM  &&
           dato.Id !== Variables.constantes.EstadoRechazado) {

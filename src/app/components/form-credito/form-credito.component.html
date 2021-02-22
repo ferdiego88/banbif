@@ -1072,7 +1072,7 @@
                 }">
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
-                            <mat-label class="TituloCampo">Analista de Riesgo <span class="obligatorio">(*)</span></mat-label>
+                            <mat-label class="TituloCampo">Analista de Riesgo </mat-label>
                             <people-picker-input formControlName="Analista_Riesgos" (onRemove)="removeAnalista()" placeholder="Escribe un nombre..." [multiple]="false">
                             </people-picker-input>
                         </mat-form-field>
@@ -1104,7 +1104,7 @@
                 <!--<div class="row" style="padding-bottom: 20px;">
                     <div class="col sub-title-col">
                         <span class="sub-title">
-                            RIESGO
+                            RIESGOS
                         </span>
                     </div>
                 </div>-->
@@ -1153,7 +1153,7 @@
                 <!--<div class="row" style="padding-bottom: 20px;">
                     <div class="col sub-title-col">
                         <span class="sub-title">
-                            COMENTARIOS DEL GESTOR
+                           Gestor
                         </span>
                     </div>
                 </div>-->
@@ -1168,7 +1168,7 @@
                 <div class="row">
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
-                            <mat-label class="TituloCampo">Usuario Ingreso File <span class="obligatorio">(*)</span></mat-label>
+                            <mat-label class="TituloCampo">Usuario Ingreso File </mat-label>
                             <people-picker-input formControlName="UsuarioIngresoFile" (onRemove)="removeUsuarioIngresoFile()" placeholder="Escribe un nombre..." [multiple]="false">
                             </people-picker-input>
                         </mat-form-field>
@@ -1221,6 +1221,46 @@
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Comentario de Oficina File 2</mat-label>
                             <textarea matInput placeholder="Comentario de Oficina File 2" multiline rows="3" formControlName="ComentarioOficinaFile2"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div [hidden]="!mostrarCampo_ComentarioValidadorGarantia">
+                <div class="row">
+                    <div class="col" >
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Comentario Validador Garantía</mat-label>
+                            <textarea matInput placeholder="Comentario Validador Garantía" multiline rows="3" formControlName="ComentarioValidadorGarantia"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div [hidden]="!mostrarCampo_ComentarioLegal">
+                <div class="row">
+                    <div class="col" >
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Comentario Legal</mat-label>
+                            <textarea matInput placeholder="Comentario Legal" multiline rows="3" formControlName="ComentarioLegal"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div [hidden]="!mostrarCampo_ComentarioMiVivienda">
+                <div class="row">
+                    <div class="col" >
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Comentario Mi Vivienda</mat-label>
+                            <textarea matInput placeholder="Comentario Mi Vivienda" multiline rows="3" formControlName="ComentarioMiVivienda"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div [hidden]="!mostrarCampo_ComentarioDesembolso">
+                <div class="row">
+                    <div class="col" >
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Comentario Desembolso</mat-label>
+                            <textarea matInput placeholder="Comentario Desembolso" multiline rows="3" formControlName="ComentarioDesembolso"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
@@ -1355,8 +1395,12 @@
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoEnviarIngresoFiles2()">Terminar</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_IngresoFiles">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_IngresoFiles()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviarRegistroGarantia_IngresoFiles()">Enviar a Registro Garantía</button>
             </div>
+            <div class="col" *ngIf="mostrarBotones_IngresoFiles">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviarGestionLegal_IngresoFiles()">Enviar a Gestión Legal</button>
+            </div>
+
             <div class="col" *ngIf="mostrarBotones_RegistroGarantia">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservar_RegistroGarantia()">Observar</button>
             </div>
@@ -1369,7 +1413,41 @@
             </div>
             <div class="col" *ngIf="mostrarBotones_ObservadoGarantia">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ObservadoGarantia()">Enviar</button>
-            </div>           
+            </div>
+
+            <div class="col" *ngIf="mostrarBotones_ValidacionGarantia">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservar_ValidacionGarantia()">Observar</button>
+            </div>
+            <div class="col" *ngIf="mostrarBotones_ValidacionGarantia">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ValidacionGarantia()">Enviar</button>
+            </div>
+
+            <div class="col" *ngIf="mostrarBotones_GestionLegal">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservar_GestionLegal()">Observar</button>
+            </div>
+            <div class="col" *ngIf="mostrarBotones_GestionLegal">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_GestionLegal()">Enviar</button>
+            </div>
+
+            <div class="col" *ngIf="mostrarBotones_ObservadoLegal">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonDesestimar_ObservadoLegal()">Desestimar</button>
+            </div>
+            <div class="col" *ngIf="mostrarBotones_ObservadoLegal">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ObservadoLegal()">Enviar</button>
+            </div>
+
+            <div class="col" *ngIf="mostrarBotones_ValidacionGestor">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservarLegal_ValidacionGestor()">Observar a Legal</button>
+            </div>
+            <div class="col" *ngIf="mostrarBotones_ValidacionGestor">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservarOficina_ValidacionGestor()">Observar a Oficina</button>
+            </div>
+            <div class="col" *ngIf="mostrarBotones_ValidacionGestor">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviarMiVivienda_ValidacionGestor()">Enviar a Mi Vivienda</button>
+            </div>
+            <div class="col" *ngIf="mostrarBotones_ValidacionGestor">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviarValidacionDesembolso_ValidacionGestor()">Enviar a Validación de Desembolso</button>
+            </div>
            
         </div>
         <br>

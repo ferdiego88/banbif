@@ -16,6 +16,12 @@ export class MasterBandejaLogic {
   PertenceGrupo_U_Verificacion_Riesgos: boolean;
   PertenceGrupo_U_Asistente_Gestor: boolean;
   PertenceGrupo_U_Gestor: boolean;
+  PertenceGrupo_U_Garantias: boolean;
+  PertenceGrupo_U_ValidadorGarantias: boolean;
+  PertenceGrupo_U_Legal: boolean;
+  PertenceGrupo_U_MiVivienda: boolean;
+  PertenceGrupo_U_Desembolso: boolean;
+  
   isDatos: boolean;
 
   constructor() {
