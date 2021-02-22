@@ -310,7 +310,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     /*postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
     ],*/
-    shipping: ['free', Validators.required]
+    //shipping: ['free', Validators.required]
   });
 
   hasUnitNumber = false;
@@ -1244,8 +1244,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.NumeroPropuesta.disable();
       this.creditForm.controls.Analista_Riesgos.disable();
 
-      this.mostrarBotonEnviarIngresoFiles2 = true;
-      //this.mostrarBotones_IngresoFiles = true;
+      //this.mostrarBotonEnviarIngresoFiles2 = true;
+      this.mostrarBotones_IngresoFiles = true;
 
       if (!this.PertenceGrupo_U_Gestor) {
         this.setDisableComentarioGestor();
@@ -1314,7 +1314,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.mostrarCampo_ComentarioOficinaFile2 = true;
       }
 
-      //this.mostrarBotones_RegistroGarantia = true;
+      this.mostrarBotones_RegistroGarantia = true;
       this.mostrarCampo_ComentarioGarantia = true;
 
       if (!this.PertenceGrupo_U_Garantias) {
@@ -1354,7 +1354,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.ComentarioGarantia.disable();
 
       //this.mostrarBotones_ObservadoGarantia = true;
-      this.mostrarCampo_ComentarioOficinaFile2 = true;
+      //this.mostrarCampo_ComentarioOficinaFile2 = true;
 
       if (!this.PertenceGrupo_U_Gestor) {
         this.creditForm.controls.ComentarioOficinaFile2.disable();
@@ -1395,7 +1395,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.ComentarioGarantia.disable();
 
       //this.mostrarBotones_ValidacionGarantia = true;
-      this.mostrarCampo_ComentarioValidadorGarantia = true;
+      //this.mostrarCampo_ComentarioValidadorGarantia = true;
 
       if (!this.PertenceGrupo_U_ValidadorGarantias) {
         this.creditForm.controls.ComentarioValidadorGarantia.disable();
@@ -1436,7 +1436,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.ComentarioGarantia.disable();
 
       //this.mostrarBotones_GestionLegal = true;
-      this.mostrarCampo_ComentarioLegal = true;
+      //this.mostrarCampo_ComentarioLegal = true;
 
       if (!this.PertenceGrupo_U_Legal) {
         this.creditForm.controls.ComentarioLegal.disable();

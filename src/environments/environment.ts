@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  appPage: "/SitePages/Home.aspx/",
+  appPage: "/SitePages/app.aspx/",
   proxyTenant: "http://localhost:4200",
   proxyUrl: "http://localhost:6969",
   webRelativeUrl: "/banmin/fdt/hipot",
