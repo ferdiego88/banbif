@@ -116,7 +116,7 @@ export class BandejatrabajogestorComponent extends FormularioBase implements OnI
 
       if (this.datosMaestrosBandeja.PertenceGrupo_U_Gestor) {
         this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
-          return elementoEstado.Id === 43;
+          return elementoEstado.Id === 43 || elementoEstado.Id === 45  || elementoEstado.Id === 49;
         });
       } else {
         this.datosMaestrosBandeja.maestroEstado = [];

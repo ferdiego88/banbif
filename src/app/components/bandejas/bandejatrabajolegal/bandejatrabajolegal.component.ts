@@ -23,15 +23,16 @@ import { Variables } from 'src/app/shared/variables';
 import { Funciones } from 'src/app/shared/funciones';
 import { MasterService } from 'src/app/shared/services/master.service';
 import { MasterBandejaLogic } from 'src/app/shared/models/logics/MasterBandejaLogic';
+import { variable } from '@angular/compiler/src/output/output_ast';
 
 declare var $: any;
 
 @Component({
-  selector: 'app-bandejatrabajo',
-  templateUrl: './bandejatrabajo.component.html',
-  styleUrls: ['./bandejatrabajo.component.scss']
+  selector: 'app-bandejatrabajolegal',
+  templateUrl: './bandejatrabajolegal.component.html',
+  styleUrls: ['./bandejatrabajolegal.component.scss']
 })
-export class BandejatrabajoComponent extends FormularioBase implements OnInit {
+export class BandejatrabajolegalComponent extends FormularioBase implements OnInit {
   currentUserName: string = '';
   userSolicitante: boolean = false;
   datosMaestrosBandeja: MasterBandejaLogic = new MasterBandejaLogic();
@@ -62,11 +63,14 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
     Variables.columnasSolicitud.Created,
     Variables.columnasSolicitud.FechaEstado,
     Variables.columnasSolicitud.Estado,
+    Variables.columnasSolicitud.EstadoLegal,
     Variables.columnasSolicitud.Zona,
     Variables.columnasSolicitud.Oficina,
     Variables.columnasSolicitud.TipoProducto,
     Variables.columnasSolicitud.Desembolso,
-    Variables.columnasSolicitud.Anlista_Riesgos
+    Variables.columnasSolicitud.Oferta,
+    Variables.columnasSolicitud.TipoRenta,
+    Variables.columnasSolicitud.SustentoIngreso
   ];
   resultsLength = 0;
   isLoadingResults = true;
@@ -76,8 +80,7 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
   isCargando = true;
 
   nombreControles = {
-    filtroSolicitante: 'filtroSolicitante',
-    filtroAnalistaRiesgos: 'filtroAnalistaRiesgos'
+    filtroSolicitante: 'filtroSolicitante'
   }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -97,11 +100,10 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
     public excelService: ExcelService,
     public formBuilder: FormBuilder
   ) {
-    super('Mis Solicitudes Pendientes', applicationRef, dialog, route, router, masterService, zone, _spinner);
+    super('Bandeja de Trabajo Legal', applicationRef, dialog, route, router, masterService, zone, _spinner);
 
     this.form = this.formBuilder.group({
-      filtroSolicitante: [''],
-      filtroAnalistaRiesgos: ['']
+      filtroSolicitante: ['']
     });
   }
 
@@ -111,34 +113,9 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
     this.obtenerMaestrosYDatos().then(() => {
 
       this.currentUserName = this.datosMaestrosBandeja.currentUser.Title;
-      this.userSolicitante = false;
+      this.userSolicitante = false;     
 
-      this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
-
-        if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 2) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 35) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 37) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Asignacion_Riesgos && elementoEstado.Id === 30) {
-          return true;
-        }               
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Asistente_Gestor && elementoEstado.Id === 39) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Garantias && elementoEstado.Id === 44) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_ValidadorGarantias && elementoEstado.Id === 46) {
-          return true;
-        }
-      });
-
-      if (this.datosMaestrosBandeja.maestroEstado.length === 0) {
+      if (!this.datosMaestrosBandeja.PertenceGrupo_U_Legal) {
         const url = environment.getRutaBaseApp();
         this.mostrarModalInformativoConAccion("Mensaje del Sistema", "Usted no tiene permiso a esta bandeja.", window.open(url, '_self'));
       }
@@ -176,13 +153,14 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
   }
 
   private setearFiltrosBusquedaPorEstado() {
-    let estadosSeleccionados: number[] = [];
+    /*let estadosSeleccionados: number[] = [];
 
+    debugger;
     estadosSeleccionados = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
       return true;
     }).map((elementoEstado: Lookup) => elementoEstado.Id);
 
-    this.tableQuery.filter.Estado = estadosSeleccionados;
+    this.tableQuery.filter.Estado = estadosSeleccionados;*/
   }
 
   obtenerMaestrosYDatos(): Promise<boolean> {
@@ -217,8 +195,8 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
   public irPaginaSolicitud(
     elemento: any
   ) {
-      const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
-      window.open(url, '_blank');   
+    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
+    window.open(url, '_blank');
   }
 
   reload() {
@@ -268,7 +246,6 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
     if (this.tableQuery.filter) this.isOpenMenu = true;
 
     this.removePeople("solicitante");
-    this.removePeople("analistaRiesgos");
     this.setearFiltrosBusquedaPorEstado();
 
     this.getSolicitudes();
@@ -332,7 +309,6 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
     this.mostrarProgreso();
 
     this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
-    this.tableQuery.filter.AnalistaRiesgos = this.getValorControlPeoplePicker(this.nombreControles.filtroAnalistaRiesgos);
 
     if (this.tableQuery.filter.Estado.length === 0) {
       this.setearFiltrosBusquedaPorEstado();
@@ -360,7 +336,7 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
 
       this.solicitudes_paged_history = [];
 
-      this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then();
+      this.solicitudes_paged = await this.solicitudesService.getBandejaTrabajoLegal(filter, order, direction, this.paginator.pageSize,  true, false, false).then();
 
     } else {
       if (this.solicitudes_paged_history[this.paginator.pageIndex]) {
@@ -378,8 +354,8 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
 
     if (!this.solicitudes_paged_history[this.paginator.pageIndex]) {
 
-      if(this.solicitudes_paged["nextUrl"] !== undefined){
-        this.solicitudes_paged["nextUrl"] = this.solicitudes_paged["nextUrl"].replace("https","http");
+      if (this.solicitudes_paged["nextUrl"] !== undefined) {
+        this.solicitudes_paged["nextUrl"] = this.solicitudes_paged["nextUrl"].replace("https", "http");
       }
 
       this.solicitudes_paged_history[this.paginator.pageIndex] = this.solicitudes_paged;
@@ -399,10 +375,6 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
       this.form.get(this.nombreControles.filtroSolicitante).setValue([]);
       this.form.controls[this.nombreControles.filtroSolicitante].updateValueAndValidity();
     }
-    else if (tipoControl === 'analistaRiesgos') {
-      this.form.get(this.nombreControles.filtroAnalistaRiesgos).setValue([]);
-      this.form.controls[this.nombreControles.filtroAnalistaRiesgos].updateValueAndValidity();
-    }
   }
 
   exportarExcel() {
@@ -410,7 +382,6 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
     this.mostrarProgreso();
 
     this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
-    this.tableQuery.filter.AnalistaRiesgos = this.getValorControlPeoplePicker(this.nombreControles.filtroAnalistaRiesgos);
 
     if (this.tableQuery.filter.Estado.length === 0) {
       this.setearFiltrosBusquedaPorEstado();
@@ -430,13 +401,13 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
       order = null;
     }
 
-    this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, 100000, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then(
+    this.solicitudesService.getBandejaTrabajoLegal(filter, order, direction, 4999, true, false, false).then(
       (data: PagedItemCollection<any[]>) => {
         const items: EBandejaSolicitud[] = data.results.map(elemento => {
           return EBandejaSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina',  'Tipo Producto', 'Moneda', 'Desembolso', 'Analista Riesgos'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Estado Legal', 'Zona', 'Oficina', 'Tipo Producto', 'Moneda', 'Desembolso', 'Oferta', 'Tipo Renta', 'Sustento Ingresos'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
@@ -447,17 +418,20 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
           dataMap.push(item.Created);
           dataMap.push(item.Fecha_Estado);
           dataMap.push(item.Estado);
+          dataMap.push(item.EstadoLegal);
           dataMap.push(item.Zona);
           dataMap.push(item.Oficina);
           dataMap.push(item.Tipo_Producto);
           dataMap.push(item.Moneda);
           dataMap.push(item.Desembolso);
-          dataMap.push(item.Anlista_Riesgos);
+          dataMap.push(item.Oferta);
+          dataMap.push(item.Tipo_Renta);
+          dataMap.push(item.Sustento_Ingresos);
 
           return dataMap;
         });
 
-        this.excelService.excelListadoSolicitudesPendientes('Bandeja de Trabajo', 'BandejaTrabajo', headers, details);
+        this.excelService.excelListadoBandejaTrabajo('Bandeja de Trabajo Legal', 'BandejaTrabajoLegal', headers, details);
         this.ocultarProgreso();
         this.isCargando = false;
       },

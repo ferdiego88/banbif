@@ -150,6 +150,120 @@ export class SolicitudesService {
     return results;
   }
 
+  async getBandejaTrabajoLegal(
+    filter: EFiltroBandejaSolicitud,
+    orderBy: string,
+    ascending: boolean,
+    pagesize: number,   
+    legal: boolean,
+    mivienda: boolean,
+    gestor: boolean,
+  ): Promise<PagedItemCollection<any[]>> {
+
+    const selectFields = EBandejaSolicitud.getColumnasSelectBandejaTrabajoLegal();
+    const expandFields = EBandejaSolicitud.getColumnasExpandBandejaTrabajoLegal();
+
+    let query = this.listaSolicitudes.items.expand(...expandFields).select(...selectFields);
+
+    let filterArr = [];
+
+    if (legal) filterArr.push(`(${Variables.columnasSolicitud.EnLegal}  eq 1)`);
+
+    if (mivienda) filterArr.push(`(${Variables.columnasSolicitud.EnMiVivienda}  eq 1)`);
+
+    if (gestor) filterArr.push(`(${Variables.columnasSolicitud.EnGestor}  eq 1)`);
+
+    if (filter) {
+
+      if (filter.Id && filter.Id.length > 0) {
+        filterArr.push(`(${Variables.columnasSolicitud.Id}  eq ${filter.Id})`);
+      }
+
+      if (filter.Author && filter.Author > 0) {
+        filterArr.push(`(${Variables.columnasSolicitud.Author}/Id  eq ${filter.Author})`);
+      }
+
+      if (filter.NombreTitular && filter.NombreTitular.trim().length > 0) {
+        filterArr.push(`(substringof('${filter.NombreTitular.trim()}',${Variables.columnasSolicitud.NombreTitular}))`);
+      }
+
+      if (filter.TipoDocumento && filter.TipoDocumento > 0) {
+        filterArr.push(`(${Variables.columnasSolicitud.TipoDocumento}/Id  eq ${filter.TipoDocumento})`);
+      }
+
+      if (filter.NumeroDocumento && filter.NumeroDocumento.trim().length > 0) {
+        filterArr.push(`(substringof('${filter.NumeroDocumento.trim()}',${Variables.columnasSolicitud.NumeroDocumento}))`);
+      }
+
+      if (filter.TipoProducto && filter.TipoProducto > 0) {
+        filterArr.push(`(${Variables.columnasSolicitud.TipoProducto}/Id  eq ${filter.TipoProducto})`);
+      }
+
+      if (filter.Moneda && filter.Moneda > 0) {
+        filterArr.push(`(${Variables.columnasSolicitud.Moneda}/Id  eq ${filter.Moneda})`);
+      }
+
+      if (filter.ModalidadPago && filter.ModalidadPago > 0) {
+        filterArr.push(`(${Variables.columnasSolicitud.ModalidadPago}/Id  eq ${filter.ModalidadPago})`);
+      }
+
+      if (filter.Financiamiento) {
+        filterArr.push(`(${Variables.columnasSolicitud.Financiamiento}/Id  eq ${filter.Financiamiento})`);
+      }
+
+      if (filter.Zona && filter.Zona > 0) {
+        filterArr.push(`(${Variables.columnasSolicitud.Zona}/Id  eq ${filter.Zona})`);
+      }
+
+      if (filter.Oficina && filter.Oficina > 0) {
+        filterArr.push(`(${Variables.columnasSolicitud.Oficina}/Id  eq ${filter.Oficina})`);
+      }
+
+      if (filter.SustentoIngreso) {
+        filterArr.push(`(${Variables.columnasSolicitud.SustentoIngreso}/Id  eq ${filter.SustentoIngreso})`);
+      }
+
+      if (filter.Created) {
+        const fechaDesde = moment(filter.Created).format('YYYY-MM-DDT') + '00:00:00.000Z';
+        filterArr.push(`(datetime'${fechaDesde}' lt ${Variables.columnasSolicitud.Created})`);
+
+        const fechaHasta = moment(filter.Created).format('YYYY-MM-DDT') + '23:59:59.000Z';
+        filterArr.push(`(datetime'${fechaHasta}' ge ${Variables.columnasSolicitud.Created})`);
+      }
+
+      if (filter.FechaEstadoDesde) {
+        const fechaDesde = moment(filter.FechaEstadoDesde).format('YYYY-MM-DDT') + '00:00:00.000Z';
+        filterArr.push(`(datetime'${fechaDesde}' lt ${Variables.columnasSolicitud.FechaEstado})`);
+      }
+
+      if (filter.FechaEstadoHasta) {
+        const fechaHasta = moment(filter.FechaEstadoHasta).format('YYYY-MM-DDT') + '23:59:59.000Z';
+        filterArr.push(`(datetime'${fechaHasta}' ge ${Variables.columnasSolicitud.FechaEstado})`);
+      }
+
+      if (filter.AnalistaRiesgos && filter.AnalistaRiesgos > 0) {
+        filterArr.push(`(${Variables.columnasSolicitud.Anlista_Riesgos}/Id  eq ${filter.AnalistaRiesgos})`);
+      }
+    }
+
+    query = query.filter(filterArr.join(" and "));
+
+    if (orderBy != undefined && orderBy.length > 0) {
+      query = query.orderBy(orderBy, ascending);
+    }
+    if (pagesize == undefined) {
+      pagesize = 5;
+    }
+    let results = await query
+      .top(pagesize)
+      .getPaged().then(p => {
+
+        return p;
+      });
+
+    return results;
+  }
+
   public async getItemById(itemId: any): Promise<any> {
     // return new Promise((resolve, reject) => {
     if (sp !== null && sp !== undefined) {

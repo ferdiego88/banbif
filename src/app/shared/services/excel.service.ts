@@ -364,6 +364,79 @@ export class ExcelService {
 
   }
 
+  excelListadoBandejaTrabajo(nameSheet: string, nameFile: string, headers: string[], details: any[][]) {
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet(nameSheet);
+
+    nameFile = nameFile + " -" + new Date().valueOf();
+    //worksheet.addRow('');
+    //headers.unshift('');
+
+    let row = worksheet.addRow(headers);
+
+    row.eachCell((cell, numberCell) => {
+      let width = 0;
+
+      switch (numberCell) {
+        case 1: width = 20; break;
+        case 2: width = 30; break;
+        case 3: width = 20; break;
+        case 4: width = 40; break;
+        case 5: width = 20; break;
+        case 6: width = 20; break;
+        case 7: width = 20; break;
+        case 8: width = 20; break;
+        case 9: width = 20; break;
+        case 10: width = 20; break;
+        case 11: width = 20; break;
+        case 12: width = 20; break;
+        case 13: width = 20; break;
+        case 14: width = 20; break;
+        case 15: width = 20; break;
+        case 16: width = 20; break;
+      }
+
+      cell.worksheet.getColumn(numberCell).width = width;
+
+      if (numberCell > 0) {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: {},
+        };
+
+        cell.border = Funciones.excelBorde();
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      }
+    }
+    );
+
+    details.forEach(item => {
+      //item.unshift('');
+      row = worksheet.addRow(item);
+
+      row.eachCell(
+        (cell, numberCell) => {
+
+          if (numberCell > 0) {
+
+            cell.border = Funciones.excelBorde();
+
+            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+          }
+        }
+      );
+    });
+
+    workbook.xlsx.writeBuffer().then(
+      (data) => {
+        const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        fs.saveAs(blob, `${nameFile}.xlsx`);
+      }
+    );
+
+  }
+
   excelListadoSeguimientoSolicitudes(nameSheet: string, nameFile: string, headers: string[], details: any[][]) {
     const workbook = new Workbook();
     const worksheet = workbook.addWorksheet(nameSheet);

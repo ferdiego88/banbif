@@ -10,6 +10,8 @@ import { SolicitudesfinalizadasComponent } from './components/bandejas/solicitud
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { BandejatrabajoComponent } from './components/bandejas/bandejatrabajo/bandejatrabajo.component';
 import { BandejatrabajoriesgosComponent } from './components/bandejas/bandejatrabajoriesgos/bandejatrabajoriesgos.component';
+import { BandejatrabajolegalComponent } from './components/bandejas/bandejatrabajolegal/bandejatrabajolegal.component';
+import { BandejatrabajogestorlegalComponent } from './components/bandejas/bandejatrabajogestorlegal/bandejatrabajogestorlegal.component';
 import { BandejatrabajogestorComponent } from './components/bandejas/bandejatrabajogestor/bandejatrabajogestor.component';
 import { LogseguimientoComponent } from './components/bandejas/logseguimiento/logseguimiento.component';
 import { DashboardCreditoComponent } from './components/dashboard/dashboard-credito/dashboard-credito.component';
@@ -30,7 +32,9 @@ const routes: Routes = [
   { path: Variables.path.bandejaSolicitudesFinalizadas, component: SolicitudesfinalizadasComponent },
   { path: Variables.path.bandejaTrabajo, component: BandejatrabajoComponent },
   { path: Variables.path.bandejaTrabajoRiesgos, component: BandejatrabajoriesgosComponent },
+  { path: Variables.path.bandejaTrabajoLegal, component: BandejatrabajolegalComponent },  
   { path: Variables.path.bandejaTrabajoGestor, component: BandejatrabajogestorComponent },  
+  { path: Variables.path.bandejaTrabajoGestorLegal, component: BandejatrabajogestorlegalComponent },
   { path: Variables.path.bandejaSeguimientoSolicitudes, component: LogseguimientoComponent },
   { path: Variables.path.dashboardSolicitudesCreditoHipotecario, component: DashboardCreditoComponent },
   { path: Variables.path.dashboardHipotecario, component: DashboardHipotecarioComponent },

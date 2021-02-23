@@ -127,7 +127,28 @@
                 </mat-form-field>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-md-6" [hidden]="!mostrarEstado">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="TituloCampo">Estado Legal</mat-label>
+                    <mat-select placeholder="Estado Legal" formControlName="EstadoLegalId">
+                        <mat-option *ngFor="let estado of estadoLegalList" [value]='estado.Id'>
+                            {{estado.Title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6" [hidden]="!mostrarEstado">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label class="TituloCampo">Estado Mi Vivienda</mat-label>
+                    <mat-select placeholder="Estado Mi Vivienda" formControlName="EstadoMiViviendaId">
+                        <mat-option *ngFor="let estado of estadoMiViviendaList" [value]='estado.Id'>
+                            {{estado.Title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
         <!-- CUIDADO CON LOS ESTILOS DE EL HTML DE ARRIBA -->
         <div class="row" style="padding-top: 10px;">
             <div [ngClass]="{
@@ -1107,7 +1128,7 @@
                             RIESGOS
                         </span>
                     </div>
-                </div>-->
+                </div>
                 <div class="row">
                     <div class="" [ngClass]="{'d-none': !showComentarioRevisor,'col': showComentarioRevisor}">
                         <mat-form-field appearance="outline" class="full-width">
@@ -1115,7 +1136,7 @@
                             <textarea matInput placeholder="Comentarios de Asistente de Riesgos" formControlName="Cometario_Revisor1" multiline rows="3"></textarea>
                         </mat-form-field>
                     </div>
-                </div>
+                </div>-->
 
                 <div class="row">
                     <div class="" [ngClass]="{'d-none': !showComentarioRiesgos,'col': showComentarioRiesgos}">
@@ -1395,11 +1416,11 @@
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoEnviarIngresoFiles2()">Terminar</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_IngresoFiles">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviarRegistroGarantia_IngresoFiles()">Enviar a Registro Garantía</button>
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviarRegistroGarantia_IngresoFiles()">Enviar</button>
             </div>
-            <div class="col" *ngIf="mostrarBotones_IngresoFiles">
+            <!--<div class="col" *ngIf="mostrarBotones_IngresoFiles">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviarGestionLegal_IngresoFiles()">Enviar a Gestión Legal</button>
-            </div>
+            </div>-->
 
             <div class="col" *ngIf="mostrarBotones_RegistroGarantia">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservar_RegistroGarantia()">Observar</button>

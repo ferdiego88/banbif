@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule , NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -25,7 +25,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
@@ -79,6 +79,8 @@ import { SolicitudesfinalizadasComponent } from './components/bandejas/solicitud
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { BandejatrabajoComponent } from './components/bandejas/bandejatrabajo/bandejatrabajo.component';
 import { BandejatrabajoriesgosComponent } from './components/bandejas/bandejatrabajoriesgos/bandejatrabajoriesgos.component';
+import { BandejatrabajolegalComponent } from './components/bandejas/bandejatrabajolegal/bandejatrabajolegal.component';
+import { BandejatrabajogestorlegalComponent } from './components/bandejas/bandejatrabajogestorlegal/bandejatrabajogestorlegal.component';
 import { LogseguimientoComponent } from './components/bandejas/logseguimiento/logseguimiento.component';
 import { DashboardCreditoComponent } from './components/dashboard/dashboard-credito/dashboard-credito.component';
 import { PipemilesPipe } from './shared/pipes/pipemiles.pipe';
@@ -151,6 +153,8 @@ const materialModules = [/*  */
     WelcomeComponent,
     BandejatrabajoComponent,
     BandejatrabajoriesgosComponent,
+    BandejatrabajolegalComponent,
+    BandejatrabajogestorlegalComponent,
     LogseguimientoComponent,
     DashboardCreditoComponent,
     PipemilesPipe,
@@ -186,8 +190,8 @@ const materialModules = [/*  */
     HomeComponent
   ],
 
-  providers: [DatePipe, CurrencyPipe ],
+  providers: [DatePipe, CurrencyPipe],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class AppModule {}
+export class AppModule { }

@@ -11,6 +11,8 @@ export class EBandejaSolicitud {
     N_Documento: string;
     Tipo_Producto: string;
     Estado: string;
+    EstadoLegal: string;
+    EstadoMiVivienda: string;
     EstadoGestor: string;
     Moneda: string;
     SimboloMoneda: string;
@@ -38,6 +40,8 @@ export class EBandejaSolicitud {
         this.N_Documento = "";
         this.Tipo_Producto = "";
         this.Estado = "";
+        this.EstadoLegal = "";
+        this.EstadoMiVivienda = "";
         //this.EstadoGestor = "";
         this.Moneda = "";
         this.SimboloMoneda = "";
@@ -104,6 +108,49 @@ export class EBandejaSolicitud {
         ];
     }
 
+    public static getColumnasSelectBandejaTrabajoLegal(): string[] {
+        return [
+            Variables.columnasSolicitud.ID,
+            Variables.columnasSolicitud.Author + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.Created,
+            Variables.columnasSolicitud.NombreTitular,
+            Variables.columnasSolicitud.TipoDocumento + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.NumeroDocumento,
+            Variables.columnasSolicitud.TipoProducto + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.Estado + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.EstadoLegal + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.Moneda + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.PrecioVenta,
+            Variables.columnasSolicitud.ModalidadPago + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.Financiamiento,
+            Variables.columnasSolicitud.Zona + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.Oficina + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.SustentoIngreso + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.FechaEstado,
+            Variables.columnasSolicitud.Desembolso,
+            Variables.columnasSolicitud.Anlista_Riesgos + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.Oferta,
+            Variables.columnasSolicitud.TipoRenta + '/' + Variables.columnasSolicitud.Title 
+        ];
+    }
+
+    public static getColumnasExpandBandejaTrabajoLegal(): string[] {
+        return [
+            Variables.columnasSolicitud.Author,
+            Variables.columnasSolicitud.TipoDocumento,
+            Variables.columnasSolicitud.TipoProducto,
+            Variables.columnasSolicitud.Estado,
+            Variables.columnasSolicitud.EstadoLegal,
+            Variables.columnasSolicitud.Moneda,
+            Variables.columnasSolicitud.ModalidadPago,
+            Variables.columnasSolicitud.Zona,
+            Variables.columnasSolicitud.Oficina,
+            Variables.columnasSolicitud.SustentoIngreso,
+            Variables.columnasSolicitud.Anlista_Riesgos,
+            Variables.columnasSolicitud.TipoRenta
+        ];
+    }
+
     public static parseJson(elemento: any): EBandejaSolicitud {
         const item = new EBandejaSolicitud();
 
@@ -115,6 +162,8 @@ export class EBandejaSolicitud {
         item.N_Documento = SPParse.getString(elemento[Variables.columnasSolicitud.NumeroDocumento]).toUpperCase();
         item.Tipo_Producto = Lookup.parseJson(elemento[Variables.columnasSolicitud.TipoProducto]).Title.toUpperCase();
         item.Estado = Lookup.parseJson(elemento[Variables.columnasSolicitud.Estado]).Title.toUpperCase();
+        item.EstadoLegal = Lookup.parseJson(elemento[Variables.columnasSolicitud.EstadoLegal]).Title.toUpperCase();
+        item.EstadoMiVivienda = Lookup.parseJson(elemento[Variables.columnasSolicitud.EstadoMiVivienda]).Title.toUpperCase();
         item.EstadoGestor = Lookup.parseJson(elemento[Variables.columnasSolicitud.EstadoGestor]).Title.toUpperCase();
         item.Moneda = Lookup.parseJson(elemento[Variables.columnasSolicitud.Moneda]).Title.toUpperCase();
         item.Precio_Venta = SPParse.getString(elemento[Variables.columnasSolicitud.PrecioVenta]);

@@ -99,8 +99,7 @@ export class Variables {
     EstadoRegistroGarantia: 44,
     EstadoObservadoGarantia: 45,
     EstadoValidacionGarantia: 46,
-    EstadoGestionLegal: 47,
-    EstadoObservadoLegal: 48,
+    EstadoValidadoGarantia: 47,   
     EstadoValidacionGestor: 49,
     EstadoObservadoGestorLegal: 50,
     EstadoObservadoGestorDesembolso: 51,
@@ -110,6 +109,10 @@ export class Variables {
     EstadoValidacionDesembolso: 55,
     EstadoObservadoDesembolso: 56,
     EstadoEjecucionDesembolso: 57,
+
+    EstadoGestionLegal: 1,
+    EstadoObservadoLegal: 2,
+    ValidadoLegal: 3,
 
     ZonaIDFFVV: 8,
     DoceHoras: 12,
@@ -131,7 +134,9 @@ export class Variables {
     bandejaSolicitudesFinalizadas: 'bandejas/solicitudesfinalizadas',
     bandejaTrabajo: 'bandejas/bandejatrabajo',
     bandejaTrabajoRiesgos: 'bandejas/bandejatrabajoriesgos',
+    bandejaTrabajoLegal: 'bandejas/bandejatrabajolegal',
     bandejaTrabajoGestor: 'bandejas/bandejatrabajogestor',
+    bandejaTrabajoGestorLegal:  'bandejas/bandejatrabajogestorobservadolegal',
     bandejaSeguimientoSolicitudes: 'bandejas/seguimientosolicitudes',
     dashboardSolicitudesCreditoHipotecario: 'dashboard/solicitudesCredito',
     dashboardHipotecario: 'dashboard/Hipotecario'
@@ -162,6 +167,8 @@ export class Variables {
     FlujoSeguimientoEtapa: 'FlujoSeguimientoEtapa',
     AdmBBPAdicional: 'BBP_Adicional',
     AdmEstado: 'Estado',
+    AdmEstadoLegal: 'EstadoLegal',
+    AdmEstadoMiVivienda: 'EstadoMiVivienda',
     AdmEstadoGestor: 'Estado_Gestor',
     AdmEjecutivos: 'Integrantes de la hipotecario',
     AdmLugarVisita: 'Lugar_Visita',
@@ -321,6 +328,8 @@ export class Variables {
     NumeroDocumento: 'N_Documento',
     TipoProducto: 'Tipo_Producto',
     Estado: 'Estado',
+    EstadoLegal: 'EstadoLegal',
+    EstadoMiVivienda: 'EstadoMiVivienda',
     EstadoGestor: 'EstadoGestor',
     Moneda: 'Moneda',
     PrecioVenta: 'Precio_Venta',
@@ -334,7 +343,11 @@ export class Variables {
     UResponsable: 'U_Responsable',
     SolicitudHipotecario: 'SolicitudHipotecario',
     Oferta: 'Oferta',
-    TipoRenta: 'Tipo_Renta'
+    TipoRenta: 'Tipo_Renta',
+
+    EnLegal: 'EnLegal',
+    EnMiVivienda: 'EnMiVivienda',
+    EnGestor: 'EnGestor'
   };
 
   static readonly columnasSeguimiento = {
