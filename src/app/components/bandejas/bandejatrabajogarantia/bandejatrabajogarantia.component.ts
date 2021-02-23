@@ -27,11 +27,11 @@ import { MasterBandejaLogic } from 'src/app/shared/models/logics/MasterBandejaLo
 declare var $: any;
 
 @Component({
-  selector: 'app-bandejatrabajo',
-  templateUrl: './bandejatrabajo.component.html',
-  styleUrls: ['./bandejatrabajo.component.scss']
+  selector: 'app-bandejatrabajogarantia',
+  templateUrl: './bandejatrabajogarantia.component.html',
+  styleUrls: ['./bandejatrabajogarantia.component.scss']
 })
-export class BandejatrabajoComponent extends FormularioBase implements OnInit {
+export class BandejatrabajogarantiaComponent extends FormularioBase implements OnInit {
   currentUserName: string = '';
   userSolicitante: boolean = false;
   datosMaestrosBandeja: MasterBandejaLogic = new MasterBandejaLogic();
@@ -97,7 +97,7 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
     public excelService: ExcelService,
     public formBuilder: FormBuilder
   ) {
-    super('Mis Solicitudes Pendientes', applicationRef, dialog, route, router, masterService, zone, _spinner);
+    super('Bandeja de Trabajo Garantía', applicationRef, dialog, route, router, masterService, zone, _spinner);
 
     this.form = this.formBuilder.group({
       filtroSolicitante: [''],
@@ -114,20 +114,10 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
       this.userSolicitante = false;
 
       this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
-
-        if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 2) {
+        if (this.datosMaestrosBandeja.PertenceGrupo_U_Garantias && elementoEstado.Id === 44) {
           return true;
         }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 35) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_CPM && elementoEstado.Id === 37) {
-          return true;
-        }
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Asignacion_Riesgos && elementoEstado.Id === 30) {
-          return true;
-        }               
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Asistente_Gestor && elementoEstado.Id === 39) {
+        else if (this.datosMaestrosBandeja.PertenceGrupo_U_ValidadorGarantias && elementoEstado.Id === 46) {
           return true;
         }
       });

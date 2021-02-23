@@ -78,6 +78,7 @@ import { GridLoaderComponent } from './shared/controls/grid-loader/grid-loader.c
 import { SolicitudesfinalizadasComponent } from './components/bandejas/solicitudesfinalizadas/solicitudesfinalizadas.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { BandejatrabajoComponent } from './components/bandejas/bandejatrabajo/bandejatrabajo.component';
+import { BandejatrabajogarantiaComponent } from './components/bandejas/bandejatrabajogarantia/bandejatrabajogarantia.component';
 import { BandejatrabajoriesgosComponent } from './components/bandejas/bandejatrabajoriesgos/bandejatrabajoriesgos.component';
 import { BandejatrabajolegalComponent } from './components/bandejas/bandejatrabajolegal/bandejatrabajolegal.component';
 import { BandejatrabajogestorlegalComponent } from './components/bandejas/bandejatrabajogestorlegal/bandejatrabajogestorlegal.component';
@@ -152,6 +153,7 @@ const materialModules = [/*  */
     SolicitudesfinalizadasComponent,
     WelcomeComponent,
     BandejatrabajoComponent,
+    BandejatrabajogarantiaComponent,
     BandejatrabajoriesgosComponent,
     BandejatrabajolegalComponent,
     BandejatrabajogestorlegalComponent,

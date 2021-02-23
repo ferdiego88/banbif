@@ -9,6 +9,7 @@ import { ConsultasComponent } from './components/bandejas/consultas/consultas.co
 import { SolicitudesfinalizadasComponent } from './components/bandejas/solicitudesfinalizadas/solicitudesfinalizadas.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { BandejatrabajoComponent } from './components/bandejas/bandejatrabajo/bandejatrabajo.component';
+import { BandejatrabajogarantiaComponent } from './components/bandejas/bandejatrabajogarantia/bandejatrabajogarantia.component';
 import { BandejatrabajoriesgosComponent } from './components/bandejas/bandejatrabajoriesgos/bandejatrabajoriesgos.component';
 import { BandejatrabajolegalComponent } from './components/bandejas/bandejatrabajolegal/bandejatrabajolegal.component';
 import { BandejatrabajogestorlegalComponent } from './components/bandejas/bandejatrabajogestorlegal/bandejatrabajogestorlegal.component';
@@ -31,9 +32,10 @@ const routes: Routes = [
   { path: Variables.path.bandejaConsultas, component: ConsultasComponent },
   { path: Variables.path.bandejaSolicitudesFinalizadas, component: SolicitudesfinalizadasComponent },
   { path: Variables.path.bandejaTrabajo, component: BandejatrabajoComponent },
+  { path: Variables.path.bandejaTrabajoGarantia, component: BandejatrabajogarantiaComponent },
   { path: Variables.path.bandejaTrabajoRiesgos, component: BandejatrabajoriesgosComponent },
-  { path: Variables.path.bandejaTrabajoLegal, component: BandejatrabajolegalComponent },  
-  { path: Variables.path.bandejaTrabajoGestor, component: BandejatrabajogestorComponent },  
+  { path: Variables.path.bandejaTrabajoLegal, component: BandejatrabajolegalComponent },
+  { path: Variables.path.bandejaTrabajoGestor, component: BandejatrabajogestorComponent },
   { path: Variables.path.bandejaTrabajoGestorLegal, component: BandejatrabajogestorlegalComponent },
   { path: Variables.path.bandejaSeguimientoSolicitudes, component: LogseguimientoComponent },
   { path: Variables.path.dashboardSolicitudesCreditoHipotecario, component: DashboardCreditoComponent },

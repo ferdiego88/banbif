@@ -133,6 +133,7 @@ export class Variables {
     bandejaConsultas: 'bandejas/consultas',
     bandejaSolicitudesFinalizadas: 'bandejas/solicitudesfinalizadas',
     bandejaTrabajo: 'bandejas/bandejatrabajo',
+    bandejaTrabajoGarantia: 'bandejas/bandejatrabajogarantia',
     bandejaTrabajoRiesgos: 'bandejas/bandejatrabajoriesgos',
     bandejaTrabajoLegal: 'bandejas/bandejatrabajolegal',
     bandejaTrabajoGestor: 'bandejas/bandejatrabajogestor',
