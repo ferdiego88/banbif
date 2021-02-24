@@ -1441,8 +1441,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
 
-      //this.mostrarBotones_ObservadoGarantia = true;
-      //this.mostrarCampo_ComentarioOficinaFile2 = true;
+      this.mostrarBotones_ObservadoGarantia = true;
+      this.mostrarCampo_ComentarioOficinaFile2 = true;
 
       if (!this.PertenceGrupo_U_Gestor) {
         this.creditForm.controls.ComentarioOficinaFile2.disable();
@@ -1482,8 +1482,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
 
-      //this.mostrarBotones_ValidacionGarantia = true;
-      //this.mostrarCampo_ComentarioValidadorGarantia = true;
+      this.mostrarBotones_ValidacionGarantia = true;
+      this.mostrarCampo_ComentarioValidadorGarantia = true;
 
       if (!this.PertenceGrupo_U_ValidadorGarantias) {
         this.creditForm.controls.ComentarioValidadorGarantia.disable();
