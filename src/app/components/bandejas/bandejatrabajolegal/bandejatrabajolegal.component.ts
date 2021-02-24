@@ -115,6 +115,7 @@ export class BandejatrabajolegalComponent extends FormularioBase implements OnIn
       this.currentUserName = this.datosMaestrosBandeja.currentUser.Title;
       this.userSolicitante = false;     
 
+      debugger;
       if (!this.datosMaestrosBandeja.PertenceGrupo_U_Legal) {
         const url = environment.getRutaBaseApp();
         this.mostrarModalInformativoConAccion("Mensaje del Sistema", "Usted no tiene permiso a esta bandeja.", window.open(url, '_self'));

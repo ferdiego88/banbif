@@ -2722,21 +2722,21 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   eventoBotonEnviar_ObservadoGarantia(): void {
 
     const itemSave = {
-      EstadoId: 46,
+      EstadoId: 44,
       ComentarioOficinaFile2: this.creditForm.controls.ComentarioOficinaFile2.value,
       Fecha_Estado: new Date()
     };
 
     Swal.fire({
-      title: '¿Está seguro de enviar la solicitud a Validación de Garantía?',
+      title: '¿Está seguro de enviar la solicitud a Registro de Garantía?',
       showCancelButton: true,
       confirmButtonText: `Aceptar`, icon: 'question'
     }).then((result) => {
       if (result.isConfirmed) {
         this.showLoading();
-        this.update(itemSave, 'La solicitud se ha enviado a Validación de Garantía.', 'No se pudo enviar la solicitud a Validación de Garantía');
+        this.update(itemSave, 'La solicitud se ha enviado a Registro de Garantía.', 'No se pudo enviar la solicitud a Registro de Garantía');
       } else if (result.isDismissed) {
-        Swal.fire('No se pudo enviar la solicitud a Validación de Garantía', '', 'info');
+        Swal.fire('No se pudo enviar la solicitud a Registro de Garantía', '', 'info');
       }
     });
   }
@@ -2786,8 +2786,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   }
 
   eventoBotonEnviar_ValidacionGarantia(): void {
-
-    debugger;
+    
     const estadoLegal = this.creditForm.get('EstadoLegalId').value;
 
     if (estadoLegal === Variables.constantes.ValidadoLegal) {
