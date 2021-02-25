@@ -921,8 +921,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
 
-      //this.mostrarBotones_GestionLegal = true;
-      //this.mostrarCampo_ComentarioLegal = true;
+      this.mostrarBotones_GestionLegal = true;
+      this.mostrarCampo_ComentarioLegal = true;
     }
     else if (estadoLegal === Variables.constantes.EstadoObservadoLegal && this.PertenceGrupo_U_Gestor) {
 
@@ -959,7 +959,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
 
-      //this.mostrarBotones_ObservadoLegal = true;
+      this.mostrarBotones_ObservadoLegal = true;
     }
     else if (estado === Variables.constantes.EstadoCreaExpedienteId) {
       this.showBtnEnviarRegularizar = false;
