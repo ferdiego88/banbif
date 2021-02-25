@@ -504,6 +504,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
               //debugger;
 
               this.creditForm.controls.EstadoLegalId.setValue(this.ItemSolicitud["EstadoLegalId"]);
+              this.creditForm.controls.EstadoMiViviendaId.setValue(this.ItemSolicitud["EstadoMiViviendaId"]);
 
               this.creditForm.controls.TEA.setValue(this.ItemSolicitud.TEA);
 

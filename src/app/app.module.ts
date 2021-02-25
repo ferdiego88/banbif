@@ -82,6 +82,7 @@ import { BandejatrabajogarantiaComponent } from './components/bandejas/bandejatr
 import { BandejatrabajoriesgosComponent } from './components/bandejas/bandejatrabajoriesgos/bandejatrabajoriesgos.component';
 import { BandejatrabajolegalComponent } from './components/bandejas/bandejatrabajolegal/bandejatrabajolegal.component';
 import { BandejatrabajogestorlegalComponent } from './components/bandejas/bandejatrabajogestorlegal/bandejatrabajogestorlegal.component';
+import { BandejatrabajomiviviendaComponent } from './components/bandejas/bandejatrabajomivivienda/bandejatrabajomivivienda.component';
 import { LogseguimientoComponent } from './components/bandejas/logseguimiento/logseguimiento.component';
 import { DashboardCreditoComponent } from './components/dashboard/dashboard-credito/dashboard-credito.component';
 import { PipemilesPipe } from './shared/pipes/pipemiles.pipe';
@@ -156,6 +157,7 @@ const materialModules = [/*  */
     BandejatrabajogarantiaComponent,
     BandejatrabajoriesgosComponent,
     BandejatrabajolegalComponent,
+    BandejatrabajomiviviendaComponent,
     BandejatrabajogestorlegalComponent,
     LogseguimientoComponent,
     DashboardCreditoComponent,
