@@ -67,11 +67,12 @@ export class EBandejaSolicitud {
             Variables.columnasSolicitud.Author + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.Created,
             Variables.columnasSolicitud.NombreTitular,
-            Variables.columnasSolicitud.TipoDocumento + '/' + Variables.columnasSolicitud.Title,
+            //Variables.columnasSolicitud.TipoDocumento + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.NumeroDocumento,
             Variables.columnasSolicitud.TipoProducto + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.Estado + '/' + Variables.columnasSolicitud.Title,
-            //Variables.columnasSolicitud.EstadoGestor + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.EstadoLegal + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.EstadoMiVivienda + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.Moneda + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.PrecioVenta,
             Variables.columnasSolicitud.ModalidadPago + '/' + Variables.columnasSolicitud.Title,
@@ -79,8 +80,6 @@ export class EBandejaSolicitud {
             Variables.columnasSolicitud.Zona + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.Oficina + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.SustentoIngreso + '/' + Variables.columnasSolicitud.Title,
-            //Variables.columnasSolicitud.Agencia + '/' + Variables.columnasSolicitud.Title,
-            //Variables.columnasSolicitud.UResponsable + '/' + Variables.columnasSolicitud.Title,
             Variables.columnasSolicitud.FechaEstado,
             Variables.columnasSolicitud.Desembolso,
             Variables.columnasSolicitud.Anlista_Riesgos + '/' + Variables.columnasSolicitud.Title,
@@ -92,17 +91,61 @@ export class EBandejaSolicitud {
     public static getColumnasExpand(): string[] {
         return [
             Variables.columnasSolicitud.Author,
-            Variables.columnasSolicitud.TipoDocumento,
+            //Variables.columnasSolicitud.TipoDocumento,
             Variables.columnasSolicitud.TipoProducto,
             Variables.columnasSolicitud.Estado,
-            //Variables.columnasSolicitud.EstadoGestor,
+            Variables.columnasSolicitud.EstadoLegal,
+            Variables.columnasSolicitud.EstadoMiVivienda,
             Variables.columnasSolicitud.Moneda,
             Variables.columnasSolicitud.ModalidadPago,
             Variables.columnasSolicitud.Zona,
             Variables.columnasSolicitud.Oficina,
             Variables.columnasSolicitud.SustentoIngreso,
-            //Variables.columnasSolicitud.Agencia,
-            //Variables.columnasSolicitud.UResponsable,
+            Variables.columnasSolicitud.Anlista_Riesgos,
+            Variables.columnasSolicitud.TipoRenta
+        ];
+    }
+
+    public static getColumnasSelectBandejaTrabajoGestor(): string[] {
+        return [
+            Variables.columnasSolicitud.ID,
+            Variables.columnasSolicitud.Author + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.Created,
+            Variables.columnasSolicitud.NombreTitular,
+            Variables.columnasSolicitud.TipoDocumento + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.NumeroDocumento,
+            Variables.columnasSolicitud.TipoProducto + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.Estado + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.EstadoLegal + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.EstadoMiVivienda + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.Moneda + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.PrecioVenta,
+            //Variables.columnasSolicitud.ModalidadPago + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.Financiamiento,
+            Variables.columnasSolicitud.Zona + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.Oficina + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.SustentoIngreso + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.FechaEstado,
+            Variables.columnasSolicitud.Desembolso,
+            Variables.columnasSolicitud.Anlista_Riesgos + '/' + Variables.columnasSolicitud.Title,
+            Variables.columnasSolicitud.Oferta,
+            Variables.columnasSolicitud.TipoRenta + '/' + Variables.columnasSolicitud.Title 
+        ];
+    }
+
+    public static getColumnasExpandBandejaTrabajoGestor(): string[] {
+        return [
+            Variables.columnasSolicitud.Author,
+            Variables.columnasSolicitud.TipoDocumento,
+            Variables.columnasSolicitud.TipoProducto,
+            Variables.columnasSolicitud.Estado,
+            Variables.columnasSolicitud.EstadoLegal,
+            Variables.columnasSolicitud.EstadoMiVivienda,
+            Variables.columnasSolicitud.Moneda,
+            //Variables.columnasSolicitud.ModalidadPago,
+            Variables.columnasSolicitud.Zona,
+            Variables.columnasSolicitud.Oficina,
+            Variables.columnasSolicitud.SustentoIngreso,
             Variables.columnasSolicitud.Anlista_Riesgos,
             Variables.columnasSolicitud.TipoRenta
         ];

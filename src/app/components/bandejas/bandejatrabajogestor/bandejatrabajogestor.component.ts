@@ -62,6 +62,8 @@ export class BandejatrabajogestorComponent extends FormularioBase implements OnI
     Variables.columnasSolicitud.Created,
     Variables.columnasSolicitud.FechaEstado,
     Variables.columnasSolicitud.Estado,
+    Variables.columnasSolicitud.EstadoLegal,
+    Variables.columnasSolicitud.EstadoMiVivienda,
     Variables.columnasSolicitud.Zona,
     Variables.columnasSolicitud.Oficina,
     Variables.columnasSolicitud.TipoProducto,
@@ -110,13 +112,12 @@ export class BandejatrabajogestorComponent extends FormularioBase implements OnI
     this.mostrarProgreso();
     this.obtenerMaestrosYDatos().then(() => {
 
-      debugger;
       this.currentUserName = this.datosMaestrosBandeja.currentUser.Title;
       this.userSolicitante = false;
 
       if (this.datosMaestrosBandeja.PertenceGrupo_U_Gestor) {
         this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
-          return elementoEstado.Id === 43 || elementoEstado.Id === 45  || elementoEstado.Id === 49;
+          return elementoEstado.Id === 43 || elementoEstado.Id === 45 || elementoEstado.Id === 49;
         });
       } else {
         this.datosMaestrosBandeja.maestroEstado = [];
@@ -344,7 +345,7 @@ export class BandejatrabajogestorComponent extends FormularioBase implements OnI
 
       this.solicitudes_paged_history = [];
 
-      this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then();
+      this.solicitudes_paged = await this.solicitudesService.getBandejaTrabajoGestor(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then();
 
     } else {
       if (this.solicitudes_paged_history[this.paginator.pageIndex]) {
@@ -414,13 +415,13 @@ export class BandejatrabajogestorComponent extends FormularioBase implements OnI
       order = null;
     }
 
-    this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, 100000, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then(
+    this.solicitudesService.getBandejaTrabajoGestor(filter, order, direction, 100000, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then(
       (data: PagedItemCollection<any[]>) => {
         const items: EBandejaSolicitud[] = data.results.map(elemento => {
           return EBandejaSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina', 'Tipo Producto', 'Moneda', 'Desembolso', 'Analista Riesgos'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Estado Legal', 'Estado Mi Vivienda', 'Zona', 'Oficina', 'Tipo Producto', 'Moneda', 'Desembolso', 'Analista Riesgos'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
@@ -431,6 +432,8 @@ export class BandejatrabajogestorComponent extends FormularioBase implements OnI
           dataMap.push(item.Created);
           dataMap.push(item.Fecha_Estado);
           dataMap.push(item.Estado);
+          dataMap.push(item.EstadoLegal);
+          dataMap.push(item.EstadoMiVivienda);
           dataMap.push(item.Zona);
           dataMap.push(item.Oficina);
           dataMap.push(item.Tipo_Producto);
@@ -441,7 +444,7 @@ export class BandejatrabajogestorComponent extends FormularioBase implements OnI
           return dataMap;
         });
 
-        this.excelService.excelListadoSolicitudesPendientes('Bandeja de Trabajo Gestor', 'BandejaTrabajoGestor', headers, details);
+        this.excelService.excelListadoBandejaTrabajoGestor('Bandeja de Trabajo Gestor', 'BandejaTrabajoGestor', headers, details);
         this.ocultarProgreso();
         this.isCargando = false;
       },

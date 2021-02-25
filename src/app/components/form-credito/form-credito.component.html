@@ -1063,8 +1063,8 @@
             <div class="row">
                 <div class="col">
                     <mat-form-field appearance="outline" class="full-width">
-                        <mat-label class="TituloCampo">Comentarios de Oficina</mat-label>
-                        <textarea matInput placeholder="Comentarios de la Oficina" formControlName="Desembolso_Ampliacion" multiline rows="3"></textarea>
+                        <mat-label class="TituloCampo">Comentario de Oficina</mat-label>
+                        <textarea matInput placeholder="Comentario de la Oficina" formControlName="Desembolso_Ampliacion" multiline rows="3"></textarea>
                     </mat-form-field>
                 </div>
             </div>            
@@ -1457,7 +1457,7 @@
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ObservadoLegal()">Enviar</button>
             </div>
 
-            <!--<div class="col" *ngIf="mostrarBotones_ValidacionGestor">
+            <div class="col" *ngIf="mostrarBotones_ValidacionGestor">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservarLegal_ValidacionGestor()">Observar a Legal</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_ValidacionGestor">
@@ -1465,7 +1465,18 @@
             </div>
             <div class="col" *ngIf="mostrarBotones_ValidacionGestor">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ValidacionGestor()">Enviar</button>
-            </div>-->
+            </div>
+
+            <div class="col" *ngIf="mostrarBotones_ObservadoGestorLegal">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ObservadoGestorLegal()">Enviar</button>
+            </div>
+
+            <div class="col" *ngIf="mostrarBotones_ObservadoGestorDesembolso">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonDesestimar_ObservadoGestorDesembolso()">Desestimar</button>
+            </div>
+            <div class="col" *ngIf="mostrarBotones_ObservadoGestorDesembolso">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ObservadoGestorDesembolso()">Enviar</button>
+            </div>
            
         </div>
         <br>

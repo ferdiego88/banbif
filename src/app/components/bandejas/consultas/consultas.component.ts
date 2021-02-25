@@ -62,6 +62,8 @@ export class ConsultasComponent extends FormularioBase implements OnInit {
     Variables.columnasSolicitud.Created,
     Variables.columnasSolicitud.FechaEstado,
     Variables.columnasSolicitud.Estado,
+    Variables.columnasSolicitud.EstadoLegal,
+    Variables.columnasSolicitud.EstadoMiVivienda,
     Variables.columnasSolicitud.Zona,
     Variables.columnasSolicitud.Oficina,
     Variables.columnasSolicitud.TipoProducto,
@@ -396,7 +398,7 @@ export class ConsultasComponent extends FormularioBase implements OnInit {
           return EBandejaSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina',  'Tipo Producto', 'Moneda', 'Desembolso'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Estado Legal','Estado Mi Vivienda','Zona', 'Oficina',  'Tipo Producto', 'Moneda', 'Desembolso'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
@@ -407,6 +409,8 @@ export class ConsultasComponent extends FormularioBase implements OnInit {
           dataMap.push(item.Created);
           dataMap.push(item.Fecha_Estado);
           dataMap.push(item.Estado);
+          dataMap.push(item.EstadoLegal);
+          dataMap.push(item.EstadoMiVivienda);
           dataMap.push(item.Zona);
           dataMap.push(item.Oficina);
           dataMap.push(item.Tipo_Producto);
@@ -416,7 +420,7 @@ export class ConsultasComponent extends FormularioBase implements OnInit {
           return dataMap;
         });
 
-        this.excelService.excelListadoSolicitudes('Consultas', 'Consultas', headers, details);
+        this.excelService.excelListadoConsultas('Consultas', 'Consultas', headers, details);
         this.ocultarProgreso();
         this.isCargando = false;;
       },

@@ -103,9 +103,7 @@ export class Variables {
     EstadoValidacionGestor: 49,
     EstadoObservadoGestorLegal: 50,
     EstadoObservadoGestorDesembolso: 51,
-    EstadoMiVivienda: 52,
-    EstadoObservadoMiVivienda: 53,
-    EstadoEsperaFondos: 54,
+    EstadoValidadoDesembolso: 52,
     EstadoValidacionDesembolso: 55,
     EstadoObservadoDesembolso: 56,
     EstadoEjecucionDesembolso: 57,
@@ -113,6 +111,11 @@ export class Variables {
     EstadoGestionLegal: 1,
     EstadoObservadoLegal: 2,
     ValidadoLegal: 3,
+
+    EstadoMiVivienda: 1,
+    EstadoEsperaFondos: 2,
+    EstadoObservadoMiVivienda: 3,
+    EstadoValidadoMiVivienda: 4,
 
     ZonaIDFFVV: 8,
     DoceHoras: 12,

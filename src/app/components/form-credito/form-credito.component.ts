@@ -1550,6 +1550,105 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.mostrarBotones_ValidacionGestor = false;
       }
     }
+    else if (estado === Variables.constantes.EstadoObservadoGestorLegal) {
+
+      this.setDisableControlsCabezera();
+      this.setDisableControlsCuotaInicial();
+      this.setDisableControlsDatosOperacion();
+      this.setDisableControlsTipoGarantiaAbono();
+      this.setDisableObservacionesOpcional();
+      this.setDisableControlsAplicacion();
+      this.setDisableComentarios();
+      this.setDisableControlsPlanAhorroProgramado();
+      this.setDisableComentarioOficina();
+
+      this.showBtnObservar = false;
+      this.showBtnGuardarBorrador = false;
+      this.showBtnEnviar = false;
+      this.showComentarioGestor = true;
+      this.showComentarioRiesgos = true;
+      this.showComentarioCPM = true;
+      this.showComentarioRevisor = true;
+      this.mostrarNumeroPropuesta = true;
+      this.showAnalistaRiesgos = true;
+
+      this.creditForm.controls.Comentario_Registro.disable();
+      this.creditForm.controls.Cometario_Revisor1.disable();
+      this.creditForm.controls.Cometario_Revisor.disable();
+      this.creditForm.controls.NumeroPropuesta.disable();
+      this.creditForm.controls.Analista_Riesgos.disable();
+      this.creditForm.controls.UsuarioIngresoFile.disable();
+      this.creditForm.controls.ComentarioGestor.disable();
+
+      this.mostrarCampo_ComentarioGarantia = true;
+      this.creditForm.controls.ComentarioGarantia.disable();
+
+      this.creditForm.controls.ComentarioOficinaFile2.disable();
+      if (!Funciones.esNullOrUndefined(this.creditForm.controls.ComentarioOficinaFile2.value)) {
+        this.mostrarCampo_ComentarioOficinaFile2 = true;
+      }
+
+      this.mostrarCampo_ComentarioValidadorGarantia = true;
+      this.creditForm.controls.ComentarioValidadorGarantia.disable();
+
+      this.mostrarCampo_ComentarioLegal = true;
+      this.mostrarBotones_ObservadoGestorLegal = true;      
+     
+      if (!this.PertenceGrupo_U_Legal) {
+        this.creditForm.controls.ComentarioLegal.disable();
+        this.mostrarBotones_ObservadoGestorLegal = false;
+      }
+    }
+    else if (estado === Variables.constantes.EstadoObservadoGestorDesembolso) {
+
+      this.setDisableControlsCabezera();
+      this.setDisableControlsCuotaInicial();
+      this.setDisableControlsDatosOperacion();
+      this.setDisableControlsTipoGarantiaAbono();
+      this.setDisableObservacionesOpcional();
+      this.setDisableControlsAplicacion();
+      this.setDisableComentarios();
+      this.setDisableControlsPlanAhorroProgramado();
+
+      this.showBtnObservar = false;
+      this.showBtnGuardarBorrador = false;
+      this.showBtnEnviar = false;
+      this.showComentarioGestor = true;
+      this.showComentarioRiesgos = true;
+      this.showComentarioCPM = true;
+      this.showComentarioRevisor = true;
+      this.mostrarNumeroPropuesta = true;
+      this.showAnalistaRiesgos = true;
+
+      this.creditForm.controls.Comentario_Registro.disable();
+      this.creditForm.controls.Cometario_Revisor1.disable();
+      this.creditForm.controls.Cometario_Revisor.disable();
+      this.creditForm.controls.NumeroPropuesta.disable();
+      this.creditForm.controls.Analista_Riesgos.disable();
+      this.creditForm.controls.UsuarioIngresoFile.disable();
+      this.creditForm.controls.ComentarioGestor.disable();
+
+      this.mostrarCampo_ComentarioGarantia = true;
+      this.creditForm.controls.ComentarioGarantia.disable();
+
+      this.creditForm.controls.ComentarioOficinaFile2.disable();
+      if (!Funciones.esNullOrUndefined(this.creditForm.controls.ComentarioOficinaFile2.value)) {
+        this.mostrarCampo_ComentarioOficinaFile2 = true;
+      }
+
+      this.mostrarCampo_ComentarioValidadorGarantia = true;
+      this.creditForm.controls.ComentarioValidadorGarantia.disable();
+
+      this.mostrarCampo_ComentarioLegal = true;
+      this.creditForm.controls.ComentarioLegal.disable();
+
+      this.mostrarBotones_ObservadoGestorDesembolso = true;      
+     
+      if (!this.PertenceGrupo_U_Oficina) {
+        this.creditForm.controls.Desembolso_Ampliacion.disable();
+        this.mostrarBotones_ObservadoGestorDesembolso = false;
+      }
+    }
     else {
       this.setDisableControlsCabezera();
       this.setDisableControlsCuotaInicial();
@@ -2969,7 +3068,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     const itemSave = {
       EstadoId: 50,
       ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-      Fecha_Estado: new Date()
+      Fecha_Estado: new Date(),
+      EnLegal: true
     };
 
     Swal.fire({
@@ -3017,7 +3117,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
         Fecha_Estado: new Date(),
         EstadoMiViviendaId: 1,
-        EnMiVivienda: true
+        EnMiVivienda: true,
+        EnLegal: false,
+        EnGestor: false
       };
 
       Swal.fire({
@@ -3054,4 +3156,74 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       });
     }
   }
+
+  eventoBotonEnviar_ObservadoGestorLegal(): void {
+
+    const itemSave = {
+      EstadoId: 49,
+      ComentarioLegal: this.creditForm.controls.ComentarioLegal.value,
+      Fecha_Estado: new Date(),
+      EnLegal: false
+    };
+
+    Swal.fire({
+      title: '¿Está seguro de enviar la solicitud a Estado Validación Gestor?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`, icon: 'question'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.showLoading();
+        this.update(itemSave, 'La solicitud se ha enviado a Estado Validación Gestor.', 'No se pudo enviar la solicitud a Estado Validación Gestor');
+      } else if (result.isDismissed) {
+        Swal.fire('No se pudo enviar la solicitud a Estado Validación Gestor', '', 'info');
+      }
+    });
+  }
+
+  eventoBotonDesestimar_ObservadoGestorDesembolso(): void {
+
+    const itemSave = {
+      EstadoId: 40,
+      Desembolso_Ampliacion: this.creditForm.controls.Desembolso_Ampliacion.value,
+      Fecha_Estado: new Date(),
+      EnLegal: false,
+      EnGestor: false
+    };
+
+    Swal.fire({
+      title: '¿Está seguro de Desestimar la solicitud?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`, icon: 'question'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.showLoading();
+        this.update(itemSave, 'La Solicitud se ha Desestimado', 'No se pudo Desestimar');
+      } else if (result.isDismissed) {
+        Swal.fire('No se ha Desestimado la Solicitud', '', 'info');
+      }
+    });
+  }
+
+  eventoBotonEnviar_ObservadoGestorDesembolso(): void {
+
+    const itemSave = {
+      EstadoId: 49,
+      Desembolso_Ampliacion: this.creditForm.controls.Desembolso_Ampliacion.value,
+      Fecha_Estado: new Date()
+    };
+
+    Swal.fire({
+      title: '¿Está seguro de enviar la solicitud a Estado Validación Gestor?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`, icon: 'question'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.showLoading();
+        this.update(itemSave, 'La solicitud se ha enviado a Estado Validación Gestor.', 'No se pudo enviar la solicitud a Estado Validación Gestor');
+      } else if (result.isDismissed) {
+        Swal.fire('No se pudo enviar la solicitud a Estado Validación Gestor', '', 'info');
+      }
+    });
+  }
+
 }

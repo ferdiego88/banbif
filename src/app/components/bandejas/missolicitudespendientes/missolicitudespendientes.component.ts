@@ -116,7 +116,7 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
       if (this.datosMaestrosBandeja.PertenceGrupo_U_Oficina || this.datosMaestrosBandeja.PertenceGrupo_U_ReemplazoOficina) {
 
         this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
-          return elementoEstado.Id === 1 || elementoEstado.Id === 3 || elementoEstado.Id === 5 || elementoEstado.Id === 38 || elementoEstado.Id === 41;
+          return elementoEstado.Id === 1 || elementoEstado.Id === 3 || elementoEstado.Id === 5 || elementoEstado.Id === 38 || elementoEstado.Id === 41 || elementoEstado.Id === 51;
         });
       } else {
         this.datosMaestrosBandeja.maestroEstado = [];
