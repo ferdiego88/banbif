@@ -883,7 +883,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   }
 
   listenerBotones() {
-  
+
     const estado = this.creditForm.get('EstadoId').value;
     const estadoLegal = this.creditForm.get('EstadoLegalId').value;
 
@@ -1534,7 +1534,16 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
 
-      //this.mostrarBotones_ValidacionGestor = true;
+      this.mostrarBotones_ValidacionGestor = true;
+
+      const idTipoProducto = this.creditForm.get('Tipo_ProductoId').value;
+
+      debugger;
+      if (idTipoProducto === Variables.constantes.TipoProductoMiViviendaId) {
+        this.esMiVivienda = true;
+      } else {
+        this.esMiVivienda = false;
+      }
 
       if (!this.PertenceGrupo_U_Gestor) {
         this.creditForm.controls.ComentarioGestor.disable();
@@ -2786,7 +2795,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   }
 
   eventoBotonEnviar_ValidacionGarantia(): void {
-    
+
     const estadoLegal = this.creditForm.get('EstadoLegalId').value;
 
     if (estadoLegal === Variables.constantes.ValidadoLegal) {
@@ -2888,6 +2897,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       const itemSave = {
         EstadoLegalId: 3,
+        ComentarioLegal: this.creditForm.controls.ComentarioLegal.value,
         EnLegal: false,
         EnGestor: false
       };
@@ -2998,47 +3008,50 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     });
   }
 
-  eventoBotonEnviarMiVivienda_ValidacionGestor(): void {
+  eventoBotonEnviar_ValidacionGestor(): void {
 
-    const itemSave = {
-      EstadoId: 52,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-      Fecha_Estado: new Date()
-    };
+    if (this.esMiVivienda) {
 
-    Swal.fire({
-      title: '¿Está seguro de enviar la solicitud a Mi Vivienda?',
-      showCancelButton: true,
-      confirmButtonText: `Aceptar`, icon: 'question'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.showLoading();
-        this.update(itemSave, 'La solicitud se ha enviado a Mi Vivienda.', 'No se pudo enviar la solicitud a Mi Vivienda');
-      } else if (result.isDismissed) {
-        Swal.fire('No se pudo enviar la solicitud a Mi Vivienda', '', 'info');
-      }
-    });
-  }
+      const itemSave = {
+        EstadoId: 55,
+        ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+        Fecha_Estado: new Date(),
+        EstadoMiViviendaId: 1,
+        EnMiVivienda: true
+      };
 
-  eventoBotonEnviarValidacionDesembolso_ValidacionGestor(): void {
+      Swal.fire({
+        title: '¿Está seguro de enviar la solicitud a Mi Vivienda y Validación de Desembolso?',
+        showCancelButton: true,
+        confirmButtonText: `Aceptar`, icon: 'question'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.showLoading();
+          this.update(itemSave, 'La solicitud se ha enviado a Mi Vivienda y Validación de Desembolso.', 'No se pudo enviar la solicitud a Mi Vivienda y Validación de Desembolso');
+        } else if (result.isDismissed) {
+          Swal.fire('No se pudo enviar la solicitud a Mi Vivienda y Validación de Desembolso', '', 'info');
+        }
+      });
 
-    const itemSave = {
-      EstadoId: 55,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-      Fecha_Estado: new Date()
-    };
+    } else {
+      const itemSave = {
+        EstadoId: 55,
+        ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+        Fecha_Estado: new Date()
+      };
 
-    Swal.fire({
-      title: '¿Está seguro de enviar la solicitud a Validación Desembolso?',
-      showCancelButton: true,
-      confirmButtonText: `Aceptar`, icon: 'question'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.showLoading();
-        this.update(itemSave, 'La solicitud se ha enviado a Validación Desembolso.', 'No se pudo enviar la solicitud a Validación Desembolso');
-      } else if (result.isDismissed) {
-        Swal.fire('No se pudo enviar la solicitud a Validación Desembolso', '', 'info');
-      }
-    });
+      Swal.fire({
+        title: '¿Está seguro de enviar la solicitud a Validación Desembolso?',
+        showCancelButton: true,
+        confirmButtonText: `Aceptar`, icon: 'question'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.showLoading();
+          this.update(itemSave, 'La solicitud se ha enviado a Validación Desembolso.', 'No se pudo enviar la solicitud a Validación Desembolso');
+        } else if (result.isDismissed) {
+          Swal.fire('No se pudo enviar la solicitud a Validación Desembolso', '', 'info');
+        }
+      });
+    }
   }
 }
