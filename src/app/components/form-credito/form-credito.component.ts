@@ -887,6 +887,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
     const estado = this.creditForm.get('EstadoId').value;
     const estadoLegal = this.creditForm.get('EstadoLegalId').value;
+    const estadoMiVivienda = this.creditForm.get('EstadoMiViviendaId').value;
 
     debugger;
     if (estadoLegal === Variables.constantes.EstadoGestionLegal && this.PertenceGrupo_U_Legal) {
@@ -961,6 +962,134 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.ComentarioLegal.disable();
 
       this.mostrarBotones_ObservadoLegal = true;
+    }
+    else if (estadoMiVivienda === Variables.constantes.EstadoMiVivienda && this.PertenceGrupo_U_MiVivienda) {
+
+      this.setDisableControlsCabezera();
+      this.setDisableControlsCuotaInicial();
+      this.setDisableControlsDatosOperacion();
+      this.setDisableControlsTipoGarantiaAbono();
+      this.setDisableObservacionesOpcional();
+      this.setDisableControlsAplicacion();
+      this.setDisableComentarios();
+      this.setDisableControlsPlanAhorroProgramado();
+      this.setDisableComentarioOficina();
+
+      this.showBtnObservar = false;
+      this.showBtnGuardarBorrador = false;
+      this.showBtnEnviar = false;
+      this.showComentarioGestor = true;
+      this.showComentarioRiesgos = true;
+      this.showComentarioCPM = true;
+      this.showComentarioRevisor = true;
+      this.mostrarNumeroPropuesta = true;
+      this.showAnalistaRiesgos = true;
+
+      this.creditForm.controls.Comentario_Registro.disable();
+      this.creditForm.controls.Cometario_Revisor1.disable();
+      this.creditForm.controls.Cometario_Revisor.disable();
+      this.creditForm.controls.ComentarioGestor.disable();
+      this.creditForm.controls.NumeroPropuesta.disable();
+      this.creditForm.controls.Analista_Riesgos.disable();
+      this.creditForm.controls.UsuarioIngresoFile.disable();
+
+      this.mostrarCampo_ComentarioGarantia = true;
+      this.creditForm.controls.ComentarioGarantia.disable();
+
+      this.mostrarCampo_ComentarioLegal = true;
+      this.creditForm.controls.ComentarioLegal.disable();
+
+      this.mostrarCampo_ComentarioDesembolso = true;
+      this.creditForm.controls.ComentarioDesembolso.disable();
+
+      this.mostrarCampo_ComentarioMiVivienda = true;
+      this.mostrarBotones_MiVivienda = true;     
+    }
+    else if (estadoMiVivienda === Variables.constantes.EstadoEsperaFondos && this.PertenceGrupo_U_MiVivienda) {
+
+      this.setDisableControlsCabezera();
+      this.setDisableControlsCuotaInicial();
+      this.setDisableControlsDatosOperacion();
+      this.setDisableControlsTipoGarantiaAbono();
+      this.setDisableObservacionesOpcional();
+      this.setDisableControlsAplicacion();
+      this.setDisableComentarios();
+      this.setDisableControlsPlanAhorroProgramado();
+      this.setDisableComentarioOficina();
+
+      this.showBtnObservar = false;
+      this.showBtnGuardarBorrador = false;
+      this.showBtnEnviar = false;
+      this.showComentarioGestor = true;
+      this.showComentarioRiesgos = true;
+      this.showComentarioCPM = true;
+      this.showComentarioRevisor = true;
+      this.mostrarNumeroPropuesta = true;
+      this.showAnalistaRiesgos = true;
+
+      this.creditForm.controls.Comentario_Registro.disable();
+      this.creditForm.controls.Cometario_Revisor1.disable();
+      this.creditForm.controls.Cometario_Revisor.disable();
+      this.creditForm.controls.ComentarioGestor.disable();
+      this.creditForm.controls.NumeroPropuesta.disable();
+      this.creditForm.controls.Analista_Riesgos.disable();
+      this.creditForm.controls.UsuarioIngresoFile.disable();
+
+      this.mostrarCampo_ComentarioGarantia = true;
+      this.creditForm.controls.ComentarioGarantia.disable();
+
+      this.mostrarCampo_ComentarioLegal = true;
+      this.creditForm.controls.ComentarioLegal.disable();
+
+      this.mostrarCampo_ComentarioDesembolso = true;
+      this.creditForm.controls.ComentarioDesembolso.disable();
+
+      this.mostrarCampo_ComentarioMiVivienda = true;
+      this.mostrarBotones_EsperaFondos = true;     
+    }
+    else if (estadoMiVivienda === Variables.constantes.EstadoObservadoMiVivienda && this.PertenceGrupo_U_Gestor) {
+
+      this.setDisableControlsCabezera();
+      this.setDisableControlsCuotaInicial();
+      this.setDisableControlsDatosOperacion();
+      this.setDisableControlsTipoGarantiaAbono();
+      this.setDisableObservacionesOpcional();
+      this.setDisableControlsAplicacion();
+      this.setDisableComentarios();
+      this.setDisableControlsPlanAhorroProgramado();
+      this.setDisableComentarioOficina();
+
+      this.showBtnObservar = false;
+      this.showBtnGuardarBorrador = false;
+      this.showBtnEnviar = false;
+      this.showComentarioGestor = true;
+      this.showComentarioRiesgos = true;
+      this.showComentarioCPM = true;
+      this.showComentarioRevisor = true;
+      this.mostrarNumeroPropuesta = true;
+      this.showAnalistaRiesgos = true;
+
+      this.creditForm.controls.Comentario_Registro.disable();
+      this.creditForm.controls.Cometario_Revisor1.disable();
+      this.creditForm.controls.Cometario_Revisor.disable();
+      this.creditForm.controls.ComentarioGestor.disable();
+      this.creditForm.controls.NumeroPropuesta.disable();
+      this.creditForm.controls.Analista_Riesgos.disable();
+      this.creditForm.controls.UsuarioIngresoFile.disable();
+
+      this.mostrarCampo_ComentarioGarantia = true;
+      this.creditForm.controls.ComentarioGarantia.disable();
+
+      this.mostrarCampo_ComentarioLegal = true;
+      this.creditForm.controls.ComentarioLegal.disable();
+
+      this.mostrarCampo_ComentarioDesembolso = true;
+      this.creditForm.controls.ComentarioDesembolso.disable();
+
+      this.mostrarCampo_ComentarioMiVivienda = true;
+      this.creditForm.controls.ComentarioMiVivienda.disable();
+
+      this.mostrarBotones_ObservadoMiVivienda = true;
     }
     else if (estado === Variables.constantes.EstadoCreaExpedienteId) {
       this.showBtnEnviarRegularizar = false;
