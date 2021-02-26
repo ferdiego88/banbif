@@ -23,6 +23,7 @@ import { User } from 'src/app/shared/models/fisics/base/User';
 import { Lookup } from 'src/app/shared/models/fisics/base/Lookup';
 import { debug } from 'console';
 import { Funciones } from 'src/app/shared/funciones';
+import { Variable } from '@angular/compiler/src/render3/r3_ast';
 
 export const MY_FORMATS = {
   parse: {
@@ -1003,7 +1004,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.ComentarioDesembolso.disable();
 
       this.mostrarCampo_ComentarioMiVivienda = true;
-      this.mostrarBotones_MiVivienda = true;     
+      this.mostrarBotones_MiVivienda = true;
     }
     else if (estadoMiVivienda === Variables.constantes.EstadoEsperaFondos && this.PertenceGrupo_U_MiVivienda) {
 
@@ -1045,7 +1046,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.ComentarioDesembolso.disable();
 
       this.mostrarCampo_ComentarioMiVivienda = true;
-      this.mostrarBotones_EsperaFondos = true;     
+      this.mostrarBotones_EsperaFondos = true;
     }
     else if (estadoMiVivienda === Variables.constantes.EstadoObservadoMiVivienda && this.PertenceGrupo_U_Gestor) {
 
@@ -1722,8 +1723,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.ComentarioValidadorGarantia.disable();
 
       this.mostrarCampo_ComentarioLegal = true;
-      this.mostrarBotones_ObservadoGestorLegal = true;      
-     
+      this.mostrarBotones_ObservadoGestorLegal = true;
+
       if (!this.PertenceGrupo_U_Legal) {
         this.creditForm.controls.ComentarioLegal.disable();
         this.mostrarBotones_ObservadoGestorLegal = false;
@@ -1772,8 +1773,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
 
-      this.mostrarBotones_ObservadoGestorDesembolso = true;      
-     
+      this.mostrarBotones_ObservadoGestorDesembolso = true;
+
       if (!this.PertenceGrupo_U_Oficina) {
         this.creditForm.controls.Desembolso_Ampliacion.disable();
         this.mostrarBotones_ObservadoGestorDesembolso = false;
@@ -2259,7 +2260,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
     const tipoProducto = this.creditForm.controls.Tipo_ProductoId.value;
 
-    if (tipoProducto == 1) {
+    if (tipoProducto == Variables.constantes.TipoProductoMiViviendaId) {
 
       let BBP = this.creditForm.get('BBP').value;
       if (BBP !== null) {
@@ -2286,14 +2287,45 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.Desembolso = Desembolso;
       this.creditForm.get('Desembolso').setValue(myExtObject.MASKMONEY(Desembolso, '-###,###,###,##0.00', 1));
 
+    } else if (tipoProducto === Variables.constantes.TipoProductoAmpliacionRemodelacionConstruccionId) {
+
+      let Desembolso = this.creditForm.get('Desembolso').value;
+      if (Desembolso !== null) {
+        Desembolso = parseFloat(Desembolso.toString().replace(",", ""));
+      } else {
+        Desembolso = 0;
+      }
+
+      this.Desembolso = Desembolso;
+      this.creditForm.get('Desembolso').setValue(myExtObject.MASKMONEY(Desembolso, '-###,###,###,##0.00', 1));
     }
     else {
+
+      let precioVenta = this.creditForm.get('Precio_Venta').value;
+      if (precioVenta !== null) {
+        precioVenta = parseFloat(precioVenta.toString().replace(",", ""));
+      } else {
+        precioVenta = 0;
+      }
+
+      let AporteEfectivo = this.creditForm.get('Aporte_Efectivo').value;
+      if (AporteEfectivo !== null) {
+        AporteEfectivo = parseFloat(AporteEfectivo.toString().replace(",", ""));
+      } else {
+        AporteEfectivo = 0;
+      }
+
+      let AporteRetiroAFP = this.creditForm.get('Aporte_RetiroAFP').value;
+      if (AporteRetiroAFP !== null) {
+        AporteRetiroAFP = parseFloat(AporteRetiroAFP.toString().replace(",", ""));
+      } else {
+        AporteRetiroAFP = 0;
+      }
 
       const Desembolso = precioVenta - AporteEfectivo - AporteRetiroAFP;
       this.Desembolso = Desembolso;
       this.creditForm.get('Desembolso').setValue(myExtObject.MASKMONEY(Desembolso, '-###,###,###,##0.00', 1));
     }
-
   }
 
   ValidarReglasPrecioVenta() {
@@ -2304,7 +2336,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
     const tipoProducto = this.creditForm.controls.Tipo_ProductoId.value;
 
-    if (tipoProducto == 1) {
+    if (tipoProducto == Variables.constantes.TipoProductoMiViviendaId) {
 
       let BBP = this.creditForm.get('BBP').value;
       if (BBP !== null) {
@@ -2338,7 +2370,50 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       }
 
     }
+    else if (tipoProducto === Variables.constantes.TipoProductoAmpliacionRemodelacionConstruccionId) {
+      let Desembolso = this.creditForm.get('Desembolso').value;
+      if (Desembolso !== null) {
+        Desembolso = parseFloat(Desembolso.toString().replace(",", ""));
+      } else {
+        Desembolso = 0;
+      }
+
+      this.Desembolso = Desembolso;
+      const montoTotal = this.Desembolso;
+
+      if (montoTotal > 0) {
+        const Grabamen = montoTotal * 120 / 100;
+        this.creditForm.get('Grabamen').setValue(myExtObject.MASKMONEY(Grabamen, '-###,###,###,##0.00', 1));
+      } else {
+        const Grabamen = 0;
+        this.creditForm.get('Grabamen').setValue(myExtObject.MASKMONEY(Grabamen, '-###,###,###,##0.00', 1));
+      }
+    }
     else {
+
+      let precioVenta = this.creditForm.get('Precio_Venta').value;
+      if (precioVenta !== null) {
+        precioVenta = parseFloat(precioVenta.toString().replace(",", ""));
+      } else {
+        precioVenta = 0;
+      }
+
+      let AporteEfectivo = this.creditForm.get('Aporte_Efectivo').value;
+      if (AporteEfectivo !== null) {
+        AporteEfectivo = parseFloat(AporteEfectivo.toString().replace(",", ""));
+      } else {
+        AporteEfectivo = 0;
+      }
+
+      let AporteRetiroAFP = this.creditForm.get('Aporte_RetiroAFP').value;
+      if (AporteRetiroAFP !== null) {
+        AporteRetiroAFP = parseFloat(AporteRetiroAFP.toString().replace(",", ""));
+      } else {
+        AporteRetiroAFP = 0;
+      }
+
+      const Desembolso = precioVenta - AporteEfectivo - AporteRetiroAFP;
+      this.Desembolso = Desembolso;
 
       const montoTotal = (this.Desembolso);
 
