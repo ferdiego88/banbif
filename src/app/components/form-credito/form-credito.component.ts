@@ -823,7 +823,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
     this.creditForm.get('Precio_Venta').valueChanges.subscribe(selectedValue => {
 
-      selectedValue = parseFloat(selectedValue.toString().replace(",", ""));
+      selectedValue = this.parsearFloat(selectedValue);
 
       if (selectedValue >= Variables.constantes.PrecioVenta1 && selectedValue <= Variables.constantes.PrecioVenta2ViviendaSostenible) {
         this.showmessageVivienda = false;
@@ -871,7 +871,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       let precio = this.creditForm.get('Precio_Venta').value;
       if (precio !== null) {
-        precio = parseFloat(precio.toString().replace(",", ""));
+        precio = this.parsearFloat(precio);
       } else {
         precio = 0;
       }
@@ -2095,56 +2095,56 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
     let precioVenta = this.creditForm.get('Precio_Venta').value;
     if (precioVenta !== null) {
-      precioVenta = parseFloat(precioVenta.toString().replace(",", ""));
+      precioVenta = this.parsearFloat(precioVenta);
     } else {
       precioVenta = 0;
     }
 
     let AporteEfectivo = this.creditForm.get('Aporte_Efectivo').value;
     if (AporteEfectivo !== null) {
-      AporteEfectivo = parseFloat(AporteEfectivo.toString().replace(",", ""));
+      AporteEfectivo = this.parsearFloat(AporteEfectivo);
     } else {
       AporteEfectivo = 0;
     }
 
     let AporteRetiroAFP = this.creditForm.get('Aporte_RetiroAFP').value;
     if (AporteRetiroAFP !== null) {
-      AporteRetiroAFP = parseFloat(AporteRetiroAFP.toString().replace(",", ""));
+      AporteRetiroAFP = this.parsearFloat(AporteRetiroAFP);
     } else {
       AporteRetiroAFP = 0;
     }
 
     let BBP = this.creditForm.get('BBP').value;
     if (BBP !== null) {
-      BBP = parseFloat(BBP.toString().replace(",", ""));
+      BBP = this.parsearFloat(BBP);
     } else {
       BBP = 0;
     }
 
     let PBP = this.creditForm.get('PBP').value;
     if (PBP !== null) {
-      PBP = parseFloat(PBP.toString().replace(",", ""));
+      PBP = this.parsearFloat(PBP);
     } else {
       PBP = 0;
     }
 
     let PBPAdicionalSostenible = this.creditForm.get('PBP_Adiconal_Sostenible').value;
     if (PBPAdicionalSostenible !== null) {
-      PBPAdicionalSostenible = parseFloat(PBPAdicionalSostenible.toString().replace(",", ""));
+      PBPAdicionalSostenible = this.parsearFloat(PBPAdicionalSostenible);
     } else {
       PBPAdicionalSostenible = 0;
     }
 
     let grabamen = this.creditForm.get('Grabamen').value;
     if (grabamen !== null) {
-      grabamen = parseFloat(grabamen.toString().replace(",", ""));
+      grabamen = this.parsearFloat(grabamen);
     } else {
       grabamen = 0;
     }
 
     let riesgoMaximo = this.creditForm.get('Riesgo_Maximo').value;
     if (riesgoMaximo !== null) {
-      riesgoMaximo = parseFloat(riesgoMaximo.toString().replace(",", ""));
+      riesgoMaximo = this.parsearFloat(riesgoMaximo);
     } else {
       riesgoMaximo = 0;
     }
@@ -2235,50 +2235,58 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       .catch(error => console.error(error));
   }
 
+  parsearFloat(valor) {
+    if (valor !== null) {
+      return parseFloat(valor.toString().replace(",", "").replace(",", "").replace(",", "").replace(",", ""));
+    } else {
+      return 0;
+    }
+  }
+
   calculaDesembolso() {
-
-    let precioVenta = this.creditForm.get('Precio_Venta').value;
-    if (precioVenta !== null) {
-      precioVenta = parseFloat(precioVenta.toString().replace(",", ""));
-    } else {
-      precioVenta = 0;
-    }
-
-    let AporteEfectivo = this.creditForm.get('Aporte_Efectivo').value;
-    if (AporteEfectivo !== null) {
-      AporteEfectivo = parseFloat(AporteEfectivo.toString().replace(",", ""));
-    } else {
-      AporteEfectivo = 0;
-    }
-
-    let AporteRetiroAFP = this.creditForm.get('Aporte_RetiroAFP').value;
-    if (AporteRetiroAFP !== null) {
-      AporteRetiroAFP = parseFloat(AporteRetiroAFP.toString().replace(",", ""));
-    } else {
-      AporteRetiroAFP = 0;
-    }
 
     const tipoProducto = this.creditForm.controls.Tipo_ProductoId.value;
 
     if (tipoProducto == Variables.constantes.TipoProductoMiViviendaId) {
 
+      let precioVenta = this.creditForm.get('Precio_Venta').value;
+      if (precioVenta !== null) {
+        precioVenta = this.parsearFloat(precioVenta);
+      } else {
+        precioVenta = 0;
+      }
+
+      let AporteEfectivo = this.creditForm.get('Aporte_Efectivo').value;
+      if (AporteEfectivo !== null) {
+        AporteEfectivo = this.parsearFloat(AporteEfectivo);
+      } else {
+        AporteEfectivo = 0;
+      }
+
+      let AporteRetiroAFP = this.creditForm.get('Aporte_RetiroAFP').value;
+      if (AporteRetiroAFP !== null) {
+        AporteRetiroAFP = this.parsearFloat(AporteRetiroAFP);
+      } else {
+        AporteRetiroAFP = 0;
+      }
+
       let BBP = this.creditForm.get('BBP').value;
       if (BBP !== null) {
-        BBP = parseFloat(BBP.toString().replace(",", ""));
+        BBP = this.parsearFloat(BBP);
       } else {
         BBP = 0;
       }
 
       let PBP = this.creditForm.get('PBP').value;
       if (PBP !== null) {
-        PBP = parseFloat(PBP.toString().replace(",", ""));
+        PBP = this.parsearFloat(PBP);
       } else {
         PBP = 0;
       }
 
       let PBPAdicionalSostenible = this.creditForm.get('PBP_Adiconal_Sostenible').value;
       if (PBPAdicionalSostenible !== null) {
-        PBPAdicionalSostenible = parseFloat(PBPAdicionalSostenible.toString().replace(",", ""));
+        PBPAdicionalSostenible = this.parsearFloat(PBPAdicionalSostenible);
       } else {
         PBPAdicionalSostenible = 0;
       }
@@ -2291,7 +2299,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       let Desembolso = this.creditForm.get('Desembolso').value;
       if (Desembolso !== null) {
-        Desembolso = parseFloat(Desembolso.toString().replace(",", ""));
+        Desembolso = this.parsearFloat(Desembolso);
       } else {
         Desembolso = 0;
       }
@@ -2303,21 +2311,21 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       let precioVenta = this.creditForm.get('Precio_Venta').value;
       if (precioVenta !== null) {
-        precioVenta = parseFloat(precioVenta.toString().replace(",", ""));
+        precioVenta = this.parsearFloat(precioVenta);
       } else {
         precioVenta = 0;
       }
 
       let AporteEfectivo = this.creditForm.get('Aporte_Efectivo').value;
       if (AporteEfectivo !== null) {
-        AporteEfectivo = parseFloat(AporteEfectivo.toString().replace(",", ""));
+        AporteEfectivo = this.parsearFloat(AporteEfectivo);
       } else {
         AporteEfectivo = 0;
       }
 
       let AporteRetiroAFP = this.creditForm.get('Aporte_RetiroAFP').value;
       if (AporteRetiroAFP !== null) {
-        AporteRetiroAFP = parseFloat(AporteRetiroAFP.toString().replace(",", ""));
+        AporteRetiroAFP = this.parsearFloat(AporteRetiroAFP);
       } else {
         AporteRetiroAFP = 0;
       }
@@ -2340,21 +2348,21 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       let BBP = this.creditForm.get('BBP').value;
       if (BBP !== null) {
-        BBP = parseFloat(BBP.toString().replace(",", ""));
+        BBP = this.parsearFloat(BBP);
       } else {
         BBP = 0;
       }
 
       let PBP = this.creditForm.get('PBP').value;
       if (PBP !== null) {
-        PBP = parseFloat(PBP.toString().replace(",", ""));
+        PBP = this.parsearFloat(PBP);
       } else {
         PBP = 0;
       }
 
       let PBPAdicionalSostenible = this.creditForm.get('PBP_Adiconal_Sostenible').value;
       if (PBPAdicionalSostenible !== null) {
-        PBPAdicionalSostenible = parseFloat(PBPAdicionalSostenible.toString().replace(",", ""));
+        PBPAdicionalSostenible = this.parsearFloat(PBPAdicionalSostenible);
       } else {
         PBPAdicionalSostenible = 0;
       }
@@ -2368,12 +2376,11 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         const Grabamen = 0;
         this.creditForm.get('Grabamen').setValue(myExtObject.MASKMONEY(Grabamen, '-###,###,###,##0.00', 1));
       }
-
     }
     else if (tipoProducto === Variables.constantes.TipoProductoAmpliacionRemodelacionConstruccionId) {
       let Desembolso = this.creditForm.get('Desembolso').value;
       if (Desembolso !== null) {
-        Desembolso = parseFloat(Desembolso.toString().replace(",", ""));
+        Desembolso = this.parsearFloat(Desembolso);
       } else {
         Desembolso = 0;
       }
@@ -2393,21 +2400,21 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       let precioVenta = this.creditForm.get('Precio_Venta').value;
       if (precioVenta !== null) {
-        precioVenta = parseFloat(precioVenta.toString().replace(",", ""));
+        precioVenta = this.parsearFloat(precioVenta);
       } else {
         precioVenta = 0;
       }
 
       let AporteEfectivo = this.creditForm.get('Aporte_Efectivo').value;
       if (AporteEfectivo !== null) {
-        AporteEfectivo = parseFloat(AporteEfectivo.toString().replace(",", ""));
+        AporteEfectivo = this.parsearFloat(AporteEfectivo);
       } else {
         AporteEfectivo = 0;
       }
 
       let AporteRetiroAFP = this.creditForm.get('Aporte_RetiroAFP').value;
       if (AporteRetiroAFP !== null) {
-        AporteRetiroAFP = parseFloat(AporteRetiroAFP.toString().replace(",", ""));
+        AporteRetiroAFP = this.parsearFloat(AporteRetiroAFP);
       } else {
         AporteRetiroAFP = 0;
       }
@@ -2942,7 +2949,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     });
   }
 
-  eventoBotonEnviarRegistroGarantia_IngresoFiles(): void {
+  eventoBotonEnviar_IngresoFiles(): void {
 
     const itemSave = {
       EstadoId: 44,
@@ -2964,29 +2971,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         Swal.fire('No se pudo enviar la solicitud a Registro de Garantía y Gestión Legal', '', 'info');
       }
     });
-  }
-
-  eventoBotonEnviarGestionLegal_IngresoFiles(): void {
-
-    const itemSave = {
-      EstadoId: 47,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-      Fecha_Estado: new Date()
-    };
-
-    Swal.fire({
-      title: '¿Está seguro de enviar la solicitud a Gestión Legal?',
-      showCancelButton: true,
-      confirmButtonText: `Aceptar`, icon: 'question'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.showLoading();
-        this.update(itemSave, 'La solicitud se ha enviado a Gestión Legal.', 'No se pudo enviar la solicitud a Gestión Legal');
-      } else if (result.isDismissed) {
-        Swal.fire('No se pudo enviar la solicitud a Gestión Legal', '', 'info');
-      }
-    });
-  }
+  }  
 
   eventoBotonObservar_RegistroGarantia(): void {
 
