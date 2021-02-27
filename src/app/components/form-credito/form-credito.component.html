@@ -1409,18 +1409,16 @@
                 }">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="guardarPreTerminado()">Guardar</button>
             </div>
-            <div class="" [ngClass]="{
+            <!--<div class="" [ngClass]="{
                 'd-none': !mostrarBotonEnviarIngresoFiles2,
                 'col': mostrarBotonEnviarIngresoFiles2
                 }">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoEnviarIngresoFiles2()">Terminar</button>
-            </div>
+            </div>-->            
+                        
             <div class="col" *ngIf="mostrarBotones_IngresoFiles">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviarRegistroGarantia_IngresoFiles()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_IngresoFiles()">Enviar</button>
             </div>
-            <!--<div class="col" *ngIf="mostrarBotones_IngresoFiles">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviarGestionLegal_IngresoFiles()">Enviar a Gestión Legal</button>
-            </div>-->
 
             <div class="col" *ngIf="mostrarBotones_RegistroGarantia">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservar_RegistroGarantia()">Observar</button>
@@ -1467,7 +1465,7 @@
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ValidacionGestor()">Enviar</button>
             </div>
 
-            <!--<div class="col" *ngIf="mostrarBotones_ObservadoGestorLegal">
+            <div class="col" *ngIf="mostrarBotones_ObservadoGestorLegal">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ObservadoGestorLegal()">Enviar</button>
             </div>
 
@@ -1476,7 +1474,7 @@
             </div>
             <div class="col" *ngIf="mostrarBotones_ObservadoGestorDesembolso">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ObservadoGestorDesembolso()">Enviar</button>
-            </div>-->
+            </div>
            
         </div>
         <br>
