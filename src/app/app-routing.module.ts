@@ -15,6 +15,7 @@ import { BandejatrabajolegalComponent } from './components/bandejas/bandejatraba
 import { BandejatrabajomiviviendaComponent } from './components/bandejas/bandejatrabajomivivienda/bandejatrabajomivivienda.component';
 import { BandejatrabajogestorlegalComponent } from './components/bandejas/bandejatrabajogestorlegal/bandejatrabajogestorlegal.component';
 import { BandejatrabajogestorComponent } from './components/bandejas/bandejatrabajogestor/bandejatrabajogestor.component';
+import { BandejatrabajodesembolsoComponent } from './components/bandejas/bandejatrabajodesembolso/bandejatrabajodesembolso.component';
 import { LogseguimientoComponent } from './components/bandejas/logseguimiento/logseguimiento.component';
 import { DashboardCreditoComponent } from './components/dashboard/dashboard-credito/dashboard-credito.component';
 import { DashboardHipotecarioComponent } from './components/dashboard/dashboard-hipotecario/dashboard-hipotecario.component';
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: Variables.path.bandejaTrabajoGestor, component: BandejatrabajogestorComponent },
   { path: Variables.path.bandejaTrabajoGestorLegal, component: BandejatrabajogestorlegalComponent },
   { path: Variables.path.bandejaSeguimientoSolicitudes, component: LogseguimientoComponent },
+  { path: Variables.path.bandejaTrabajoDesembolso, component: BandejatrabajodesembolsoComponent}, 
   { path: Variables.path.dashboardSolicitudesCreditoHipotecario, component: DashboardCreditoComponent },
   { path: Variables.path.dashboardHipotecario, component: DashboardHipotecarioComponent },
 ];
