@@ -48,6 +48,7 @@ export class Variables {
     PrecioVenta7: 218101,
     PrecioVenta8: 323100,
     PrecioVenta9: 323101,
+    PrecioVenta10: 436100,
     PrecioVenta1ViviendaSostenible: 61200,
     PrecioVenta2ViviendaSostenible: 323100,
     BonoBuenPagador1: 24600,

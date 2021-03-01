@@ -19,6 +19,7 @@ export class EFiltroBandejaSolicitud {
   FechaEstadoDesde: Date;
   FechaEstadoHasta: Date;
   AnalistaRiesgos: number;
+  MisAsignadosAnalistaRiesgo: boolean;
 
   constructor() {
     this.Id = "";
@@ -39,5 +40,6 @@ export class EFiltroBandejaSolicitud {
     this.FechaEstadoDesde = null;
     this.FechaEstadoHasta = null;
     this.AnalistaRiesgos = 0;
+    this.MisAsignadosAnalistaRiesgo = true;
   }
 }

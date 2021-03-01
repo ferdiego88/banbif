@@ -46,6 +46,7 @@ export class BandejatrabajoriesgosComponent extends FormularioBase implements On
   };
 
   isOpenMenu: boolean = false;
+  mostrarFiltroMisPendientes: boolean = false;
   promise: Promise<void>;
 
   solicitudes: EBandejaSolicitud[] = [];
@@ -114,18 +115,26 @@ export class BandejatrabajoriesgosComponent extends FormularioBase implements On
       this.currentUserName = this.datosMaestrosBandeja.currentUser.Title;
       this.userSolicitante = false;
 
-      debugger;
       this.datosMaestrosBandeja.maestroEstado = this.datosMaestrosBandeja.maestroEstado.filter((elementoEstado: Lookup) => {
         if (this.datosMaestrosBandeja.PertenceGrupo_U_Evaluacion && elementoEstado.Id === 4) {
           return true;
-        }     
-        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Reasignador_Riesgos && elementoEstado.Id === 4) {
-          return true;
-        }   
+        }
         else if (this.datosMaestrosBandeja.PertenceGrupo_U_Verificacion_Riesgos && elementoEstado.Id === 32) {
           return true;
-        }      
+        }
+        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Reasignador_Riesgos && elementoEstado.Id === 4) {
+          return true;
+        }
+        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Reasignador_Riesgos && elementoEstado.Id === 32) {
+          return true;
+        }
       });
+
+      if (this.datosMaestrosBandeja.PertenceGrupo_U_Reasignador_Riesgos) {
+        this.mostrarFiltroMisPendientes = true;
+      } else {
+        this.mostrarFiltroMisPendientes = false;
+      }
 
       if (this.datosMaestrosBandeja.maestroEstado.length === 0) {
         const url = environment.getRutaBaseApp();
@@ -347,7 +356,23 @@ export class BandejatrabajoriesgosComponent extends FormularioBase implements On
 
       this.solicitudes_paged_history = [];
 
-      this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante, true).then();
+      let misSolicitudes = false;
+
+      if (this.datosMaestrosBandeja.PertenceGrupo_U_Reasignador_Riesgos) {
+        misSolicitudes = false;
+      }
+      else if (this.datosMaestrosBandeja.PertenceGrupo_U_Evaluacion) {
+        misSolicitudes = true;
+      }
+      else if (this.datosMaestrosBandeja.PertenceGrupo_U_Verificacion_Riesgos) {
+        misSolicitudes = true;
+      }
+
+      if (filter.MisAsignadosAnalistaRiesgo) {
+        misSolicitudes = true;
+      }
+
+      this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante, misSolicitudes).then();
 
     } else {
       if (this.solicitudes_paged_history[this.paginator.pageIndex]) {
@@ -412,7 +437,23 @@ export class BandejatrabajoriesgosComponent extends FormularioBase implements On
       order = null;
     }
 
-    this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, 4999, this.datosMaestrosBandeja.currentUser, this.userSolicitante, true).then(
+    let misSolicitudes = false;
+
+    if (this.datosMaestrosBandeja.PertenceGrupo_U_Reasignador_Riesgos) {
+      misSolicitudes = false;
+    }
+    else if (this.datosMaestrosBandeja.PertenceGrupo_U_Evaluacion) {
+      misSolicitudes = true;
+    }
+    else if (this.datosMaestrosBandeja.PertenceGrupo_U_Verificacion_Riesgos) {
+      misSolicitudes = true;
+    }
+
+    if (filter.MisAsignadosAnalistaRiesgo) {
+      misSolicitudes = true;
+    }
+
+    this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, 4999, this.datosMaestrosBandeja.currentUser, this.userSolicitante, misSolicitudes).then(
       (data: PagedItemCollection<any[]>) => {
         const items: EBandejaSolicitud[] = data.results.map(elemento => {
           return EBandejaSolicitud.parseJson(elemento);
