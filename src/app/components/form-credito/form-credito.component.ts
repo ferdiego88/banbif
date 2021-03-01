@@ -825,7 +825,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       selectedValue = this.parsearFloat(selectedValue);
 
-      if (selectedValue >= Variables.constantes.PrecioVenta1 && selectedValue <= Variables.constantes.PrecioVenta2ViviendaSostenible) {
+      if (selectedValue >= Variables.constantes.PrecioVenta1 && selectedValue <= Variables.constantes.PrecioVenta10) {
         this.showmessageVivienda = false;
       } else {
         if (this.esMiVivienda) {
