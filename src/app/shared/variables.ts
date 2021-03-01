@@ -108,10 +108,11 @@ export class Variables {
     EstadoValidacionDesembolso: 55,
     EstadoObservadoDesembolso: 56,
     EstadoEjecucionDesembolso: 57,
+    EstadoTerminado: 58,
 
     EstadoGestionLegal: 1,
     EstadoObservadoLegal: 2,
-    ValidadoLegal: 3,
+    EsadoValidadoLegal: 3,
 
     EstadoMiVivienda: 1,
     EstadoEsperaFondos: 2,
@@ -143,6 +144,7 @@ export class Variables {
     bandejaTrabajoMiVivienda:  'bandejas/bandejatrabajomivivienda',
     bandejaTrabajoGestor: 'bandejas/bandejatrabajogestor',
     bandejaTrabajoGestorLegal:  'bandejas/bandejatrabajogestorobservadolegal',
+    bandejaTrabajoDesembolso:  'bandejas/bandejatrabajodesembolso',
     bandejaSeguimientoSolicitudes: 'bandejas/seguimientosolicitudes',
     dashboardSolicitudesCreditoHipotecario: 'dashboard/solicitudesCredito',
     dashboardHipotecario: 'dashboard/Hipotecario'
