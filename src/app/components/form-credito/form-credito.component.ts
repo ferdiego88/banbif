@@ -2426,7 +2426,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       Tipo_RentaConyugueId: { results: rentaConyugue },
       Anlista_RiesgosId: analistaRiesgo,
 
-      N_Documento: `${this.creditForm.controls.N_Documento.value}`,
+      N_Documento: this.creditForm.controls.N_Documento.value,
       Tipo_RentaId: { results: rentaTitular },
       PBP: PBP,
       Grabamen: grabamen,
