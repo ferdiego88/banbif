@@ -115,6 +115,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   mostrarBotones_ObservadoDesembolso: boolean = false;
   mostrarBotones_EjecucionDesembolso: boolean = false;
 
+  mostrarBotonGuardarAnalista: boolean = false;
   mostrarCamposObligatorios: boolean = false;
 
   mostrarCampo_ComentarioGarantia: boolean = false;
@@ -123,6 +124,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   mostrarCampo_ComentarioLegal: boolean = false;
   mostrarCampo_ComentarioMiVivienda: boolean = false;
   mostrarCampo_ComentarioDesembolso: boolean = false;
+
+
 
   mostrarEjecutivo = false;
   mostrarEstado = false;
@@ -1248,7 +1251,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.setDisableComentarioOficina();
       this.mostrarNumeroPropuesta = true;
 
-      if (!this.PertenceGrupo_U_Evaluacion) {
+      if (!this.PertenceGrupo_U_Evaluacion && !this.PertenceGrupo_U_Reasignador_Riesgos) {
         this.setDisableControlsCuotaInicial();
         this.setDisableControlsDatosOperacion();
         this.setDisableComentarios();
@@ -1260,6 +1263,10 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.showBtnRechazar = false;
         this.showComentarioRevisor = false;
         this.showAnalistaRiesgos = false;
+      }
+
+      if (this.PertenceGrupo_U_Reasignador_Riesgos) {
+        this.mostrarBotonGuardarAnalista = true;
       }
     }
     else if (estado === Variables.constantes.EstadoVerificacionRiesgos) {
@@ -1821,7 +1828,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
-    
+
       this.mostrarCampo_ComentarioMiVivienda = true;
       this.creditForm.controls.ComentarioMiVivienda.disable();
 
@@ -1835,7 +1842,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       } else {
         this.esMiVivienda = false;
       }
-     
+
       if (!this.PertenceGrupo_U_Desembolso) {
         this.creditForm.controls.ComentarioDesembolso.disable();
         this.mostrarBotones_ValidacionDesembolso = false;
@@ -1883,7 +1890,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
-    
+
       this.mostrarCampo_ComentarioMiVivienda = true;
       this.creditForm.controls.ComentarioMiVivienda.disable();
 
@@ -1891,7 +1898,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.ComentarioDesembolso.disable();
 
       this.mostrarBotones_ObservadoDesembolso = true;
-     
+
       if (!this.PertenceGrupo_U_Gestor) {
         this.creditForm.controls.ComentarioGestor.disable();
         this.mostrarBotones_ObservadoDesembolso = false;
@@ -1941,13 +1948,13 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
-    
+
       this.mostrarCampo_ComentarioMiVivienda = true;
       this.creditForm.controls.ComentarioMiVivienda.disable();
 
       this.mostrarCampo_ComentarioDesembolso = true;
       this.mostrarBotones_EjecucionDesembolso = true;
-     
+
       if (!this.PertenceGrupo_U_Desembolso) {
         this.creditForm.controls.ComentarioDesembolso.disable();
         this.mostrarBotones_EjecucionDesembolso = false;
@@ -1988,7 +1995,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       if (!Funciones.esNullOrUndefined(this.creditForm.controls.ComentarioOficinaFile2.value)) {
         this.mostrarCampo_ComentarioOficinaFile2 = true;
       }
-      
+
       this.creditForm.controls.ComentarioGestor.disable();
 
       this.mostrarCampo_ComentarioValidadorGarantia = true;
@@ -1996,7 +2003,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
-    
+
       this.mostrarCampo_ComentarioMiVivienda = true;
       this.creditForm.controls.ComentarioMiVivienda.disable();
 
@@ -3791,7 +3798,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   }
 
   eventoBotonEnviar_ValidacionDesembolso(): void {
-   
+
     if (this.esMiVivienda) {
 
       const estadoMiVivienda = this.creditForm.get('EstadoMiViviendaId').value;
@@ -3908,7 +3915,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         Swal.fire('No se pudo enviar la solicitud a Estado Validación Desembolso', '', 'info');
       }
     });
-  } 
+  }
 
   eventoBotonObservar_EjecucionDesembolso(): void {
 
@@ -3950,6 +3957,33 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.update(itemSave, 'La solicitud se ha enviado a Estado Terminado.', 'No se pudo enviar la solicitud a Estado Terminado');
       } else if (result.isDismissed) {
         Swal.fire('No se pudo enviar la solicitud a Estado Terminado', '', 'info');
+      }
+    });
+  }
+
+  eventoBotonGuardar_AnalistaRiesgo(): void {
+
+    const analistaRiesgo = this.getValorControlPeoplePicker('Analista_Riesgos', this.creditForm);
+
+    if (analistaRiesgo === 0) {
+      this.mostrarModalInformativo("Mensaje de Validación", 'Ingrese en Analista de Riesgo.');
+      return;
+    }
+
+    const itemSave = {
+      Anlista_RiesgosId: analistaRiesgo
+    };
+
+    Swal.fire({
+      title: '¿Está seguro de actualizar el analista de riesgo?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`, icon: 'question'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.showLoading();
+        this.update(itemSave, 'Se ha actualizado el analista de riesgo.', 'No se pudo actualizar el analista de riesgo');
+      } else if (result.isDismissed) {
+        Swal.fire('No se pudo actualizar el analista de riesgo', '', 'info');
       }
     });
   }

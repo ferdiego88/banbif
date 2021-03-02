@@ -1091,12 +1091,18 @@
                     'd-none':!showAnalistaRiesgos,
                     'row': showAnalistaRiesgos
                 }">
-                    <div class="col">
+                    <div [ngClass]="{
+                        'col': !mostrarBotonGuardarAnalista,
+                        'col-md-9': mostrarBotonGuardarAnalista
+                    }">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Analista de Riesgo </mat-label>
                             <people-picker-input formControlName="Analista_Riesgos" (onRemove)="removeAnalista()" placeholder="Escribe un nombre..." [multiple]="false">
                             </people-picker-input>
                         </mat-form-field>
+                    </div>
+                    <div class="col-md-3" *ngIf="mostrarBotonGuardarAnalista">
+                        <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonGuardar_AnalistaRiesgo()">Guardar</button>
                     </div>
                 </div>
                 <div class="row">
