@@ -372,7 +372,7 @@ export class BandejatrabajoriesgosComponent extends FormularioBase implements On
         misSolicitudes = true;
       }
 
-      this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante, misSolicitudes).then();
+      this.solicitudes_paged = await this.solicitudesService.getBandejaMisSolicitudesRiesgo(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante, misSolicitudes).then();
 
     } else {
       if (this.solicitudes_paged_history[this.paginator.pageIndex]) {
@@ -453,7 +453,7 @@ export class BandejatrabajoriesgosComponent extends FormularioBase implements On
       misSolicitudes = true;
     }
 
-    this.solicitudesService.getBandejaMisSolicitudesPendientes(filter, order, direction, 4999, this.datosMaestrosBandeja.currentUser, this.userSolicitante, misSolicitudes).then(
+    this.solicitudesService.getBandejaMisSolicitudesRiesgo(filter, order, direction, 4999, this.datosMaestrosBandeja.currentUser, this.userSolicitante, misSolicitudes).then(
       (data: PagedItemCollection<any[]>) => {
         const items: EBandejaSolicitud[] = data.results.map(elemento => {
           return EBandejaSolicitud.parseJson(elemento);

@@ -3071,7 +3071,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
     const itemSave = {
       EstadoId: 3,
-      ComentarioGestor: this.creditForm.controls.Comentario_Registro.value,
+      Comentario_Registro: this.creditForm.controls.Comentario_Registro.value,
       Observacion_CPMId: this.creditForm.controls.Observacion_CPMId.value,
       Fecha_Estado: new Date()
     };
