@@ -1469,7 +1469,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.NumeroPropuesta.disable();
       this.creditForm.controls.Analista_Riesgos.disable();
 
-      //this.mostrarBotonEnviarIngresoFiles2 = true;
+      this.mostrarBotonEnviarIngresoFiles2 = true;
       this.mostrarBotones_IngresoFiles = true;
 
       if (!this.PertenceGrupo_U_Gestor) {
