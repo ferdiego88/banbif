@@ -332,6 +332,11 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
       } else {
         if (this.paginator.pageIndex > this.page_last) {
           if (this.seguimiento_paged.hasNext) {
+
+            if (this.seguimiento_paged["nextUrl"] !== undefined) {
+              this.seguimiento_paged["nextUrl"] = this.seguimiento_paged["nextUrl"].replace("https", "http");
+            }
+
             this.seguimiento_paged = await this.seguimiento_paged.getNext();
           }
         }

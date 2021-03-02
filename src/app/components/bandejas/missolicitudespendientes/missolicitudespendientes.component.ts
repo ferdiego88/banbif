@@ -351,6 +351,11 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
       } else {
         if (this.paginator.pageIndex > this.page_last) {
           if (this.solicitudes_paged.hasNext) {
+
+            if (this.solicitudes_paged["nextUrl"] !== undefined) {
+              this.solicitudes_paged["nextUrl"] = this.solicitudes_paged["nextUrl"].replace("https", "http");
+            }
+
             this.solicitudes_paged = await this.solicitudes_paged.getNext();
           }
         }

@@ -114,8 +114,7 @@ export class BandejatrabajolegalComponent extends FormularioBase implements OnIn
 
       this.currentUserName = this.datosMaestrosBandeja.currentUser.Title;
       this.userSolicitante = false;     
-
-      debugger;
+      
       if (!this.datosMaestrosBandeja.PertenceGrupo_U_Legal) {
         const url = environment.getRutaBaseApp();
         this.mostrarModalInformativoConAccion("Mensaje del Sistema", "Usted no tiene permiso a esta bandeja.", window.open(url, '_self'));
@@ -345,6 +344,11 @@ export class BandejatrabajolegalComponent extends FormularioBase implements OnIn
       } else {
         if (this.paginator.pageIndex > this.page_last) {
           if (this.solicitudes_paged.hasNext) {
+
+            if (this.solicitudes_paged["nextUrl"] !== undefined) {
+              this.solicitudes_paged["nextUrl"] = this.solicitudes_paged["nextUrl"].replace("https", "http");
+            }
+
             this.solicitudes_paged = await this.solicitudes_paged.getNext();
           }
         }
