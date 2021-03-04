@@ -125,7 +125,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   mostrarCampo_ComentarioMiVivienda: boolean = false;
   mostrarCampo_ComentarioDesembolso: boolean = false;
 
-
+  EsGestor: boolean = false;
 
   mostrarEjecutivo = false;
   mostrarEstado = false;
@@ -591,6 +591,10 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
                   Title: this.ItemSolicitud.UsuarioIngresoFile.Title
                 };
                 this.creditForm.controls.UsuarioIngresoFile.setValue([usuarioIngresoFile]);
+
+                this.EsGestor = this.ItemSolicitud.UsuarioIngresoFile.Id.toString() === this.IdUsuarioActual.toString();
+              } else {
+                this.EsGestor = false;
               }
 
               for (const key in Variables.columnasNumericas) {
@@ -893,7 +897,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     const estadoLegal = this.creditForm.get('EstadoLegalId').value;
     const estadoMiVivienda = this.creditForm.get('EstadoMiViviendaId').value;
 
-    debugger;
     if (estadoLegal === Variables.constantes.EstadoGestionLegal && this.PertenceGrupo_U_Legal) {
 
       this.setDisableControlsCabezera();
@@ -930,7 +933,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarBotones_GestionLegal = true;
       this.mostrarCampo_ComentarioLegal = true;
     }
-    else if (estadoLegal === Variables.constantes.EstadoObservadoLegal && this.PertenceGrupo_U_Gestor) {
+    else if (estadoLegal === Variables.constantes.EstadoObservadoLegal && this.PertenceGrupo_U_Gestor && this.EsGestor) {
 
       this.setDisableControlsCabezera();
       this.setDisableControlsCuotaInicial();
@@ -1051,7 +1054,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioMiVivienda = true;
       this.mostrarBotones_EsperaFondos = true;
     }
-    else if (estadoMiVivienda === Variables.constantes.EstadoObservadoMiVivienda && this.PertenceGrupo_U_Gestor) {
+    else if (estadoMiVivienda === Variables.constantes.EstadoObservadoMiVivienda && this.PertenceGrupo_U_Gestor && this.EsGestor) {
 
       this.setDisableControlsCabezera();
       this.setDisableControlsCuotaInicial();
@@ -1472,7 +1475,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarBotonEnviarIngresoFiles2 = true;
       this.mostrarBotones_IngresoFiles = true;
 
-      if (!this.PertenceGrupo_U_Gestor) {
+      if (!this.PertenceGrupo_U_Gestor || !this.EsGestor) {
         this.setDisableComentarioGestor();
         this.mostrarBotonEnviarIngresoFiles2 = false;
         this.mostrarBotones_IngresoFiles = false;
@@ -1499,7 +1502,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       if (estado === Variables.constantes.EstadoPreTerminado) {
         this.showDesembolsado = true;
         this.mostrarBotonGuardarPreTerminado = true;
-        if (!this.PertenceGrupo_U_Gestor) {
+        if (!this.PertenceGrupo_U_Gestor || !this.EsGestor) {
           this.setDisableDesembolsado();
           this.mostrarBotonGuardarPreTerminado = false;
         }
@@ -1581,7 +1584,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarBotones_ObservadoGarantia = true;
       this.mostrarCampo_ComentarioOficinaFile2 = true;
 
-      if (!this.PertenceGrupo_U_Gestor) {
+      if (!this.PertenceGrupo_U_Gestor || !this.EsGestor) {
         this.creditForm.controls.ComentarioOficinaFile2.disable();
         this.mostrarBotones_ObservadoGarantia = false;
       }
@@ -1675,14 +1678,13 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       const idTipoProducto = this.creditForm.get('Tipo_ProductoId').value;
 
-      debugger;
       if (idTipoProducto === Variables.constantes.TipoProductoMiViviendaId) {
         this.esMiVivienda = true;
       } else {
         this.esMiVivienda = false;
       }
 
-      if (!this.PertenceGrupo_U_Gestor) {
+      if (!this.PertenceGrupo_U_Gestor || !this.EsGestor) {
         this.creditForm.controls.ComentarioGestor.disable();
         this.mostrarBotones_ValidacionGestor = false;
       }
@@ -1899,7 +1901,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarBotones_ObservadoDesembolso = true;
 
-      if (!this.PertenceGrupo_U_Gestor) {
+      if (!this.PertenceGrupo_U_Gestor || !this.EsGestor) {
         this.creditForm.controls.ComentarioGestor.disable();
         this.mostrarBotones_ObservadoDesembolso = false;
       }

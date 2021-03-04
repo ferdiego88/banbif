@@ -272,9 +272,7 @@ export class SolicitudesService {
     orderBy: string,
     ascending: boolean,
     pagesize: number,
-    usuario: User,
-    solicitante: boolean,
-    analistaRiesgo: boolean,
+    usuario: User
   ): Promise<PagedItemCollection<any[]>> {
 
     const selectFields = EBandejaSolicitud.getColumnasSelectBandejaTrabajoGestor();
@@ -284,13 +282,9 @@ export class SolicitudesService {
 
     let filterArr = [];
 
-    if (solicitante) filterArr.push(`(${Variables.columnasSolicitud.Author}/Id  eq ${usuario.Id})`);
-
-    if (analistaRiesgo) filterArr.push(`(${Variables.columnasSolicitud.Anlista_Riesgos}/Id  eq ${usuario.Id})`);
-
+    filterArr.push(`(UsuarioIngresoFile/Id  eq ${usuario.Id})`);
+    
     if (filter) {
-
-      debugger;
 
       if (filter.Estado && filter.Estado.length) {
 
