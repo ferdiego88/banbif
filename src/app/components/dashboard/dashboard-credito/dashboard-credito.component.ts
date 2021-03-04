@@ -1,18 +1,18 @@
 import { ApplicationRef, Component, NgZone, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { FormBuilder} from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpinnerVisibilityService } from 'ng-http-loader';
 import { environment } from 'src/environments/environment';
-import {SolicitudCreditoHipotecario, TipoProductoModel, ZonaModel, EstadoModel, DashboardModel, Canal} from 'src/app/shared/models/fisics';
+import { SolicitudCreditoHipotecario, TipoProductoModel, ZonaModel, EstadoModel, DashboardModel, Canal } from 'src/app/shared/models/fisics';
 import { FormularioBase } from 'src/app/shared/pages/formularioBase';
 import { GeneralListService } from 'src/app/shared/services/general-list.service';
 import { MasterService } from 'src/app/shared/services/master.service';
 import { SolicitudesService } from 'src/app/shared/services/solicitudes.service';
 import { Variables } from 'src/app/shared/variables';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatSort} from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 // import {default as _rollupMoment} from 'moment';
 import * as _moment from 'moment';
 import { UserService } from '../../../shared/services/user.service';
@@ -39,24 +39,6 @@ export const MY_FORMATS = {
   },
 };
 
-// export interface Canal {
-//   name: string;
-//   id: number;
-// }
-// export interface DetalleSolicitud {
-//   Id: number;
-//   Created: Date;
-//   Nombre_Titular: string;
-//   N_Documento: string;
-//   Author: string;
-//   Tipo_ProductoId: string;
-//   Title: string;
-//   ZonaId: string;
-//   Oficina: string;
-//   Mon_Desembolso: string;
-//   Desembolso: string;
-// }
-
 const CANAL_DATA: Canal[] = [
   { id: 1, name: 'FFVV' },
   { id: 2, name: 'Red de Oficinas' },
@@ -67,9 +49,6 @@ const CANAL_DATA: Canal[] = [
   templateUrl: './dashboard-credito.component.html',
   styleUrls: ['./dashboard-credito.component.scss'],
   providers: [
-    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
-    // application's root module. We provide it at the component level here, due to limitations of
-    // our example generation script.
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -81,10 +60,10 @@ const CANAL_DATA: Canal[] = [
 })
 export class DashboardCreditoComponent
   extends FormularioBase
-  implements OnInit  {
+  implements OnInit {
   displayedColumns: string[] = ['Id', 'Created', 'Fecha_Estado', 'Nombre_Titular',
-  'N_Documento', 'Author', 'Estado', 'ZonaId', 'Oficina', 'Tipo_Producto', 'Sub_ProductoId',
-  'Mon_Desembolso', 'Desembolso' ];
+    'N_Documento', 'Author', 'Estado', 'ZonaId', 'Oficina', 'Tipo_Producto', 'Sub_ProductoId',
+    'Mon_Desembolso', 'Desembolso'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -196,7 +175,7 @@ export class DashboardCreditoComponent
       .catch((error) => console.error(error));
   }
 
-  valueOficina(): any{
+  valueOficina(): any {
     this.dashboardForm.get('ZonaId').valueChanges.subscribe(selectedValue => {
       if (selectedValue) {
         this.generalListService.getByField(Variables.listas.AdmOficina, Variables.listas.AdmZonaId, selectedValue)
@@ -206,22 +185,21 @@ export class DashboardCreditoComponent
     });
   }
 
-
-valueSubProducto(): any{
-  this.dashboardForm.get('Tipo_ProductoId').valueChanges.subscribe(selectedValue => {
-    if (selectedValue) {
-      this.generalListService.getByField(Variables.listas.AdmTipoSubProducto, Variables.listas.AdmTipoProductoId, selectedValue)
-        .then((tipoSubProductoList: any) => this.tipoSubProductoList = tipoSubProductoList)
-        .catch(error => console.error(error));
-    }
-  });
-}
+  valueSubProducto(): any {
+    this.dashboardForm.get('Tipo_ProductoId').valueChanges.subscribe(selectedValue => {
+      if (selectedValue) {
+        this.generalListService.getByField(Variables.listas.AdmTipoSubProducto, Variables.listas.AdmTipoProductoId, selectedValue)
+          .then((tipoSubProductoList: any) => this.tipoSubProductoList = tipoSubProductoList)
+          .catch(error => console.error(error));
+      }
+    });
+  }
 
 
   async getEjecutivo() {
     this.usersList = [];
     this.usersList = await this.userService.getUsuariosPorGrupo(Variables.listas.AdmEjecutivos)
-     .then((user) => user);
+      .then((user) => user);
     // console.log(this.usersList);
   }
   getOficina(): any {
@@ -300,30 +278,25 @@ valueSubProducto(): any{
     // console.log(data);
     return data;
   }
+
   filtraSolicitudes(estado: number) {
     let solicitudes;
     if (this.dashboardForm.controls.Fecha_Creacion_Hasta.value) {
+
       const solicitudesporFecha = this.getSolicitudesFechaCreacion();
-      // console.log(solicitudesporFecha);
-      solicitudes = solicitudesporFecha.filter( (item) => item.EstadoId === estado);
-      // solicitudes = solicitudesporFecha.filter()
-    } else if ( this.dashboardForm.controls.Fecha_Estado_Hasta.value)
-    {
+      solicitudes = solicitudesporFecha.filter((item) => item.EstadoId === estado);
+    }
+    else if (this.dashboardForm.controls.Fecha_Estado_Hasta.value) {
+
       const solicitudesporFechaEstado = this.getSolicitudesFechaEstado();
-      // console.log(solicitudesporFechaEstado);
-      solicitudes = solicitudesporFechaEstado.filter( (item) => item.EstadoId === estado);
+      solicitudes = solicitudesporFechaEstado.filter((item) => item.EstadoId === estado);
     }
     else {
-      solicitudes = this.solicitudHipotecarioList.filter( (item) => item.EstadoId === estado);
+
+      solicitudes = this.solicitudHipotecarioList.filter((item) => item.EstadoId === estado);
     }
     return solicitudes;
   }
-
-  // listenerCombosUnselected(control1: string, control2: string, control3: string ) {
-  //   this.dashboardForm.get(`${control1}`).setValue(null);
-  //   this.dashboardForm.get(`${control2}`).setValue(null);
-  //   this.dashboardForm.get(`${control3}`).setValue(null);
-  // }
 
   listenerZona() {
     this.dashboardForm.controls.ZonaId.valueChanges.subscribe((zona) => {
@@ -363,69 +336,69 @@ valueSubProducto(): any{
   }
   getSolicitudesFechaCreacion() {
     // this.dashboardForm.controls.Fecha_Creacion_Hasta.valueChanges.subscribe((fecHasta) => {
-      const fecha1 = moment(this.dashboardForm.controls.Fecha_Creacion_Desde.value).format('DD/MM/YYYY');
-      const fechaDesde = moment(fecha1, 'DD-MM-YYYY').toDate();
-      const fecha2 = moment(this.dashboardForm.controls.Fecha_Creacion_Hasta.value).format('DD/MM/YYYY');
-      const fechaHasta = moment(fecha2, 'DD-MM-YYYY').toDate();
-      const solicitudes = this.solicitudHipotecarioList;
-      let solicitudPorFecha;
-      this.solicitudesPorFechaCreacionList = [];
-      solicitudes.forEach(solicitud => {
-        const fecha = moment(solicitud.Created).format('DD/MM/YYYY');
-        const fechaEstado = moment(fecha, 'DD-MM-YYYY').toDate();
-        if (fechaEstado >= fechaDesde && fechaEstado <= fechaHasta) {
-           solicitudPorFecha = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
-           this.solicitudesPorFechaCreacionList.push(solicitudPorFecha);
-          //  setTimeout(() => {
-          //   // const elmnt = document.getElementById('elemento');
-          //   // elmnt.scrollIntoView();
-          //   const elemento: HTMLElement = document.getElementById('element');
-          //   this.scroll(elemento);
-          //    }, 1000);
-            }
-          });
-      this.showSolicitudes = false;
-      return this.solicitudesPorFechaCreacionList;
+    const fecha1 = moment(this.dashboardForm.controls.Fecha_Creacion_Desde.value).format('DD/MM/YYYY');
+    const fechaDesde = moment(fecha1, 'DD-MM-YYYY').toDate();
+    const fecha2 = moment(this.dashboardForm.controls.Fecha_Creacion_Hasta.value).format('DD/MM/YYYY');
+    const fechaHasta = moment(fecha2, 'DD-MM-YYYY').toDate();
+    const solicitudes = this.solicitudHipotecarioList;
+    let solicitudPorFecha;
+    this.solicitudesPorFechaCreacionList = [];
+    solicitudes.forEach(solicitud => {
+      const fecha = moment(solicitud.Created).format('DD/MM/YYYY');
+      const fechaEstado = moment(fecha, 'DD-MM-YYYY').toDate();
+      if (fechaEstado >= fechaDesde && fechaEstado <= fechaHasta) {
+        solicitudPorFecha = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
+        this.solicitudesPorFechaCreacionList.push(solicitudPorFecha);
+        //  setTimeout(() => {
+        //   // const elmnt = document.getElementById('elemento');
+        //   // elmnt.scrollIntoView();
+        //   const elemento: HTMLElement = document.getElementById('element');
+        //   this.scroll(elemento);
+        //    }, 1000);
+      }
+    });
+    this.showSolicitudes = false;
+    return this.solicitudesPorFechaCreacionList;
   }
   getSolicitudesFechaEstado() {
-      const fecha1 = moment(this.dashboardForm.controls.Fecha_Estado_Desde.value).format('DD/MM/YYYY');
-      const fechaDesde = moment(fecha1, 'DD-MM-YYYY').toDate();
-      const fecha2 = moment(this.dashboardForm.controls.Fecha_Estado_Hasta.value).format('DD/MM/YYYY');
-      const fechaHasta = moment(fecha2, 'DD-MM-YYYY').toDate();
-      const solicitudes = this.solicitudHipotecarioList;
-      let solicitudPorFecha;
-      this.solicitudesPorFechaEstadoList = [];
-      solicitudes.forEach(solicitud => {
-        const fecha = moment(solicitud.Fecha_Estado).format('DD/MM/YYYY');
-        const fechaEstado = moment(fecha, 'DD-MM-YYYY').toDate();
-        if (fechaEstado >= fechaDesde && fechaEstado <= fechaHasta) {
-           solicitudPorFecha = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
-           this.solicitudesPorFechaEstadoList.push(solicitudPorFecha);
-            }
-          });
-      this.showSolicitudes = false;
-      return this.solicitudesPorFechaEstadoList;
+    const fecha1 = moment(this.dashboardForm.controls.Fecha_Estado_Desde.value).format('DD/MM/YYYY');
+    const fechaDesde = moment(fecha1, 'DD-MM-YYYY').toDate();
+    const fecha2 = moment(this.dashboardForm.controls.Fecha_Estado_Hasta.value).format('DD/MM/YYYY');
+    const fechaHasta = moment(fecha2, 'DD-MM-YYYY').toDate();
+    const solicitudes = this.solicitudHipotecarioList;
+    let solicitudPorFecha;
+    this.solicitudesPorFechaEstadoList = [];
+    solicitudes.forEach(solicitud => {
+      const fecha = moment(solicitud.Fecha_Estado).format('DD/MM/YYYY');
+      const fechaEstado = moment(fecha, 'DD-MM-YYYY').toDate();
+      if (fechaEstado >= fechaDesde && fechaEstado <= fechaHasta) {
+        solicitudPorFecha = this.solicitudHipotecarioList.find(item => item.Id === solicitud.Id);
+        this.solicitudesPorFechaEstadoList.push(solicitudPorFecha);
+      }
+    });
+    this.showSolicitudes = false;
+    return this.solicitudesPorFechaEstadoList;
   }
 
-  listarPorFechaCreacion(){
-  const desde = this.dashboardForm.controls.Fecha_Creacion_Desde.value;
-  const fechaDesde = moment(desde, 'DD-MM-YYYY').toDate();
-  const hasta = this.dashboardForm.controls.Fecha_Creacion_Hasta.value;
-  const fechaHasta = moment(hasta, 'DD-MM-YYYY').toDate();
-  if (desde && hasta) {
-    if (fechaHasta > fechaDesde) {
-      this.listarSolicitudesEstado();
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Ocurrió un error...',
-        text: 'Fecha Desde tiene que ser menor que fecha Hasta',
-      });
-    }
+  listarPorFechaCreacion() {
+    const desde = this.dashboardForm.controls.Fecha_Creacion_Desde.value;
+    const fechaDesde = moment(desde, 'DD-MM-YYYY').toDate();
+    const hasta = this.dashboardForm.controls.Fecha_Creacion_Hasta.value;
+    const fechaHasta = moment(hasta, 'DD-MM-YYYY').toDate();
+    if (desde && hasta) {
+      if (fechaHasta > fechaDesde) {
+        this.listarSolicitudesEstado();
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Ocurrió un error...',
+          text: 'Fecha Desde tiene que ser menor que fecha Hasta',
+        });
+      }
     }
   }
 
-  listarPorFechaEstado(){
+  listarPorFechaEstado() {
     const desde = this.dashboardForm.controls.Fecha_Estado_Desde.value;
     const fechaDesde = moment(desde, 'DD-MM-YYYY').toDate();
     const hasta = this.dashboardForm.controls.Fecha_Estado_Hasta.value;
@@ -440,25 +413,25 @@ valueSubProducto(): any{
           text: 'Fecha Desde tiene que ser menor que fecha Hasta',
         });
       }
-      }
+    }
   }
 
-  listenerFechaCreacionDesde(){
+  listenerFechaCreacionDesde() {
     this.dashboardForm.controls.Fecha_Creacion_Desde.valueChanges.subscribe((fecHasta) => {
-       if (fecHasta) {
-         this.dashboardForm.controls.Fecha_Estado_Desde.setValue('');
-         this.dashboardForm.controls.Fecha_Estado_Hasta.setValue('');
-       }
-      });
+      if (fecHasta) {
+        this.dashboardForm.controls.Fecha_Estado_Desde.setValue('');
+        this.dashboardForm.controls.Fecha_Estado_Hasta.setValue('');
+      }
+    });
   }
 
-  listenerFechaEstadoDesde(){
+  listenerFechaEstadoDesde() {
     this.dashboardForm.controls.Fecha_Estado_Desde.valueChanges.subscribe((fecHasta) => {
-       if (fecHasta) {
-         this.dashboardForm.controls.Fecha_Creacion_Desde.setValue('');
-         this.dashboardForm.controls.Fecha_Creacion_Hasta.setValue('');
-       }
-      });
+      if (fecHasta) {
+        this.dashboardForm.controls.Fecha_Creacion_Desde.setValue('');
+        this.dashboardForm.controls.Fecha_Creacion_Hasta.setValue('');
+      }
+    });
   }
 
   listenerOficina() {
@@ -471,16 +444,16 @@ valueSubProducto(): any{
       if (zona !== null && producto !== null && subproducto !== null) {
         this.showSolicitudes = false;
         this.listarSolicitudesEstado(zona, value, producto, subproducto, 0, 0);
-      }else if (zona !== null) {
+      } else if (zona !== null) {
         this.showSolicitudes = false;
         this.listarSolicitudesEstado(zona, value, 0, 0, 0, 0);
-      }else if (producto !== null) {
+      } else if (producto !== null) {
         this.showSolicitudes = false;
         this.listarSolicitudesEstado(0, value, producto, 0, 0, 0);
-      }else if (subproducto !== null) {
+      } else if (subproducto !== null) {
         this.showSolicitudes = false;
         this.listarSolicitudesEstado(0, value, 0, subproducto, 0, 0);
-      }else {
+      } else {
         if (value) {
           this.showSolicitudes = false;
           this.listarSolicitudesEstado(0, value, 0, 0, 0, 0);
@@ -502,10 +475,10 @@ valueSubProducto(): any{
         if (zona !== null && oficina !== null) {
           this.showSolicitudes = false;
           this.listarSolicitudesEstado(zona, oficina, value, 0, 0, 0);
-        }else if (zona !== null) {
+        } else if (zona !== null) {
           this.showSolicitudes = false;
           this.listarSolicitudesEstado(zona, 0, value, 0, 0, 0);
-        }else if (oficina !== null) {
+        } else if (oficina !== null) {
           this.showSolicitudes = false;
           this.listarSolicitudesEstado(0, oficina, value, 0, 0, 0);
         } else {
@@ -530,16 +503,16 @@ valueSubProducto(): any{
         if (zona !== null && oficina !== null && producto !== null) {
           this.showSolicitudes = false;
           this.listarSolicitudesEstado(zona, oficina, producto, value, 0, 0);
-        }else if (zona !== null) {
+        } else if (zona !== null) {
           this.showSolicitudes = false;
           this.listarSolicitudesEstado(zona, 0, 0, value, 0, 0);
-        }else if (oficina !== null) {
+        } else if (oficina !== null) {
           this.showSolicitudes = false;
           this.listarSolicitudesEstado(0, oficina, 0, value, 0, 0);
-        }else if (producto !== null) {
+        } else if (producto !== null) {
           this.showSolicitudes = false;
           this.listarSolicitudesEstado(0, 0, producto, value, 0, 0);
-        }else{
+        } else {
           if (value) {
             this.showSolicitudes = false;
             this.listarSolicitudesEstado(0, 0, 0, value, 0, 0);
@@ -553,7 +526,7 @@ valueSubProducto(): any{
     );
   }
 
-  async listarSolicitudesEstado(idZona = 0, idOficina = 0, idTipoProducto = 0, idTipoSubProducto = 0, idEstado = 0 , idAuthor = 0) {
+  async listarSolicitudesEstado(idZona = 0, idOficina = 0, idTipoProducto = 0, idTipoSubProducto = 0, idEstado = 0, idAuthor = 0) {
     this.showLoading();
     const estados = await this.getEstado();
     this.solicitudHipotecarioList = await this.getSolicitudes(idZona, idOficina, idTipoProducto, idTipoSubProducto, idEstado, idAuthor);
@@ -567,7 +540,6 @@ valueSubProducto(): any{
     this.solicitudANSList = [];
     this.solicitudANSAcumuladoList = [];
     await estados.forEach(async (estado) => {
-      // const solicitudes = await this.getSolicitudes(idOficina, idTipoProducto, estado.Id);
       const solicitudes = this.filtraSolicitudes(estado.Id);
       if (solicitudes.length !== 0) {
         let suma = 0,
@@ -580,46 +552,46 @@ valueSubProducto(): any{
         let fueraANSAcumulado = 0;
         let contador = 0;
         solicitudes.forEach((solicitud) => {
-        let ansRenta = 0;
-        let ansRentaMixta = 0;
-        let esRentaMixta = false;
+          let ansRenta = 0;
+          let ansRentaMixta = 0;
+          let esRentaMixta = false;
 
-        if (solicitud.EstadoId === Variables.constantes.EstadoEvaluacionRiesgos) {
+          if (solicitud.EstadoId === Variables.constantes.EstadoEvaluacionRiesgos) {
             // console.log(solicitud.Tipo_RentaId.length);
             if (solicitud.Tipo_RentaId.length > 2) {
-             esRentaMixta = true;
+              esRentaMixta = true;
             } else {
               esRentaMixta = false;
             }
-            if (esRentaMixta){
-              if (solicitud.Tipo_RentaId.find(val => val === 3)){
+            if (esRentaMixta) {
+              if (solicitud.Tipo_RentaId.find(val => val === 3)) {
                 // console.log(solicitud.Id);
                 ansRentaMixta = estado.ANS_Mixta_3;
-              }else{
+              } else {
                 ansRentaMixta = estado.ANS_Mixta;
               }
             }
             // console.log(solicitud.Tipo_RentaId.find(val => val));
             solicitud.Tipo_RentaId.forEach((tipoRenta) => {
-                switch (tipoRenta) {
-                  case Variables.constantes.TipoRenta1eraCategoria:
-                    ansRenta += estado.ANS_Renta_1;
-                    break;
-                  case Variables.constantes.TipoRenta2daCategoria:
-                    ansRenta += estado.ANS_Renta_2;
-                    break;
-                  case Variables.constantes.TipoRenta3eraCategoria:
-                    ansRenta += estado.ANS_Renta_3;
-                    break;
-                  case Variables.constantes.TipoRenta4taCategoria:
-                    ansRenta += estado.ANS_Renta_4;
-                    break;
-                  case Variables.constantes.TipoRenta5taCategoria:
-                    ansRenta += estado.ANS_Renta_5;
-                    break;
-                  default:
-                    break;
-                }
+              switch (tipoRenta) {
+                case Variables.constantes.TipoRenta1eraCategoria:
+                  ansRenta += estado.ANS_Renta_1;
+                  break;
+                case Variables.constantes.TipoRenta2daCategoria:
+                  ansRenta += estado.ANS_Renta_2;
+                  break;
+                case Variables.constantes.TipoRenta3eraCategoria:
+                  ansRenta += estado.ANS_Renta_3;
+                  break;
+                case Variables.constantes.TipoRenta4taCategoria:
+                  ansRenta += estado.ANS_Renta_4;
+                  break;
+                case Variables.constantes.TipoRenta5taCategoria:
+                  ansRenta += estado.ANS_Renta_5;
+                  break;
+                default:
+                  break;
+              }
             });
             if (solicitud.Fecha_Estado !== null) {
               // console.log(ansRentaMixta);
@@ -647,7 +619,7 @@ valueSubProducto(): any{
               tiempoPromedioTotal = tiempoT / solicitudes.length;
             }
 
-          }else{
+          } else {
             if (solicitud.Fecha_Estado !== null) {
               const fechaEstado = moment(solicitud.Fecha_Estado);
               const tiempoPromedioEstacion = this.calcBusinessDays(fechaEstado, fechaActual);
@@ -671,8 +643,8 @@ valueSubProducto(): any{
               tiempoPromedioTotal = tiempoT / solicitudes.length;
             }
           }
-        contador++;
-        solicitud.Precio_Venta && solicitud.Precio_Venta !== 0 && (suma += solicitud.Precio_Venta);
+          contador++;
+          solicitud.Precio_Venta && solicitud.Precio_Venta !== 0 && (suma += solicitud.Precio_Venta);
         });
 
         const dashBoardElement = {
@@ -708,7 +680,7 @@ valueSubProducto(): any{
       .get(Variables.listas.AdmEstado, 'Orden')
       .then((estadoList) => estadoList)
       .catch((error) => console.error(error));
-    const estadosActivos = estados.filter((item) => item.Activo === true);
+    const estadosActivos = estados.filter((item) => item.DashBoard === true);
     return estadosActivos;
   }
 
@@ -762,8 +734,8 @@ valueSubProducto(): any{
   public irPaginaSolicitud(
     elemento: any
   ) {
-      const url = environment.getRutaBaseApp() + '/hipotecario/solicitud/' + elemento.Id;
-      window.open(url, '_blank');
+    const url = environment.getRutaBaseApp() + '/hipotecario/solicitud/' + elemento.Id;
+    window.open(url, '_blank');
   }
 
   calcBusinessDays(startDate, endDate) {
@@ -786,7 +758,7 @@ valueSubProducto(): any{
     const current = new Date(start);
     current.setDate(current.getDate() + 1);
     if (!(hour >= 9 && hour <= 17)) {
-       current.setDate(current.getDate() + 1);
+      current.setDate(current.getDate() + 1);
     }
     let day;
     // loop through each day, checking
@@ -799,7 +771,7 @@ valueSubProducto(): any{
     }
     return totalBusinessDays;
   }
-  scroll(el: HTMLElement){
+  scroll(el: HTMLElement) {
     el.scrollIntoView();
   }
 }

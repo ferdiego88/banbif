@@ -1174,7 +1174,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
         .get(Variables.listas.AdmEstado, 'Orden')
         .then((estadoList) => estadoList)
         .catch((error) => console.error(error));
-      const estadosActivos = estados.filter((item) => item.Activo === true);
+      const estadosActivos = estados.filter((item) => item.DashBoard === true);
       return estadosActivos;
     }
 

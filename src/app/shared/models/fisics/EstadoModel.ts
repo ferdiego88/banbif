@@ -3,6 +3,7 @@ export class EstadoModel{
         public Id = 0,
         public Title = '',
         public Activo = false,
+        public DashBoard = false,
         public Cantidad = 0,
         public Monto = 0,
         // tslint:disable-next-line: variable-name
