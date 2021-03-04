@@ -239,7 +239,7 @@
                     </div>
 
                     <div class="col">
-                        <p>Cónyugue</p>
+                        <p>Cónyugue / Conviviente / Codeudor</p>
                         <mat-checkbox formControlName="C1">1ERA</mat-checkbox><br>
                         <mat-checkbox formControlName="C2">2DA</mat-checkbox><br>
                         <mat-checkbox formControlName="C3">3ERA</mat-checkbox><br>
@@ -1500,13 +1500,14 @@
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_EsperaFondos()">Enviar</button>
             </div>
 
-            <!--<div class="col" *ngIf="mostrarBotones_ValidacionDesembolso">
+            <div class="col" *ngIf="mostrarBotones_ValidacionDesembolso">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservar_ValidacionDesembolso()">Observar</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_ValidacionDesembolso">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ValidacionDesembolso()">Enviar</button>
             </div>
             
+            <!--
             <div class="col" *ngIf="mostrarBotones_ObservadoDesembolso">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonDesestimar_ObservadoDesembolso()">Desestimar</button>
             </div>
