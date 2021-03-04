@@ -345,7 +345,7 @@ export class BandejatrabajodesembolsoComponent extends FormularioBase implements
 
       this.solicitudes_paged_history = [];
 
-      this.solicitudes_paged = await this.solicitudesService.getBandejaTrabajoGestor(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then();
+      this.solicitudes_paged = await this.solicitudesService.getBandejaTrabajoDesembolso(filter, order, direction, this.paginator.pageSize, this.datosMaestrosBandeja.currentUser).then();
 
     } else {
       if (this.solicitudes_paged_history[this.paginator.pageIndex]) {
@@ -415,7 +415,7 @@ export class BandejatrabajodesembolsoComponent extends FormularioBase implements
       order = null;
     }
 
-    this.solicitudesService.getBandejaTrabajoGestor(filter, order, direction, 100000, this.datosMaestrosBandeja.currentUser, this.userSolicitante, false).then(
+    this.solicitudesService.getBandejaTrabajoDesembolso(filter, order, direction, 100000, this.datosMaestrosBandeja.currentUser).then(
       (data: PagedItemCollection<any[]>) => {
         const items: EBandejaSolicitud[] = data.results.map(elemento => {
           return EBandejaSolicitud.parseJson(elemento);
