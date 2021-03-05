@@ -252,7 +252,7 @@ export class SolicitudesService {
 
     if (orderBy != undefined && orderBy.length > 0) {
       query = query.orderBy(orderBy, ascending);
-      query = query.orderBy("Fecha_Estado", ascending);
+      query = query.orderBy("Fecha_Estado", false);
     }
     if (pagesize == undefined) {
       pagesize = 5;
