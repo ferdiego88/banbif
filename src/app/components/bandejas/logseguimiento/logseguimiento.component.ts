@@ -170,8 +170,8 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
   public irPaginaSolicitud(
     elemento: any
   ) {
-      const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.SolicitudHipotecario;
-      window.open(url, '_blank');   
+    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.SolicitudHipotecario;
+    window.open(url, '_blank');
   }
 
   public irPaginaExterna(
@@ -348,8 +348,8 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
 
     if (!this.seguimiento_paged_history[this.paginator.pageIndex]) {
 
-      if(this.seguimiento_paged["nextUrl"] !== undefined){
-        this.seguimiento_paged["nextUrl"] = this.seguimiento_paged["nextUrl"].replace("https","http");
+      if (this.seguimiento_paged["nextUrl"] !== undefined) {
+        this.seguimiento_paged["nextUrl"] = this.seguimiento_paged["nextUrl"].replace("https", "http");
       }
 
       this.seguimiento_paged_history[this.paginator.pageIndex] = this.seguimiento_paged;
@@ -401,7 +401,7 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
           return EBandejaSeguimientoSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Usuario Registro', 'Fecha Registro', 'Estado Inicial', 'Responsable Atención', 'Fecha Atención', 'Estado Final'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Usuario Registro', 'Fecha Registro', 'Estado Inicial', 'Responsable Atención', 'Fecha Atención', 'Estado Final', 'Tiempo de Atención'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
@@ -414,8 +414,11 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
           dataMap.push(item.Responsable);
           if (item.FechaAtencion !== null && item.FechaAtencion !== "") {
             dataMap.push(Funciones.dateHoraFormat(item.FechaAtencion));
+          } else {
+            dataMap.push(null);
           }
           dataMap.push(item.EstadoFinal);
+          dataMap.push(item.TiempoAtencion);
 
           return dataMap;
         });
