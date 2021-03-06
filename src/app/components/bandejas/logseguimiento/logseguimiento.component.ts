@@ -63,7 +63,8 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
     Variables.columnasSeguimiento.Estado,
     Variables.columnasSeguimiento.Responsable,
     Variables.columnasSeguimiento.FechaAtencion,
-    Variables.columnasSeguimiento.EstadoFinal
+    Variables.columnasSeguimiento.EstadoFinal,
+    "TiempoAtencion"
   ];
 
   resultsLength = 0;

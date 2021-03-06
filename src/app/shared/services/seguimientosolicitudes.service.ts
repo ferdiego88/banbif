@@ -64,6 +64,7 @@ export class SeguimientoSolicitudesService {
 
     if (orderBy != undefined && orderBy.length > 0) {
       query = query.orderBy(orderBy, ascending);
+      query = query.orderBy("Created", false);
     }
     if (pagesize == undefined) {
       pagesize = 5;

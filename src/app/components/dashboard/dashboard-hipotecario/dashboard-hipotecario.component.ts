@@ -1006,7 +1006,7 @@ export class DashboardHipotecarioComponent extends FormularioBase implements OnI
 
               const horaFinStr = moment(fechaInicio).format('HH');
               const horaFin = parseInt(horaFinStr, 10);
-
+ 
               tiempoEnDias = this.calcBusinessDays(fechaInicio, fechaFinal);
               if (estado.Valor_ANS < Variables.constantes.Uno) {
                 day = fechaInicio.format('ddd');
