@@ -167,11 +167,12 @@ export class EBandejaSeguimientoSolicitud {
             }
         }
         else {
+            debugger;
             let fechaDerivacionInicial = new Date(fechaHoraDerivacion);
             let iteracion = 0;
             while (fechaAtencionSinHora.getTime() >= fechaDerivacionSinHora.getTime()) {
-                const fechaHoraMinima = new Date(fechaDerivacionSinHora.setHours(horaInicioDia));
-                const fechaHoraMaxima = new Date(fechaDerivacionSinHora.setHours(horaFinDia));
+                const fechaHoraMinima = new Date(new Date(fechaDerivacionSinHora).setHours(horaInicioDia));
+                const fechaHoraMaxima = new Date(new Date(fechaDerivacionSinHora).setHours(horaFinDia));
 
                 if (fechaAtencionSinHora.getTime() == fechaDerivacionSinHora.getTime() && fechaHoraAtencion > fechaHoraMaxima) {
                     const diff = fechaHoraMaxima.getTime() - fechaHoraMinima.getTime();
