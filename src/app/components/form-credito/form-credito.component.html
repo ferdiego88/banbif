@@ -1415,14 +1415,14 @@
                 }">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="guardarPreTerminado()">Guardar</button>
             </div>
-           <div class="" [ngClass]="{
+            <!--<div class="" [ngClass]="{
                 'd-none': !mostrarBotonEnviarIngresoFiles2,
                 'col': mostrarBotonEnviarIngresoFiles2
                 }">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoEnviarIngresoFiles2()">Terminar</button>
-            </div>
+            </div>-->
                      
-            <!--<div class="col" *ngIf="mostrarBotones_IngresoFiles">
+            <div class="col" *ngIf="mostrarBotones_IngresoFiles">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_IngresoFiles()">Enviar</button>
             </div>
 
@@ -1505,9 +1505,8 @@
             </div>
             <div class="col" *ngIf="mostrarBotones_ValidacionDesembolso">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ValidacionDesembolso()">Enviar</button>
-            </div>-->
+            </div>            
             
-            <!--
             <div class="col" *ngIf="mostrarBotones_ObservadoDesembolso">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonDesestimar_ObservadoDesembolso()">Desestimar</button>
             </div>
@@ -1515,7 +1514,7 @@
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ObservadoDesembolso()">Enviar</button>
             </div>
 
-            <div class="col" *ngIf="mostrarBotones_EjecucionDesembolso">
+            <!--<div class="col" *ngIf="mostrarBotones_EjecucionDesembolso">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservar_EjecucionDesembolso()">Observar</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_EjecucionDesembolso">
