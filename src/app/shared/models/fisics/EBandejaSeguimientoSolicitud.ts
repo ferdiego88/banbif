@@ -15,6 +15,7 @@ export class EBandejaSeguimientoSolicitud {
     FechaAtencion: Date;
     EstadoFinal: string;
     TiempoAtencion: string;
+    TiempoAtencionHoras: number;
 
     constructor() {
         this.Id = 0;
@@ -26,6 +27,7 @@ export class EBandejaSeguimientoSolicitud {
         this.FechaAtencion = new Date();
         this.EstadoFinal = "";
         this.TiempoAtencion = "";
+        this.TiempoAtencionHoras = 0;
     }
 
     public static getColumnasSelect(): string[] {
@@ -72,6 +74,30 @@ export class EBandejaSeguimientoSolicitud {
             const fechaInicio = new Date(item.Created);
             const fechaAtencion = new Date(item.FechaAtencion);
             item.TiempoAtencion = this.obtenerDuracionAtencion(fechaInicio, fechaAtencion, "9", "18");
+        }
+
+        return item;
+    }
+
+    public static parseJsonExcel(elemento: any): EBandejaSeguimientoSolicitud {
+        const item = new EBandejaSeguimientoSolicitud();
+
+        item.Id = SPParse.getNumber(elemento[Variables.columnasSeguimiento.ID]);
+        item.Author = User.parseJson(elemento[Variables.columnasSeguimiento.Author]).Title.toUpperCase();
+        item.Created = SPParse.getDate(elemento[Variables.columnasSeguimiento.Created]);
+        item.SolicitudHipotecario = Lookup.parseJson(elemento[Variables.columnasSeguimiento.SolicitudHipotecario]).Id.toString();
+        item.NombreTitular = SPParse.getString(elemento[Variables.columnasSeguimiento.NombreTitular]);
+        item.NumeroDocumento = SPParse.getString(elemento[Variables.columnasSeguimiento.NumeroDocumento]);
+        item.Estado = Lookup.parseJson(elemento[Variables.columnasSeguimiento.Estado]).Title.toUpperCase();
+        item.Responsable = Lookup.parseJson(elemento[Variables.columnasSeguimiento.Responsable]).Title.toUpperCase();
+        item.FechaAtencion = SPParse.getDate(elemento[Variables.columnasSeguimiento.FechaAtencion]);
+        item.EstadoFinal = Lookup.parseJson(elemento[Variables.columnasSeguimiento.EstadoFinal]).Title.toUpperCase();
+
+        if (item.FechaAtencion !== undefined && item.FechaAtencion !== null) {
+            const fechaInicio = new Date(item.Created);
+            const fechaAtencion = new Date(item.FechaAtencion);
+            item.TiempoAtencion = this.obtenerDuracionAtencion(fechaInicio, fechaAtencion, "9", "18");
+            item.TiempoAtencionHoras = this.obtenerDuracionAtencionHoras(fechaInicio, fechaAtencion, "9", "18");
         }
 
         return item;
@@ -167,7 +193,6 @@ export class EBandejaSeguimientoSolicitud {
             }
         }
         else {
-            debugger;
             let fechaDerivacionInicial = new Date(fechaHoraDerivacion);
             let iteracion = 0;
             while (fechaAtencionSinHora.getTime() >= fechaDerivacionSinHora.getTime()) {
@@ -223,6 +248,7 @@ export class EBandejaSeguimientoSolicitud {
         }
 
         let calculoDias = (totalSegundos / (horaPorDia * 3600));
+        
         const arrayCalculoDias: any[] = calculoDias.toString().split('.');
 
         if (arrayCalculoDias.length == 1) {
@@ -261,6 +287,104 @@ export class EBandejaSeguimientoSolicitud {
         }
 
         duracion = dia + siglaDia + "-" + hora + siglaHora + "-" + minuto + siglaMinuto;
+        
+        return duracion;
+    }
+
+    static obtenerDuracionAtencionHoras(fechaHoraDerivacion: Date, fechaHoraAtencion: Date, inicioHorarioOficina: string, finHorarioOficina: string) {
+
+        let duracion : number = 0;
+        let totalSegundos: number = 0;
+        const horaInicioDia = parseInt(inicioHorarioOficina);
+        const horaFinDia = parseInt(finHorarioOficina);
+        const horaPorDia = horaFinDia - horaInicioDia;
+
+        let fechaDerivacionSinHora = new Date(fechaHoraDerivacion.getFullYear(), fechaHoraDerivacion.getMonth(), fechaHoraDerivacion.getDate());
+        const fechaAtencionSinHora = new Date(fechaHoraAtencion.getFullYear(), fechaHoraAtencion.getMonth(), fechaHoraAtencion.getDate());
+
+        if (fechaDerivacionSinHora.getTime() == fechaAtencionSinHora.getTime()) {
+            const fechaHoraMinima = new Date(fechaAtencionSinHora.setHours(horaInicioDia));
+            const fechaHoraMaxima = new Date(fechaAtencionSinHora.setHours(horaFinDia));
+
+            if (fechaHoraAtencion > fechaHoraMaxima) {
+                fechaHoraAtencion = fechaHoraMaxima;
+
+                if (fechaHoraDerivacion > fechaHoraMaxima) {
+                    fechaHoraDerivacion = fechaHoraMaxima;
+                    let diff = fechaHoraAtencion.getTime() - fechaHoraDerivacion.getTime();
+                    totalSegundos = Math.floor(diff / (1000));
+                } else {
+                    let diff = fechaHoraAtencion.getTime() - fechaHoraDerivacion.getTime();
+                    totalSegundos = Math.floor(diff / (1000));
+                }
+            }
+            else if (fechaHoraAtencion < fechaHoraMinima) {
+                fechaHoraAtencion = fechaHoraMaxima;
+                let diff = fechaHoraAtencion.getTime() - fechaHoraDerivacion.getTime();
+                totalSegundos = Math.floor(diff / (1000));
+            }
+            else {
+                let diff = fechaHoraAtencion.getTime() - fechaHoraDerivacion.getTime();
+                totalSegundos = Math.floor(diff / (1000));
+            }
+        }
+        else {
+            let fechaDerivacionInicial = new Date(fechaHoraDerivacion);
+            let iteracion = 0;
+            while (fechaAtencionSinHora.getTime() >= fechaDerivacionSinHora.getTime()) {
+                const fechaHoraMinima = new Date(new Date(fechaDerivacionSinHora).setHours(horaInicioDia));
+                const fechaHoraMaxima = new Date(new Date(fechaDerivacionSinHora).setHours(horaFinDia));
+
+                if (fechaAtencionSinHora.getTime() == fechaDerivacionSinHora.getTime() && fechaHoraAtencion > fechaHoraMaxima) {
+                    const diff = fechaHoraMaxima.getTime() - fechaHoraMinima.getTime();
+                    totalSegundos += Math.floor(diff / (1000));
+                }
+                else if (fechaAtencionSinHora.getTime() == fechaDerivacionSinHora.getTime() && fechaHoraAtencion < fechaHoraMinima) {
+                    const diff = fechaHoraMinima.getTime() - fechaDerivacionInicial.getTime();
+                    totalSegundos += Math.floor(diff / (1000));
+                }
+                else if (fechaAtencionSinHora.getTime() == fechaDerivacionSinHora.getTime() && fechaHoraMinima <= fechaHoraAtencion && fechaHoraAtencion <= fechaHoraMaxima) {
+                    const diff = fechaHoraAtencion.getTime() - fechaHoraMinima.getTime();
+                    totalSegundos += Math.floor(diff / (1000));
+                }
+                else if (fechaHoraDerivacion.getTime() == fechaDerivacionSinHora.getTime()) {
+                    const diff = fechaHoraMaxima.getTime() - fechaDerivacionInicial.getTime();
+                    totalSegundos += Math.floor(diff / (1000));
+                }
+                else {
+
+                    if (iteracion === 0) {
+                        if (fechaHoraDerivacion > fechaHoraMinima && fechaHoraDerivacion < fechaHoraMaxima) {
+                            const diff = fechaHoraMaxima.getTime() - fechaHoraDerivacion.getTime();
+                            totalSegundos += Math.floor(diff / (1000));
+                        }
+                        else if (fechaHoraDerivacion > fechaHoraMaxima){
+                            const diff = fechaHoraMaxima.getTime() - fechaHoraMaxima.getTime();
+                            totalSegundos += Math.floor(diff / (1000));
+                        }
+                        else {
+                            const diff = fechaHoraMaxima.getTime() - fechaHoraMinima.getTime();
+                            totalSegundos += Math.floor(diff / (1000));
+                        }
+                    } else {
+                        let diff = fechaHoraMaxima.getTime() - fechaHoraMinima.getTime();
+                        totalSegundos += Math.floor(diff / (1000));
+                    }
+                }
+
+                fechaDerivacionInicial = new Date(fechaDerivacionInicial.getFullYear(), fechaDerivacionInicial.getMonth(), fechaDerivacionInicial.getDate());
+                fechaDerivacionInicial = this.aumentarDias(fechaDerivacionInicial, 1);
+                fechaDerivacionInicial = new Date(fechaDerivacionInicial.setHours(horaInicioDia));
+
+                fechaDerivacionSinHora = new Date(fechaDerivacionSinHora.getFullYear(), fechaDerivacionSinHora.getMonth(), fechaDerivacionSinHora.getDate());
+                fechaDerivacionSinHora = this.aumentarDias(fechaDerivacionSinHora, 1);
+
+                iteracion++;
+            }
+        }
+
+        let calculoDias = (totalSegundos / (horaPorDia * 3600));        
+        duracion = calculoDias * 9;
 
         return duracion;
     }

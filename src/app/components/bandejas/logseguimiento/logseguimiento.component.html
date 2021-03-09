@@ -90,7 +90,12 @@
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef disableClear>Tiempo de Atención</th>
                         <td class="filaTabla celdaEstado" mat-cell *matCellDef="let element"> {{element.TiempoAtencion}}
                         </td>
-                    </ng-container>                    
+                    </ng-container>
+                    <!--<ng-container matColumnDef="TiempoAtencionHoras">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef disableClear>Tiempo de Atención (Horas)</th>
+                        <td class="filaTabla celdaEstado" mat-cell *matCellDef="let element"> {{element.TiempoAtencionHoras}}
+                        </td>
+                    </ng-container>-->
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumnsSeguimientoSolicitud"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumnsSeguimientoSolicitud;">

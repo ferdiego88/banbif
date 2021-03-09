@@ -64,7 +64,8 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
     Variables.columnasSeguimiento.Responsable,
     Variables.columnasSeguimiento.FechaAtencion,
     Variables.columnasSeguimiento.EstadoFinal,
-    "TiempoAtencion"
+    "TiempoAtencion",
+    //"TiempoAtencionHoras"
   ];
 
   resultsLength = 0;
@@ -395,13 +396,13 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
       order = null;
     }
 
-    this.seguimientosolicitudesService.getBandejaSeguimientoSolicitudes(filter, order, direction, 4999).then(
+    this.seguimientosolicitudesService.getBandejaSeguimientoSolicitudes(filter, order, direction, 100000).then(
       (data: PagedItemCollection<any[]>) => {
         const items: EBandejaSeguimientoSolicitud[] = data.results.map(elemento => {
-          return EBandejaSeguimientoSolicitud.parseJson(elemento);
+          return EBandejaSeguimientoSolicitud.parseJsonExcel(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Usuario Registro', 'Fecha Registro', 'Estado Inicial', 'Responsable Atención', 'Fecha Atención', 'Estado Final', 'Tiempo de Atención'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Usuario Registro', 'Fecha Registro', 'Estado Inicial', 'Responsable Atención', 'Fecha Atención', 'Estado Final', 'Tiempo de Atención', 'Tiempo de Atención (Horas)'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
@@ -419,6 +420,7 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
           }
           dataMap.push(item.EstadoFinal);
           dataMap.push(item.TiempoAtencion);
+          dataMap.push(item.TiempoAtencionHoras);
 
           return dataMap;
         });

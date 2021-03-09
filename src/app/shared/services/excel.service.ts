@@ -604,6 +604,7 @@ export class ExcelService {
         case 8: width = 20; break;
         case 9: width = 20; break;
         case 10: width = 20; break;
+        case 11: width = 20; break;
       }
 
       cell.worksheet.getColumn(numberCell).width = width;
