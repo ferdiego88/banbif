@@ -114,6 +114,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   mostrarBotones_ValidacionDesembolso: boolean = false;
   mostrarBotones_ObservadoDesembolso: boolean = false;
   mostrarBotones_EjecucionDesembolso: boolean = false;
+  mostrarBotones_OpinionFavorable: boolean = false;
 
   mostrarBotonGuardarAnalista: boolean = false;
   mostrarCamposObligatorios: boolean = false;
@@ -126,6 +127,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   mostrarCampo_ComentarioDesembolso: boolean = false;
 
   EsGestor: boolean = false;
+  EsAnalistaRiesgo: boolean = false;
 
   mostrarEjecutivo = false;
   mostrarEstado = false;
@@ -488,6 +490,10 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
                   Title: this.ItemSolicitud.Anlista_Riesgos.Title
                 };
                 this.creditForm.controls.Analista_Riesgos.setValue([analista]);
+
+                this.EsAnalistaRiesgo = this.ItemSolicitud.Anlista_Riesgos.Id.toString() === this.IdUsuarioActual.toString();
+              } else {
+                this.EsAnalistaRiesgo = false;
               }
 
               for (const i of this.comentarios) {
@@ -504,8 +510,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
                   this.creditForm.controls[element].setValue(this.ItemSolicitud[element]);
                 }
               }
-
-              //debugger;
 
               this.creditForm.controls.EstadoLegalId.setValue(this.ItemSolicitud["EstadoLegalId"]);
               this.creditForm.controls.EstadoMiViviendaId.setValue(this.ItemSolicitud["EstadoMiViviendaId"]);
@@ -1360,15 +1364,48 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.setDisableControlsAplicacion();
       this.setDisableComentarios();
       this.setDisableControlsPlanAhorroProgramado();
+      this.setDisableComentarioOficina();
       this.showBtnObservar = false;
       this.showBtnGuardarBorrador = false;
       this.showBtnEnviar = false;
-      this.showBtnGrabar = true;
+      //this.showBtnGrabar = true;
       this.showBtnEnviarRegularizar = false;
       this.showControlesGestor = true;
       this.colorBoton = 'rgb(24, 255, 120)';
       this.colorletraBoton = 'black';
       this.creditForm.get('NumeroPropuesta').disable();
+      this.creditForm.get('Analista_Riesgos').disable();
+    }
+    else if (estado === Variables.constantes.EstadoOpinionFavorable) {
+      this.setDisableControlsCabezera();
+      this.setDisableControlsCuotaInicial();
+      this.setDisableControlsDatosOperacion();
+      this.setDisableControlsTipoGarantiaAbono();
+      this.setDisableObservacionesOpcional();
+      this.setDisableControlsAplicacion();
+      this.setDisableComentarios();
+      this.setDisableControlsPlanAhorroProgramado();
+
+      this.showBtnGuardarBorrador = false;
+      this.showBtnEnviar = false;
+      this.showComentarioRiesgos = true;
+      this.showComentarioCPM = true;
+      this.showComentarioRevisor = true;
+      this.mostrarNumeroPropuesta = true;
+      this.showAnalistaRiesgos = true;
+      this.creditForm.controls.Comentario_Registro.disable();
+      this.creditForm.controls.Cometario_Revisor1.disable();
+      this.creditForm.controls.Cometario_Revisor.disable();
+      this.creditForm.controls.NumeroPropuesta.disable();
+      this.creditForm.controls.Analista_Riesgos.disable();
+      this.setDisableComentarioOficina();
+     
+      if (this.PertenceGrupo_U_Verificacion_Riesgos && this.EsAnalistaRiesgo) {     
+        this.mostrarBotones_OpinionFavorable = true;
+        this.creditForm.controls.Cometario_Evaluacion.enable();
+      }else{
+        this.mostrarBotones_OpinionFavorable = false;
+      }
     }
     else if (estado === Variables.constantes.EstadoGestionFiles2 || estado === Variables.constantes.EstadoObservadoGestor) {
       this.setDisableControlsCabezera();
@@ -2798,7 +2835,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       showCancelButton: true,
       confirmButtonText: `Aprobar`, icon: 'question'
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.showLoading();
         this.update(itemSave, 'La Solicitud se Aprobó', 'No se pudo Aprobar la Solicitud');
@@ -2806,76 +2842,93 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         Swal.fire('No se Envio la Solicitud', '', 'info');
       }
     });
-
   }
 
-  approveWithoutVerification(): void {
+  eventoBotonEnviarGestionFiles2_EvaluacionRiesgo(): void {
     const itemSave = {
-      //EstadoId: 33
-      EstadoId: 38, // TODO, create constant
+      EstadoId: 38,
+      Fecha_Estado: new Date(),
       Fecha_AprobSVerifica: new Date(),
       Cometario_Evaluacion: this.creditForm.controls.Cometario_Evaluacion.value
     };
 
     Swal.fire({
-      title: '¿Está seguro de aprobar la Solicitud sin Verificación?',
+      title: '¿Está seguro de enviar la solicitud a Estado Gestión Files 2?',
       showCancelButton: true,
-      confirmButtonText: `Aprobar`, icon: 'question'
+      confirmButtonText: `Aceptar`, icon: 'question'
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.showLoading();
-        this.update(itemSave, 'La Solicitud se Aprobó sin Verificación', 'No se pudo aprobar la Solicitud sin Verificación');
+        this.update(itemSave, 'La solicitud se ha enviado a Estado Gestión Files 2.', 'No se pudo enviar la solicitud a Estado Gestión Files 2');
       } else if (result.isDismissed) {
-        Swal.fire('No se Envio la Solicitud', '', 'info');
+        Swal.fire('No se pudo enviar la solicitud a Estado Gestión Files 2', '', 'info');
       }
     });
-
   }
 
-  inVerification(): void {
+  eventoBotonEnviarVerificacionRiesgos_EvaluacionRiesgo(): void {
     const itemSave = {
-      EstadoId: 32, // TODO, create constant
+      EstadoId: 32,
+      Fecha_Estado: new Date(),
+      Cometario_Evaluacion: this.creditForm.controls.Cometario_Evaluacion.value
+    };
+
+    Swal.fire({
+      title: '¿Está seguro de enviar la solicitud a Estado Verificación Riesgos?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`, icon: 'question'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.showLoading();
+        this.update(itemSave, 'La solicitud se ha enviado a Estado Verificación Riesgos.', 'No se pudo enviar la solicitud a Estado Verificación Riesgos');
+      } else if (result.isDismissed) {
+        Swal.fire('No se pudo enviar la solicitud a Estado Verificación Riesgos', '', 'info');
+      }
+    });
+  }
+
+  eventoBotonEnviarOpinionFavorable_EvaluacionRiesgo(): void {
+    const itemSave = {
+      EstadoId: 59,
       Fecha_Estado: new Date(),
       Fecha_Desestimado: new Date(),
       Cometario_Evaluacion: this.creditForm.controls.Cometario_Evaluacion.value
     };
+
     Swal.fire({
-      title: '¿Está seguro de pasar la Solicitud para su Verificación?',
+      title: '¿Está seguro de enviar la solicitud a Estado Opinión Favorable?',
       showCancelButton: true,
       confirmButtonText: `Aceptar`, icon: 'question'
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.showLoading();
-        this.update(itemSave, 'La Solicitud pasó a verificación', 'No se pudo enviar la Solicitud para su verificación');
+        this.update(itemSave, 'La solicitud se ha enviado a Estado Opinión Favorable.', 'No se pudo enviar la solicitud a Estado Opinión Favorable');
       } else if (result.isDismissed) {
-        Swal.fire('No se Envio la Solicitud', '', 'info');
+        Swal.fire('No se pudo enviar la solicitud a Estado Opinión Favorable', '', 'info');
       }
     });
-
   }
 
-  officeObservation(): void {
+  eventoBotonEnviarObservarOficina_EvaluacionRiesgo(): void {
     const itemSave = {
-      EstadoId: 5, // TODO, create constant
+      EstadoId: 5,
       Fecha_Estado: new Date(),
       FechaObs_Evaluacion: new Date(),
       FechaObservacionRiesgo: new Date(),
       Cometario_Evaluacion: this.creditForm.controls.Cometario_Evaluacion.value,
       MotivoObsEvaluacionRiesgoId: this.creditForm.controls.MotivoObsEvaluacionRiesgoId.value
     };
+
     Swal.fire({
-      title: '¿Está seguro de pasar la Solicitud a Observación de Oficina?',
+      title: '¿Está seguro de enviar la solicitud a Estado Observación de Oficina?',
       showCancelButton: true,
-      confirmButtonText: `Observar`, icon: 'question'
+      confirmButtonText: `Aceptar`, icon: 'question'
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.showLoading();
-        this.update(itemSave, 'La Solicitud pasó a Observación de Oficina', 'No se pudo pasar la Solicitud a Observación de Oficina');
+        this.update(itemSave, 'La solicitud se ha enviado a Estado Observación de Oficina.', 'No se pudo enviar la solicitud a Estado Observación de Oficina');
       } else if (result.isDismissed) {
-        Swal.fire('No se Envio la Solicitud', '', 'info');
+        Swal.fire('No se pudo enviar la solicitud a Estado Observación de Oficina', '', 'info');
       }
     });
   }
@@ -3986,6 +4039,50 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.update(itemSave, 'Se ha actualizado el analista de riesgo.', 'No se pudo actualizar el analista de riesgo');
       } else if (result.isDismissed) {
         Swal.fire('No se pudo actualizar el analista de riesgo', '', 'info');
+      }
+    });
+  }
+
+  eventoBotonRechazar_OpinionFavorable(): void {
+
+    const itemSave = {
+      EstadoId: 6,
+      Fecha_Estado: new Date(),
+      Cometario_Evaluacion: this.creditForm.controls.Cometario_Evaluacion.value
+    };
+
+    Swal.fire({
+      title: '¿Está seguro de rechazar la solicitud?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`, icon: 'question'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.showLoading();
+        this.update(itemSave, 'La solicitud se ha rechazar.', 'No se pudo rechazar la solicitud');
+      } else if (result.isDismissed) {
+        Swal.fire('No se pudo rechazar la solicitud', '', 'info');
+      }
+    });
+  }
+
+  eventoBotonEnviar_OpinionFavorable(): void {
+
+    const itemSave = {
+      EstadoId: 38,
+      Fecha_Estado: new Date(),
+      Cometario_Evaluacion: this.creditForm.controls.Cometario_Evaluacion.value
+    };
+
+    Swal.fire({
+      title: '¿Está seguro de enviar la solicitud a Estado Gestión Files 2?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`, icon: 'question'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.showLoading();
+        this.update(itemSave, 'La solicitud se ha enviado a Estado Gestión Files 2.', 'No se pudo enviar la solicitud a Estado Gestión Files 2');
+      } else if (result.isDismissed) {
+        Swal.fire('No se pudo enviar la solicitud a Estado Gestión Files 2', '', 'info');
       }
     });
   }

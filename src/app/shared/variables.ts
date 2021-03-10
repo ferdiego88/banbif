@@ -109,6 +109,7 @@ export class Variables {
     EstadoObservadoDesembolso: 56,
     EstadoEjecucionDesembolso: 57,
     EstadoTerminado: 58,
+    EstadoOpinionFavorable: 59,
 
     EstadoGestionLegal: 1,
     EstadoObservadoLegal: 2,

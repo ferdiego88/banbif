@@ -11,7 +11,7 @@
 
         <div class="row">
 
-            <div class="col-md-6">               
+            <div class="col-md-6">
                 <mat-form-field appearance="outline" class="full-width">
                     <mat-label class="TituloCampo">Producto - Código <span class="obligatorio">(*)</span>
                     </mat-label>
@@ -30,7 +30,8 @@
                 <mat-form-field appearance="outline" class="full-width">
                     <mat-label class="TituloCampo">Ejecutivo <span class="obligatorio">(*)</span>
                     </mat-label>
-                    <people-picker-input formControlName="ejecutivo" (onRemove)="removePeople()" placeholder="Escribe un nombre..." [multiple]="false">
+                    <people-picker-input formControlName="ejecutivo" (onRemove)="removePeople()"
+                        placeholder="Escribe un nombre..." [multiple]="false">
                     </people-picker-input>
                 </mat-form-field>
             </div>
@@ -40,7 +41,8 @@
         <div class="row">
             <div class="col-md-6">
                 <mat-form-field appearance="outline" class="full-width">
-                    <mat-label class="TituloCampo">Sub Producto - Código <span class="obligatorio">(*)</span></mat-label>
+                    <mat-label class="TituloCampo">Sub Producto - Código <span class="obligatorio">(*)</span>
+                    </mat-label>
                     <mat-select placeholder="Sub Producto - Código" formControlName="Sub_ProductoId">
                         <mat-option *ngFor="let tipoSubProducto of tipoSubProductoList" [value]="tipoSubProducto.Id">
                             {{ tipoSubProducto.Title }}
@@ -105,7 +107,8 @@
                     'd-none': !showBotonesProducto,
                     'col-md-3': showBotonesProducto
                     }">
-                <button mat-raised-button color="primary" type="button" class="full-width" (click)="CalificacionTradicional()">Calificación Tradicional</button>
+                <button mat-raised-button color="primary" type="button" class="full-width"
+                    (click)="CalificacionTradicional()">Calificación Tradicional</button>
             </div>
 
             <div [ngClass]="{
@@ -198,7 +201,8 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Riesgo Máximo (Monto en USD)</mat-label>
-                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="Riesgo Máximo (Monto en USD)" formControlName="Riesgo_Maximo">
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
+                                placeholder="Riesgo Máximo (Monto en USD)" formControlName="Riesgo_Maximo">
                             <!-- <input type="text" class="form-control" id="separadorMiles" placeholder="Separador de miles"> -->
                             <mat-error *ngIf="creditForm.controls['Riesgo_Maximo'].hasError('required')">
                                 Ingrese un valor
@@ -296,7 +300,8 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Importe Cuota Ahorro</mat-label>
-                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="Importe Cuota Ahorro" type="text" formControlName="Importe_Cuota_Ahorro">
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
+                                placeholder="Importe Cuota Ahorro" type="text" formControlName="Importe_Cuota_Ahorro">
                             <mat-error *ngIf="creditForm.controls['Importe_Cuota_Ahorro'].hasError('required')">
                                 Ingrese un valor
                             </mat-error>
@@ -308,7 +313,8 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Situación de Plan de Ahorro</mat-label>
-                            <mat-select placeholder="Situación de Plan de Ahorro" formControlName="Situacion_Plan_AhorroId">
+                            <mat-select placeholder="Situación de Plan de Ahorro"
+                                formControlName="Situacion_Plan_AhorroId">
                                 <mat-option *ngFor="let plan of planSituationSavingList" [value]="plan.Id">
                                     {{ plan.Title }}
                                 </mat-option>
@@ -324,7 +330,8 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Nº de Abonos Validados</mat-label>
-                            <input matInput placeholder="Nº de Abonos Validados" type="number" formControlName="N_Abonos_Validados">
+                            <input matInput placeholder="Nº de Abonos Validados" type="number"
+                                formControlName="N_Abonos_Validados">
                             <mat-error *ngIf="creditForm.controls['N_Abonos_Validados'].hasError('required')">
                                 Ingrese un valor
                             </mat-error>
@@ -336,7 +343,8 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Último Abono Validado(Mes/Año)</mat-label>
-                            <mat-select placeholder="Último Abono Validado(Mes/Año)" formControlName="Ultimo_Abono_ValidadoId">
+                            <mat-select placeholder="Último Abono Validado(Mes/Año)"
+                                formControlName="Ultimo_Abono_ValidadoId">
                                 <mat-option *ngFor="let lastBono of LastValidatedBonoList" [value]="lastBono.Id">
                                     {{ lastBono.Title }}
                                 </mat-option>
@@ -351,7 +359,8 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Nº de Cta. Ahorro BanBif</mat-label>
-                            <input matInput placeholder="Nº de Cta. Ahorro BanBif" type="number" formControlName="Cta_Ahorro_BanBif">
+                            <input matInput placeholder="Nº de Cta. Ahorro BanBif" type="number"
+                                formControlName="Cta_Ahorro_BanBif">
                             <mat-error *ngIf="creditForm.controls['Cta_Ahorro_BanBif'].hasError('required')">
                                 Ingrese un valor
                             </mat-error>
@@ -423,7 +432,8 @@
                 <div class="col">
                     <mat-form-field appearance="outline" class="full-width">
                         <mat-label class="TituloCampo">TEA (%)</mat-label>
-                        <input matInput placeholder="TEA (%)" type="number" step="0.00000001" min="0.00000000" formControlName="TEA">
+                        <input matInput placeholder="TEA (%)" type="number" step="0.00000001" min="0.00000000"
+                            formControlName="TEA">
                         <mat-error *ngIf="creditForm.controls['TEA'].hasError('required')">
                             Ingrese un valor
                         </mat-error>
@@ -469,7 +479,9 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Precio de Venta</mat-label>
-                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" (blur)="ValidarReglasPrecioVenta()" autocomplete="off" matInput placeholder="Precio de Venta" type="text" formControlName="Precio_Venta">
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)"
+                                (blur)="ValidarReglasPrecioVenta()" autocomplete="off" matInput
+                                placeholder="Precio de Venta" type="text" formControlName="Precio_Venta">
                             <mat-error *ngIf="creditForm.controls['Precio_Venta'].hasError('required')">
                                 Ingrese un valor
                             </mat-error>
@@ -490,7 +502,8 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">( % ) de Financiamiento</mat-label>
-                            <input matInput placeholder="( % ) de Financiamiento" type="number" formControlName="pFinanciamiento">
+                            <input matInput placeholder="( % ) de Financiamiento" type="number"
+                                formControlName="pFinanciamiento">
                             <mat-error *ngIf="creditForm.controls['pFinanciamiento'].hasError('required')">
                                 Ingrese un valor
                             </mat-error>
@@ -522,7 +535,8 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Descripción del Inmueble</mat-label>
-                            <input matInput placeholder="Descripción del Inmueble" formControlName="Descripcion_Inmueble">
+                            <input matInput placeholder="Descripción del Inmueble"
+                                formControlName="Descripcion_Inmueble">
                             <mat-error *ngIf="creditForm.controls['Descripcion_Inmueble'].hasError('required')">
                                 Ingrese un valor
                             </mat-error>
@@ -545,7 +559,8 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Moneda</mat-label>
-                            <input matInput placeholder="Moneda" formControlName="Mon_Valor_ComTas_Soles" class="label-black">
+                            <input matInput placeholder="Moneda" formControlName="Mon_Valor_ComTas_Soles"
+                                class="label-black">
                             <mat-error *ngIf="creditForm.controls['Importe_Cuota_Ahorro'].hasError('required')">
                                 Ingrese un valor
                             </mat-error>
@@ -554,7 +569,8 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Valor Tasación soles</mat-label>
-                            <input matInput placeholder="Valor Tasación soles" type="number" formControlName="Valor_ComTas_Soles">
+                            <input matInput placeholder="Valor Tasación soles" type="number"
+                                formControlName="Valor_ComTas_Soles">
                             <mat-error *ngIf="creditForm.controls['Valor_ComTas_Soles'].hasError('required')">
                                 Ingrese un valor
                             </mat-error>
@@ -602,12 +618,14 @@
                         </span>
                     </div>
                 </div>
+                <br />
                 <div class="row">
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Moneda</mat-label>
                             <mat-select placeholder="Moneda" formControlName="Mon_Ap_Efectivo">
-                                <mat-option *ngFor="let typeCurrency of currencyAporteEfectivoList" [value]="typeCurrency.Id">
+                                <mat-option *ngFor="let typeCurrency of currencyAporteEfectivoList"
+                                    [value]="typeCurrency.Id">
                                     {{ typeCurrency.Title }}
                                 </mat-option>
                             </mat-select>
@@ -620,11 +638,17 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Aporte en Efectivo</mat-label>
-                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="Aporte en Efectivo" type="text" formControlName="Aporte_Efectivo">
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
+                                placeholder="Aporte en Efectivo" type="text" formControlName="Aporte_Efectivo">
                             <mat-error *ngIf="creditForm.controls['Aporte_Efectivo'].hasError('required')">
                                 Ingrese un valor
                             </mat-error>
                         </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 padre" style="padding-bottom: 42px;">
+
                     </div>
                 </div>
 
@@ -633,7 +657,8 @@
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Moneda</mat-label>
                             <mat-select placeholder="Moneda" formControlName="Mon_Aport_AFPId">
-                                <mat-option *ngFor="let typeCurrency of currencyAporteAFPList" [value]="typeCurrency.Id">
+                                <mat-option *ngFor="let typeCurrency of currencyAporteAFPList"
+                                    [value]="typeCurrency.Id">
                                     {{ typeCurrency.Title }}
                                 </mat-option>
                             </mat-select>
@@ -646,7 +671,8 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Aporte de retiro AFP</mat-label>
-                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="Aporte de retiro AFP" type="text" formControlName="Aporte_RetiroAFP">
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
+                                placeholder="Aporte de retiro AFP" type="text" formControlName="Aporte_RetiroAFP">
                             <mat-error *ngIf="creditForm.controls['Aporte_RetiroAFP'].hasError('required')">
                                 Ingrese un valor
                             </mat-error>
@@ -698,7 +724,8 @@
                         <div class="col">
                             <mat-form-field appearance="outline" class="full-width">
                                 <mat-label class="TituloCampo">Premio Buen pagador (PBP)</mat-label>
-                                <input matInput placeholder="Premio Buen pagador (PBP)" type="text" formControlName="PBP">
+                                <input matInput placeholder="Premio Buen pagador (PBP)" type="text"
+                                    formControlName="PBP">
                                 <mat-error *ngIf="creditForm.controls['PBP'].hasError('required')">
                                     Ingrese un valor
                                 </mat-error>
@@ -725,7 +752,8 @@
                         <div class="col">
                             <mat-form-field appearance="outline" class="full-width">
                                 <mat-label class="TituloCampo">BBP adicional por vivienda sostenible</mat-label>
-                                <input matInput placeholder="BBP adicional por vivienda sostenible" type="text" formControlName="PBP_Adiconal_Sostenible">
+                                <input matInput placeholder="BBP adicional por vivienda sostenible" type="text"
+                                    formControlName="PBP_Adiconal_Sostenible">
                                 <mat-error *ngIf="creditForm.controls['PBP_Adiconal_Sostenible'].hasError('required')">
                                     Ingrese un valor
                                 </mat-error>
@@ -765,8 +793,8 @@
 
                     <div class="row">
                         <div class="col">
-                            <button mat-raised-button color="primary" class="full-width" (click)="calculaDesembolso()" type="button">Calcular</button>
-
+                            <button mat-raised-button color="primary" class="full-width" (click)="calculaDesembolso()"
+                                type="button">Calcular</button>
                         </div>
                         <div class="col">
                             <mat-form-field appearance="outline" class="full-width">
@@ -784,17 +812,23 @@
                         <div class="col">
                             <mat-form-field appearance="outline" class="full-width">
                                 <mat-label class="TituloCampo">Desembolso</mat-label>
-                                <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="Desembolso" type="text" formControlName="Desembolso">
+                                <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off"
+                                    matInput placeholder="Desembolso" type="text" formControlName="Desembolso">
                                 <mat-error *ngIf="creditForm.controls['Desembolso'].hasError('required')">
                                     Ingrese un valor
                                 </mat-error>
                             </mat-form-field>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-md-12 padre" style="padding-bottom: 20px; text-align: left;">
+                            (Para operaciones con tipo de cambio utilizar el TC preferencial venta)
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col">
-                            <button mat-raised-button color="primary" class="full-width" (click)="calculaGravamen()" type="button">Calcular</button>
+                            <button mat-raised-button color="primary" class="full-width" (click)="calculaGravamen()"
+                                type="button">Calcular</button>
                         </div>
 
                         <div class="col">
@@ -813,7 +847,9 @@
                         <div class="col">
                             <mat-form-field appearance="outline" class="full-width">
                                 <mat-label class="TituloCampo">Gravamen (120% x Desembolso)</mat-label>
-                                <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="Gravamen (120% x Desembolso)" type="text" formControlName="Grabamen">
+                                <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off"
+                                    matInput placeholder="Gravamen (120% x Desembolso)" type="text"
+                                    formControlName="Grabamen">
                                 <mat-error *ngIf="creditForm.controls['Grabamen'].hasError('required')">
                                     Ingrese un valor
                                 </mat-error>
@@ -845,9 +881,10 @@
 
             <div class="row" style="display: none;">
                 <div class="col">
-                    <mat-form-field appearance="outline" class="full-width">                       
+                    <mat-form-field appearance="outline" class="full-width">
                         <mat-label class="TituloCampo">Observaciones (Opcional)</mat-label>
-                        <textarea matInput placeholder="Observaciones (Opcional)" multiline rows="3" formControlName="Observaciones"></textarea>
+                        <textarea matInput placeholder="Observaciones (Opcional)" multiline rows="3"
+                            formControlName="Observaciones"></textarea>
                     </mat-form-field>
                 </div>
             </div>
@@ -856,7 +893,8 @@
                 <div class="col">
                     <mat-form-field appearance="outline" class="full-width">
                         <mat-label class="TituloCampo">Lugar donde se realizó la visita (OFICINA/FERIA)</mat-label>
-                        <mat-select placeholder="Lugar donde se realizó la visita (OFICINA/FERIA)" formControlName="Lugar_VisitaId">
+                        <mat-select placeholder="Lugar donde se realizó la visita (OFICINA/FERIA)"
+                            formControlName="Lugar_VisitaId">
                             <mat-option *ngFor="let place of visitingPlaceList" [value]="place.Id">
                                 {{ place.Title }}
                             </mat-option>
@@ -893,6 +931,7 @@
                         </span>
                     </div>
                 </div>
+                <br />
                 <div class="row">
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
@@ -955,10 +994,11 @@
                 </div>
                 <div class="row">
                     <div class="col">1er Desembolso por S/ </div>
-                    <div class="col">                      
+                    <div class="col">
                         <mat-form-field appearance="outline" class="text-width">
                             <mat-label class="TituloCampo">Monto</mat-label>
-                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="Primer Desembolso" type="text" formControlName="Primer_desembolso">
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
+                                placeholder="Primer Desembolso" type="text" formControlName="Primer_desembolso">
                         </mat-form-field>
                     </div>
                     <div class="col label-aplicacion">
@@ -967,10 +1007,11 @@
                 </div>
                 <div class="row">
                     <div class="col">2do Desembolso por S/ </div>
-                    <div class="col">                       
+                    <div class="col">
                         <mat-form-field appearance="outline" class="text-width">
                             <mat-label class="TituloCampo">Monto</mat-label>
-                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="" type="text" formControlName="Segundo_desembolso">
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
+                                placeholder="" type="text" formControlName="Segundo_desembolso">
                         </mat-form-field>
                     </div>
                     <div class="col label-aplicacion">
@@ -982,7 +1023,8 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="text-width">
                             <mat-label class="TituloCampo">Monto</mat-label>
-                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="" type="text" formControlName="Tercer_desembolso">
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
+                                placeholder="" type="text" formControlName="Tercer_desembolso">
                         </mat-form-field>
                     </div>
                     <div class="col label-aplicacion">
@@ -994,7 +1036,8 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="text-width">
                             <mat-label class="TituloCampo">Monto</mat-label>
-                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput placeholder="" type="text" formControlName="Aporte_Cliente">
+                            <input onchange="MASK(this,this.value,'-###,###,###,##0.00',1)" autocomplete="off" matInput
+                                placeholder="" type="text" formControlName="Aporte_Cliente">
                         </mat-form-field>
                     </div>
                     <div class="col label-red">
@@ -1008,10 +1051,12 @@
                 <div class="col sub-title-col">
                     <span class="sub-title">CONDICIÓN DE DESEMBOLSO</span>
                 </div>
+                <br />
                 <div class="col">
                     <mat-form-field appearance="outline" class="full-width">
                         <mat-label class="TituloCampo">Condición de Desembolso</mat-label>
-                        <textarea matInput placeholder="Condición de Desembolso" multiline rows="4" formControlName="Condicion_Desembolso">
+                        <textarea matInput placeholder="Condición de Desembolso" multiline rows="4"
+                            formControlName="Condicion_Desembolso">
                         </textarea>
                     </mat-form-field>
                 </div>
@@ -1064,10 +1109,11 @@
                 <div class="col">
                     <mat-form-field appearance="outline" class="full-width">
                         <mat-label class="TituloCampo">Comentario de Oficina</mat-label>
-                        <textarea matInput placeholder="Comentario de la Oficina" formControlName="Desembolso_Ampliacion" multiline rows="3"></textarea>
+                        <textarea matInput placeholder="Comentario de la Oficina"
+                            formControlName="Desembolso_Ampliacion" multiline rows="3"></textarea>
                     </mat-form-field>
                 </div>
-            </div>            
+            </div>
             <div>
                 <!--<div class="row" style="padding-bottom: 20px;">
                     <div class="col sub-title-col">
@@ -1097,12 +1143,14 @@
                     }">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Analista de Riesgo </mat-label>
-                            <people-picker-input formControlName="Analista_Riesgos" (onRemove)="removeAnalista()" placeholder="Escribe un nombre..." [multiple]="false">
+                            <people-picker-input formControlName="Analista_Riesgos" (onRemove)="removeAnalista()"
+                                placeholder="Escribe un nombre..." [multiple]="false">
                             </people-picker-input>
                         </mat-form-field>
                     </div>
                     <div class="col-md-3" *ngIf="mostrarBotonGuardarAnalista">
-                        <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonGuardar_AnalistaRiesgo()">Guardar</button>
+                        <button mat-raised-button class="full-width" color="primary" type="button"
+                            (click)="eventoBotonGuardar_AnalistaRiesgo()">Guardar</button>
                     </div>
                 </div>
                 <div class="row">
@@ -1122,7 +1170,8 @@
                     <div class="" [ngClass]="{'d-none': !showComentarioCPM,'col': showComentarioCPM}">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Comentarios CPM</mat-label>
-                            <textarea matInput placeholder="Comentarios CPM" multiline rows="3" formControlName="Comentario_Registro"></textarea>
+                            <textarea matInput placeholder="Comentarios CPM" multiline rows="3"
+                                formControlName="Comentario_Registro"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
@@ -1148,16 +1197,20 @@
                     <div class="" [ngClass]="{'d-none': !showComentarioRiesgos,'col': showComentarioRiesgos}">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Comentarios de Riesgos</mat-label>
-                            <textarea matInput placeholder="Comentarios de Riesgos" formControlName="Cometario_Evaluacion" multiline rows="3"></textarea>
+                            <textarea matInput placeholder="Comentarios de Riesgos"
+                                formControlName="Cometario_Evaluacion" multiline rows="3"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="" [ngClass]="{'d-none': !showMotivoObservacionRiesgos,'col': showMotivoObservacionRiesgos}">
+                    <div class=""
+                        [ngClass]="{'d-none': !showMotivoObservacionRiesgos,'col': showMotivoObservacionRiesgos}">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Motivo Observación de Riesgo</mat-label>
-                            <mat-select placeholder="Motivo Observación de Riesgo" formControlName="MotivoObsEvaluacionRiesgoId">
-                                <mat-option *ngFor="let elemento of motivoObservacionEvaluacionRiesgoList" [value]="elemento.Id">
+                            <mat-select placeholder="Motivo Observación de Riesgo"
+                                formControlName="MotivoObsEvaluacionRiesgoId">
+                                <mat-option *ngFor="let elemento of motivoObservacionEvaluacionRiesgoList"
+                                    [value]="elemento.Id">
                                     {{ elemento.Title }}
                                 </mat-option>
                             </mat-select>
@@ -1171,11 +1224,12 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Comentario de Revisión</mat-label>
-                            <textarea matInput placeholder="Comentario de Revision" formControlName="Cometario_Revisor" multiline rows="3"></textarea>
+                            <textarea matInput placeholder="Comentario de Revision" formControlName="Cometario_Revisor"
+                                multiline rows="3"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
-            </div>            
+            </div>
             <div [hidden]="!showComentarioGestor">
                 <!--<div class="row" style="padding-bottom: 20px;">
                     <div class="col sub-title-col">
@@ -1188,7 +1242,8 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Comentarios del Gestor</mat-label>
-                            <textarea matInput placeholder="Comentarios del Gestor" formControlName="ComentarioGestor" multiline rows="3"></textarea>
+                            <textarea matInput placeholder="Comentarios del Gestor" formControlName="ComentarioGestor"
+                                multiline rows="3"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
@@ -1196,7 +1251,9 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Usuario Ingreso File </mat-label>
-                            <people-picker-input formControlName="UsuarioIngresoFile" (onRemove)="removeUsuarioIngresoFile()" placeholder="Escribe un nombre..." [multiple]="false">
+                            <people-picker-input formControlName="UsuarioIngresoFile"
+                                (onRemove)="removeUsuarioIngresoFile()" placeholder="Escribe un nombre..."
+                                [multiple]="false">
                             </people-picker-input>
                         </mat-form-field>
                     </div>
@@ -1226,7 +1283,8 @@
                         <div class="col">
                             <mat-form-field appearance="outline" class="full-width">
                                 <mat-label class="TituloCampo">Comentario Gestor</mat-label>
-                                <textarea matInput placeholder="Comentarios Gestor" formControlName="Comentario_Gestor_Hip" multiline rows="3"></textarea>
+                                <textarea matInput placeholder="Comentarios Gestor"
+                                    formControlName="Comentario_Gestor_Hip" multiline rows="3"></textarea>
                             </mat-form-field>
                         </div>
                     </div>
@@ -1234,109 +1292,107 @@
             </div>
             <div [hidden]="!mostrarCampo_ComentarioGarantia">
                 <div class="row">
-                    <div class="col" >
+                    <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Comentario de Garantía</mat-label>
-                            <textarea matInput placeholder="Comentario Garantía" multiline rows="3" formControlName="ComentarioGarantia"></textarea>
+                            <textarea matInput placeholder="Comentario Garantía" multiline rows="3"
+                                formControlName="ComentarioGarantia"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
             </div>
             <div [hidden]="!mostrarCampo_ComentarioOficinaFile2">
                 <div class="row">
-                    <div class="col" >
+                    <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Comentario de Oficina File 2</mat-label>
-                            <textarea matInput placeholder="Comentario de Oficina File 2" multiline rows="3" formControlName="ComentarioOficinaFile2"></textarea>
+                            <textarea matInput placeholder="Comentario de Oficina File 2" multiline rows="3"
+                                formControlName="ComentarioOficinaFile2"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
             </div>
             <div [hidden]="!mostrarCampo_ComentarioValidadorGarantia">
                 <div class="row">
-                    <div class="col" >
+                    <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Comentario Validador Garantía</mat-label>
-                            <textarea matInput placeholder="Comentario Validador Garantía" multiline rows="3" formControlName="ComentarioValidadorGarantia"></textarea>
+                            <textarea matInput placeholder="Comentario Validador Garantía" multiline rows="3"
+                                formControlName="ComentarioValidadorGarantia"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
             </div>
             <div [hidden]="!mostrarCampo_ComentarioLegal">
                 <div class="row">
-                    <div class="col" >
+                    <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Comentario Legal</mat-label>
-                            <textarea matInput placeholder="Comentario Legal" multiline rows="3" formControlName="ComentarioLegal"></textarea>
+                            <textarea matInput placeholder="Comentario Legal" multiline rows="3"
+                                formControlName="ComentarioLegal"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
             </div>
             <div [hidden]="!mostrarCampo_ComentarioMiVivienda">
                 <div class="row">
-                    <div class="col" >
+                    <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Comentario Mi Vivienda</mat-label>
-                            <textarea matInput placeholder="Comentario Mi Vivienda" multiline rows="3" formControlName="ComentarioMiVivienda"></textarea>
+                            <textarea matInput placeholder="Comentario Mi Vivienda" multiline rows="3"
+                                formControlName="ComentarioMiVivienda"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
             </div>
             <div [hidden]="!mostrarCampo_ComentarioDesembolso">
                 <div class="row">
-                    <div class="col" >
+                    <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Comentario Desembolso</mat-label>
-                            <textarea matInput placeholder="Comentario Desembolso" multiline rows="3" formControlName="ComentarioDesembolso"></textarea>
+                            <textarea matInput placeholder="Comentario Desembolso" multiline rows="3"
+                                formControlName="ComentarioDesembolso"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
             </div>
-        </div>      
+        </div>
         <hr>
         <div class="row card-center">
 
             <div class="col">
-                <button [routerLink]="['/']" mat-raised-button class="full-width" color="primary" type="button">Cancelar</button>
+                <button [routerLink]="['/']" mat-raised-button class="full-width" color="primary"
+                    type="button">Cancelar</button>
             </div>
 
             <div class="" [ngClass]="{
                 'd-none': !showBtnAprobar,
                 'col': showBtnAprobar
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="approve()">Aprobar</button>
-
-            </div>
-            <div class="" [ngClass]="{
-                'd-none': !showBtnAprobarSinVerificacion,
-                'col': showBtnAprobarSinVerificacion
-                }">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="approveWithoutVerification()">Aprobar sin Verificación</button>
-
-            </div>
-            <div class="" [ngClass]="{
-                'd-none': !showBtnAprobarEnVerificacion,
-                'col': showBtnAprobarEnVerificacion
-                }">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="inVerification()">En
-                    Verificación</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="approve()">Aprobar</button>
 
             </div>
 
-            <div class="" [ngClass]="{
-                'd-none': !showBtnObservacionOficina,
-                'col': showBtnObservacionOficina
-                }">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="officeObservation()">Observación Oficina</button>
-
+            <div class="" [ngClass]="{'d-none': !showBtnAprobarSinVerificacion,'col': showBtnAprobarSinVerificacion}">
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviarGestionFiles2_EvaluacionRiesgo()">Aprobar sin Verificación</button>
             </div>
-
-            <div class="" [ngClass]="{
-                'd-none': !showBtnRechazar,
-                'col': showBtnRechazar
-                }">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="rejected()">Rechazar</button>
-
+            <div class="" [ngClass]="{'d-none': !showBtnAprobarEnVerificacion,'col': showBtnAprobarEnVerificacion}">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviarVerificacionRiesgos_EvaluacionRiesgo()">
+                    En Verificación</button>
+            </div>
+            <div class="" [ngClass]="{'d-none': !showBtnAprobarEnVerificacion,'col': showBtnAprobarEnVerificacion}">
+                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviarOpinionFavorable_EvaluacionRiesgo()">
+                    Opinión Favorable</button>
+            </div>
+            <div class="" [ngClass]="{'d-none': !showBtnObservacionOficina,'col': showBtnObservacionOficina}">
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviarObservarOficina_EvaluacionRiesgo()">Observación Oficina</button>
+            </div>
+            <div class="" [ngClass]="{'d-none': !showBtnRechazar,'col': showBtnRechazar}">
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="rejected()">Rechazar</button>
             </div>
 
             <div class="" [ngClass]="{
@@ -1351,7 +1407,8 @@
               'd-none': !showBtnGrabar,
               'col': showBtnGrabar
               }">
-                <button [ngStyle]="{'background':colorBoton,'color':colorletraBoton}" mat-raised-button class="full-width" (click)="save()" type="button">Grabar</button>
+                <button [ngStyle]="{'background':colorBoton,'color':colorletraBoton}" mat-raised-button
+                    class="full-width" (click)="save()" type="button">Grabar</button>
 
             </div>
 
@@ -1363,7 +1420,8 @@
             'd-none': !showBtnObservar,
             'col': showBtnObservar
             }">
-                <button mat-raised-button class="full-width" color="primary" type="submit" (click)="eventoObservarCPM()">Observar</button>
+                <button mat-raised-button class="full-width" color="primary" type="submit"
+                    (click)="eventoObservarCPM()">Observar</button>
             </div>
             <!--<div class="" [ngClass]="{
             'd-none': !showBtnObservarRegistro,
@@ -1375,45 +1433,52 @@
                 'd-none': !mostrarBotonDesestimiento,
                 'col': mostrarBotonDesestimiento
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="enviarDesestimiento()">Desestimar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="enviarDesestimiento()">Desestimar</button>
             </div>
             <div class="" [ngClass]="{
                 'd-none': !mostrarBotonEnviarRegistroCPM,
                 'col': mostrarBotonEnviarRegistroCPM
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="enviarRegistroCPM()">Registro CPM</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="enviarRegistroCPM()">Registro CPM</button>
             </div>
             <div class="" [ngClass]="{
                 'd-none': !showBtnEnviar,
                 'col': showBtnEnviar
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="send()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="send()">Enviar</button>
 
             </div>
             <div class="" [ngClass]="{
                 'd-none': !mostrarBotonEnviarGestionFiles2,
                 'col': mostrarBotonEnviarGestionFiles2
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="enviarGestionFiles2()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="enviarGestionFiles2()">Enviar</button>
             </div>
 
             <div class="" [ngClass]="{
                 'd-none': !mostrarBotonEnviarObservadoGestor,
                 'col': mostrarBotonEnviarObservadoGestor
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="enviarObservadoGestor()">Observar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="enviarObservadoGestor()">Observar</button>
             </div>
             <div class="" [ngClass]="{
                 'd-none': !mostrarBotonEnviarValidacionFiles2,
                 'col': mostrarBotonEnviarValidacionFiles2
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoEnviarValidacionFiles2()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoEnviarValidacionFiles2()">Enviar</button>
             </div>
             <div class="" [ngClass]="{
                 'd-none': !mostrarBotonGuardarPreTerminado,
                 'col': mostrarBotonGuardarPreTerminado
                 }">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="guardarPreTerminado()">Guardar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="guardarPreTerminado()">Guardar</button>
             </div>
             <!--<div class="" [ngClass]="{
                 'd-none': !mostrarBotonEnviarIngresoFiles2,
@@ -1421,106 +1486,143 @@
                 }">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoEnviarIngresoFiles2()">Terminar</button>
             </div>-->
-                     
+
             <div class="col" *ngIf="mostrarBotones_IngresoFiles">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_IngresoFiles()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_IngresoFiles()">Enviar</button>
             </div>
 
             <div class="col" *ngIf="mostrarBotones_RegistroGarantia">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservar_RegistroGarantia()">Observar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonObservar_RegistroGarantia()">Observar</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_RegistroGarantia">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_RegistroGarantia()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_RegistroGarantia()">Enviar</button>
             </div>
 
             <div class="col" *ngIf="mostrarBotones_ObservadoGarantia">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonDesestimar_ObservadoGarantia()">Desestimar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonDesestimar_ObservadoGarantia()">Desestimar</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_ObservadoGarantia">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ObservadoGarantia()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_ObservadoGarantia()">Enviar</button>
             </div>
 
             <div class="col" *ngIf="mostrarBotones_ValidacionGarantia">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservar_ValidacionGarantia()">Observar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonObservar_ValidacionGarantia()">Observar</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_ValidacionGarantia">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ValidacionGarantia()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_ValidacionGarantia()">Enviar</button>
             </div>
 
             <div class="col" *ngIf="mostrarBotones_GestionLegal">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservar_GestionLegal()">Observar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonObservar_GestionLegal()">Observar</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_GestionLegal">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_GestionLegal()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_GestionLegal()">Enviar</button>
             </div>
 
             <div class="col" *ngIf="mostrarBotones_ObservadoLegal">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonDesestimar_ObservadoLegal()">Desestimar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonDesestimar_ObservadoLegal()">Desestimar</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_ObservadoLegal">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ObservadoLegal()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_ObservadoLegal()">Enviar</button>
             </div>
 
             <div class="col" *ngIf="mostrarBotones_ValidacionGestor">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservarLegal_ValidacionGestor()">Observar a Legal</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonObservarLegal_ValidacionGestor()">Observar a Legal</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_ValidacionGestor">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservarOficina_ValidacionGestor()">Observar a Oficina</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonObservarOficina_ValidacionGestor()">Observar a Oficina</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_ValidacionGestor">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ValidacionGestor()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_ValidacionGestor()">Enviar</button>
             </div>
 
             <div class="col" *ngIf="mostrarBotones_ObservadoGestorLegal">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ObservadoGestorLegal()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_ObservadoGestorLegal()">Enviar</button>
             </div>
 
             <div class="col" *ngIf="mostrarBotones_ObservadoGestorDesembolso">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonDesestimar_ObservadoGestorDesembolso()">Desestimar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonDesestimar_ObservadoGestorDesembolso()">Desestimar</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_ObservadoGestorDesembolso">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ObservadoGestorDesembolso()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_ObservadoGestorDesembolso()">Enviar</button>
             </div>
 
             <div class="col" *ngIf="mostrarBotones_MiVivienda">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservar_MiVivienda()">Observar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonObservar_MiVivienda()">Observar</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_MiVivienda">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_MiVivienda()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_MiVivienda()">Enviar</button>
             </div>
 
             <div class="col" *ngIf="mostrarBotones_ObservadoMiVivienda">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonDesestimar_ObservadoMiVivienda()">Desestimar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonDesestimar_ObservadoMiVivienda()">Desestimar</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_ObservadoMiVivienda">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ObservadoMiVivienda()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_ObservadoMiVivienda()">Enviar</button>
             </div>
-            
+
             <div class="col" *ngIf="mostrarBotones_EsperaFondos">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_EsperaFondos()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_EsperaFondos()">Enviar</button>
             </div>
 
             <div class="col" *ngIf="mostrarBotones_ValidacionDesembolso">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservar_ValidacionDesembolso()">Observar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonObservar_ValidacionDesembolso()">Observar</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_ValidacionDesembolso">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ValidacionDesembolso()">Enviar</button>
-            </div>            
-            
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_ValidacionDesembolso()">Enviar</button>
+            </div>
+
             <div class="col" *ngIf="mostrarBotones_ObservadoDesembolso">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonDesestimar_ObservadoDesembolso()">Desestimar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonDesestimar_ObservadoDesembolso()">Desestimar</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_ObservadoDesembolso">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_ObservadoDesembolso()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_ObservadoDesembolso()">Enviar</button>
             </div>
 
             <div class="col" *ngIf="mostrarBotones_EjecucionDesembolso">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonObservar_EjecucionDesembolso()">Observar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonObservar_EjecucionDesembolso()">Observar</button>
             </div>
             <div class="col" *ngIf="mostrarBotones_EjecucionDesembolso">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviar_EjecucionDesembolso()">Enviar</button>
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_EjecucionDesembolso()">Enviar</button>
             </div>
-           
+
+            <div class="col" *ngIf="mostrarBotones_OpinionFavorable">
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonRechazar_OpinionFavorable()">Rechazar</button>
+            </div>
+            <div class="col" *ngIf="mostrarBotones_OpinionFavorable">
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_OpinionFavorable()">Aprobar</button>
+            </div>
+
         </div>
         <br>
     </form>

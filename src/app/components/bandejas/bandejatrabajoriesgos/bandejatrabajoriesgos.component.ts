@@ -122,6 +122,9 @@ export class BandejatrabajoriesgosComponent extends FormularioBase implements On
         else if (this.datosMaestrosBandeja.PertenceGrupo_U_Verificacion_Riesgos && elementoEstado.Id === 32) {
           return true;
         }
+        else if (this.datosMaestrosBandeja.PertenceGrupo_U_Verificacion_Riesgos && elementoEstado.Id === 59) {
+          return true;
+        }
         else if (this.datosMaestrosBandeja.PertenceGrupo_U_Reasignador_Riesgos && elementoEstado.Id === 4) {
           return true;
         }
