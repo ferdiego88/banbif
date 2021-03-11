@@ -123,8 +123,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   mostrarCampo_ComentarioOficinaFile2: boolean = false;
   mostrarCampo_ComentarioValidadorGarantia: boolean = false;
   mostrarCampo_ComentarioLegal: boolean = false;
+  mostrarCampo_ComentarioValidacionGestor: boolean = false;
   mostrarCampo_ComentarioMiVivienda: boolean = false;
-  mostrarCampo_ComentarioDesembolso: boolean = false;
+  mostrarCampo_ComentarioDesembolso: boolean = false;  
 
   EsGestor: boolean = false;
   EsAnalistaRiesgo: boolean = false;
@@ -304,6 +305,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     Comentario_Gestor_Hip: [null],
 
     ComentarioGestor: [null],
+    ComentarioValidacionGestor: [null],
     Desembolsado: [null],
     NumeroPropuesta: [null],
     FechaIngresoRiesgo: [null],
@@ -316,6 +318,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     ComentarioLegal: [null],
     ComentarioMiVivienda: [null],
     ComentarioDesembolso: [null],
+    DireccionFile: [null],
 
     /*postalCode: [null, Validators.compose([
       Validators.required, Validators.minLength(5), Validators.maxLength(5)])
@@ -335,6 +338,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     Variables.columnasSolicitud.Cometario_Evaluacion,
     Variables.columnasSolicitud.Comentario_Gestor_Hip,
     Variables.columnasSolicitud.ComentarioGestor,
+    Variables.columnasSolicitud.ComentarioValidacionGestor,
     Variables.columnasSolicitud.ComentarioGarantia,
     Variables.columnasSolicitud.ComentarioOficinaFile2,
     Variables.columnasSolicitud.ComentarioValidadorGarantia,
@@ -515,6 +519,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
               this.creditForm.controls.EstadoMiViviendaId.setValue(this.ItemSolicitud["EstadoMiViviendaId"]);
 
               this.creditForm.controls.TEA.setValue(this.ItemSolicitud.TEA);
+
+              debugger;
+              this.creditForm.controls.DireccionFile.setValue(this.ItemSolicitud.DireccionFile);
 
               this.creditForm.controls.pFinanciamiento.setValue(this.ItemSolicitud.Financiamiento * 100);
 
@@ -1010,6 +1017,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
 
+      this.mostrarCampo_ComentarioValidacionGestor = true;
+      this.creditForm.controls.ComentarioValidacionGestor.disable();
+
       this.mostrarCampo_ComentarioDesembolso = true;
       this.creditForm.controls.ComentarioDesembolso.disable();
 
@@ -1052,6 +1062,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
 
+      this.mostrarCampo_ComentarioValidacionGestor = true;
+      this.creditForm.controls.ComentarioValidacionGestor.disable();
+
       this.mostrarCampo_ComentarioDesembolso = true;
       this.creditForm.controls.ComentarioDesembolso.disable();
 
@@ -1092,6 +1105,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
+
+      this.mostrarCampo_ComentarioValidacionGestor = true;
+      this.creditForm.controls.ComentarioValidacionGestor.disable();
 
       this.mostrarCampo_ComentarioDesembolso = true;
       this.creditForm.controls.ComentarioDesembolso.disable();
@@ -1658,7 +1674,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
-
+      
       this.mostrarBotones_ValidacionGarantia = true;
       this.mostrarCampo_ComentarioValidadorGarantia = true;
 
@@ -1666,7 +1682,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.creditForm.controls.ComentarioValidadorGarantia.disable();
         this.mostrarBotones_ValidacionGarantia = false;
       }
-
     }
     else if (estado === Variables.constantes.EstadoValidacionGestor) {
 
@@ -1705,6 +1720,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.mostrarCampo_ComentarioOficinaFile2 = true;
       }
 
+      this.creditForm.controls.ComentarioGestor.disable();
+
       this.mostrarCampo_ComentarioValidadorGarantia = true;
       this.creditForm.controls.ComentarioValidadorGarantia.disable();
 
@@ -1712,6 +1729,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.ComentarioLegal.disable();
 
       this.mostrarBotones_ValidacionGestor = true;
+      this.mostrarCampo_ComentarioValidacionGestor = true;
 
       const idTipoProducto = this.creditForm.get('Tipo_ProductoId').value;
 
@@ -1767,6 +1785,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioValidadorGarantia = true;
       this.creditForm.controls.ComentarioValidadorGarantia.disable();
 
+      this.mostrarCampo_ComentarioValidacionGestor = true;
+      this.creditForm.controls.ComentarioValidacionGestor.disable();
+
       this.mostrarCampo_ComentarioLegal = true;
       this.mostrarBotones_ObservadoGestorLegal = true;
 
@@ -1815,6 +1836,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioValidadorGarantia = true;
       this.creditForm.controls.ComentarioValidadorGarantia.disable();
 
+      this.mostrarCampo_ComentarioValidacionGestor = true;
+      this.creditForm.controls.ComentarioValidacionGestor.disable();
+
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
 
@@ -1853,6 +1877,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.NumeroPropuesta.disable();
       this.creditForm.controls.Analista_Riesgos.disable();
       this.creditForm.controls.UsuarioIngresoFile.disable();
+      this.creditForm.controls.ComentarioGestor.disable();
 
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
@@ -1864,6 +1889,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarCampo_ComentarioValidadorGarantia = true;
       this.creditForm.controls.ComentarioValidadorGarantia.disable();
+
+      this.mostrarCampo_ComentarioValidacionGestor = true;
+      this.creditForm.controls.ComentarioValidacionGestor.disable();
 
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
@@ -1927,6 +1955,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioValidadorGarantia = true;
       this.creditForm.controls.ComentarioValidadorGarantia.disable();
 
+      this.mostrarCampo_ComentarioValidacionGestor = true;
+      this.creditForm.controls.ComentarioValidacionGestor.disable();
+
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
 
@@ -1985,6 +2016,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioValidadorGarantia = true;
       this.creditForm.controls.ComentarioValidadorGarantia.disable();
 
+      this.mostrarCampo_ComentarioValidacionGestor = true;
+      this.creditForm.controls.ComentarioValidacionGestor.disable();
+
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
 
@@ -2039,6 +2073,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarCampo_ComentarioValidadorGarantia = true;
       this.creditForm.controls.ComentarioValidadorGarantia.disable();
+
+      this.mostrarCampo_ComentarioValidacionGestor = true;
+      this.creditForm.controls.ComentarioValidacionGestor.disable();
 
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
@@ -3527,7 +3564,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
     const itemSave = {
       EstadoId: 50,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+      //ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+      ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
       Fecha_Estado: new Date(),
       EnLegal: true
     };
@@ -3550,7 +3588,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
     const itemSave = {
       EstadoId: 51,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+      //ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+      ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
       Fecha_Estado: new Date()
     };
 
@@ -3574,7 +3613,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       const itemSave = {
         EstadoId: 55,
-        ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+        //ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+        ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
         Fecha_Estado: new Date(),
         EstadoMiViviendaId: 1,
         EnMiVivienda: true,
@@ -3598,7 +3638,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     } else {
       const itemSave = {
         EstadoId: 55,
-        ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+        //ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+        ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
         Fecha_Estado: new Date()
       };
 

@@ -11,6 +11,8 @@ export class EBandejaSeguimientoSolicitud {
     Author: string;
     Created: Date;
     Estado: string;
+    EstadoLegal: string;
+    EstadoMiVivienda: string;
     Responsable: string;
     FechaAtencion: Date;
     EstadoFinal: string;
@@ -40,6 +42,8 @@ export class EBandejaSeguimientoSolicitud {
             Variables.columnasSeguimiento.Author + '/' + Variables.columnasSeguimiento.Title,
             Variables.columnasSeguimiento.Created,
             Variables.columnasSeguimiento.Estado + '/' + Variables.columnasSeguimiento.Title,
+            Variables.columnasSeguimiento.EstadoLegal + '/' + Variables.columnasSeguimiento.Title,
+            Variables.columnasSeguimiento.EstadoMiVivienda + '/' + Variables.columnasSeguimiento.Title,
             Variables.columnasSeguimiento.Responsable + '/' + Variables.columnasSeguimiento.Title,
             Variables.columnasSeguimiento.FechaAtencion,
             Variables.columnasSeguimiento.EstadoFinal + '/' + Variables.columnasSeguimiento.Title
@@ -51,6 +55,8 @@ export class EBandejaSeguimientoSolicitud {
             Variables.columnasSeguimiento.Author,
             Variables.columnasSeguimiento.SolicitudHipotecario,
             Variables.columnasSeguimiento.Estado,
+            Variables.columnasSeguimiento.EstadoLegal,
+            Variables.columnasSeguimiento.EstadoMiVivienda,
             Variables.columnasSeguimiento.Responsable,
             Variables.columnasSeguimiento.EstadoFinal
         ];
@@ -66,6 +72,8 @@ export class EBandejaSeguimientoSolicitud {
         item.NombreTitular = SPParse.getString(elemento[Variables.columnasSeguimiento.NombreTitular]);
         item.NumeroDocumento = SPParse.getString(elemento[Variables.columnasSeguimiento.NumeroDocumento]);
         item.Estado = Lookup.parseJson(elemento[Variables.columnasSeguimiento.Estado]).Title.toUpperCase();
+        item.EstadoLegal = Lookup.parseJson(elemento[Variables.columnasSeguimiento.EstadoLegal]).Title.toUpperCase();
+        item.EstadoMiVivienda = Lookup.parseJson(elemento[Variables.columnasSeguimiento.EstadoMiVivienda]).Title.toUpperCase();
         item.Responsable = Lookup.parseJson(elemento[Variables.columnasSeguimiento.Responsable]).Title.toUpperCase();
         item.FechaAtencion = SPParse.getDate(elemento[Variables.columnasSeguimiento.FechaAtencion]);
         item.EstadoFinal = Lookup.parseJson(elemento[Variables.columnasSeguimiento.EstadoFinal]).Title.toUpperCase();
@@ -89,6 +97,8 @@ export class EBandejaSeguimientoSolicitud {
         item.NombreTitular = SPParse.getString(elemento[Variables.columnasSeguimiento.NombreTitular]);
         item.NumeroDocumento = SPParse.getString(elemento[Variables.columnasSeguimiento.NumeroDocumento]);
         item.Estado = Lookup.parseJson(elemento[Variables.columnasSeguimiento.Estado]).Title.toUpperCase();
+        item.EstadoLegal = Lookup.parseJson(elemento[Variables.columnasSeguimiento.EstadoLegal]).Title.toUpperCase();
+        item.EstadoMiVivienda = Lookup.parseJson(elemento[Variables.columnasSeguimiento.EstadoMiVivienda]).Title.toUpperCase();
         item.Responsable = Lookup.parseJson(elemento[Variables.columnasSeguimiento.Responsable]).Title.toUpperCase();
         item.FechaAtencion = SPParse.getDate(elemento[Variables.columnasSeguimiento.FechaAtencion]);
         item.EstadoFinal = Lookup.parseJson(elemento[Variables.columnasSeguimiento.EstadoFinal]).Title.toUpperCase();
@@ -222,7 +232,7 @@ export class EBandejaSeguimientoSolicitud {
                             const diff = fechaHoraMaxima.getTime() - fechaHoraDerivacion.getTime();
                             totalSegundos += Math.floor(diff / (1000));
                         }
-                        else if (fechaHoraDerivacion > fechaHoraMaxima){
+                        else if (fechaHoraDerivacion > fechaHoraMaxima) {
                             const diff = fechaHoraMaxima.getTime() - fechaHoraMaxima.getTime();
                             totalSegundos += Math.floor(diff / (1000));
                         }
@@ -248,7 +258,7 @@ export class EBandejaSeguimientoSolicitud {
         }
 
         let calculoDias = (totalSegundos / (horaPorDia * 3600));
-        
+
         const arrayCalculoDias: any[] = calculoDias.toString().split('.');
 
         if (arrayCalculoDias.length == 1) {
@@ -287,13 +297,13 @@ export class EBandejaSeguimientoSolicitud {
         }
 
         duracion = dia + siglaDia + "-" + hora + siglaHora + "-" + minuto + siglaMinuto;
-        
+
         return duracion;
     }
 
     static obtenerDuracionAtencionHoras(fechaHoraDerivacion: Date, fechaHoraAtencion: Date, inicioHorarioOficina: string, finHorarioOficina: string) {
 
-        let duracion : number = 0;
+        let duracion: number = 0;
         let totalSegundos: number = 0;
         const horaInicioDia = parseInt(inicioHorarioOficina);
         const horaFinDia = parseInt(finHorarioOficina);
@@ -358,7 +368,7 @@ export class EBandejaSeguimientoSolicitud {
                             const diff = fechaHoraMaxima.getTime() - fechaHoraDerivacion.getTime();
                             totalSegundos += Math.floor(diff / (1000));
                         }
-                        else if (fechaHoraDerivacion > fechaHoraMaxima){
+                        else if (fechaHoraDerivacion > fechaHoraMaxima) {
                             const diff = fechaHoraMaxima.getTime() - fechaHoraMaxima.getTime();
                             totalSegundos += Math.floor(diff / (1000));
                         }
@@ -383,7 +393,7 @@ export class EBandejaSeguimientoSolicitud {
             }
         }
 
-        let calculoDias = (totalSegundos / (horaPorDia * 3600));        
+        let calculoDias = (totalSegundos / (horaPorDia * 3600));
         duracion = calculoDias * 9;
 
         return duracion;

@@ -1334,6 +1334,17 @@
                     </div>
                 </div>
             </div>
+            <div [hidden]="!mostrarCampo_ComentarioValidacionGestor">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Comentarios del Auxiliar Gestor</mat-label>
+                            <textarea matInput placeholder="Comentarios del Auxiliar Gestor" formControlName="ComentarioValidacionGestor"
+                                multiline rows="3"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
             <div [hidden]="!mostrarCampo_ComentarioMiVivienda">
                 <div class="row">
                     <div class="col">
@@ -1379,11 +1390,13 @@
                     (click)="eventoBotonEnviarGestionFiles2_EvaluacionRiesgo()">Aprobar sin Verificación</button>
             </div>
             <div class="" [ngClass]="{'d-none': !showBtnAprobarEnVerificacion,'col': showBtnAprobarEnVerificacion}">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviarVerificacionRiesgos_EvaluacionRiesgo()">
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviarVerificacionRiesgos_EvaluacionRiesgo()">
                     En Verificación</button>
             </div>
             <div class="" [ngClass]="{'d-none': !showBtnAprobarEnVerificacion,'col': showBtnAprobarEnVerificacion}">
-                <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoBotonEnviarOpinionFavorable_EvaluacionRiesgo()">
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviarOpinionFavorable_EvaluacionRiesgo()">
                     Opinión Favorable</button>
             </div>
             <div class="" [ngClass]="{'d-none': !showBtnObservacionOficina,'col': showBtnObservacionOficina}">

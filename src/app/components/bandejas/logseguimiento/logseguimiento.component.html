@@ -69,6 +69,18 @@
                             Inicial</th>
                         <td class="filaTabla celdaEstado" mat-cell *matCellDef="let element"> {{element.Estado }}</td>
                     </ng-container>
+                    <ng-container matColumnDef="EstadoLegal">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Estado
+                            Legal</th>
+                        <td class="filaTabla celdaEstado" mat-cell *matCellDef="let element"> {{element.EstadoLegal}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="EstadoMiVivienda">
+                        <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Estado
+                            Mi Vivienda</th>
+                        <td class="filaTabla celdaEstado" mat-cell *matCellDef="let element"> {{element.EstadoMiVivienda}}
+                        </td>
+                    </ng-container>
                     <ng-container matColumnDef="Responsable">
                         <th class="cabeceraTabla" mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
                             Responsable Atención</th>

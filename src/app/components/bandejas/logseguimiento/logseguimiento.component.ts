@@ -61,6 +61,8 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
     Variables.columnasSeguimiento.Author,
     Variables.columnasSeguimiento.Created,
     Variables.columnasSeguimiento.Estado,
+    Variables.columnasSeguimiento.EstadoLegal,
+    Variables.columnasSeguimiento.EstadoMiVivienda,
     Variables.columnasSeguimiento.Responsable,
     Variables.columnasSeguimiento.FechaAtencion,
     Variables.columnasSeguimiento.EstadoFinal,
@@ -402,16 +404,19 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
           return EBandejaSeguimientoSolicitud.parseJsonExcel(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Usuario Registro', 'Fecha Registro', 'Estado Inicial', 'Responsable Atención', 'Fecha Atención', 'Estado Final', 'Tiempo de Atención', 'Tiempo de Atención (Horas)'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Usuario Registro', 'Fecha Registro', 'Estado Inicial', 'Estado Legal', 'Estado Mi Vivienda', 'Responsable Atención', 'Fecha Atención', 'Estado Final', 'Tiempo de Atención', 'Tiempo de Atención (Horas)'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 
+          debugger;
           dataMap.push(item.SolicitudHipotecario);
           dataMap.push(item.NumeroDocumento);
           dataMap.push(item.NombreTitular);
           dataMap.push(item.Author);
           dataMap.push(Funciones.dateHoraFormat(item.Created));
           dataMap.push(item.Estado);
+          dataMap.push(item.EstadoLegal);
+          dataMap.push(item.EstadoMiVivienda);
           dataMap.push(item.Responsable);
           if (item.FechaAtencion !== null && item.FechaAtencion !== "") {
             dataMap.push(Funciones.dateHoraFormat(item.FechaAtencion));
