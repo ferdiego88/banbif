@@ -1289,6 +1289,16 @@
                         </div>
                     </div>
                 </div>
+            </div>            
+            <div [hidden]="!mostrarCampo_DireccionFile">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label class="TituloCampo">Dirección</mat-label>
+                            <input matInput placeholder="Dirección" type="text" formControlName="DireccionFile">
+                        </mat-form-field>
+                    </div>
+                </div>
             </div>
             <div [hidden]="!mostrarCampo_ComentarioGarantia">
                 <div class="row">

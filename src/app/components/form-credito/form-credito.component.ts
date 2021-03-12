@@ -125,7 +125,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   mostrarCampo_ComentarioLegal: boolean = false;
   mostrarCampo_ComentarioValidacionGestor: boolean = false;
   mostrarCampo_ComentarioMiVivienda: boolean = false;
-  mostrarCampo_ComentarioDesembolso: boolean = false;  
+  mostrarCampo_ComentarioDesembolso: boolean = false;
+  mostrarCampo_DireccionFile: boolean = false;
 
   EsGestor: boolean = false;
   EsAnalistaRiesgo: boolean = false;
@@ -519,7 +520,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
               this.creditForm.controls.EstadoMiViviendaId.setValue(this.ItemSolicitud["EstadoMiViviendaId"]);
 
               this.creditForm.controls.TEA.setValue(this.ItemSolicitud.TEA);
-              
+
               this.creditForm.controls.DireccionFile.setValue(this.ItemSolicitud.DireccionFile);
 
               this.creditForm.controls.pFinanciamiento.setValue(this.ItemSolicitud.Financiamiento * 100);
@@ -929,6 +930,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarNumeroPropuesta = true;
       this.showAnalistaRiesgos = true;
 
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
+
       this.creditForm.controls.Comentario_Registro.disable();
       this.creditForm.controls.Cometario_Revisor1.disable();
       this.creditForm.controls.Cometario_Revisor.disable();
@@ -972,6 +976,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.Analista_Riesgos.disable();
       this.creditForm.controls.UsuarioIngresoFile.disable();
 
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
+
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
 
@@ -1009,6 +1016,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.NumeroPropuesta.disable();
       this.creditForm.controls.Analista_Riesgos.disable();
       this.creditForm.controls.UsuarioIngresoFile.disable();
+
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
 
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
@@ -1055,6 +1065,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.Analista_Riesgos.disable();
       this.creditForm.controls.UsuarioIngresoFile.disable();
 
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
+
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
 
@@ -1098,6 +1111,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.NumeroPropuesta.disable();
       this.creditForm.controls.Analista_Riesgos.disable();
       this.creditForm.controls.UsuarioIngresoFile.disable();
+
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
 
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
@@ -1414,11 +1430,11 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.NumeroPropuesta.disable();
       this.creditForm.controls.Analista_Riesgos.disable();
       this.setDisableComentarioOficina();
-     
-      if (this.PertenceGrupo_U_Verificacion_Riesgos && this.EsAnalistaRiesgo) {     
+
+      if (this.PertenceGrupo_U_Verificacion_Riesgos && this.EsAnalistaRiesgo) {
         this.mostrarBotones_OpinionFavorable = true;
         this.creditForm.controls.Cometario_Evaluacion.enable();
-      }else{
+      } else {
         this.mostrarBotones_OpinionFavorable = false;
       }
     }
@@ -1484,6 +1500,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.showComentarioCPM = true;
       this.showComentarioRevisor = true;
       this.mostrarNumeroPropuesta = true;
+      this.mostrarCampo_DireccionFile = true;
       this.showAnalistaRiesgos = true;
       this.creditForm.controls.Comentario_Registro.disable();
       this.creditForm.controls.Cometario_Revisor1.disable();
@@ -1493,6 +1510,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       if (!this.PertenceGrupo_U_Asistente_Gestor) {
         this.setDisableComentarioGestor();
+        this.creditForm.controls.DireccionFile.disable();
         this.mostrarBotonEnviarValidacionFiles2 = false;
         this.mostrarBotonEnviarObservadoGestor = false;
         this.mostrarBotonDesestimiento = false;
@@ -1526,9 +1544,11 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarBotonEnviarIngresoFiles2 = true;
       this.mostrarBotones_IngresoFiles = true;
+      this.mostrarCampo_DireccionFile = true;
 
       if (!this.PertenceGrupo_U_Gestor || !this.EsGestor) {
         this.setDisableComentarioGestor();
+        this.creditForm.controls.DireccionFile.disable();
         this.mostrarBotonEnviarIngresoFiles2 = false;
         this.mostrarBotones_IngresoFiles = false;
       }
@@ -1550,6 +1570,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.showBtnGrabar = false;
       this.showComentarioGestor = true;
       this.creditForm.get('NumeroPropuesta').disable();
+
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
 
       if (estado === Variables.constantes.EstadoPreTerminado) {
         this.showDesembolsado = true;
@@ -1594,9 +1617,12 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.mostrarCampo_ComentarioOficinaFile2 = true;
       }
 
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
+
       this.mostrarBotones_RegistroGarantia = true;
       this.mostrarCampo_ComentarioGarantia = true;
-
+     
       if (!this.PertenceGrupo_U_Garantias) {
         this.creditForm.controls.ComentarioGarantia.disable();
         this.mostrarBotones_RegistroGarantia = false;
@@ -1632,6 +1658,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.UsuarioIngresoFile.disable();
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
+
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
 
       this.mostrarBotones_ObservadoGarantia = true;
       this.mostrarCampo_ComentarioOficinaFile2 = true;
@@ -1673,9 +1702,12 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
-      
+
       this.mostrarBotones_ValidacionGarantia = true;
       this.mostrarCampo_ComentarioValidadorGarantia = true;
+
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
 
       if (!this.PertenceGrupo_U_ValidadorGarantias) {
         this.creditForm.controls.ComentarioValidadorGarantia.disable();
@@ -1726,6 +1758,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
+
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
 
       this.mostrarBotones_ValidacionGestor = true;
       this.mostrarCampo_ComentarioValidacionGestor = true;
@@ -1841,6 +1876,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
 
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
+
       this.mostrarBotones_ObservadoGestorDesembolso = true;
 
       if (!this.PertenceGrupo_U_Oficina) {
@@ -1900,6 +1938,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarCampo_ComentarioDesembolso = true;
       this.mostrarBotones_ValidacionDesembolso = true;
+
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
 
       const idTipoProducto = this.creditForm.get('Tipo_ProductoId').value;
 
@@ -1966,6 +2007,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioDesembolso = true;
       this.creditForm.controls.ComentarioDesembolso.disable();
 
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
+
       this.mostrarBotones_ObservadoDesembolso = true;
 
       if (!this.PertenceGrupo_U_Gestor || !this.EsGestor) {
@@ -2027,6 +2071,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioDesembolso = true;
       this.mostrarBotones_EjecucionDesembolso = true;
 
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
+
       if (!this.PertenceGrupo_U_Desembolso) {
         this.creditForm.controls.ComentarioDesembolso.disable();
         this.mostrarBotones_EjecucionDesembolso = false;
@@ -2075,6 +2122,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarCampo_ComentarioValidacionGestor = true;
       this.creditForm.controls.ComentarioValidacionGestor.disable();
+
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
 
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
@@ -3096,6 +3146,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     const itemSave = {
       EstadoId: 43,
       ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+      DireccionFile: this.creditForm.controls.DireccionFile.value,
       UsuarioIngresoFileId: usuarioIngresoFile,
       Fecha_Estado: new Date()
     };
@@ -3237,6 +3288,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     const itemSave = {
       EstadoId: 42,
       ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+      DireccionFile: this.creditForm.controls.DireccionFile.value,
       Fecha_Estado: new Date()
     };
 
@@ -3259,6 +3311,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
     const itemSave = {
       EstadoId: 44,
+      DireccionFile: this.creditForm.controls.DireccionFile.value,
       ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
       Fecha_Estado: new Date(),
       EstadoLegalId: 1,
