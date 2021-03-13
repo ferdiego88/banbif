@@ -4,6 +4,8 @@ import { Lookup } from '../fisics/base/Lookup';
 export class MasterBandejaLogic {
   currentUser: User;
   maestroEstado: Lookup[];
+  maestroEstadoLegal: Lookup[];
+  maestroEstadoMiVivienda: Lookup[];
   maestroTipoProducto: Lookup[];
   maestroOficina: Lookup[];
   maestroZona: Lookup[];
@@ -21,12 +23,14 @@ export class MasterBandejaLogic {
   PertenceGrupo_U_Legal: boolean;
   PertenceGrupo_U_MiVivienda: boolean;
   PertenceGrupo_U_Desembolso: boolean;
-  
+
   isDatos: boolean;
 
   constructor() {
     this.currentUser = new User();
     this.maestroEstado = [];
+    this.maestroEstadoLegal = [];
+    this.maestroEstadoMiVivienda = [];
     this.maestroTipoProducto = [];
     this.maestroOficina = [];
     this.PertenceGrupo_U_Oficina = false;

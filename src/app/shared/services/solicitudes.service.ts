@@ -61,6 +61,14 @@ export class SolicitudesService {
         filterArr.push(`(${filter.Estado.map(x => `(${Variables.columnasSolicitud.Estado}/Id eq '${x}')`).join(" or ")})`);
       }
 
+      if (filter.EstadoLegal && filter.EstadoLegal.length) {
+        filterArr.push(`(${filter.EstadoLegal.map(x => `(${Variables.columnasSolicitud.EstadoLegal}/Id eq '${x}')`).join(" or ")})`);
+      }
+
+      if (filter.EstadoMiVivienda && filter.EstadoMiVivienda.length) {
+        filterArr.push(`(${filter.EstadoMiVivienda.map(x => `(${Variables.columnasSolicitud.EstadoMiVivienda}/Id eq '${x}')`).join(" or ")})`);
+      }
+
       if (filter.Id && filter.Id.length > 0) {
         filterArr.push(`(${Variables.columnasSolicitud.Id}  eq ${filter.Id})`);
       }
@@ -404,8 +412,8 @@ export class SolicitudesService {
     if (filter) {
 
       if (filter.Estado && filter.Estado.length) {
-
-        let filtro = `(${filter.Estado.map(x => `(${Variables.columnasSolicitud.Estado}/Id eq '${x}')`).join(" or ")}`;
+      
+        let filtro = `(${filter.Estado.map(x => `(${Variables.columnasSolicitud.Estado}/Id eq '${x}')`).join(" or ")})`;
 
         filterArr.push(filtro);
       }

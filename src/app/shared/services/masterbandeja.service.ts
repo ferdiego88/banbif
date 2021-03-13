@@ -22,6 +22,8 @@ declare var $:any;
 export class MasterBandejaService {
 
   private listaMaestroEstado: IList;
+  private listaMaestroEstadoLegal: IList;
+  private listaMaestroEstadoMiVivienda: IList;
   private listaMaestroTipoProducto: IList;
   private listaMaestroOficina: IList;
   private listaMaestroZona: IList;
@@ -37,6 +39,8 @@ export class MasterBandejaService {
     });
 
     this.listaMaestroEstado = sp.web.lists.getByTitle(Variables.listas.AdmEstado);
+    this.listaMaestroEstadoLegal = sp.web.lists.getByTitle(Variables.listas.AdmEstadoLegal);
+    this.listaMaestroEstadoMiVivienda = sp.web.lists.getByTitle(Variables.listas.AdmEstadoMiVivienda);
     this.listaMaestroTipoProducto = sp.web.lists.getByTitle(Variables.listas.AdmTipoProducto);
     this.listaMaestroOficina = sp.web.lists.getByTitle(Variables.listas.AdmOficina);
     this.listaMaestroZona = sp.web.lists.getByTitle(Variables.listas.AdmZona);
@@ -51,6 +55,8 @@ export class MasterBandejaService {
 
     listaPromesas.push(this.userService.getCurrentUser());
     listaPromesas.push(this.getMaestroEstado());
+    listaPromesas.push(this.getMaestroEstadoLegal());
+    listaPromesas.push(this.getMaestroEstadoMiVivienda());
     listaPromesas.push(this.getMaestroTipoProducto());
     listaPromesas.push(this.getMaestroOficina());
     listaPromesas.push(this.getMaestroZona());
@@ -61,6 +67,8 @@ export class MasterBandejaService {
 
       masterData.currentUser = results[cont++];
       masterData.maestroEstado = results[cont++];
+      masterData.maestroEstadoLegal = results[cont++];
+      masterData.maestroEstadoMiVivienda = results[cont++];
       masterData.maestroTipoProducto = results[cont++];
       masterData.maestroOficina = results[cont++];
       masterData.maestroZona = results[cont++];
@@ -90,6 +98,38 @@ export class MasterBandejaService {
     const selectFields = ["ID","Title"];
     let result: Array<any>;
     let item = this.listaMaestroEstado.items;
+    result = await item.select(...selectFields).filter("Activo eq 1").orderBy("Title").top(4999).get();
+
+    const items: Lookup[] = result.map(elemento => {
+      const item = new Lookup();
+      item.Id = elemento.Id;
+      item.Title = elemento.Title;
+      return item
+    });
+
+    return items;
+  }
+
+  async getMaestroEstadoLegal(): Promise<Lookup[]> {
+    const selectFields = ["ID","Title"];
+    let result: Array<any>;
+    let item = this.listaMaestroEstadoLegal.items;
+    result = await item.select(...selectFields).filter("Activo eq 1").orderBy("Title").top(4999).get();
+
+    const items: Lookup[] = result.map(elemento => {
+      const item = new Lookup();
+      item.Id = elemento.Id;
+      item.Title = elemento.Title;
+      return item
+    });
+
+    return items;
+  }
+
+  async getMaestroEstadoMiVivienda(): Promise<Lookup[]> {
+    const selectFields = ["ID","Title"];
+    let result: Array<any>;
+    let item = this.listaMaestroEstadoMiVivienda.items;
     result = await item.select(...selectFields).filter("Activo eq 1").orderBy("Title").top(4999).get();
 
     const items: Lookup[] = result.map(elemento => {

@@ -10,6 +10,8 @@ export class EFiltroBandejaSolicitud {
   NumeroDocumento: string;
   TipoProducto: number;
   Estado: Lookup[];
+  EstadoLegal: Lookup[];
+  EstadoMiVivienda: Lookup[];
   Moneda: number;
   ModalidadPago: number;
   Financiamiento: string;
@@ -31,6 +33,8 @@ export class EFiltroBandejaSolicitud {
     this.NumeroDocumento = "";
     this.TipoProducto = 0;
     this.Estado = [];
+    this.EstadoLegal = [];
+    this.EstadoMiVivienda = [];
     this.Moneda = 0;
     this.ModalidadPago = 0;
     this.Financiamiento = "";
