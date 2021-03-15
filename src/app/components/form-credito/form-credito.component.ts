@@ -516,6 +516,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
                 }
               }
 
+              debugger;
+              this.creditForm.controls.BBP_AdicionalId.setValue(this.ItemSolicitud["BBP_AdicionalId"]);
               this.creditForm.controls.EstadoLegalId.setValue(this.ItemSolicitud["EstadoLegalId"]);
               this.creditForm.controls.EstadoMiViviendaId.setValue(this.ItemSolicitud["EstadoMiViviendaId"]);
 
@@ -884,7 +886,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   listenerPBPAdicionalSostenible() {
 
-    this.creditForm.controls.BBP_AdicionalId.setValue(Variables.constantes.TipoBonoViviendaAdicionalSostenibleId);
+    if (this.creditForm.controls.BBP_AdicionalId === null) {
+      this.creditForm.controls.BBP_AdicionalId.setValue(Variables.constantes.TipoBonoViviendaAdicionalSostenibleId);
+    }
     this.creditForm.get('BBP_AdicionalId').valueChanges.subscribe(idPBP => {
 
       let precio = this.creditForm.get('Precio_Venta').value;
@@ -1622,7 +1626,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarBotones_RegistroGarantia = true;
       this.mostrarCampo_ComentarioGarantia = true;
-     
+
       if (!this.PertenceGrupo_U_Garantias) {
         this.creditForm.controls.ComentarioGarantia.disable();
         this.mostrarBotones_RegistroGarantia = false;
@@ -2555,7 +2559,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       Anlista_RiesgosId: analistaRiesgo,
 
       N_Documento: this.creditForm.controls.N_Documento.value,
-      Tipo_RentaId: { results: rentaTitular },      
+      Tipo_RentaId: { results: rentaTitular },
       Grabamen: grabamen,
       Periodo_Gracia: this.creditForm.controls.Periodo_Gracia.value,
       //TEA: ((+this.creditForm.controls.TEA.value) / 100),
