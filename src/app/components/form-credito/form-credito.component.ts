@@ -410,7 +410,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.getSustentoIngresos();
         this.getProject();
         this.getNVivienda();
-        this.getCurrency();
+        this.getCurrency();      
         this.getCurrencyAporteEfectivo();
         this.getCurrencyAporteAFP();
         this.getTEA();
@@ -438,6 +438,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
               this.creditForm.get('EstadoLegalId').disable();
               this.creditForm.get('EstadoMiViviendaId').disable();
               this.creditForm.controls.Plan_Ahorro.disable();
+              //this.listenerTipoMoneda();
             }
             else {
               this.creditForm.get('EstadoId').disable();
@@ -2189,7 +2190,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.showBuenPagador = false;
           this.showBuenAplicacion = false;
           this.showTipoGarantiaAbono = true;
-          this.setearMonedasEmpty();
+          //this.setearMonedasEmpty();
+          this.setearMonedasSoles();
           break;
         case Variables.constantes.TipoProductoAmpliacionRemodelacionConstruccionId:
           this.creditForm.controls.Condicion_Desembolso.setValue(`${Variables.condicionesDesembolso.ContratoFirma}
@@ -2203,7 +2205,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.showCuotaInicial = false;
           this.showBuenPagador = false;
           this.showBuenAplicacion = true;
-          this.setearMonedasEmpty();
+          //this.setearMonedasEmpty();
+          this.setearMonedasSoles();
           break;
         case Variables.constantes.TipoProductoHipotecarioId:
           this.showGarantias = false;
@@ -2214,7 +2217,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.showCuotaInicial = true;
           this.showBuenPagador = false;
           this.showBuenAplicacion = false;
-          this.setearMonedasEmpty();
+          //this.setearMonedasEmpty();
+          this.setearMonedasSoles();
           break;
 
         default:

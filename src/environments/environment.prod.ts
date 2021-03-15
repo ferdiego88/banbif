@@ -1,6 +1,6 @@
 export const environment = {
   production: true,  
-  appPage: '/SitePages/AppDesarrollo.aspx/',
+  appPage: '/SitePages/App.aspx/',
   cdnUrl: 'http://bif1mssapp10/banmin/fdt/hipot',
   paredUrl: 'http://bif1mssapp10/banmin/fdt/hipot',
   proxyTenant: 'http://bif1mssapp10',

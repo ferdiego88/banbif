@@ -134,7 +134,7 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
 
       if (this.tableQuery.filter) this.isOpenMenu = true;
 
-      this.setearFiltrosBusquedaPorEstado();
+      //this.setearFiltrosBusquedaPorEstado();
 
       this.getTablePagination();
       this.ocultarProgreso();
@@ -238,7 +238,7 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
     if (this.tableQuery.filter) this.isOpenMenu = true;
 
     this.removePeople("solicitante");
-    this.setearFiltrosBusquedaPorEstado();
+    //this.setearFiltrosBusquedaPorEstado();
 
     this.getSolicitudes();
   }
@@ -302,9 +302,9 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
 
     this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
 
-    if (this.tableQuery.filter.Estado.length === 0) {
+    /*if (this.tableQuery.filter.Estado.length === 0) {
       this.setearFiltrosBusquedaPorEstado();
-    }
+    }*/
 
     let filter = this.tableQuery.filter;
     let order = this.sort.active;
@@ -380,9 +380,9 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
 
     this.tableQuery.filter.Author = this.getValorControlPeoplePicker(this.nombreControles.filtroSolicitante);
 
-    if (this.tableQuery.filter.Estado.length === 0) {
+    /*if (this.tableQuery.filter.Estado.length === 0) {
       this.setearFiltrosBusquedaPorEstado();
-    }
+    }*/
 
     let filter = this.tableQuery.filter;
     let order = this.sort.active;

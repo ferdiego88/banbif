@@ -45,7 +45,22 @@ export class SeguimientoSolicitudesService {
 
     let filterArr = [];
 
+    debugger;
+
     if (filter) {
+
+
+      if (filter.Estado && filter.Estado.length) {
+        filterArr.push(`(${filter.Estado.map(x => `(${Variables.columnasSeguimiento.Estado}/Id eq '${x}')`).join(" or ")})`);
+      }
+
+      if (filter.EstadoLegal && filter.EstadoLegal.length) {
+        filterArr.push(`(${filter.EstadoLegal.map(x => `(${Variables.columnasSeguimiento.EstadoLegal}/Id eq '${x}')`).join(" or ")})`);
+      }
+
+      if (filter.EstadoMiVivienda && filter.EstadoMiVivienda.length) {
+        filterArr.push(`(${filter.EstadoMiVivienda.map(x => `(${Variables.columnasSeguimiento.EstadoMiVivienda}/Id eq '${x}')`).join(" or ")})`);
+      }
 
       if (filter.SolicitudHipotecario && filter.SolicitudHipotecario.length > 0) {
         filterArr.push(`(${Variables.columnasSeguimiento.SolicitudHipotecario}/Id eq ${filter.SolicitudHipotecario})`);
