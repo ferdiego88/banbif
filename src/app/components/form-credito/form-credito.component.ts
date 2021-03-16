@@ -1473,6 +1473,8 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       if (estado === Variables.constantes.EstadoObservadoGestor) {
         this.showComentarioGestor = true;
         this.setDisableComentarioGestor();
+        this.mostrarCampo_ComentarioValidacionGestor = true;
+        this.creditForm.controls.ComentarioValidacionGestor.disable();
       }
 
       if (!this.PertenceGrupo_U_Oficina) {
@@ -1513,9 +1515,12 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.NumeroPropuesta.disable();
       this.creditForm.controls.Analista_Riesgos.disable();
 
+      this.mostrarCampo_ComentarioValidacionGestor = true;
+
       if (!this.PertenceGrupo_U_Asistente_Gestor) {
         this.setDisableComentarioGestor();
         this.creditForm.controls.DireccionFile.disable();
+        this.creditForm.controls.ComentarioValidacionGestor.disable();
         this.mostrarBotonEnviarValidacionFiles2 = false;
         this.mostrarBotonEnviarObservadoGestor = false;
         this.mostrarBotonDesestimiento = false;
@@ -1551,9 +1556,12 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarBotones_IngresoFiles = true;
       this.mostrarCampo_DireccionFile = true;
 
+      this.mostrarCampo_ComentarioValidacionGestor = true;
+
       if (!this.PertenceGrupo_U_Gestor || !this.EsGestor) {
         this.setDisableComentarioGestor();
         this.creditForm.controls.DireccionFile.disable();
+        this.creditForm.controls.ComentarioValidacionGestor.disable();
         this.mostrarBotonEnviarIngresoFiles2 = false;
         this.mostrarBotones_IngresoFiles = false;
       }
@@ -3156,6 +3164,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     const itemSave = {
       EstadoId: 43,
       ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+      ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
       DireccionFile: this.creditForm.controls.DireccionFile.value,
       UsuarioIngresoFileId: usuarioIngresoFile,
       Fecha_Estado: new Date()
@@ -3298,6 +3307,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     const itemSave = {
       EstadoId: 42,
       ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+      ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
       DireccionFile: this.creditForm.controls.DireccionFile.value,
       Fecha_Estado: new Date()
     };
@@ -3322,6 +3332,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     const itemSave = {
       EstadoId: 44,
       DireccionFile: this.creditForm.controls.DireccionFile.value,
+      ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
       ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
       Fecha_Estado: new Date(),
       EstadoLegalId: 1,
