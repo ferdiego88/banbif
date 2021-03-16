@@ -1503,14 +1503,14 @@
                 <button mat-raised-button class="full-width" color="primary" type="button"
                     (click)="guardarPreTerminado()">Guardar</button>
             </div>
-            <div class="" [ngClass]="{
+            <!--<div class="" [ngClass]="{
                 'd-none': !mostrarBotonEnviarIngresoFiles2,
                 'col': mostrarBotonEnviarIngresoFiles2
                 }">
                 <button mat-raised-button class="full-width" color="primary" type="button" (click)="eventoEnviarIngresoFiles2()">Terminar</button>
-            </div>
+            </div>-->
 
-            <!--<div class="col" *ngIf="mostrarBotones_IngresoFiles">
+            <div class="col" *ngIf="mostrarBotones_IngresoFiles">
                 <button mat-raised-button class="full-width" color="primary" type="button"
                     (click)="eventoBotonEnviar_IngresoFiles()">Enviar</button>
             </div>
@@ -1635,7 +1635,7 @@
             <div class="col" *ngIf="mostrarBotones_EjecucionDesembolso">
                 <button mat-raised-button class="full-width" color="primary" type="button"
                     (click)="eventoBotonEnviar_EjecucionDesembolso()">Enviar</button>
-            </div>-->
+            </div>
 
             <div class="col" *ngIf="mostrarBotones_OpinionFavorable">
                 <button mat-raised-button class="full-width" color="primary" type="button"
