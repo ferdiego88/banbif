@@ -1289,7 +1289,7 @@
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
             <div [hidden]="!mostrarCampo_DireccionFile">
                 <div class="row">
                     <div class="col">
@@ -1333,6 +1333,21 @@
                     </div>
                 </div>
             </div>
+            <div [hidden]="!mostrarCampo_ComentarioValidadorGarantia">
+                <div class="row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label class="TituloCampo">Motivo Observación de Garantía</mat-label>
+                        <mat-select placeholder="Motivo Observación de Garantía" formControlName="MotivoObsGarantiaId">
+                            <mat-option *ngFor="let elemento of motivoObservacionGarantiaList" [value]="elemento.Id">
+                                {{ elemento.Title }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="creditForm.controls['MotivoObsGarantiaId'].hasError('required')">
+                            Seleccione un valor
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
             <div [hidden]="!mostrarCampo_ComentarioLegal">
                 <div class="row">
                     <div class="col">
@@ -1349,8 +1364,8 @@
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
                             <mat-label class="TituloCampo">Comentarios del Auxiliar Gestor</mat-label>
-                            <textarea matInput placeholder="Comentarios del Auxiliar Gestor" formControlName="ComentarioValidacionGestor"
-                                multiline rows="3"></textarea>
+                            <textarea matInput placeholder="Comentarios del Auxiliar Gestor"
+                                formControlName="ComentarioValidacionGestor" multiline rows="3"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
@@ -1375,6 +1390,22 @@
                                 formControlName="ComentarioDesembolso"></textarea>
                         </mat-form-field>
                     </div>
+                </div>
+            </div>
+            <div [hidden]="!mostrarCampo_ComentarioDesembolso">
+                <div class="row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label class="TituloCampo">Motivo Observación de Desembolso</mat-label>
+                        <mat-select placeholder="Motivo Observación de Desembolso"
+                            formControlName="MotivoObsDesembolsoId">
+                            <mat-option *ngFor="let elemento of motivoObservacionDesembolsoList" [value]="elemento.Id">
+                                {{ elemento.Title }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="creditForm.controls['MotivoObsDesembolsoId'].hasError('required')">
+                            Seleccione un valor
+                        </mat-error>
+                    </mat-form-field>
                 </div>
             </div>
         </div>
@@ -1412,6 +1443,10 @@
             <div class="" [ngClass]="{'d-none': !showBtnObservacionOficina,'col': showBtnObservacionOficina}">
                 <button mat-raised-button class="full-width" color="primary" type="button"
                     (click)="eventoBotonEnviarObservarOficina_EvaluacionRiesgo()">Observación Oficina</button>
+            </div>
+            <div class="" [ngClass]="{'d-none': !showBtnObservacionOficina,'col': showBtnObservacionOficina}">
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonObservarData_EvaluacionRiesgo()">Observación Data</button>
             </div>
             <div class="" [ngClass]="{'d-none': !showBtnRechazar,'col': showBtnRechazar}">
                 <button mat-raised-button class="full-width" color="primary" type="button"
@@ -1532,7 +1567,7 @@
                 <button mat-raised-button class="full-width" color="primary" type="button"
                     (click)="eventoBotonEnviar_ObservadoGarantia()">Enviar</button>
             </div>
-
+            
             <div class="col" *ngIf="mostrarBotones_ValidacionGarantia">
                 <button mat-raised-button class="full-width" color="primary" type="button"
                     (click)="eventoBotonObservar_ValidacionGarantia()">Observar</button>

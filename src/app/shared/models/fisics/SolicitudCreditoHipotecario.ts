@@ -124,6 +124,16 @@ export class SolicitudCreditoHipotecario extends ListItem{
     },
 
     public MotivoObsEvaluacionRiesgoId = '',
+    public MotivoObsGarantiaId = '',
+    public MotivoObsDesembolsoId = '',
+    public MotivoObsGarantia = {
+      Id: '',
+      Title: ''
+    },
+    public MotivoObsDesembolsoRiesgo = {
+      Id: '',
+      Title: ''
+    },
     public MotivoObsEvaluacionRiesgo = {
       Id: '',
       Title: ''

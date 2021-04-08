@@ -206,7 +206,9 @@ export class Variables {
     AdmUltimoAbonoValidado: 'Ulitmo_Abono_Validado',
     AdmZona: 'Zona',
     AdmZonaId: 'ZonaId',
-    AdmMotivoObservacionEvaluacionRiesgo: 'MotivoObservacionEvaluacionRiesgo'
+    AdmMotivoObservacionEvaluacionRiesgo: 'MotivoObservacionEvaluacionRiesgo',
+    AdmMotivoObservacionDesembolso: 'MotivoObservacionDesembolso',
+    AdmMotivoObservacionGarantia: 'MotivoObservacionGarantia'
   };
 
   static columnasHipo = {
