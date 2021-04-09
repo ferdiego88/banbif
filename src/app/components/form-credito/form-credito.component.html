@@ -1642,7 +1642,16 @@
 
             <div class="col" *ngIf="mostrarBotones_EsperaFondos">
                 <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonObservar_EsperaFondos()">Observar</button>
+            </div>
+            <div class="col" *ngIf="mostrarBotones_EsperaFondos">
+                <button mat-raised-button class="full-width" color="primary" type="button"
                     (click)="eventoBotonEnviar_EsperaFondos()">Enviar</button>
+            </div>
+
+            <div class="col" *ngIf="mostrarBotones_ObservadoEsperaFondos">
+                <button mat-raised-button class="full-width" color="primary" type="button"
+                    (click)="eventoBotonEnviar_ObservadoEsperaFondos()">Enviar</button>
             </div>
 
             <div class="col" *ngIf="mostrarBotones_ValidacionDesembolso">

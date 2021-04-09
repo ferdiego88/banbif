@@ -300,7 +300,9 @@ export class SolicitudesService {
 
         filtro += ` or (${Variables.columnasSolicitud.EstadoLegal}/Id eq 2)`;
 
-        filtro += ` or (${Variables.columnasSolicitud.EstadoMiVivienda}/Id eq 3))`;
+        filtro += ` or (${Variables.columnasSolicitud.EstadoMiVivienda}/Id eq 3)`;
+
+        filtro += ` or (${Variables.columnasSolicitud.EstadoMiVivienda}/Id eq 5))`;
 
         filterArr.push(filtro);
       }

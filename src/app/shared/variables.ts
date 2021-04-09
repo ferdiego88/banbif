@@ -119,6 +119,7 @@ export class Variables {
     EstadoEsperaFondos: 2,
     EstadoObservadoMiVivienda: 3,
     EstadoValidadoMiVivienda: 4,
+    EstadoObservadoEsperaFondos: 5,
 
     ZonaIDFFVV: 8,
     DoceHoras: 12,

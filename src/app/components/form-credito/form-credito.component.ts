@@ -113,6 +113,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   mostrarBotones_MiVivienda: boolean = false;
   mostrarBotones_ObservadoMiVivienda: boolean = false;
   mostrarBotones_EsperaFondos: boolean = false;
+  mostrarBotones_ObservadoEsperaFondos: boolean = false;
   mostrarBotones_ValidacionDesembolso: boolean = false;
   mostrarBotones_ObservadoDesembolso: boolean = false;
   mostrarBotones_EjecucionDesembolso: boolean = false;
@@ -1154,6 +1155,56 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.ComentarioMiVivienda.disable();
 
       this.mostrarBotones_ObservadoMiVivienda = true;
+    }
+    else if (estadoMiVivienda === Variables.constantes.EstadoObservadoEsperaFondos && this.PertenceGrupo_U_Gestor && this.EsGestor) {
+
+      this.setDisableControlsCabezera();
+      this.setDisableControlsCuotaInicial();
+      this.setDisableControlsDatosOperacion();
+      this.setDisableControlsTipoGarantiaAbono();
+      this.setDisableObservacionesOpcional();
+      this.setDisableControlsAplicacion();
+      this.setDisableComentarios();
+      this.setDisableControlsPlanAhorroProgramado();
+      this.setDisableComentarioOficina();
+
+      this.showBtnObservar = false;
+      this.showBtnGuardarBorrador = false;
+      this.showBtnEnviar = false;
+      this.showComentarioGestor = true;
+      this.showComentarioRiesgos = true;
+      this.showComentarioCPM = true;
+      this.showComentarioRevisor = true;
+      this.mostrarNumeroPropuesta = true;
+      this.showAnalistaRiesgos = true;
+
+      this.creditForm.controls.Comentario_Registro.disable();
+      this.creditForm.controls.Cometario_Revisor1.disable();
+      this.creditForm.controls.Cometario_Revisor.disable();
+      this.creditForm.controls.NumeroPropuesta.disable();
+      this.creditForm.controls.Analista_Riesgos.disable();
+      this.creditForm.controls.UsuarioIngresoFile.disable();
+
+      this.mostrarCampo_DireccionFile = true;
+      this.creditForm.controls.DireccionFile.disable();
+
+      this.mostrarCampo_ComentarioGarantia = true;
+      this.creditForm.controls.ComentarioGarantia.disable();
+
+      this.mostrarCampo_ComentarioLegal = true;
+      this.creditForm.controls.ComentarioLegal.disable();
+
+      this.mostrarCampo_ComentarioValidacionGestor = true;
+      this.creditForm.controls.ComentarioValidacionGestor.disable();
+
+      this.mostrarCampo_ComentarioDesembolso = true;
+      this.creditForm.controls.ComentarioDesembolso.disable();
+      this.creditForm.controls.MotivoObsDesembolsoId.disable();
+
+      this.mostrarCampo_ComentarioMiVivienda = true;
+      this.creditForm.controls.ComentarioMiVivienda.disable();
+
+      this.mostrarBotones_ObservadoEsperaFondos = true;
     }
     else if (estado === Variables.constantes.EstadoCreaExpedienteId) {
       this.showBtnEnviarRegularizar = false;
@@ -3992,6 +4043,29 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     });
   }
 
+  eventoBotonObservar_EsperaFondos(): void {
+
+    const itemSave = {
+      ComentarioMiVivienda: this.creditForm.controls.ComentarioMiVivienda.value,
+      EstadoMiViviendaId: 5,
+      EnMiVivienda: false,
+      EnGestor: true
+    };
+
+    Swal.fire({
+      title: '¿Está seguro de observar la solicitud?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`, icon: 'question'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.showLoading();
+        this.update(itemSave, 'La solicitud se ha observado.', 'No se pudo observar la solicitud');
+      } else if (result.isDismissed) {
+        Swal.fire('No se pudo observar la solicitud', '', 'info');
+      }
+    });
+  }
+
   eventoBotonEnviar_EsperaFondos(): void {
 
     const estado = this.creditForm.get('EstadoId').value;
@@ -4041,6 +4115,29 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         }
       });
     }
+  }
+
+  eventoBotonEnviar_ObservadoEsperaFondos(): void {
+
+    const itemSave = {
+      EstadoMiViviendaId: 1,
+      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
+      EnMiVivienda: true,
+      EnGestor: false
+    };
+
+    Swal.fire({
+      title: '¿Está seguro de enviar la solicitud a Estado Mi Vivienda?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`, icon: 'question'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.showLoading();
+        this.update(itemSave, 'La solicitud se ha enviado a Estado Mi Vivienda.', 'No se pudo enviar la solicitud a Estado Mi Vivienda');
+      } else if (result.isDismissed) {
+        Swal.fire('No se pudo enviar la solicitud a Estado Mi Vivienda', '', 'info');
+      }
+    });
   }
 
   eventoBotonObservar_ValidacionDesembolso(): void {

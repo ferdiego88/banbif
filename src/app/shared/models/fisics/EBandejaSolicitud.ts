@@ -90,9 +90,9 @@ export class EBandejaSolicitud {
 
     public static getColumnasExpand(): string[] {
         return [
-            Variables.columnasSolicitud.Author,
-            //Variables.columnasSolicitud.TipoDocumento,
+            Variables.columnasSolicitud.Author,            
             Variables.columnasSolicitud.TipoProducto,
+            //Variables.columnasSolicitud.TipoDocumento,
             Variables.columnasSolicitud.Estado,
             Variables.columnasSolicitud.EstadoLegal,
             Variables.columnasSolicitud.EstadoMiVivienda,
