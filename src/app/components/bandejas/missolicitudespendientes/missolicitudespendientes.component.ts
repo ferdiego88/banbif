@@ -197,11 +197,9 @@ export class MissolicitudespendientesComponent extends FormularioBase implements
       window.open(url, '_blank');
     }
   }
-
-  public irPaginaSolicitud(
-    elemento: any
-  ) {
-    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
+ 
+  public irPaginaSolicitud(elemento: any) {
+    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id + "/b10";
     window.open(url, '_blank');
   }
 

@@ -134,6 +134,7 @@ export class Variables {
     inicio: 'inicio',
     bandejaSolicitudMaterial: 'material-bandeja-solicitud',
     formCreditoDetalle: 'hipotecario/solicitud/:id',
+    formCreditoDetalleXBandeja: 'hipotecario/solicitud/:id/:bandeja',
     formCredito: 'hipotecario/solicitud',
     formTable: 'formTable',
     bandejaMisSolicitudesPendientes: 'bandejas/missolicitudespendientes',

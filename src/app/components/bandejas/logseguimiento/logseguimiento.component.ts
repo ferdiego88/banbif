@@ -170,10 +170,8 @@ export class LogseguimientoComponent extends FormularioBase implements OnInit {
     return d.promise;
   }
 
-  public irPaginaSolicitud(
-    elemento: any
-  ) {
-    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.SolicitudHipotecario;
+  public irPaginaSolicitud(elemento: any) {
+    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.SolicitudHipotecario + "/b9";
     window.open(url, '_blank');
   }
 

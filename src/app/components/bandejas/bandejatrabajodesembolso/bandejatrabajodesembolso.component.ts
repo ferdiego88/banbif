@@ -199,10 +199,8 @@ export class BandejatrabajodesembolsoComponent extends FormularioBase implements
     }
   }
 
-  public irPaginaSolicitud(
-    elemento: any
-  ) {
-    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
+  public irPaginaSolicitud(elemento: any) {
+    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id + "/b2";
     window.open(url, '_blank');
   }
 

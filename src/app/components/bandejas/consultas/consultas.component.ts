@@ -183,11 +183,9 @@ export class ConsultasComponent extends FormularioBase implements OnInit {
     }
   }
 
-  public irPaginaSolicitud(
-    elemento: any
-  ) {
-      const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
-      window.open(url, '_blank');   
+  public irPaginaSolicitud(elemento: any) {
+    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id + "/b8";
+    window.open(url, '_blank');
   }
 
   reload() {

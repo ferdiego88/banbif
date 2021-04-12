@@ -215,10 +215,8 @@ export class BandejatrabajoriesgosComponent extends FormularioBase implements On
     }
   }
 
-  public irPaginaSolicitud(
-    elemento: any
-  ) {
-    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
+  public irPaginaSolicitud(elemento: any) {
+    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id + "/b7";
     window.open(url, '_blank');
   }
 

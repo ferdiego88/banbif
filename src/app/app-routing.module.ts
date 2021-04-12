@@ -29,6 +29,7 @@ const routes: Routes = [
     // loadChildren: () => import('./components/home/home.component').then(m => m.HomeComponent)
   },
   { path: Variables.path.formCreditoDetalle, component: FormCreditoComponent },
+  { path: Variables.path.formCreditoDetalleXBandeja, component: FormCreditoComponent },
   { path: Variables.path.formCredito, component: FormCreditoComponent },
   { path: Variables.path.bandejaMisSolicitudesPendientes, component: MissolicitudespendientesComponent },
   { path: Variables.path.bandejaConsultas, component: ConsultasComponent },

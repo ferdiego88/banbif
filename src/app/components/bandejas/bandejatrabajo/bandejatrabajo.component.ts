@@ -126,7 +126,7 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
         }
         else if (this.datosMaestrosBandeja.PertenceGrupo_U_Asignacion_Riesgos && elementoEstado.Id === 30) {
           return true;
-        }               
+        }
         else if (this.datosMaestrosBandeja.PertenceGrupo_U_Asistente_Gestor && elementoEstado.Id === 39) {
           return true;
         }
@@ -208,11 +208,9 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
     }
   }
 
-  public irPaginaSolicitud(
-    elemento: any
-  ) {
-      const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
-      window.open(url, '_blank');   
+  public irPaginaSolicitud(elemento: any) {
+    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id + "/b1";
+    window.open(url, '_blank');
   }
 
   reload() {
@@ -377,8 +375,8 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
 
     if (!this.solicitudes_paged_history[this.paginator.pageIndex]) {
 
-      if(this.solicitudes_paged["nextUrl"] !== undefined){
-        this.solicitudes_paged["nextUrl"] = this.solicitudes_paged["nextUrl"].replace("https","http");
+      if (this.solicitudes_paged["nextUrl"] !== undefined) {
+        this.solicitudes_paged["nextUrl"] = this.solicitudes_paged["nextUrl"].replace("https", "http");
       }
 
       this.solicitudes_paged_history[this.paginator.pageIndex] = this.solicitudes_paged;
@@ -435,7 +433,7 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
           return EBandejaSolicitud.parseJson(elemento);
         });
 
-        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina',  'Tipo Producto', 'Moneda', 'Desembolso', 'Analista Riesgos'];
+        const headers: string[] = ['N° Solicitud', 'Nro. Documento', 'Nombre Titular', 'Solicitante', 'Fec. Creación', 'Fecha Estado', 'Estado', 'Zona', 'Oficina', 'Tipo Producto', 'Moneda', 'Desembolso', 'Analista Riesgos'];
         const details: any[][] = items.map((item: any) => {
           const dataMap: any[] = [];
 

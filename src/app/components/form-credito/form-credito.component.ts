@@ -928,7 +928,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     const estado = this.creditForm.get('EstadoId').value;
     const estadoLegal = this.creditForm.get('EstadoLegalId').value;
     const estadoMiVivienda = this.creditForm.get('EstadoMiViviendaId').value;
-    
+
     if (estadoLegal === Variables.constantes.EstadoGestionLegal && this.PertenceGrupo_U_Legal) {
 
       this.setDisableControlsCabezera();
@@ -2200,7 +2200,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.MotivoObsGarantiaId.disable();
 
       this.mostrarCampo_ComentarioValidacionGestor = true;
-      this.creditForm.controls.ComentarioValidacionGestor.disable();      
+      this.creditForm.controls.ComentarioValidacionGestor.disable();
 
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
@@ -2981,7 +2981,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
           this.hideLoading();
           this.showSuccessMessage('El Borrador se Guardo Correctamente');
 
-          this.router.navigate(['/bandejas/consultas']);
+          this.router.navigate(['/bandejas/missolicitudespendientes']);
         } else {
           this.hideLoading();
           this.showErrorMessage('no se grabó el registro');
@@ -3225,20 +3225,117 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     });
   }
 
+  cancelar() {
+    this.route.params.subscribe(param => {
+      if (param.id !== undefined && param.id !== null && param.bandeja !== undefined && param.bandeja !== null) {
+
+        if (param.bandeja === "b1") {
+          this.router.navigate(['/bandejas/bandejatrabajo']);
+        }
+        else if (param.bandeja === "b2") {
+          this.router.navigate(['/bandejas/bandejatrabajodesembolso']);
+        }
+        else if (param.bandeja === "b3") {
+          this.router.navigate(['/bandejas/bandejatrabajogarantia']);
+        }
+        else if (param.bandeja === "b4") {
+          this.router.navigate(['/bandejas/bandejatrabajogestor']);
+        }
+        else if (param.bandeja === "b5") {
+          this.router.navigate(['/bandejas/bandejatrabajolegal']);
+        }
+        else if (param.bandeja === "b6") {
+          this.router.navigate(['/bandejas/bandejatrabajomivivienda']);
+        }
+        else if (param.bandeja === "b7") {
+          this.router.navigate(['/bandejas/bandejatrabajoriesgos']);
+        }
+        else if (param.bandeja === "b8") {
+          this.router.navigate(['/bandejas/consultas']);
+        }
+        else if (param.bandeja === "b9") {
+          this.router.navigate(['/bandejas/seguimientosolicitudes']);
+        }
+        else if (param.bandeja === "b10") {
+          this.router.navigate(['/bandejas/missolicitudespendientes']);
+        }
+        else if (param.bandeja === "b11") {
+          this.router.navigate(['/bandejas/solicitudesfinalizadas']);
+        }
+        else {
+          this.router.navigate(['/bandejas/consultas']);
+        }
+      }
+      else if (param.id !== undefined && param.id !== null) {
+        this.router.navigate(['/bandejas/consultas']);
+      }
+      else {
+        this.router.navigate(['/bandejas/missolicitudespendientes']);
+      }
+    });
+  }
+
   update(itemSave: any, successMessage: string, errorMessage: string): void {
     const id = this.ItemSolicitud && this.ItemSolicitud.Id ? this.ItemSolicitud.Id : 0;
-    this.solicitudService.save(id, itemSave)
-      .then(resp => {
-        console.log(resp);
-        if (resp) {
-          this.hideLoading();
-          this.showSuccessMessage(successMessage);
-          this.router.navigate(['/bandejas/consultas']);
-        } else {
-          this.hideLoading();
-          this.showErrorMessage(errorMessage);
-        }
-      })
+    this.solicitudService.save(id, itemSave).then(resp => {
+      console.log(resp);
+      if (resp) {
+        this.hideLoading();
+        this.showSuccessMessage(successMessage);
+
+        this.route.params.subscribe(param => {
+          if (param.id !== undefined && param.id !== null && param.bandeja !== undefined && param.bandeja !== null) {
+
+            if (param.bandeja === "b1") {
+              this.router.navigate(['/bandejas/bandejatrabajo']);
+            }
+            else if (param.bandeja === "b2") {
+              this.router.navigate(['/bandejas/bandejatrabajodesembolso']);
+            }
+            else if (param.bandeja === "b3") {
+              this.router.navigate(['/bandejas/bandejatrabajogarantia']);
+            }
+            else if (param.bandeja === "b4") {
+              this.router.navigate(['/bandejas/bandejatrabajogestor']);
+            }
+            else if (param.bandeja === "b5") {
+              this.router.navigate(['/bandejas/bandejatrabajolegal']);
+            }
+            else if (param.bandeja === "b6") {
+              this.router.navigate(['/bandejas/bandejatrabajomivivienda']);
+            }
+            else if (param.bandeja === "b7") {
+              this.router.navigate(['/bandejas/bandejatrabajoriesgos']);
+            }
+            else if (param.bandeja === "b8") {
+              this.router.navigate(['/bandejas/consultas']);
+            }
+            else if (param.bandeja === "b9") {
+              this.router.navigate(['/bandejas/seguimientosolicitudes']);
+            }
+            else if (param.bandeja === "b10") {
+              this.router.navigate(['/bandejas/missolicitudespendientes']);
+            }
+            else if (param.bandeja === "b11") {
+              this.router.navigate(['/bandejas/solicitudesfinalizadas']);
+            }
+            else {
+              this.router.navigate(['/bandejas/consultas']);
+            }
+          }
+          else if (param.id !== undefined && param.id !== null) {
+            this.router.navigate(['/bandejas/consultas']);
+          }
+          else {
+            this.router.navigate(['/bandejas/missolicitudespendientes']);
+          }
+        });
+
+      } else {
+        this.hideLoading();
+        this.showErrorMessage(errorMessage);
+      }
+    })
       .catch(error => {
         this.hideLoading();
         this.showErrorMessage(errorMessage);
@@ -3248,10 +3345,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   save(): void {
     const itemSave = this.getObjectToSave();
     this.update(itemSave, 'La Solicitud se actualizó', 'No se pudo actualizar la Solicitud');
-  }
-
-  cancel(): void {
-
   }
 
   gesionFiles2(): void {

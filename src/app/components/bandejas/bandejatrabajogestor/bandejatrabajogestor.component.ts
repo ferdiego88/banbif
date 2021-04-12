@@ -199,10 +199,8 @@ export class BandejatrabajogestorComponent extends FormularioBase implements OnI
     }
   }
 
-  public irPaginaSolicitud(
-    elemento: any
-  ) {
-    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id;
+  public irPaginaSolicitud(elemento: any) {
+    const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id + "/b4";
     window.open(url, '_blank');
   }
 
