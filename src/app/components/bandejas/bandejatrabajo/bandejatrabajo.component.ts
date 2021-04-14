@@ -210,7 +210,7 @@ export class BandejatrabajoComponent extends FormularioBase implements OnInit {
 
   public irPaginaSolicitud(elemento: any) {
     const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id + "/b1";
-    window.open(url, '_blank');
+    window.open(url, '_parent');
   }
 
   reload() {

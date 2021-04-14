@@ -195,7 +195,7 @@ export class BandejatrabajomiviviendaComponent extends FormularioBase implements
 
   public irPaginaSolicitud(elemento: any) {
     const url = environment.getRutaBaseApp() + "/hipotecario/solicitud/" + elemento.Id + "/b6";
-    window.open(url, '_blank');
+    window.open(url, '_parent');
   }
 
   reload() {
