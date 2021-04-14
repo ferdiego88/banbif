@@ -105,6 +105,7 @@ export class SolicitudCreditoHipotecario extends ListItem{
     },
     
     public Desembolsado = false,
+    public DocumentosRecibidos = false,
     public NumeroPropuesta = '',
     public FechaIngresoRiesgo = null,
     public FechaObservacionRiesgo = null,     

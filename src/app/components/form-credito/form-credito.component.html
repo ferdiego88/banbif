@@ -797,11 +797,11 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="col-md-12 padre" style="padding-bottom: 20px; text-align: left;">
                             (Para operaciones con tipo de cambio utilizar el TC preferencial venta)
                         </div>
-                    </div>
+                    </div>-->
                     <div class="row">
                         <div class="col">
                             <button mat-raised-button color="primary" class="full-width" (click)="calculaGravamen()" type="button">Calcular</button>
@@ -1050,7 +1050,7 @@
                 <div class="col">
                     <mat-checkbox formControlName="Desembolsado">Desembolsado</mat-checkbox>
                 </div>
-            </div>
+            </div>            
             <div class="row">
                 <div class="col sub-title-col">
                     <span class="sub-title">
@@ -1204,6 +1204,11 @@
                         </mat-form-field>
                     </div>
                 </div>
+                <div style="padding-bottom: 10px;" [ngClass]="row">
+                    <div class="col">
+                        <mat-checkbox formControlName="DocumentosRecibidos">Documentos Recibidos</mat-checkbox>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
@@ -1241,7 +1246,7 @@
                                 <textarea matInput placeholder="Comentarios Gestor" formControlName="Comentario_Gestor_Hip" multiline rows="3"></textarea>
                             </mat-form-field>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
             <div [hidden]="!mostrarCampo_DireccionFile">
