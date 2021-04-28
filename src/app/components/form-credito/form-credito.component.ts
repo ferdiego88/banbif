@@ -788,6 +788,13 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     this.creditForm.get('Desembolsado').disable();
   }
 
+  setDisableControlsCamposObligatorios() {
+    this.creditForm.get('Tipo_ProductoId').disable();
+    this.creditForm.get('ejecutivo').disable();
+    this.creditForm.get('ModalidadId').disable();
+    this.creditForm.get('Sub_ProductoId').disable();
+  }
+
   setDisableControlsCabezera() {
     this.creditForm.get('Tipo_ProductoId').disable();
     this.creditForm.get('ejecutivo').disable();
@@ -978,14 +985,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     }
     else if (estadoLegal === Variables.constantes.EstadoObservadoLegal && this.PertenceGrupo_U_Gestor && this.EsGestor) {
 
-      this.setDisableControlsCabezera();
-      this.setDisableControlsCuotaInicial();
-      this.setDisableControlsDatosOperacion();
-      this.setDisableControlsTipoGarantiaAbono();
-      this.setDisableObservacionesOpcional();
-      this.setDisableControlsAplicacion();
-      this.setDisableComentarios();
-      this.setDisableControlsPlanAhorroProgramado();
+      this.setDisableControlsCamposObligatorios();
       this.setDisableComentarioOficina();
 
       this.showBtnObservar = false;
@@ -997,17 +997,15 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.showComentarioRevisor = true;
       this.mostrarNumeroPropuesta = true;
       this.showAnalistaRiesgos = true;
+      this.mostrarCampo_DireccionFile = true;
 
       this.creditForm.controls.Comentario_Registro.disable();
       this.creditForm.controls.Cometario_Revisor1.disable();
       this.creditForm.controls.Cometario_Revisor.disable();
       this.creditForm.controls.NumeroPropuesta.disable();
       this.creditForm.controls.Analista_Riesgos.disable();
-      this.creditForm.controls.UsuarioIngresoFile.disable();
 
-      this.mostrarCampo_DireccionFile = true;
-      this.creditForm.controls.DireccionFile.disable();
-
+      this.creditForm.controls.Cometario_Evaluacion.disable();
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
 
@@ -1120,14 +1118,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     }
     else if (estadoMiVivienda === Variables.constantes.EstadoObservadoMiVivienda && this.PertenceGrupo_U_Gestor && this.EsGestor) {
 
-      this.setDisableControlsCabezera();
-      this.setDisableControlsCuotaInicial();
-      this.setDisableControlsDatosOperacion();
-      this.setDisableControlsTipoGarantiaAbono();
-      this.setDisableObservacionesOpcional();
-      this.setDisableControlsAplicacion();
-      this.setDisableComentarios();
-      this.setDisableControlsPlanAhorroProgramado();
+      this.setDisableControlsCamposObligatorios();
       this.setDisableComentarioOficina();
 
       this.showBtnObservar = false;
@@ -1145,10 +1136,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.Cometario_Revisor.disable();
       this.creditForm.controls.NumeroPropuesta.disable();
       this.creditForm.controls.Analista_Riesgos.disable();
-      this.creditForm.controls.UsuarioIngresoFile.disable();
+      this.creditForm.controls.Cometario_Evaluacion.disable();
 
       this.mostrarCampo_DireccionFile = true;
-      this.creditForm.controls.DireccionFile.disable();
 
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
@@ -1623,6 +1613,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.setDisableComentarioGestor();
         this.mostrarCampo_ComentarioValidacionGestor = true;
         this.creditForm.controls.ComentarioValidacionGestor.disable();
+        this.creditForm.controls.UsuarioIngresoFile.disable();
       }
 
       if (!this.PertenceGrupo_U_Oficina) {
@@ -1662,30 +1653,23 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.Cometario_Revisor.disable();
       this.creditForm.controls.NumeroPropuesta.disable();
       this.creditForm.controls.Analista_Riesgos.disable();
-
       this.mostrarCampo_ComentarioValidacionGestor = true;
-
-      //this.creditForm.controls.DocumentosRecibidos.disable();
 
       if (!this.PertenceGrupo_U_Asistente_Gestor) {
         this.setDisableComentarioGestor();
         this.creditForm.controls.DireccionFile.disable();
         this.creditForm.controls.ComentarioValidacionGestor.disable();
+        this.creditForm.controls.UsuarioIngresoFile.disable();
+        this.creditForm.controls.DocumentosRecibidos.disable();
         this.mostrarBotonEnviarValidacionFiles2 = false;
         this.mostrarBotonEnviarObservadoGestor = false;
         this.mostrarBotonDesestimiento = false;
       }
     }
     else if (estado === Variables.constantes.EstadoIngresoFile) {
-      this.setDisableControlsCabezera();
-      this.setDisableControlsCuotaInicial();
-      this.setDisableControlsDatosOperacion();
-      this.setDisableControlsTipoGarantiaAbono();
-      this.setDisableObservacionesOpcional();
-      this.setDisableControlsAplicacion();
-      this.setDisableComentarios();
-      this.setDisableControlsPlanAhorroProgramado();
+      this.setDisableControlsCamposObligatorios();
       this.setDisableComentarioOficina();
+
       this.showBtnObservar = false;
       this.showBtnGuardarBorrador = false;
       this.showBtnEnviar = false;
@@ -1701,6 +1685,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.Cometario_Revisor.disable();
       this.creditForm.controls.NumeroPropuesta.disable();
       this.creditForm.controls.Analista_Riesgos.disable();
+      this.creditForm.controls.Cometario_Evaluacion.disable();
 
       this.mostrarBotonEnviarIngresoFiles2 = true;
       this.mostrarBotones_IngresoFiles = true;
@@ -1708,8 +1693,18 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
       this.mostrarCampo_ComentarioValidacionGestor = true;
 
-      if (!this.PertenceGrupo_U_Gestor || !this.EsGestor) {
+      if (!this.PertenceGrupo_U_Gestor || (!this.EsGestor && this.creditForm.controls.UsuarioIngresoFile.value !== null)) {
+        this.setDisableControlsCabezera();
+        this.setDisableControlsCuotaInicial();
+        this.setDisableControlsDatosOperacion();
+        this.setDisableControlsTipoGarantiaAbono();
+        this.setDisableObservacionesOpcional();
+        this.setDisableControlsAplicacion();
+        this.setDisableComentarios();
+        this.setDisableControlsPlanAhorroProgramado();
+
         this.creditForm.controls.DocumentosRecibidos.disable();
+        this.creditForm.controls.UsuarioIngresoFile.disable();
         this.setDisableComentarioGestor();
         this.creditForm.controls.DireccionFile.disable();
         this.creditForm.controls.ComentarioValidacionGestor.disable();
@@ -1801,14 +1796,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     }
     else if (estado === Variables.constantes.EstadoObservadoGarantia) {
 
-      this.setDisableControlsCabezera();
-      this.setDisableControlsCuotaInicial();
-      this.setDisableControlsDatosOperacion();
-      this.setDisableControlsTipoGarantiaAbono();
-      this.setDisableObservacionesOpcional();
-      this.setDisableControlsAplicacion();
-      this.setDisableComentarios();
-      this.setDisableControlsPlanAhorroProgramado();
+      this.setDisableControlsCamposObligatorios();
       this.setDisableComentarioOficina();
       this.showBtnObservar = false;
       this.showBtnGuardarBorrador = false;
@@ -1823,10 +1811,9 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.Comentario_Registro.disable();
       this.creditForm.controls.Cometario_Revisor1.disable();
       this.creditForm.controls.Cometario_Revisor.disable();
-      //this.creditForm.controls.ComentarioGestor.disable();
       this.creditForm.controls.NumeroPropuesta.disable();
       this.creditForm.controls.Analista_Riesgos.disable();
-      this.creditForm.controls.UsuarioIngresoFile.disable();
+      this.creditForm.controls.Cometario_Evaluacion.disable();
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
 
@@ -1835,8 +1822,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.MotivoObsGarantiaId.disable();
 
       this.mostrarCampo_DireccionFile = true;
-      this.creditForm.controls.DireccionFile.disable();
-
       this.mostrarBotones_ObservadoGarantia = true;
       this.mostrarCampo_ComentarioOficinaFile2 = true;
 
@@ -1844,6 +1829,16 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.creditForm.controls.DocumentosRecibidos.disable();
         this.creditForm.controls.ComentarioOficinaFile2.disable();
         this.mostrarBotones_ObservadoGarantia = false;
+        this.creditForm.controls.DireccionFile.disable();
+        this.creditForm.controls.UsuarioIngresoFile.disable();
+        this.setDisableControlsCabezera();
+        this.setDisableControlsCuotaInicial();
+        this.setDisableControlsDatosOperacion();
+        this.setDisableControlsTipoGarantiaAbono();
+        this.setDisableObservacionesOpcional();
+        this.setDisableControlsAplicacion();
+        this.setDisableComentarios();
+        this.setDisableControlsPlanAhorroProgramado();
       }
     }
     else if (estado === Variables.constantes.EstadoValidacionGarantia) {
@@ -1894,14 +1889,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     }
     else if (estado === Variables.constantes.EstadoValidacionGestor) {
 
-      this.setDisableControlsCabezera();
-      this.setDisableControlsCuotaInicial();
-      this.setDisableControlsDatosOperacion();
-      this.setDisableControlsTipoGarantiaAbono();
-      this.setDisableObservacionesOpcional();
-      this.setDisableControlsAplicacion();
-      this.setDisableComentarios();
-      this.setDisableControlsPlanAhorroProgramado();
+      this.setDisableControlsCamposObligatorios();
       this.setDisableComentarioOficina();
 
       this.showBtnObservar = false;
@@ -1919,7 +1907,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.Cometario_Revisor.disable();
       this.creditForm.controls.NumeroPropuesta.disable();
       this.creditForm.controls.Analista_Riesgos.disable();
-      this.creditForm.controls.UsuarioIngresoFile.disable();
 
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
@@ -1929,18 +1916,15 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.mostrarCampo_ComentarioOficinaFile2 = true;
       }
 
-      //this.creditForm.controls.ComentarioGestor.disable();
-
       this.mostrarCampo_ComentarioValidadorGarantia = true;
       this.creditForm.controls.ComentarioValidadorGarantia.disable();
       this.creditForm.controls.MotivoObsGarantiaId.disable();
 
       this.mostrarCampo_ComentarioLegal = true;
       this.creditForm.controls.ComentarioLegal.disable();
+      this.creditForm.controls.Cometario_Evaluacion.disable();
 
       this.mostrarCampo_DireccionFile = true;
-      this.creditForm.controls.DireccionFile.disable();
-
       this.mostrarBotones_ValidacionGestor = true;
       this.mostrarCampo_ComentarioValidacionGestor = true;
 
@@ -1956,6 +1940,18 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.creditForm.controls.ComentarioGestor.disable();
         this.mostrarBotones_ValidacionGestor = false;
         this.creditForm.controls.DocumentosRecibidos.disable();
+        this.creditForm.controls.DireccionFile.disable();
+        this.creditForm.controls.UsuarioIngresoFile.disable();
+        this.creditForm.controls.ComentarioValidacionGestor.disable();
+
+        this.setDisableControlsCabezera();
+        this.setDisableControlsCuotaInicial();
+        this.setDisableControlsDatosOperacion();
+        this.setDisableControlsTipoGarantiaAbono();
+        this.setDisableObservacionesOpcional();
+        this.setDisableControlsAplicacion();
+        this.setDisableComentarios();
+        this.setDisableControlsPlanAhorroProgramado();
       }
     }
     else if (estado === Variables.constantes.EstadoObservadoGestorLegal) {
@@ -2145,14 +2141,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     }
     else if (estado === Variables.constantes.EstadoObservadoDesembolso) {
 
-      this.setDisableControlsCabezera();
-      this.setDisableControlsCuotaInicial();
-      this.setDisableControlsDatosOperacion();
-      this.setDisableControlsTipoGarantiaAbono();
-      this.setDisableObservacionesOpcional();
-      this.setDisableControlsAplicacion();
-      this.setDisableComentarios();
-      this.setDisableControlsPlanAhorroProgramado();
+      this.setDisableControlsCamposObligatorios();
       this.setDisableComentarioOficina();
 
       this.showBtnObservar = false;
@@ -2170,7 +2159,6 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.creditForm.controls.Cometario_Revisor.disable();
       this.creditForm.controls.NumeroPropuesta.disable();
       this.creditForm.controls.Analista_Riesgos.disable();
-      this.creditForm.controls.UsuarioIngresoFile.disable();
 
       this.mostrarCampo_ComentarioGarantia = true;
       this.creditForm.controls.ComentarioGarantia.disable();
@@ -2180,6 +2168,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.mostrarCampo_ComentarioOficinaFile2 = true;
       }
 
+      this.creditForm.controls.Cometario_Evaluacion.disable(); 
       this.mostrarCampo_ComentarioValidadorGarantia = true;
       this.creditForm.controls.ComentarioValidadorGarantia.disable();
       this.creditForm.controls.MotivoObsGarantiaId.disable();
@@ -2196,9 +2185,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       this.mostrarCampo_ComentarioDesembolso = true;
       this.creditForm.controls.ComentarioDesembolso.disable();
       this.creditForm.controls.MotivoObsDesembolsoId.disable();
-
       this.mostrarCampo_DireccionFile = true;
-      this.creditForm.controls.DireccionFile.disable();
 
       this.mostrarBotones_ObservadoDesembolso = true;
 
@@ -2206,6 +2193,17 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
         this.creditForm.controls.ComentarioGestor.disable();
         this.mostrarBotones_ObservadoDesembolso = false;
         this.creditForm.controls.DocumentosRecibidos.disable();
+        this.creditForm.controls.DireccionFile.disable();
+        this.creditForm.controls.UsuarioIngresoFile.disable();
+
+        this.setDisableControlsCabezera();
+        this.setDisableControlsCuotaInicial();
+        this.setDisableControlsDatosOperacion();
+        this.setDisableControlsTipoGarantiaAbono();
+        this.setDisableObservacionesOpcional();
+        this.setDisableControlsAplicacion();
+        this.setDisableComentarios();
+        this.setDisableControlsPlanAhorroProgramado();
       }
     }
     else if (estado === Variables.constantes.EstadoEjecucionDesembolso) {
@@ -3426,7 +3424,7 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
     const itemSave = {
       EstadoId: 39,
       Desembolso_Ampliacion: this.creditForm.controls.Desembolso_Ampliacion.value,
-      //ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
+      ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
       Fecha_Estado: new Date()
     };
 
@@ -3502,11 +3500,17 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   }
 
   enviarDesestimiento(): void {
+
+    const usuarioIngresoFile = this.getValorControlPeoplePicker('UsuarioIngresoFile', this.creditForm);   
+
     const itemSave = {
       EstadoId: 40,
       Desembolso_Ampliacion: this.creditForm.controls.Desembolso_Ampliacion.value,
       ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
       DocumentosRecibidos: this.creditForm.controls.DocumentosRecibidos.value,
+      ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
+      DireccionFile: this.creditForm.controls.DireccionFile.value,
+      UsuarioIngresoFileId: usuarioIngresoFile === 0 ? null : usuarioIngresoFile,
       Fecha_Estado: new Date()
     };
 
@@ -3555,11 +3559,17 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   }
 
   enviarObservadoGestor(): void {
+
+    const usuarioIngresoFile = this.getValorControlPeoplePicker('UsuarioIngresoFile', this.creditForm);
+
     const itemSave = {
       EstadoId: 41,
       ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
       DocumentosRecibidos: this.creditForm.controls.DocumentosRecibidos.value,
-      Fecha_Estado: new Date()
+      Fecha_Estado: new Date(),
+      ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
+      DireccionFile: this.creditForm.controls.DireccionFile.value,
+      UsuarioIngresoFileId: usuarioIngresoFile === 0 ? null : usuarioIngresoFile,
     };
 
     Swal.fire({
@@ -3626,16 +3636,23 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   eventoBotonEnviar_IngresoFiles(): void {
 
-    const itemSave = {
-      EstadoId: 44,
-      DireccionFile: this.creditForm.controls.DireccionFile.value,
-      ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-      DocumentosRecibidos: this.creditForm.controls.DocumentosRecibidos.value,
-      Fecha_Estado: new Date(),
-      EstadoLegalId: 1,
-      EnLegal: true
-    };
+    const usuarioIngresoFile = this.getValorControlPeoplePicker('UsuarioIngresoFile', this.creditForm);
+
+    if (usuarioIngresoFile === 0) {
+      this.mostrarModalInformativo("Mensaje de Validación", 'Ingrese el usuario de Ingreso de File.');
+      return;
+    }
+
+    const itemSave = this.getObjectToSave();
+    itemSave.EstadoId = 44;
+    itemSave.DireccionFile = this.creditForm.controls.DireccionFile.value;
+    itemSave.ComentarioValidacionGestor = this.creditForm.controls.ComentarioValidacionGestor.value;
+    itemSave.ComentarioGestor = this.creditForm.controls.ComentarioGestor.value;
+    itemSave.DocumentosRecibidos = this.creditForm.controls.DocumentosRecibidos.value;
+    itemSave.Fecha_Estado = new Date();
+    itemSave.EstadoLegalId = 1;
+    itemSave.EnLegal = true;
+    itemSave.UsuarioIngresoFileId = usuarioIngresoFile;
 
     Swal.fire({
       title: '¿Está seguro de enviar la solicitud a Registro de Garantía y Gestión Legal?',
@@ -3697,13 +3714,21 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   eventoBotonEnviar_ObservadoGarantia(): void {
 
-    const itemSave = {
-      EstadoId: 44,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-      DocumentosRecibidos: this.creditForm.controls.DocumentosRecibidos.value,
-      ComentarioOficinaFile2: this.creditForm.controls.ComentarioOficinaFile2.value,
-      Fecha_Estado: new Date()
-    };
+    const usuarioIngresoFile = this.getValorControlPeoplePicker('UsuarioIngresoFile', this.creditForm);
+
+    if (usuarioIngresoFile === 0) {
+      this.mostrarModalInformativo("Mensaje de Validación", 'Ingrese el usuario de Ingreso de File.');
+      return;
+    }
+
+    const itemSave = this.getObjectToSave();
+    itemSave.ComentarioGestor = this.creditForm.controls.ComentarioGestor.value;
+    itemSave.DireccionFile = this.creditForm.controls.DireccionFile.value;
+    itemSave.DocumentosRecibidos = this.creditForm.controls.DocumentosRecibidos.value;
+    itemSave.UsuarioIngresoFileId = usuarioIngresoFile;
+    itemSave.ComentarioOficinaFile2 = this.creditForm.controls.ComentarioOficinaFile2.value;
+    itemSave.Fecha_Estado = new Date();
+    itemSave.EstadoId = 44;
 
     Swal.fire({
       title: '¿Está seguro de enviar la solicitud a Estado Registro de Garantía?',
@@ -3720,14 +3745,22 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
   }
 
   eventoBotonDesestimar_ObservadoGarantia(): void {
-    const itemSave = {
-      EstadoId: 40,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-      DocumentosRecibidos: this.creditForm.controls.DocumentosRecibidos.value,
-      Desembolso_Ampliacion: this.creditForm.controls.Desembolso_Ampliacion.value,
-      ComentarioOficinaFile2: this.creditForm.controls.ComentarioOficinaFile2.value,
-      Fecha_Estado: new Date()
-    };
+
+    const usuarioIngresoFile = this.getValorControlPeoplePicker('UsuarioIngresoFile', this.creditForm);
+
+    if (usuarioIngresoFile === 0) {
+      this.mostrarModalInformativo("Mensaje de Validación", 'Ingrese el usuario de Ingreso de File.');
+      return;
+    }
+
+    const itemSave = this.getObjectToSave();
+    itemSave.ComentarioGestor = this.creditForm.controls.ComentarioGestor.value;
+    itemSave.DireccionFile = this.creditForm.controls.DireccionFile.value;
+    itemSave.DocumentosRecibidos = this.creditForm.controls.DocumentosRecibidos.value;
+    itemSave.UsuarioIngresoFileId = usuarioIngresoFile;
+    itemSave.ComentarioOficinaFile2 = this.creditForm.controls.ComentarioOficinaFile2.value;
+    itemSave.Fecha_Estado = new Date();
+    itemSave.EstadoId = 40;
 
     Swal.fire({
       title: '¿Está seguro de Desestimar la solicitud?',
@@ -3892,14 +3925,22 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   eventoBotonDesestimar_ObservadoLegal(): void {
 
-    const itemSave = {
-      EstadoId: 40,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-      DocumentosRecibidos: this.creditForm.controls.DocumentosRecibidos.value,
-      Fecha_Estado: new Date(),
-      EnLegal: false,
-      EnGestor: false
-    };
+    const usuarioIngresoFile = this.getValorControlPeoplePicker('UsuarioIngresoFile', this.creditForm);
+
+    if (usuarioIngresoFile === 0) {
+      this.mostrarModalInformativo("Mensaje de Validación", 'Ingrese el usuario de Ingreso de File.');
+      return;
+    }
+
+    const itemSave = this.getObjectToSave();
+    itemSave.ComentarioGestor = this.creditForm.controls.ComentarioGestor.value;
+    itemSave.DireccionFile = this.creditForm.controls.DireccionFile.value;
+    itemSave.DocumentosRecibidos = this.creditForm.controls.DocumentosRecibidos.value;
+    itemSave.UsuarioIngresoFileId = usuarioIngresoFile;
+    itemSave.Fecha_Estado = new Date();
+    itemSave.EstadoId = 40;
+    itemSave.EnLegal = false;
+    itemSave.EnGestor = false;
 
     Swal.fire({
       title: '¿Está seguro de Desestimar la solicitud?',
@@ -3917,13 +3958,22 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   eventoBotonEnviar_ObservadoLegal(): void {
 
-    const itemSave = {
-      EstadoLegalId: 1,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-      DocumentosRecibidos: this.creditForm.controls.DocumentosRecibidos.value,
-      EnLegal: true,
-      EnGestor: false
-    };
+    const usuarioIngresoFile = this.getValorControlPeoplePicker('UsuarioIngresoFile', this.creditForm);
+
+    if (usuarioIngresoFile === 0) {
+      this.mostrarModalInformativo("Mensaje de Validación", 'Ingrese el usuario de Ingreso de File.');
+      return;
+    }
+
+    const itemSave = this.getObjectToSave();
+    itemSave.ComentarioGestor = this.creditForm.controls.ComentarioGestor.value;
+    itemSave.DireccionFile = this.creditForm.controls.DireccionFile.value;
+    itemSave.DocumentosRecibidos = this.creditForm.controls.DocumentosRecibidos.value;
+    itemSave.UsuarioIngresoFileId = usuarioIngresoFile;
+    itemSave.Fecha_Estado = new Date();
+    itemSave.EstadoLegalId = 1;
+    itemSave.EnLegal = true;
+    itemSave.EnGestor = false;
 
     Swal.fire({
       title: '¿Está seguro de enviar la solicitud a Estado Legal Gestión Legal?',
@@ -3941,14 +3991,22 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   eventoBotonObservarLegal_ValidacionGestor(): void {
 
-    const itemSave = {
-      EstadoId: 50,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-      DocumentosRecibidos: this.creditForm.controls.DocumentosRecibidos.value,
-      ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
-      Fecha_Estado: new Date(),
-      EnLegal: true
-    };
+    const usuarioIngresoFile = this.getValorControlPeoplePicker('UsuarioIngresoFile', this.creditForm);
+
+    if (usuarioIngresoFile === 0) {
+      this.mostrarModalInformativo("Mensaje de Validación", 'Ingrese el usuario de Ingreso de File.');
+      return;
+    }
+
+    const itemSave = this.getObjectToSave();
+    itemSave.EstadoId = 50;
+    itemSave.DireccionFile = this.creditForm.controls.DireccionFile.value;
+    itemSave.ComentarioValidacionGestor = this.creditForm.controls.ComentarioValidacionGestor.value;
+    itemSave.ComentarioGestor = this.creditForm.controls.ComentarioGestor.value;
+    itemSave.DocumentosRecibidos = this.creditForm.controls.DocumentosRecibidos.value;
+    itemSave.Fecha_Estado = new Date();
+    itemSave.EnLegal = true;
+    itemSave.UsuarioIngresoFileId = usuarioIngresoFile;
 
     Swal.fire({
       title: '¿Está seguro de observar la solicitud?',
@@ -3966,13 +4024,21 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   eventoBotonObservarOficina_ValidacionGestor(): void {
 
-    const itemSave = {
-      EstadoId: 51,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-      DocumentosRecibidos: this.creditForm.controls.DocumentosRecibidos.value,
-      ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
-      Fecha_Estado: new Date()
-    };
+    const usuarioIngresoFile = this.getValorControlPeoplePicker('UsuarioIngresoFile', this.creditForm);
+
+    if (usuarioIngresoFile === 0) {
+      this.mostrarModalInformativo("Mensaje de Validación", 'Ingrese el usuario de Ingreso de File.');
+      return;
+    }
+
+    const itemSave = this.getObjectToSave();
+    itemSave.EstadoId = 51;
+    itemSave.DireccionFile = this.creditForm.controls.DireccionFile.value;
+    itemSave.ComentarioValidacionGestor = this.creditForm.controls.ComentarioValidacionGestor.value;
+    itemSave.ComentarioGestor = this.creditForm.controls.ComentarioGestor.value;
+    itemSave.DocumentosRecibidos = this.creditForm.controls.DocumentosRecibidos.value;
+    itemSave.Fecha_Estado = new Date();
+    itemSave.UsuarioIngresoFileId = usuarioIngresoFile;
 
     Swal.fire({
       title: '¿Está seguro de observar la solicitud?',
@@ -3990,19 +4056,27 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   eventoBotonEnviar_ValidacionGestor(): void {
 
+    const usuarioIngresoFile = this.getValorControlPeoplePicker('UsuarioIngresoFile', this.creditForm);
+
+    if (usuarioIngresoFile === 0) {
+      this.mostrarModalInformativo("Mensaje de Validación", 'Ingrese el usuario de Ingreso de File.');
+      return;
+    }
+
     if (this.esMiVivienda) {
 
-      const itemSave = {
-        EstadoId: 55,
-        ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-        DocumentosRecibidos: this.creditForm.controls.DocumentosRecibidos.value,
-        ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
-        Fecha_Estado: new Date(),
-        EstadoMiViviendaId: 1,
-        EnMiVivienda: true,
-        EnLegal: false,
-        EnGestor: false
-      };
+      const itemSave = this.getObjectToSave();
+      itemSave.EstadoId = 55;
+      itemSave.DireccionFile = this.creditForm.controls.DireccionFile.value;
+      itemSave.ComentarioValidacionGestor = this.creditForm.controls.ComentarioValidacionGestor.value;
+      itemSave.ComentarioGestor = this.creditForm.controls.ComentarioGestor.value;
+      itemSave.DocumentosRecibidos = this.creditForm.controls.DocumentosRecibidos.value;
+      itemSave.Fecha_Estado = new Date();
+      itemSave.UsuarioIngresoFileId = usuarioIngresoFile;
+      itemSave.EstadoMiViviendaId = 1;
+      itemSave.EnMiVivienda = true;
+      itemSave.EnLegal = false;
+      itemSave.EnGestor = false;
 
       Swal.fire({
         title: '¿Está seguro de enviar la solicitud a Mi Vivienda y Validación de Desembolso?',
@@ -4018,13 +4092,15 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
       });
 
     } else {
-      const itemSave = {
-        EstadoId: 55,
-        ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-        DocumentosRecibidos: this.creditForm.controls.DocumentosRecibidos.value,
-        ComentarioValidacionGestor: this.creditForm.controls.ComentarioValidacionGestor.value,
-        Fecha_Estado: new Date()
-      };
+
+      const itemSave = this.getObjectToSave();
+      itemSave.EstadoId = 55;
+      itemSave.DireccionFile = this.creditForm.controls.DireccionFile.value;
+      itemSave.ComentarioValidacionGestor = this.creditForm.controls.ComentarioValidacionGestor.value;
+      itemSave.ComentarioGestor = this.creditForm.controls.ComentarioGestor.value;
+      itemSave.DocumentosRecibidos = this.creditForm.controls.DocumentosRecibidos.value;
+      itemSave.Fecha_Estado = new Date();
+      itemSave.UsuarioIngresoFileId = usuarioIngresoFile;
 
       Swal.fire({
         title: '¿Está seguro de enviar la solicitud a Validación Desembolso?',
@@ -4158,14 +4234,23 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   eventoBotonDesestimar_ObservadoMiVivienda(): void {
 
-    const itemSave = {
-      EstadoId: 40,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-      DocumentosRecibidos: this.creditForm.controls.DocumentosRecibidos.value,
-      Fecha_Estado: new Date(),
-      EnMiVivienda: false,
-      EnGestor: false
-    };
+    const usuarioIngresoFile = this.getValorControlPeoplePicker('UsuarioIngresoFile', this.creditForm);
+
+    if (usuarioIngresoFile === 0) {
+      this.mostrarModalInformativo("Mensaje de Validación", 'Ingrese el usuario de Ingreso de File.');
+      return;
+    }
+
+    const itemSave = this.getObjectToSave();
+    itemSave.EstadoId = 40;
+    itemSave.DireccionFile = this.creditForm.controls.DireccionFile.value;
+    itemSave.ComentarioValidacionGestor = this.creditForm.controls.ComentarioValidacionGestor.value;
+    itemSave.DocumentosRecibidos = this.creditForm.controls.DocumentosRecibidos.value;
+    itemSave.ComentarioGestor = this.creditForm.controls.ComentarioGestor.value;
+    itemSave.UsuarioIngresoFileId = usuarioIngresoFile;
+    itemSave.Fecha_Estado = new Date();
+    itemSave.EnMiVivienda = false;
+    itemSave.EnGestor = false;
 
     Swal.fire({
       title: '¿Está seguro de Desestimar la solicitudd?',
@@ -4183,13 +4268,22 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   eventoBotonEnviar_ObservadoMiVivienda(): void {
 
-    const itemSave = {
-      EstadoMiViviendaId: 1,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-      DocumentosRecibidos: this.creditForm.controls.DocumentosRecibidos.value,
-      EnMiVivienda: true,
-      EnGestor: false
-    };
+    const usuarioIngresoFile = this.getValorControlPeoplePicker('UsuarioIngresoFile', this.creditForm);
+
+    if (usuarioIngresoFile === 0) {
+      this.mostrarModalInformativo("Mensaje de Validación", 'Ingrese el usuario de Ingreso de File.');
+      return;
+    }
+
+    const itemSave = this.getObjectToSave();  
+    itemSave.DireccionFile = this.creditForm.controls.DireccionFile.value;
+    itemSave.ComentarioValidacionGestor = this.creditForm.controls.ComentarioValidacionGestor.value;
+    itemSave.DocumentosRecibidos = this.creditForm.controls.DocumentosRecibidos.value;
+    itemSave.ComentarioGestor = this.creditForm.controls.ComentarioGestor.value;
+    itemSave.UsuarioIngresoFileId = usuarioIngresoFile;
+    itemSave.EstadoMiViviendaId = 1;
+    itemSave.EnMiVivienda = true;
+    itemSave.EnGestor = false;
 
     Swal.fire({
       title: '¿Está seguro de enviar la solicitud a Estado Mi Vivienda?',
@@ -4405,14 +4499,23 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   eventoBotonDesestimar_ObservadoDesembolso(): void {
 
-    const itemSave = {
-      EstadoId: 40,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-      DocumentosRecibidos: this.creditForm.controls.DocumentosRecibidos.value,
-      Fecha_Estado: new Date(),
-      EnMiVivienda: false,
-      EnGestor: false
-    };
+    const usuarioIngresoFile = this.getValorControlPeoplePicker('UsuarioIngresoFile', this.creditForm);
+
+    if (usuarioIngresoFile === 0) {
+      this.mostrarModalInformativo("Mensaje de Validación", 'Ingrese el usuario de Ingreso de File.');
+      return;
+    }
+
+    const itemSave = this.getObjectToSave();
+    itemSave.DireccionFile = this.creditForm.controls.DireccionFile.value;
+    itemSave.ComentarioValidacionGestor = this.creditForm.controls.ComentarioValidacionGestor.value;
+    itemSave.ComentarioGestor = this.creditForm.controls.ComentarioGestor.value;
+    itemSave.DocumentosRecibidos = this.creditForm.controls.DocumentosRecibidos.value;
+    itemSave.UsuarioIngresoFileId = usuarioIngresoFile;
+    itemSave.Fecha_Estado = new Date();
+    itemSave.EstadoId = 40;
+    itemSave.EnMiVivienda = false;
+    itemSave.EnGestor = false;
 
     Swal.fire({
       title: '¿Está seguro de Desestimar la solicitud?',
@@ -4430,12 +4533,21 @@ export class FormCreditoComponent extends FormularioBase implements OnInit {
 
   eventoBotonEnviar_ObservadoDesembolso(): void {
 
-    const itemSave = {
-      EstadoId: 55,
-      ComentarioGestor: this.creditForm.controls.ComentarioGestor.value,
-      DocumentosRecibidos: this.creditForm.controls.DocumentosRecibidos.value,
-      Fecha_Estado: new Date()
-    };
+    const usuarioIngresoFile = this.getValorControlPeoplePicker('UsuarioIngresoFile', this.creditForm);
+
+    if (usuarioIngresoFile === 0) {
+      this.mostrarModalInformativo("Mensaje de Validación", 'Ingrese el usuario de Ingreso de File.');
+      return;
+    }
+
+    const itemSave = this.getObjectToSave();
+    itemSave.DireccionFile = this.creditForm.controls.DireccionFile.value;
+    itemSave.ComentarioValidacionGestor = this.creditForm.controls.ComentarioValidacionGestor.value;
+    itemSave.ComentarioGestor = this.creditForm.controls.ComentarioGestor.value;
+    itemSave.DocumentosRecibidos = this.creditForm.controls.DocumentosRecibidos.value;
+    itemSave.UsuarioIngresoFileId = usuarioIngresoFile;
+    itemSave.Fecha_Estado = new Date();
+    itemSave.EstadoId = 55;
 
     Swal.fire({
       title: '¿Está seguro de enviar la solicitud a Estado Validación Desembolso?',
